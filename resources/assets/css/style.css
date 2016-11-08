@@ -1,0 +1,92 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  background: url(../img/backdrop.png), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #2F4054;
+}
+.footer p {
+  margin: 20px 0;    
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+.alert-jim {
+    background-color: #fff;   
+}
+.panel-jim {
+    border-color: #00CC99;   
+}
+.panel-jim>.panel-heading, .modal-header {
+    color: #fff;
+    background-color: #00CC99;
+    border-color: #00CC99;
+    padding: 15px;
+}
+.modal-header, .modal-footer {
+    padding: 10px;   
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.title-info,.title-desc {    
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #fff;
+}
+.title-info {
+    color: #F39C2B;   
+}
+.name {
+    font-weight: bold;
+    color: #009771;
+}
+.text-italic {
+    font-style: italic;   
+}
+.text-bold {
+    font-weight: bold;
+}
+.page-divider {
+    margin-bottom: 30px;   
+}
+.table-list {
+    border:2px solid #ccc;   
+}
+.table-list thead th {
+    background-color: #ccc;
+    color: #232323;
+    padding: 20px 0;
+}
+.table-form tr td {
+    vertical-align: middle;
+}
+label {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
