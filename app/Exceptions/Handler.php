@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
         if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
         {
             // some code
-            return 'hi';
+            return 'create 404.blade.php';
         }
         //return redirect('/home');
         return parent::render($request, $e);

@@ -80,3 +80,63 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
+<ul class="dropdown-menu">
+                <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; Contract/MOA/Memorandum of Undertaking</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('contract/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
+                        <li><a href="{{ url('contract/') }}">TEV</a></li>
+                        <li><a href="{{ url('contract/') }}">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
+                        <li><a href="{{ url('contract/') }}">Supplier (Payment of Transactions with PO)</a></li>
+                        <li><a href="{{ url('contract/') }}">Infra - Contractor</a></li>  
+                        <li class="divider"></li>
+                        <li><a href="{{ url('contract/') }}">Resolutions</a></li>
+                        <li><a href="{{ url('contract/') }}">Appointment</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="{{ url('') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Disbursement Voucher</a></li>
+                <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; Letter/Mail/Communication</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('') }}">Incoming</a></li>
+                        <li><a href="{{ url('') }}">Outgoing</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url('') }}">Service Record</a></li>
+                        <li><a href="{{ url('') }}">SALN</a></li>
+                        <li><a href="{{ url('') }}">Plans (includes Allocation List)</a></li>
+                        <li><a href="{{ url('') }}">Routing Slip</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; Memorandum</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('') }}">Office Order</a></li>
+                        <li><a href="{{ url('') }}">ISO Documents</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; Miscellaneous</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('') }}">Activity Worksheet</a></li>
+                        <li><a href="{{ url('') }}">Justification</a></li>
+                        <li><a href="{{ url('') }}">Certificate of Appearance</a></li>
+                        <li><a href="{{ url('') }}">Certificate of Employment</a></li>
+                        <li><a href="{{ url('') }}"> Certificate of Clearance</a></li>
+                    </ul>
+                </li>                
+                <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; Personnel Related Documents</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('') }}">Office Order</a></li>
+                        <li><a href="{{ url('') }}">DTR</a></li>
+                        <li><a href="{{ url('') }}">Application for Leave</a></li>
+                        <li><a href="{{ url('') }}">Certificate of Overtime Credit</a></li>
+                        <li><a href="{{ url('') }}">Compensatory Time Off</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url('') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Purchase Order</a></li>
+                <li><a href="{{ url('') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Purchase Request - Cash Advance Purchase</a></li>
+                <li><a href="{{ url('') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Purchase Request - Regular Purchase</a></li>
+                <li><a href="{{ url('') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Reports</a></li>
+              </ul>

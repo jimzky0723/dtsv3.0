@@ -8,14 +8,19 @@ use App\Http\Requests;
 
 class DocumentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function getIndex()
     {
-        //
+        return view('document.list');
     }
 
     /**
@@ -84,11 +89,13 @@ class DocumentController extends Controller
         //
     }
     
-    public function getList($id,$ids ){
-        return 'i am a list '.$id.' - '.$ids;   
+    //accept document
+    public function getAccept(){
+        return view('document.accept');   
     }
     
-    public function getInfo($id){
-        return 'info of the route';
+    public function getSalary(){
+        return view('form.salary');
     }
+
 }

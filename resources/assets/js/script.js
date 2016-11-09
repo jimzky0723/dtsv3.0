@@ -1,4 +1,12 @@
-$(function(){ 
+$(function(){
+
+    var url = window.location.pathname;
+    var host = window.location.hostname;
+    var filename = window.location.href;
+    //$('.sidebar-menu li a[href="'+filename+'"]').parent('li').addClass('active');
+    $('.navbar-nav li a[href="'+filename+'"]').parent('li').addClass('active');
+    //console.log('.navbar-nav li a[href="'+filename+'"]').addClass('active');
+
     var route_nos = [];       
     $('.form-accept').on('submit',function(e){
         var remarks = $('.remarks').val();
@@ -46,7 +54,7 @@ $(function(){
     }); 
     
     $("a[href='#track']").on('click',function(){  
-        $('.track_history').html('<center><img src="img/spin.gif"></center>');
+        $('.track_history').html('<center><img src="resources/img/spin.gif"></center>');
         setTimeout(function(){
             var content = '<table class="table table-hover table-striped"> \
                     <caption>Tracking History</caption>\
@@ -85,5 +93,20 @@ $(function(){
         $('.track_history').html(content);
         },1000);
         
+    });
+    
+    //Get forms
+    $('a[href="#document_form"]').on('click',function(){
+        $('.modal-title').html($(this).html());
+        var url = $(this).data('link');
+        console.log(url);
+        $.ajax({    
+            url: url, 
+            type: 'GET',
+            success: function(data) { 
+                console.log(data);
+                $('.modal_content').html(data);
+            }
+        })
     });
 });

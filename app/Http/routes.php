@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
-Route::controller('/document', 'DocumentController');
-//Route::controller('/pr', 'PrController');
+Route::get('home', 'HomeController@index');
+Route::controller('document', 'DocumentController');
+Route::controller('contract', 'ContractController');
 
