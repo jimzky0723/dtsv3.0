@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="alert alert-jim" id="inputText">
     <h2 class="page-header">Documents</h2>    
     <form class="form-inline form-accept">
@@ -16,7 +25,7 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Disbursement Voucher</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('document/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('form/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
                             <li><a href="#">TEV</a></li>
                             <li><a href="#">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
                             <li><a href="#">Supplier (Payment of Transactions with PO)</a></li>
@@ -113,4 +122,8 @@
         </ul>
     </nav>                
 </div>
+@endsection
+@section('plugin')
+<script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection

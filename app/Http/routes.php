@@ -21,14 +21,15 @@ Route::get('/', function () {
 });
 
 Route::auth();
-
+//jimzky
 Route::get('home', 'HomeController@index');
 //jimzky
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
-Route::get('document/salary', 'DocumentController@salary');
-Route::post('document/salary', 'DocumentController@saveSalary');
 
+Route::get('form/salary','SalaryController@index');
+Route::post('form/salary','SalaryController@store');
+//endjimzky
 
 //rusel
 Route::get('prform','PurchaseRequestController@prform');
