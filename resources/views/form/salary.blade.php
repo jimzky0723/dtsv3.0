@@ -36,7 +36,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control" id="reservation" name="daterange" value="" onclick="dateRange('#reservation')">
+                        <input type="text" class="form-control" id="reservation" name="daterange" value="" onclick="dateRange($(this))">
                     </div>
                 </td>
             </tr>

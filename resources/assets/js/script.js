@@ -115,3 +115,8 @@ $(function(){
 function acceptNumber($this){
     $this.val($this.val().replace(/[^\d+(\.\.]/g, ''));
 }
+
+function dateRange($this){
+    console.log($this);
+    $($this).daterangepicker();
+}
