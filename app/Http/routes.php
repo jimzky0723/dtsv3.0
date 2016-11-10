@@ -25,4 +25,5 @@ Route::auth();
 Route::get('home', 'HomeController@index');
 Route::controller('document', 'DocumentController');
 Route::controller('contract', 'ContractController');
+Route::controller('prform','PurchaseRequestController');
 

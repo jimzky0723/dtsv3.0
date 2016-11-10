@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class DocumentController extends Controller
+class PurchaseRequestController extends Controller
 {
     public function __construct()
     {
@@ -89,12 +89,8 @@ class DocumentController extends Controller
         //
     }
     
-    //accept document
-    public function getAccept(){
-        return view('document.accept');   
-    }
-    
-    public function getSalary(){
-        return view('form.salary');
+    public function getPrform(){
+        date_default_timezone_set('Asia/Singapore'); 
+        return view('prform.prform',['name' => 'rusel']);
     }
 }

@@ -68,7 +68,7 @@
                         </ul>
                     </li>
                     <li><a href="#">Purchase Order</a></li>
-                    <li><a href="#">Purchase Request - Cash Advance Purchase</a></li>
+                    <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('prform/prform') }}">Purchase Request - Cash Advance Purchase</a></li>
                     <li><a href="#">Purchase Request - Regular Purchase</a></li>
                     <li><a href="#">Reports</a></li>
                 </ul>
