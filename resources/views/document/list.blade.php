@@ -26,13 +26,13 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Letter/Mail/Communication</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Incoming</a></li>
+                            <li><a href="#incoming_letter" data-link="{{ asset('/form/incoming/letter') }}">Incoming</a></li>
                             <li><a href="#">Outgoing</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Service Record</a></li>
                             <li><a href="#">SALN</a></li>
                             <li><a href="#">Plans (includes Allocation List)</a></li>
-                            <li><a href="#">Routing Slip</a></li>
+                            <li><a href="#routing_slip" data-toggle="modal" data-link="{{ asset('/form/routing/slip') }}">Routing Slip</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Memorandum</a></li>

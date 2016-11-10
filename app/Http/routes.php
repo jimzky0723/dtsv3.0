@@ -29,4 +29,18 @@ Route::get('document/salary', 'DocumentController@salary');
 Route::post('document/salary', 'DocumentController@saveSalary');
 
 
+/*
+ * Created By : Lourence Rex Traya
+ * RoutingController routes
+ */
 
+Route::get('/form/routing/slip', 'RoutingController@routing_slip');
+//END OF RoutingController routes
+
+/*
+ * Lourence
+ * MailLetterIncomingController routes
+ */
+
+Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+//END of MailLetterIncoming routes
