@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Tracking;
 
 class PurchaseRequestController extends Controller
 {
@@ -18,7 +18,7 @@ class PurchaseRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function getIndex()
+    public function index()
     {
         return view('document.list');
     }
@@ -89,8 +89,21 @@ class PurchaseRequestController extends Controller
         //
     }
     
-    public function getPrform(){
+    public function prForm(){
         date_default_timezone_set('Asia/Singapore'); 
-        return view('prform.prform',['name' => 'rusel']);
+        return view('form.prform',['name' => 'rusel']);
+    }
+    public function savePrform(Request $request){
+        $tracking = new Tracking();
+        $tracking->doc_type = $request->get('doctype');
+        $tracking->prepared_date = $request->get('date');
+        $tracking->prepared_by = $request->get('preparedby');
+        $tracking->pr_no = $request->get('prno');
+        $tracking->amount = $request->get('amount');
+        $tracking->requested_by = $request->get('requestedby');
+        $tracking->source_fund = $request->get('chargeto');
+        $tracking->description = $request->get('purpose');
+        $tracking->save();
+        return "Successfully Created";
     }
 }

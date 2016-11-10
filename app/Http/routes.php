@@ -23,7 +23,13 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('home', 'HomeController@index');
-Route::controller('document', 'DocumentController');
-Route::controller('contract', 'ContractController');
-Route::controller('prform','PurchaseRequestController');
+//jimzky
+Route::get('document', 'DocumentController@index');
+Route::get('document/accept', 'DocumentController@accept');
+Route::get('document/salary', 'DocumentController@salary');
+Route::post('document/salary', 'DocumentController@saveSalary');
+
+//rusel
+Route::get('prform','PurchaseRequestController@prform');
+Route::post('prform','PurchaseRequestController@savePrform');
 
