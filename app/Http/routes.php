@@ -35,19 +35,6 @@ Route::get('prform','PurchaseRequestController@prform');
 Route::post('prform','PurchaseRequestController@savePrform');
 
 
-/*
- * Created By : Lourence Rex Traya
- * RoutingController routes
- */
-
+//traya
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
-//END OF RoutingController routes
-
-/*
- * Lourence
- * MailLetterIncomingController routes
- */
-
-
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
-//END of MailLetterIncoming routes
