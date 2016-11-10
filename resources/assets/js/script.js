@@ -104,9 +104,14 @@ $(function(){
             url: url, 
             type: 'GET',
             success: function(data) { 
-                console.log(data);
                 $('.modal_content').html(data);
             }
         })
     });
+    
+    
 });
+
+function acceptNumber($this){
+    $this.val($this.val().replace(/[^\d+(\.\.]/g, ''));
+}

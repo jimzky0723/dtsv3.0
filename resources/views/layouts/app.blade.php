@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('resources/img/favicon.png') }}">
-
+      
+    	
+    <meta http-equiv="cache-control" content="max-age=0" />
     <title>Document Tracking System</title>
 
     <!-- Bootstrap core CSS -->
@@ -108,6 +110,7 @@
     <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
+    @yield('plugin')
     <script src="{{ asset('resources/assets/js/script.js') }}"></script>
   </body>
 </html>
