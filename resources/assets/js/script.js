@@ -108,7 +108,34 @@ $(function(){
             }
         })
     });
-    
+
+    //GET Routing slip form
+    $('a[href="#routing_slip"]').on('click', function(){
+        $('.modal-title').html($(this).html());
+        var url = $(this).data('link');
+        console.log(url);
+        $.ajax({
+            url : url,
+            type : 'GET',
+            success : function(data){
+                $('.modal_content').html(data);
+                $('#document_form').modal('show');
+            }
+        });
+    });
+    $('a[href="#incoming_letter"]').on('click' ,function() {
+        $('.modal-title').html($(this).html());
+        var url = $(this).data('link');
+        console.log(url);
+        $.ajax({
+            url : url,
+            type : 'GET',
+            success : function(data){
+                $('.modal_content').html(data);
+                $('#document_form').modal('show');
+            }
+        });
+    });
     
 });
 
@@ -120,3 +147,5 @@ function dateRange($this){
     console.log($this);
     $($this).daterangepicker();
 }
+
+

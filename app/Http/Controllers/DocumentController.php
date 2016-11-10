@@ -22,5 +22,4 @@ class DocumentController extends Controller
     public function accept(){
         return view('document.accept');   
     }
-
 }

@@ -13,7 +13,7 @@
             <tr>
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
-                <td><input type="text" disabled value="{{ date('m/d/Y') }}" name="date_prepared" class="form-control"></td>
+                <td><input type="text" disabled value="{{ date('m/d/Y h:i:s A') }}" name="date_prepared" class="form-control"></td>
 
             </tr>
             <tr>

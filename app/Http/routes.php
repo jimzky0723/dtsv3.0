@@ -23,6 +23,7 @@ Route::get('/', function () {
 Route::auth();
 //jimzky
 Route::get('home', 'HomeController@index');
+//jimzky
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
 
@@ -30,4 +31,24 @@ Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 //endjimzky
 
+//rusel
+Route::get('prform','PurchaseRequestController@prform');
+Route::post('prform','PurchaseRequestController@savePrform');
 
+
+/*
+ * Created By : Lourence Rex Traya
+ * RoutingController routes
+ */
+
+Route::get('/form/routing/slip', 'RoutingController@routing_slip');
+//END OF RoutingController routes
+
+/*
+ * Lourence
+ * MailLetterIncomingController routes
+ */
+
+
+Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+//END of MailLetterIncoming routes
