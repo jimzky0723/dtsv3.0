@@ -50,6 +50,9 @@ class PurchaseRequestController extends Controller
         $tracking->description = $request->get('purpose');
         $tracking->save();
 
+<<<<<<< HEAD
         return redirect('/document/prCreated');
+=======
+>>>>>>> f7517b784a034baadf8464f78625158303e26c1e
     }
 }

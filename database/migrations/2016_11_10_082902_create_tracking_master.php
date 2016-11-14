@@ -33,7 +33,7 @@ class CreateTrackingMaster extends Migration
             $table->string('event_participant');
             $table->integer('cdo_applicant');
             $table->integer('cdo_day');
-            $table->string('cdo_daterange');
+            $table->string('event_daterange');
             $table->string('payee');
             $table->string('item');
             $table->string('dv_no');
