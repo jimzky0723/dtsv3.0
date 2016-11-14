@@ -10,7 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::get('/clear/session', function() {
+   Session::flush();
+    return "Session cleared";
+});
 Route::get('/', function () {
     //return view('auth.login');
     if(Auth::check()) {
@@ -19,6 +22,10 @@ Route::get('/', function () {
         return view('auth.login');
     }
 });
+//updating password by : Lourence
+Route::get('/change/password', 'PasswordController@change_password');
+Route::post('/change/password', 'PasswordController@save_changes');
+
 
 Route::auth();
 //jimzky
@@ -49,6 +56,14 @@ Route::get('/form/routing/slip', 'RoutingController@routing_slip');
  * MailLetterIncomingController routes
  */
 
-
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 //END of MailLetterIncoming routes
+
+Route::get('/session','DocumentController@session');
+
+
+Route::get('/pdf', function(){
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML('<h1>Test</h1>');
+    return $pdf->stream();
+});
