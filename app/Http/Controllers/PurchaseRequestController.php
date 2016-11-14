@@ -104,6 +104,6 @@ class PurchaseRequestController extends Controller
         $tracking->source_fund = $request->get('chargeto');
         $tracking->description = $request->get('purpose');
         $tracking->save();
-        return "Successfully Created";
+
     }
 }

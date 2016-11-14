@@ -23,9 +23,9 @@ Route::get('/', function () {
 Route::auth();
 //jimzky
 Route::get('home', 'HomeController@index');
-//jimzky
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
+Route::get('document/{route}', 'DocumentController@show');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');

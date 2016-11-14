@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 @if (count($errors) > 0)
     <div class="alert alert-danger">
         <ul>
@@ -35,13 +36,13 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Letter/Mail/Communication</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#incoming_letter" data-link="{{ asset('/form/incoming/letter') }}">Incoming</a></li>
+                            <li><a href="#document_form" data-link="{{ asset('/form/incoming/letter') }}">Incoming</a></li>
                             <li><a href="#">Outgoing</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Service Record</a></li>
                             <li><a href="#">SALN</a></li>
                             <li><a href="#">Plans (includes Allocation List)</a></li>
-                            <li><a href="#routing_slip" data-toggle="modal" data-link="{{ asset('/form/routing/slip') }}">Routing Slip</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/routing/slip') }}">Routing Slip</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Memorandum</a></li>
@@ -86,28 +87,29 @@
     </form>  
     <div class="clearfix"></div>
     <div class="page-divider"></div>
+    @if(count($documents))
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
                 <tr>
                     <th width="8%"></th>
-                    <th width="15%">Route #</th>
+                    <th width="20%">Route #</th>
                     <th width="15%">Prepared Date</th>
-                    <th width="15%">Document Type</th>
+                    <th width="20%">Document Type</th>
                     <th>Remarks</th>
                 </tr>
             </thead>
             <tbody>
-                @for($i=0; $i<10; $i++)
+                @foreach($documents as $doc)
                 <tr>
                     <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a  class="title-info" href="#track" data-toggle="modal">DOH1234567</a></td>                    
-                    <td>Oct 16, 2016<br>9:42 AM</td> 
-                    <td>Purchase Request</td>
-                    <td><p>The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.</p>
+                    <td><a class="title-info" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                    <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
+                    <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
+                    <td><p>{{ $doc->description }}</p>
                     </td>
                 </tr>  
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -120,10 +122,20 @@
             <li><a href="#">4</a></li>
             <li><a href="#">5</a></li>
         </ul>
-    </nav>                
+    </nav>
+    @else
+        <div class="alert alert-danger">
+            <strong><i class="fa fa-times-circle"></i> No data found! </strong>
+        </div>
+    @endif
 </div>
+
 @endsection
 @section('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+@endsection
+
+@section('css')
+<link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection

@@ -19,9 +19,9 @@
     <link href="{{ asset('resources/assets/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('resources/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
+    @yield('css')
     <style>
         body {
             background: url({{ asset('resources/img/backdrop.png') }}), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));   
@@ -45,7 +45,7 @@
     <nav class="navbar navbar-default navbar-static-top">
     <div class="header" style="background-color:#2F4054;padding:10px;">
         <div class="col-md-4">
-            <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->name }}</span>
+            <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }}</span>
         </div>
         <div class="col-md-4">
             <span class="title-info">Section:</span> <span class="title-desc">Information Communication and Technology Unit</span>

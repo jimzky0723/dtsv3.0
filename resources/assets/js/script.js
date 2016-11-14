@@ -1,5 +1,6 @@
 $(function(){
-
+    $('input').attr('autocomplete', 'off');
+    var loadingState = '<center><img src="resources/img/spin.gif" width="150" style="padding:20px;"></center>';
     var url = window.location.pathname;
     var host = window.location.hostname;
     var filename = window.location.href;
@@ -16,7 +17,7 @@ $(function(){
             for(var i=0; i<route_nos.length; i++){
                 if(route_nos[i]==route_no){
                     $('.error-accept').removeClass('hide').fadeIn(500).html('Route # \''+route_no+'\' is already accepted!');
-                    return false;   
+                    return false;
                 }
             }
             route_nos.push(route_no);
@@ -37,7 +38,7 @@ $(function(){
             $('.error-accept').removeClass('hide').fadeIn(500).html('Please input route number!');
             $('.route_no').focus();               
         }
-        console.log(route_nos);
+
         e.preventDefault();
         return false;
     });
@@ -94,58 +95,48 @@ $(function(){
         },1000);
         
     });
-    
-    //Get forms
-    $('a[href="#document_form"]').on('click',function(){
-        $('.modal-title').html($(this).html());
+
+    $("a[href='#document_info']").on('click',function(){
+        $('.modal_content').html(loadingState);
+        $('.modal-title').html('Route #: '+$(this).html());
         var url = $(this).data('link');
-        console.log(url);
-        $.ajax({    
-            url: url, 
-            type: 'GET',
-            success: function(data) { 
-                $('.modal_content').html(data);
-            }
-        })
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+
     });
 
-    //GET Routing slip form
-    $('a[href="#routing_slip"]').on('click', function(){
+    //Get forms
+    $('a[href="#document_form"]').on('click',function(){
+        $('.modal_content').html(loadingState);
         $('.modal-title').html($(this).html());
         var url = $(this).data('link');
-        console.log(url);
-        $.ajax({
-            url : url,
-            type : 'GET',
-            success : function(data){
-                $('.modal_content').html(data);
-                $('#document_form').modal('show');
-            }
-        });
+        setTimeout(function() {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
     });
-    $('a[href="#incoming_letter"]').on('click' ,function() {
-        $('.modal-title').html($(this).html());
-        var url = $(this).data('link');
-        console.log(url);
-        $.ajax({
-            url : url,
-            type : 'GET',
-            success : function(data){
-                $('.modal_content').html(data);
-                $('#document_form').modal('show');
-            }
-        });
-    });
-    
 });
 
 function acceptNumber($this){
     $this.val($this.val().replace(/[^\d+(\.\.]/g, ''));
-}
-
-function dateRange($this){
-    console.log($this);
-    $($this).daterangepicker();
 }
 
 

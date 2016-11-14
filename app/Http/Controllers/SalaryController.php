@@ -22,15 +22,16 @@ class SalaryController extends Controller
     
     public function store(ValidateSalaryForm $request){
         $q = new Tracking();
-        $q->route_no = 'DOH'.date('Ymdhis').$request->input('prepared_by');
+        $q->route_no = $request->input('route_no');
         $q->doc_type = $request->input('doc_type');
-        $q->prepared_date = date('Y-m-d H:i:s');
+        $q->prepared_date = $request->input('prepared_date');
         $q->prepared_by = $request->input('prepared_by');
         $q->amount = $request->input('amount');
         $q->description = $request->input('description');
         $q->dv_no = $request->input('dv_no');
+        $q->event_daterange = $request->input('daterange');
         $q->save();
-        
+
         return redirect('document');
     }
 
