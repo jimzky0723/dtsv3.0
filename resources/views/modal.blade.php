@@ -20,8 +20,7 @@
                 </tr>                    
             </table>
             <hr />                
-            <div class="track_history"> 
-
+            <div class="track_history">
                 <table class="table table-hover table-striped">
                     <caption>Tracking History</caption>
                     <thead>

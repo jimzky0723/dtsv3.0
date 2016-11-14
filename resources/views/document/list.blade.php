@@ -98,16 +98,16 @@
                 </tr>
             </thead>
             <tbody>
-                @for($i=0; $i<10; $i++)
+                @foreach(Session::get('tracking') as $track)
                 <tr>
-                    <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a  class="title-info" href="#track" data-toggle="modal">DOH1234567</a></td>                    
+                    <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" value="{{ $track['id'] }}" onclick="view(this.value)"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a  class="title-info" href="#track" data-toggle="modal">DOH1234567</a></td>
                     <td>Oct 16, 2016<br>9:42 AM</td> 
                     <td>Purchase Request</td>
                     <td><p>The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.</p>
                     </td>
                 </tr>  
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -127,3 +127,7 @@
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
+<script type="text/javascript">
+    function view($result){
+    }
+</script>

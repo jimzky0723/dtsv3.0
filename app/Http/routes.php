@@ -1,15 +1,6 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+Use App\Tracking;
 
 Route::get('/', function () {
     //return view('auth.login');
@@ -23,10 +14,8 @@ Route::get('/', function () {
 Route::auth();
 //jimzky
 Route::get('home', 'HomeController@index');
-//jimzky
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
-
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 //endjimzky
@@ -34,8 +23,13 @@ Route::post('form/salary','SalaryController@store');
 //rusel
 Route::get('prform','PurchaseRequestController@prform');
 Route::post('prform','PurchaseRequestController@savePrform');
-
+Route::get('document/prCreated','PurchaseRequestController@prCreated');
 
 //traya
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+
+Route::get('haha',function(){
+    return Tracking::all();
+});
+
