@@ -20,6 +20,13 @@
     <![endif]-->
   </head>
   <body class="hold-transition login-page">
+    @if(Session::has('ok'))
+        <div class="row">
+            <div class="alert alert-success text-center">
+                <strong class="text-center">{{ Session::get('ok') }}</strong>
+            </div>
+        </div>
+    @endif
     <div class="login-box">
       <div class="login-logo">
         <img src="{{ asset('resources/img/logo.png') }}" />

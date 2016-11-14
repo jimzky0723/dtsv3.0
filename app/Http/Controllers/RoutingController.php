@@ -17,7 +17,6 @@ class RoutingController extends Controller
     {
         $this->middleware('auth');
     }
-
     public function routing_slip() {
         return view('form.routing_slip');
     }

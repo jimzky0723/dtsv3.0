@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use App\Tracking;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Session;
 
 class DocumentController extends Controller
 {
@@ -19,21 +21,14 @@ class DocumentController extends Controller
     }
 
    
-    public function accept(){
-        return view('document.accept');   
-    }
-    
-    public function salary(Request $request){
-        if($request){
-            return view('form.salary'); 
+    public function accept(Request $request){
+        if($request->user()->user_priv == 1) {
+            return view('document.accept');
         }
-                     
     }
-    
-    public function saveSalary(){
-        //code for saving
-        
-        //
-        return redirect('document');
+
+    public function session(Request $request){
+        Session::put('name','Lourence Rex');
+        return Session::get('name');
     }
 }
