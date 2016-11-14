@@ -100,6 +100,15 @@
                 </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
+                @foreach(Session::get('tracking') as $track)
+                <tr>
+                    <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" value="{{ $track['id'] }}" onclick="view(this.value)"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a  class="title-info" href="#track" data-toggle="modal">DOH1234567</a></td>
+                    <td>Oct 16, 2016<br>9:42 AM</td> 
+                    <td>Purchase Request</td>
+                    <td><p>The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.</p>
+=======
                 @foreach($documents as $doc)
                 <tr>
                     <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
@@ -107,6 +116,7 @@
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td><p>{{ $doc->description }}</p>
+>>>>>>> f7517b784a034baadf8464f78625158303e26c1e
                     </td>
                 </tr>  
                 @endforeach
@@ -135,7 +145,14 @@
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
+<<<<<<< HEAD
+<script type="text/javascript">
+    function view($result){
+    }
+</script>
+=======
 
 @section('css')
 <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
+>>>>>>> f7517b784a034baadf8464f78625158303e26c1e
