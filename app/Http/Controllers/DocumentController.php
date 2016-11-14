@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Tracking;
 use App\Http\Requests;
@@ -20,7 +21,14 @@ class DocumentController extends Controller
     }
 
    
-    public function accept(){
-        return view('document.accept');   
+    public function accept(Request $request){
+        if($request->user()->user_priv == 1) {
+            return view('document.accept');
+        }
+    }
+
+    public function session(Request $request){
+        Session::put('name','Lourence Rex');
+        return Session::get('name');
     }
 }

@@ -28,8 +28,22 @@ Route::get('document/prCreated','PurchaseRequestController@prCreated');
 //traya
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+Route::get('/change/password', 'PasswordController@change_password');
+Route::post('/change/password', 'PasswordController@save_changes');
+
 
 Route::get('haha',function(){
     return Tracking::all();
+});
+
+Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+Route::get('/session','DocumentController@session');
+Route::get('/pdf', function(){
+    date_default_timezone_set('Asia/Singapore');
+    $routeNumber = "doh7".date('Ymdhms');
+    $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($bc.'<h1>Test</h1>');
+    return $pdf->stream();
 });
 
