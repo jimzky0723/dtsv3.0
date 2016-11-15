@@ -111,5 +111,8 @@
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
     @yield('plugin')
     <script src="{{ asset('resources/assets/js/script.js') }}"></script>
+    @section('js')
+
+    @show
   </body>
 </html>

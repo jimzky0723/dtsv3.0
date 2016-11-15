@@ -1,8 +1,5 @@
 <form action="{{ asset('form/salary') }}" method="POST">
 {{ csrf_field() }}
-    <input type="hidden" value="DOH{{ date('ymdHis').Auth::user()->id }}" name="route_no">
-    <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
-    <input type="hidden" value="{{ date('Y-m-d H:i:s') }}" name="prepared_date">
     <input type="hidden" value="SAL" name="doc_type">
     <div class="modal-body">                                                            
         <table class="table table-hover table-form table-striped">
@@ -10,13 +7,11 @@
                 <td class="col-sm-3"><label>Prepared By</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8"><input type="text" disabled value="{{ Auth::user()->fname }} {{ Auth::user()->mname }} {{ Auth::user()->lname }}" class="form-control"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
                 <td><input type="text" disabled value="{{ date('m/d/Y h:i:s A') }}"  class="form-control"></td>
-
             </tr>
             <tr>
                 <td class=""><label>DV No.</label></td>
@@ -54,3 +49,4 @@
         <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
     </div>
  </form>
+

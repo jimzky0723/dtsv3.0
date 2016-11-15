@@ -29,8 +29,13 @@ Route::post('prform','PurchaseRequestController@savePrform');
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
 
 //traya
+//routing slip
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
+Route::post('/form/routing/slip', 'RoutingController@create');
+//incoming letter
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+//tev doc
+Route::get('/form/tev', 'TEVController@index');
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
 
@@ -42,6 +47,7 @@ Route::get('haha',function(){
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
 Route::get('/pdf', function(){
+
     date_default_timezone_set('Asia/Singapore');
     $routeNumber = "doh7".date('Ymdhms');
     $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
@@ -50,3 +56,4 @@ Route::get('/pdf', function(){
     return $pdf->stream();
 });
 
+Route::get('/barcode', 'BarcodeController@barcode');
