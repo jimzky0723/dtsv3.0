@@ -9,9 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Tracking;
+
 class TEVController extends Controller
 {
     public function index() {
         return view('form.tev');
+    }
+    public function create() {
+        $tracking = new Tracking();
+
     }
 }
