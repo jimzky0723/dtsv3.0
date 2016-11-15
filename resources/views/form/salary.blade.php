@@ -1,4 +1,4 @@
-<form action="{{ asset('form/salary') }}" method="POST">
+<form action="{{ asset('form/salary') }}" method="POST" target="_blank">
 {{ csrf_field() }}
     <input type="hidden" value="DOH{{ date('ymdHis').Auth::user()->id }}" name="route_no">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">

@@ -1,5 +1,5 @@
-<form action="{{ asset('prform') }}" method="POST">
-<input type="hidden" name="doctype" value="PRC">
+<form action="{{ asset('prform') }}" method="POST" target="_blank">
+<input type="hidden" name="doctype" value="PRC"><input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
 {{ csrf_field() }}
     <div class="modal-body">  
         <table class="table table-hover table-form table-striped">
@@ -11,7 +11,7 @@
             <tr>
                 <td class=""><label>Prepared By</label></td>
                 <td>:</td>
-                <td><input type="hidden" name="preparedby" value="{{ Auth::user()->id }}"><input value="{{ Auth::user()->name }}" class="form-control" readonly></td>
+                <td><input type="text" value="{{ Auth::user()->fname }} {{ Auth::user()->mname }} {{ Auth::user()->lname }}" class="form-control" disabled></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>PR #</label></td>

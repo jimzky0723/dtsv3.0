@@ -18,12 +18,7 @@ class DocumentController extends Controller
     {
         $this->middleware('auth');
     }
-    
-<<<<<<< HEAD
-    public function index(){
-        Session::put('tracking',Tracking::all());
-        return view('document.list');
-=======
+
     public function index()
     {
         $user = Auth::user();
@@ -33,7 +28,6 @@ class DocumentController extends Controller
             ->orderBy('id','desc')
             ->get();
         return view('document.list',['documents' => $documents ]);
->>>>>>> f7517b784a034baadf8464f78625158303e26c1e
     }
 
    
