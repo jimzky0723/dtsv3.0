@@ -15,9 +15,13 @@ Route::auth();
 //jimzky
 Route::get('home', 'HomeController@index');
 Route::get('document', 'DocumentController@index');
+
 Route::get('document/accept', 'DocumentController@accept');
+Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
+Route::post('document/accept', 'DocumentController@saveDocument');
 
 Route::get('document/{route}', 'DocumentController@show');
+Route::get('document/removepending/{id}','DocumentController@removePending');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
@@ -46,7 +50,9 @@ Route::get('/pdf', function(){
     $routeNumber = "doh7".date('Ymdhms');
     $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
     $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML($bc.'<h1>Test</h1>');
+    $tmp = '<img src="data:image/png;base64,{{DNS1D::getBarcodePNG(\'11\', \'C39\')}}" alt="barcode" />';
+    $pdf->loadHTML('<h2>'.$tmp.'</h2>');
+
     return $pdf->stream();
 });
 

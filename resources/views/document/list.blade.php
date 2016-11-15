@@ -100,42 +100,23 @@
                 </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
-                @foreach(Session::get('tracking') as $track)
-                <tr>
-                    <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" value="{{ $track['id'] }}" onclick="view(this.value)"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a  class="title-info" href="#track" data-toggle="modal">DOH1234567</a></td>
-                    <td>Oct 16, 2016<br>9:42 AM</td> 
-                    <td>Purchase Request</td>
-                    <td><p>The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.</p>
-=======
                 @foreach($documents as $doc)
                 <tr>
                     <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                    <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td><p>{{ $doc->description }}</p>
->>>>>>> f7517b784a034baadf8464f78625158303e26c1e
                     </td>
                 </tr>  
                 @endforeach
             </tbody>
         </table>
     </div>
-    <nav aria-label="Pagination">
-        <ul class="pagination pagination-md">
-            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">First</span></a></li>
-            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-        </ul>
-    </nav>
+    {{ $documents->links() }}
     @else
         <div class="alert alert-danger">
-            <strong><i class="fa fa-times-circle"></i> No data found! </strong>
+            <strong><i class="fa fa-times fa-lg"></i> No documents found! </strong>
         </div>
     @endif
 </div>
@@ -145,14 +126,9 @@
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
-<<<<<<< HEAD
-<script type="text/javascript">
-    function view($result){
-    }
-</script>
-=======
+
 
 @section('css')
 <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
->>>>>>> f7517b784a034baadf8464f78625158303e26c1e
+

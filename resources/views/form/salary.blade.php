@@ -1,6 +1,5 @@
 <form action="{{ asset('form/salary') }}" method="POST">
 {{ csrf_field() }}
-    <input type="hidden" value="DOH{{ date('ymdHis').Auth::user()->id }}" name="route_no">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
     <input type="hidden" value="{{ date('Y-m-d H:i:s') }}" name="prepared_date">
     <input type="hidden" value="SAL" name="doc_type">

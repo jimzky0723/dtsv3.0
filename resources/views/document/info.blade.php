@@ -5,10 +5,6 @@
     $user = User::find($document->prepared_by);
 
     $filter = Doc::isIncluded($document->doc_type);
-
-    echo '<pre>';
-//    print_r($filter);
-    echo '</pre>';
 ?>
 <table class="table table-hover table-striped">
 
