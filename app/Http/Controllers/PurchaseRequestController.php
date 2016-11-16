@@ -90,4 +90,24 @@ class PurchaseRequestController extends Controller
         return redirect("/pdf");
     }
 
+<<<<<<< HEAD
+=======
+    public function pdf(){
+        /*$route_no = Session::get('route_no');
+        $barcode = new DNS1D();
+        $bc = $barcode->getBarcodeHTML($route_no,"C39E",1,33);*/
+
+        $display = view("pdf.pdf");
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display);
+
+        return $pdf->stream();
+    }
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> b361b970d95aae453261ac035f27e9433df022eb
+>>>>>>> 72359f95caa2b1641ff8cabbdfc4beb07028d000
 }

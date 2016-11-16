@@ -72,7 +72,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Office Order</a></li>
                             <li><a href="#">DTR</a></li>
-                            <li><a href="#">Application for Leave</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/application/leave') }}">Application for Leave</a></li>
                             <li><a href="#">Certificate of Overtime Credit</a></li>
                             <li><a href="#">Compensatory Time Off</a></li>
                         </ul>
@@ -103,7 +103,7 @@
                 @foreach($documents as $doc)
                 <tr>
                     <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                    <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td><p>{{ $doc->description }}</p>
@@ -113,19 +113,10 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Pagination">
-        <ul class="pagination pagination-md">
-            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">First</span></a></li>
-            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-        </ul>
-    </nav>
+    {{ $documents->links() }}
     @else
         <div class="alert alert-danger">
-            <strong><i class="fa fa-times-circle"></i> No data found! </strong>
+            <strong><i class="fa fa-times fa-lg"></i> No documents found! </strong>
         </div>
     @endif
 </div>
@@ -136,10 +127,6 @@
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
 
-<script type="text/javascript">
-    function view($result){
-    }
-</script>
 
 
 @section('css')

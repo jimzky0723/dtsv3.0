@@ -46,6 +46,6 @@ class CreateTrackingFilter extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('tracking_filter');
     }
 }
