@@ -96,6 +96,9 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
                 break;
+            case "TEV":
+                return "Travel Expense Voucher";
+                break;
             default:
                 return "N/A";
         }

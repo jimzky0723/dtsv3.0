@@ -1,9 +1,9 @@
-<form action="{{ asset('form/salary') }}" method="POST">
-{{ csrf_field() }}
+<form action="{{ asset('form/tev') }}" method="POST">
+    {{ csrf_field() }}
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
     <input type="hidden" value="{{ date('Y-m-d H:i:s') }}" name="prepared_date">
-    <input type="hidden" value="SAL" name="doc_type">
-    <div class="modal-body">                                                            
+    <input type="hidden" value="TEV" name="doc_type">
+    <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>
                 <td class="col-sm-3"><label>Prepared By</label></td>
@@ -43,6 +43,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success" onclick="$('form').attr('taraget','');"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" class="btn btn-success" onclick="$('form').attr('target','');"><i class="fa fa-send"></i> Submit</button>
     </div>
- </form>
+</form>

@@ -7,18 +7,18 @@ use App\Http\Requests;
 use App\Http\Requests\ValidateSalaryForm;
 use App\Tracking;
 
-class SalaryController extends Controller
+class TevController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');        
+        $this->middleware('auth');
     }
-    
+
     public function index()
     {
-        return view('form.salary');
+        return view('form.tev');
     }
-    
+
     public function store(ValidateSalaryForm $request){
         $q = new Tracking();
         $q->route_no = date('Y-').$request->input('prepared_by').date('mdHis');
@@ -39,6 +39,4 @@ class SalaryController extends Controller
         $q->save();
         return redirect('document');
     }
-
-    
 }

@@ -27,7 +27,7 @@
                         <a href="#" data-toggle="dropdown">Disbursement Voucher</a>
                         <ul class="dropdown-menu">
                             <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('form/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
-                            <li><a href="#">TEV</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('form/tev') }}">TEV</a></li>
                             <li><a href="#">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
                             <li><a href="#">Supplier (Payment of Transactions with PO)</a></li>
                             <li><a href="#">Infra - Contractor</a></li>

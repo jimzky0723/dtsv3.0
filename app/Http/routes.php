@@ -19,6 +19,9 @@ Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
+Route::get('form/tev', 'TevController@index');
+Route::post('form/tev', 'TevController@store');
+
 Route::get('pdf', function(){
     $display = view("pdf.pdf");
     $pdf = App::make('dompdf.wrapper');

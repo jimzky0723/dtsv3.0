@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="track">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -10,14 +10,8 @@
                 <tr>
                     <td class="col-sm-3"><label>Route Number</label></td>
                     <td class="col-sm-1">:</td>
-                    <td class="col-sm-8"><input type="text" disabled value="D1234679" class="form-control"></td>
-
+                    <td class="col-sm-8"><input type="text" disabled id="track_route_no" value="" class="form-control"></td>
                 </tr>
-                <tr>
-                    <td class=""><label>Prepared Date</label></td>
-                    <td>:</td>
-                    <td><input type="text" disabled value="10/26/2016" class="form-control"></td>
-                </tr>                    
             </table>
             <hr />                
             <div class="track_history">

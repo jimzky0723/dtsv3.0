@@ -20,6 +20,10 @@
         <td class="text-right">Prepared Date :</td>
         <td>{{ date('M d, Y h:i:s A',strtotime($document->prepared_date)) }}</td>
     </tr>
+    <tr>
+        <td class="text-right">Remarks :</td>
+        <td>{{ $document->description }}</td>
+    </tr>
     <tr class="{{ $filter[1] }}">
         <td class="text-right">Amount :</td>
         <td>{{ number_format($document->amount) }}</td>
@@ -94,9 +98,9 @@
         <td class="text-right">Item/s :</td>
         <td>{{ $document->item }}</td>
     </tr>
-    <tr class="{{ $filter[18] }}">
-        <td class="text-right">DV Number :</td>
-        <td>{{ $document->dv_no }}</td>
-    </tr>
+    {{--<tr class="{{ $filter[18] }}">--}}
+        {{--<td class="text-right">DV Number :</td>--}}
+        {{--<td>{{ $document->dv_no }}</td>--}}
+    {{--</tr>--}}
 
 </table>
