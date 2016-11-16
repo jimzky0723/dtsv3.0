@@ -1,5 +1,5 @@
 
-<form action="{{ asset('/form/application/leave') }}" method="POST" id="form_route" target="_blank">
+<form action="{{ asset('/form/application/leave') }}" method="POST" id="form_route">
     {{ csrf_field() }}
     <input type="hidden" name="doctype" value="CDO" />
     <div class="modal-body">
@@ -7,12 +7,12 @@
             <tr>
                 <td class="col-sm-3"><label>Prepared by</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="routed_from" class="form-control" value="{{ $user->fname ." " . $user->mname ." " .$user->lname }}" required readonly></td>
+                <td class="col-sm-8"><input type="text" name="routed_from" class="form-control" value="{{ $user }}" required readonly></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Prepared date</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="routed_from" class="form-control" required readonly value="{{ date('Y-m-d H:i:s') }}"></td>
+                <td class="col-sm-8"><input type="text" name="prepared_date" class="form-control" required readonly value="{{ date('Y-m-d H:i:s') }}"></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Applicant name</label></td>

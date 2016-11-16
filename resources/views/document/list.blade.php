@@ -60,7 +60,7 @@
                         <a href="#" data-toggle="dropdown">Miscellaneous</a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Activity Worksheet</a></li>
-                            <li><a href="#">Justification</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}">Justification</a></li>
                             <li><a href="#">Certifications</a></li>
                             <li><a href="#">Certificate of Appearance</a></li>
                             <li><a href="#">Certificate of Employment</a></li>
@@ -70,7 +70,7 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Personnel Related Documents</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Office Order</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/office-order') }}">Office Order</a></li>
                             <li><a href="#">DTR</a></li>
                             <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/application/leave') }}">Application for Leave</a></li>
                             <li><a href="#">Certificate of Overtime Credit</a></li>

@@ -102,6 +102,12 @@ class DocumentController extends Controller
             case "CDO" :
                 return "Application for CDO, Leave";
                 break;
+            case "JUST_LETTER" :
+                return "Justification Letter";
+                break;
+            case "OFFICE_ORDER":
+                return "Office Order";
+                break;
             default:
                 return "N/A";
         }

@@ -46,6 +46,13 @@ Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_lette
 //APP LEAVE CDO
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
+//JUSTIFICTION LETTER
+Route::get('/form/justification/letter', 'JustificationController@index');
+Route::post('/form/justification/letter','JustificationController@create');
+//OFFICE ORDER
+Route::get('/form/office-order','OfficeOrderController@index');
+Route::post('/form/office-order','OfficeOrderController@create');
+//CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
@@ -55,11 +62,7 @@ Route::get('/session','DocumentController@session');
 
 
 Route::get('/pdf1', function(){
-<<<<<<< HEAD
 
-    date_default_timezone_set('Asia/Singapore');
-=======
->>>>>>> b361b970d95aae453261ac035f27e9433df022eb
     $routeNumber = "doh7".date('Ymdhms').Auth::user()->id;
     $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
     $pdf = App::make('dompdf.wrapper');
