@@ -6,16 +6,11 @@ Route::auth();
 //jimzky
 Route::get('home', 'HomeController@index');
 Route::get('document', 'DocumentController@index');
-
 Route::get('document/accept', 'DocumentController@accept');
-
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
-
 Route::get('document/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
-
-
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
@@ -29,9 +24,11 @@ Route::get('pdf', function(){
 //endjimzky
 
 //rusel
-Route::get('prform','PurchaseRequestController@prform');
-Route::post('prform','PurchaseRequestController@savePrform');
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
+Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
+Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
+Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
 Route::get('haha',function(){
     return Tracking::all();
 });
@@ -58,6 +55,7 @@ Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
 
+<<<<<<< HEAD
 
 
 
@@ -79,3 +77,5 @@ Route::get('/', function () {
     }
     return view('auth.login');
 });
+=======
+>>>>>>> 941a6274dfcf8abf1afbfd4e08d9b6be4ba69e76

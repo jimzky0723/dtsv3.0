@@ -7,6 +7,7 @@ use App\Tracking;
 use Illuminate\Support\Facades\Session;
 use Milon\Barcode\DNS1D;
 use Dompdf\Dompdf;
+use App\Tracking_Details;
 use App;
 
 class PurchaseRequestController extends Controller
@@ -16,60 +17,89 @@ class PurchaseRequestController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function prCashAdvance()
     {
-        return view('document.list');
+        return view('form.prCashAdvance');
     }
 
-    public function prCreated(){
-        return view('prCreated');
-    }
-    public function prForm(){
-        return view('form.prform',['name' => 'rusel']);
+    public function savePrCashAdvance(Request $request)
+    {
+        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+        return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('itemdescription'), $request->get('amount'), "", "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
-    public function savePrform(Request $request)
+    public function prRegularPurchase()
     {
-        $route_no = "doh7" . date('ymdHis') . $request->user()->id;
+        return view('form.prRegularPurchase', ['name' => 'rusel']);
+    }
+
+    public function savePrRegularPurchase(Request $request)
+    {
+        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+        return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('purpose'), $request->get('amount'), $request->get('pr_no'), "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
+    }
+
+    public function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
+    {
         Session::put('route_no', $route_no);
-        Session::put('doctype', $request->get('doctype'));
-        Session::put('date', $request->get('date'));
-        Session::put('preparedby', $request->get('preparedby'));
-        Session::put('prno', $request->get('prno'));
-        Session::put('amount', $request->get('amount'));
-        Session::put('requestedby', $request->get('requestedby'));
-        Session::put('chargeto', $request->get('chargeto'));
-        Session::put('purpose', $request->get('purpose'));
+        Session::put('doctype', $doc_type);
+        Session::put('prepared_date', $prepared_date);
+        Session::put('preparedby', $prepare_by);
+        Session::put('description', $description);
+        Session::put('amount', $amount);
+        Session::put('pr_no', $pr_no);
+        Session::put('purpose', $purpose);
+        Session::put('source_fund', $source_fund);
+        Session::put('requested_by', $requested_by);
+        Session::put('route_to', $route_to);
+        Session::put('route_from', $route_from);
+        Session::put('supplier', $supplier);
+        Session::put('event_date', $event_date);
+        Session::put('event_location', $event_location);
+        Session::put('event_participant', $event_particpant);
+        Session::put('cdo_applicant', $cdo_applicant);
+        Session::put('cdo_day', $cdo_day);
+        Session::put('event_daterange', $event_daterange);
+        Session::put('payee', $payee);
+        Session::put('item', $item);
+        Session::put('dv_no', $dv_no);
+        Session::put('remember_token', $remember_token);
 
         $tracking = new Tracking();
         $tracking->route_no = $route_no;
-        $tracking->doc_type = $request->get('doctype');
-        $tracking->prepared_date = $request->get('date');
-        $tracking->prepared_by = $request->get('preparedby');
-        $tracking->pr_no = $request->get('prno');
-        $tracking->amount = $request->get('amount');
-        $tracking->requested_by = $request->get('requestedby');
-        $tracking->source_fund = $request->get('chargeto');
-        $tracking->description = $request->get('purpose');
+        $tracking->doc_type = $doc_type;
+        $tracking->prepared_date = $prepared_date;
+        $tracking->prepared_by = $prepare_by;
+        $tracking->description = $description;
+        $tracking->amount = $amount;
+        $tracking->pr_no = $pr_no;
+        $tracking->purpose = $purpose;
+        $tracking->source_fund = $source_fund;
+        $tracking->requested_by = $requested_by;
+        $tracking->route_to = $route_to;
+        $tracking->route_from = $route_from;
+        $tracking->supplier = $supplier;
+        $tracking->event_date = $event_date;
+        $tracking->event_location = $event_location;
+        $tracking->event_participant = $event_particpant;
+        $tracking->cdo_applicant = $cdo_applicant;
+        $tracking->cdo_day = $cdo_day;
+        $tracking->event_daterange = $event_daterange;
+        $tracking->payee = $payee;
+        $tracking->item = $item;
+        $tracking->dv_no = $dv_no;
+        $tracking->remember_token = $remember_token;
         $tracking->save();
+
+        $q = new Tracking_Details();
+        $q->route_no = $route_no;
+        $q->date_in = $prepared_date;
+        $q->received_by = $prepare_by;
+        $q->delivered_by = $prepare_by;
+        $q->remarks = $description;
+        $q->save();
+
         return redirect("/pdf");
     }
 
-    public function pdf(){
-        /*$route_no = Session::get('route_no');
-        $barcode = new DNS1D();
-        $bc = $barcode->getBarcodeHTML($route_no,"C39E",1,33);*/
-
-        $display = view("pdf.pdf");
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($display);
-
-        return $pdf->stream();
-    }
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> b361b970d95aae453261ac035f27e9433df022eb
 }
