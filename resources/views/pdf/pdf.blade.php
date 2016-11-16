@@ -1,0 +1,16 @@
+<?php
+    $con = new \App\Http\Controllers\PurchaseRequestController();
+?>
+<html>
+    <style type="text/css">
+        html {
+            margin-top:950px;
+            margin-left:280px;
+        }
+    </style>
+    <body>
+        <?php echo DNS1D::getBarcodeHTML(Session::get("route_no"),"C39E",1,33) ?>
+        {{ Session::get("route_no") }}
+        {{ $con->hello() }}
+    </body>
+</html>

@@ -54,6 +54,9 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
                 break;
+            case "CDO" :
+                return "Application for CDO, Leave";
+                break;
             default:
                 return "N/A";
         }

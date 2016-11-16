@@ -72,7 +72,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Office Order</a></li>
                             <li><a href="#">DTR</a></li>
-                            <li><a href="#">Application for Leave</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/application/leave') }}">Application for Leave</a></li>
                             <li><a href="#">Certificate of Overtime Credit</a></li>
                             <li><a href="#">Compensatory Time Off</a></li>
                         </ul>
@@ -100,7 +100,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach($documents as $doc)
                 <tr>
                     <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
@@ -136,6 +135,12 @@
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
+
+<script type="text/javascript">
+    function view($result){
+    }
+</script>
+
 
 
 @section('css')

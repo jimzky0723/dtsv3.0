@@ -36,8 +36,5 @@ class RoutingController extends Controller
         $view =  view('pdf.routing_slip')->with('route_no', $route_no);
         $pdf->loadHTML($view);
         return $pdf->stream();
-
-
-
     }
 }

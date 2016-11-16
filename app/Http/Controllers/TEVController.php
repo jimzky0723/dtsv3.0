@@ -18,6 +18,5 @@ class TEVController extends Controller
     }
     public function create() {
         $tracking = new Tracking();
-
     }
 }

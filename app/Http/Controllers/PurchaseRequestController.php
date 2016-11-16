@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tracking;
 use Illuminate\Support\Facades\Session;
+use Milon\Barcode\DNS1D;
+use Dompdf\Dompdf;
+use App;
 
 class PurchaseRequestController extends Controller
 {
@@ -22,21 +25,21 @@ class PurchaseRequestController extends Controller
         return view('prCreated');
     }
     public function prForm(){
-        date_default_timezone_set('Asia/Singapore'); 
         return view('form.prform',['name' => 'rusel']);
     }
 
-    public function savePrform(Request $request){
-        $route_no = "doh7".date('ymdms').$request->user()->id;
-        Session::put('route_no',$route_no);
-        Session::put('doctype',$request->get('doctype'));
-        Session::put('date',$request->get('date'));
-        Session::put('preparedby',$request->get('preparedby'));
-        Session::put('prno',$request->get('prno'));
-        Session::put('amount',$request->get('amount'));
-        Session::put('requestedby',$request->get('requestedby'));
-        Session::put('chargeto',$request->get('chargeto'));
-        Session::put('purpose',$request->get('purpose'));
+    public function savePrform(Request $request)
+    {
+        $route_no = "doh7" . date('ymdHis') . $request->user()->id;
+        Session::put('route_no', $route_no);
+        Session::put('doctype', $request->get('doctype'));
+        Session::put('date', $request->get('date'));
+        Session::put('preparedby', $request->get('preparedby'));
+        Session::put('prno', $request->get('prno'));
+        Session::put('amount', $request->get('amount'));
+        Session::put('requestedby', $request->get('requestedby'));
+        Session::put('chargeto', $request->get('chargeto'));
+        Session::put('purpose', $request->get('purpose'));
 
         $tracking = new Tracking();
         $tracking->route_no = $route_no;
@@ -49,8 +52,21 @@ class PurchaseRequestController extends Controller
         $tracking->source_fund = $request->get('chargeto');
         $tracking->description = $request->get('purpose');
         $tracking->save();
-
-        return redirect('/document/prCreated');
-
+        return redirect("/pdf");
     }
+
+    public function pdf(){
+        /*$route_no = Session::get('route_no');
+        $barcode = new DNS1D();
+        $bc = $barcode->getBarcodeHTML($route_no,"C39E",1,33);*/
+
+        $display = view("pdf.pdf");
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display);
+
+        return $pdf->stream();
+    }
+
+
+
 }

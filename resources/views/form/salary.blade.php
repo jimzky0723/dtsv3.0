@@ -1,4 +1,4 @@
-<form action="{{ asset('form/salary') }}" method="POST">
+<form action="{{ asset('form/salary') }}" method="POST" target="_blank">
 {{ csrf_field() }}
     <input type="hidden" value="SAL" name="doc_type">
     <div class="modal-body">                                                            
@@ -17,13 +17,11 @@
                 <td class=""><label>DV No.</label></td>
                 <td>:</td>
                 <td><input type="text" name="dv_no" class="form-control" required onkeyup="acceptNumber($(this));"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Amount</label></td>
                 <td>:</td>
                 <td><input type="text" name="amount" class="form-control" required onkeyup="acceptNumber($(this));"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Date Range</label></td>

@@ -1,5 +1,4 @@
 
-
 <form action="{{ asset('/form/routing/slip/') }}" method="POST" id="form_route" target="_blank">
     {{ csrf_field() }}
     <input type="hidden" name="doctype" value="ROUTE" />
