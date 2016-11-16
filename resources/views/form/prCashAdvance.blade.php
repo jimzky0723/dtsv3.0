@@ -1,12 +1,13 @@
 <form action="{{ asset('prCashAdvance') }}" method="POST" target="_blank">
-    <input type="hidden" name="doctype" value="PRC"><input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
+    <input type="hidden" name="doctype" value="PRC">
+    <input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
     {{ csrf_field() }}
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
-                <td><input name="prepareddate" value="{{ Carbon\Carbon::now() }}" class="form-control" readonly></td>
+                <td><input name="prepareddate" value="{{ date('Y-m-d H:i:s') }}" class="form-control" readonly></td>
             </tr>
             <tr>
                 <td class=""><label>Prepared By</label></td>
@@ -17,7 +18,6 @@
                 <td class=""><label>Item Description</label></td>
                 <td>:</td>
                 <td><textarea class="form-control" id="itemdescription" name="itemdescription" rows="10" style="resize:none;"></textarea></td>
-                <?php echo DNS1D::getBarcodeHTML("4445645656", "C39"); ?>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Amount</label></td>

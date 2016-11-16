@@ -7,6 +7,7 @@ use App\Tracking;
 use Illuminate\Support\Facades\Session;
 use Milon\Barcode\DNS1D;
 use Dompdf\Dompdf;
+use App\Tracking_Details;
 use App;
 
 class PurchaseRequestController extends Controller
@@ -16,28 +17,30 @@ class PurchaseRequestController extends Controller
         $this->middleware('auth');
     }
 
-    public function prCashAdvance(){
+    public function prCashAdvance()
+    {
         return view('form.prCashAdvance');
     }
 
-    public function savePrCashAdvance(Request $request){
-        $route_no = date('Y-').$request->user()->id.date('mdHis');
-        return $this->saveDatabase($route_no,$request->get('doctype'),$request->get('prepareddate'),$request->get('preparedby'),$request->get('itemdescription'),$request->get('amount'),"","",$request->get('chargeto'),$request->get('requestedby'),"","","","","","","","","","","","","");
+    public function savePrCashAdvance(Request $request)
+    {
+        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+        return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('itemdescription'), $request->get('amount'), "", "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
-    public function prRegularPurchase(){
-        return view('form.prRegularPurchase',['name' => 'rusel']);
+    public function prRegularPurchase()
+    {
+        return view('form.prRegularPurchase', ['name' => 'rusel']);
     }
 
     public function savePrRegularPurchase(Request $request)
     {
-        $route_no = date('Y-').$request->user()->id.date('mdHis');
-        return $this->saveDatabase($route_no,$request->get('doctype'),$request->get('prepareddate'),$request->get('preparedby'),$request->get('purpose'),$request->get('amount'),$request->get('pr_no'),"",$request->get('chargeto'),$request->get('requestedby'),"","","","","","","","","","","","","");
+        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+        return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('purpose'), $request->get('amount'), $request->get('pr_no'), "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
-    public function saveDatabase($route_no,$doc_type,$prepared_date,$prepare_by,$description,$amount,$pr_no,$purpose,$source_fund,$requested_by,$route_to,$route_from,$supplier,$event_date,$event_location,$event_particpant,$cdo_applicant,$cdo_day,$event_daterange,$payee,$item,$dv_no,$remember_token){
-
-
+    public function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
+    {
         Session::put('route_no', $route_no);
         Session::put('doctype', $doc_type);
         Session::put('prepared_date', $prepared_date);
@@ -78,7 +81,7 @@ class PurchaseRequestController extends Controller
         $tracking->supplier = $supplier;
         $tracking->event_date = $event_date;
         $tracking->event_location = $event_location;
-        $tracking->event_participant= $event_particpant;
+        $tracking->event_participant = $event_particpant;
         $tracking->cdo_applicant = $cdo_applicant;
         $tracking->cdo_day = $cdo_day;
         $tracking->event_daterange = $event_daterange;
@@ -87,27 +90,16 @@ class PurchaseRequestController extends Controller
         $tracking->dv_no = $dv_no;
         $tracking->remember_token = $remember_token;
         $tracking->save();
+
+        $q = new Tracking_Details();
+        $q->route_no = $route_no;
+        $q->date_in = $prepared_date;
+        $q->received_by = $prepare_by;
+        $q->delivered_by = $prepare_by;
+        $q->remarks = $description;
+        $q->save();
+
         return redirect("/pdf");
     }
 
-<<<<<<< HEAD
-=======
-    public function pdf(){
-        /*$route_no = Session::get('route_no');
-        $barcode = new DNS1D();
-        $bc = $barcode->getBarcodeHTML($route_no,"C39E",1,33);*/
-
-        $display = view("pdf.pdf");
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($display);
-
-        return $pdf->stream();
-    }
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> b361b970d95aae453261ac035f27e9433df022eb
->>>>>>> 72359f95caa2b1641ff8cabbdfc4beb07028d000
 }

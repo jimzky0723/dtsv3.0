@@ -1,12 +1,13 @@
 <form action="{{ asset('prRegularPurchase') }}" method="POST" target="_blank">
-<input type="hidden" name="doctype" value="PRR"><input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
+    <input type="hidden" name="doctype" value="PRR">
+    <input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
 {{ csrf_field() }}
     <div class="modal-body">  
         <table class="table table-hover table-form table-striped">
             <tr>
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
-                <td><input name="prepareddate" value="{{ Carbon\Carbon::now() }}" class="form-control" readonly></td>
+                <td><input name="prepareddate" value="{{ date('Y-m-d H:i:s') }}" class="form-control" readonly></td>
             </tr>
             <tr>
                 <td class=""><label>Prepared By</label></td>
@@ -36,12 +37,8 @@
             <tr>
                 <td class=""><label>Purpose</label></td>
                 <td>:</td>
-<<<<<<< HEAD:resources/views/form/prRegularPurchase.blade.php
                 <td><textarea class="form-control" id="purpose" name="purpose" rows="10" style="resize:none;"></textarea></td>
                 <?php echo DNS1D::getBarcodeHTML("4445645656", "C39"); ?>
-=======
-                <td><textarea class="form-control" name="purpose" rows="10" style="resize:none;"></textarea></td>
->>>>>>> 72359f95caa2b1641ff8cabbdfc4beb07028d000:resources/views/form/prform.blade.php
             </tr>
         </table>   
     </div>
