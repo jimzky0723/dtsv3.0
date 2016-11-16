@@ -13,13 +13,21 @@ Route::post('form/salary','SalaryController@store');
 //endjimzky
 
 //rusel
-Route::get('prform','PurchaseRequestController@prform');
-Route::post('prform','PurchaseRequestController@savePrform');
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
+Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
+Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
+Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
 Route::get('haha',function(){
     return Tracking::all();
 });
-Route::get('pdf','PurchaseRequestController@pdf');
+Route::get('pdf',function(){
+    $display = view("pdf.pdf");
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
+
+    return $pdf->stream();
+});
 
 //traya
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');

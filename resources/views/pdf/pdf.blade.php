@@ -1,6 +1,3 @@
-<?php
-    $con = new \App\Http\Controllers\PurchaseRequestController();
-?>
 <html>
     <style type="text/css">
         html {
@@ -11,6 +8,5 @@
     <body>
         <?php echo DNS1D::getBarcodeHTML(Session::get("route_no"),"C39E",1,33) ?>
         {{ Session::get("route_no") }}
-        {{ $con->hello() }}
     </body>
 </html>

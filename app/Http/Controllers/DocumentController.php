@@ -51,6 +51,9 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
                 break;
+            case "PRR":
+                return "Purchase Request - Regular Purchase";
+                break;
             default:
                 return "N/A";
         }
