@@ -132,9 +132,10 @@ class DocumentController extends Controller
         return $filter;
     }
 
-    public function show($route){
-        $document = Tracking::where('route_no',$route)
+    public function show($route_no){
+        $document = Tracking::where('route_no',$route_no)
                         ->first();
+        Session::put('route_no', $route_no);
         return view('document.info',['document' => $document]);
     }
 
@@ -146,7 +147,7 @@ class DocumentController extends Controller
         $documents = Tracking_Details::where('received_by',$id)
             ->where('status',0)
             ->orderBy('id','asc')
-            ->limit(10)
+            ->limit(7)
             ->get();
         return $documents;
     }

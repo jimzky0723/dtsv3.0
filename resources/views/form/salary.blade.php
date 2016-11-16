@@ -9,7 +9,6 @@
                 <td class="col-sm-3"><label>Prepared By</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8"><input type="text" disabled value="{{ Auth::user()->fname }} {{ Auth::user()->mname }} {{ Auth::user()->lname }}" class="form-control"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Prepared Date</label></td>
@@ -20,7 +19,7 @@
             <tr>
                 <td class=""><label>DV No.</label></td>
                 <td>:</td>
-                <td><input type="text" name="dv_no" class="form-control" required onkeyup="acceptNumber($(this));"></td>
+                <td><input type="text" name="dv_no" class="form-control"></td>
 
             </tr>
             <tr>
@@ -37,7 +36,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control" id="reservation" name="daterange" value="" onkeyup="($(this).daterangepicker())">
+                        <input type="text" class="form-control" id="reservation" name="daterange" value="">
                     </div>
                 </td>
             </tr>
@@ -50,6 +49,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" class="btn btn-success" onclick="$('form').attr('taraget','');"><i class="fa fa-send"></i> Submit</button>
     </div>
  </form>

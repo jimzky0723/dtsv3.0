@@ -78,13 +78,7 @@ $(function(){
         e.preventDefault();
         return false;
     });
-    
-    $('.remove-accept').on('click',function(){
-        //var tmp = $('.error-accept').data('route');
-        //$(this).parent().parent().fadeOut(500);
-        //console.log('removed!');
 
-    });
     $(window).load(function(){
         $('.route_no').prop("disabled", false); // Element(s) are now enabled. 
         $('.remarks').prop("disabled", false); // Element(s) are now enabled. 
@@ -104,6 +98,26 @@ $(function(){
 
     //document information
     $("a[href='#document_info']").on('click',function(){
+        var route_no = $(this).data('route');
+        $('.modal_content').html(loadingState);
+        $('.modal-title').html('Route #: '+route_no);
+        var url = $(this).data('link');
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+
+    });
+    //document information 2
+    $("a[href='#document_info_pending']").on('click',function(){
         var route_no = $(this).data('route');
         $('.modal_content').html(loadingState);
         $('.modal-title').html('Route #: '+route_no);
@@ -161,12 +175,6 @@ $(function(){
 
 function acceptNumber($this){
     $this.val($this.val().replace(/[^\d+(\.\.]/g, ''));
-}
-
-function removeAccept($this){
-    $this.parent().parent().fadeOut(500);
-    $('.route_no').focus();
-    console.log($this.data('route'));
 }
 
 

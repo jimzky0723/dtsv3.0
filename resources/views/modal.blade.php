@@ -68,6 +68,22 @@
             <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="document_info_pending">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> Document</h4>
+            </div>
+            <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
