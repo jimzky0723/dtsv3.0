@@ -4,13 +4,15 @@
 <div class="col-md-9 wrapper">
     <div class="alert alert-jim">
         <h2 class="page-header">Accept Documents</h2>
-        <form class="form-inline form-accept">
+        <form class="form-inline form-accept" id="accept_form">
+            {{ csrf_field() }}
             <div class="form-group">
-                <input type="text" class="form-control route_no" disabled placeholder="Enter route #" autofocus>
-                <input type="text" class="form-control remarks" disabled placeholder="Enter remarks">
+                <input type="text" name="route_no" class="form-control route_no" disabled placeholder="Enter route #" autofocus>
+                <input type="text" name="remarks" class="form-control remarks" disabled placeholder="Enter remarks">
                 <button type="submit" class="btn btn-success btn-accept"><i class="fa fa-plus"></i> Accept Document</button>
-                <small class="text-danger error-accept hide text-italic text-bold">Please input route number!</small>
             </div>
+            <div class="clearfix"></div><br>
+            <div class="alert alert-danger error-accept hide">Please input route number!</div>
         </form>
         <hr />
         <div class="accepted-list">

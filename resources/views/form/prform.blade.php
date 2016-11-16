@@ -37,7 +37,6 @@
                 <td class=""><label>Purpose</label></td>
                 <td>:</td>
                 <td><textarea class="form-control" name="purpose" rows="10" style="resize:none;"></textarea></td>
-                <?php echo DNS1D::getBarcodeHTML("4445645656", "C39"); ?>
             </tr>
         </table>   
     </div>

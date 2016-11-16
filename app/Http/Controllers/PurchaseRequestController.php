@@ -66,7 +66,10 @@ class PurchaseRequestController extends Controller
 
         return $pdf->stream();
     }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> b361b970d95aae453261ac035f27e9433df022eb
 }

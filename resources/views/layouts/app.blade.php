@@ -26,6 +26,18 @@
         body {
             background: url({{ asset('resources/img/backdrop.png') }}), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));   
         }
+        .loading {
+            opacity:0.4;
+            background:#ccc url({{ asset('resources/img/spin.gif') }}) no-repeat center;
+            position:fixed;
+            width:100%;
+            height:100%;
+            top:0px;
+            left:0px;
+            z-index:1000;
+            display: none;
+        }
+
     </style>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -45,7 +57,7 @@
     <nav class="navbar navbar-default navbar-static-top">
     <div class="header" style="background-color:#2F4054;padding:10px;">
         <div class="col-md-4">
-            <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }}</span>
+            <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
         <div class="col-md-4">
             <span class="title-info">Section:</span> <span class="title-desc">Information Communication and Technology Unit</span>
@@ -91,6 +103,7 @@
     </nav>
 
     <div class="container">
+        <div class="loading"></div>
         @yield('content')     
         <div class="clearfix"></div>
     </div> <!-- /container -->
@@ -110,6 +123,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
     @yield('plugin')
+    <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
     <script src="{{ asset('resources/assets/js/script.js') }}"></script>
     @section('js')
 

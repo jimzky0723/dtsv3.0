@@ -1,5 +1,10 @@
-<form action="{{ asset('form/salary') }}" method="POST" target="_blank">
+<form action="{{ asset('form/salary') }}" method="POST">
 {{ csrf_field() }}
+<<<<<<< HEAD
+=======
+    <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
+    <input type="hidden" value="{{ date('Y-m-d H:i:s') }}" name="prepared_date">
+>>>>>>> b361b970d95aae453261ac035f27e9433df022eb
     <input type="hidden" value="SAL" name="doc_type">
     <div class="modal-body">                                                            
         <table class="table table-hover table-form table-striped">
@@ -16,7 +21,12 @@
             <tr>
                 <td class=""><label>DV No.</label></td>
                 <td>:</td>
+<<<<<<< HEAD
                 <td><input type="text" name="dv_no" class="form-control" required onkeyup="acceptNumber($(this));"></td>
+=======
+                <td><input type="text" name="dv_no" class="form-control"></td>
+
+>>>>>>> b361b970d95aae453261ac035f27e9433df022eb
             </tr>
             <tr>
                 <td class=""><label>Amount</label></td>
@@ -31,7 +41,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control" id="reservation" name="daterange" value="" onkeyup="($(this).daterangepicker())">
+                        <input type="text" class="form-control" id="reservation" name="daterange" value="">
                     </div>
                 </td>
             </tr>
@@ -44,7 +54,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" class="btn btn-success" onclick="$('form').attr('taraget','');"><i class="fa fa-send"></i> Submit</button>
     </div>
  </form>
 
