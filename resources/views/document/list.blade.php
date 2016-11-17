@@ -59,7 +59,7 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Miscellaneous</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Activity Worksheet</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/worksheet') }}">Activity Worksheet</a></li>
                             <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}">Justification</a></li>
                             <li><a href="#">Certifications</a></li>
                             <li><a href="#">Certificate of Appearance</a></li>

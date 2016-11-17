@@ -1,9 +1,8 @@
 <?php
-
 Use App\Tracking;
-
 Route::auth();
 //jimzky
+Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
@@ -49,33 +48,14 @@ Route::post('/form/justification/letter','JustificationController@create');
 //OFFICE ORDER
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
+//ACTIVITY WORKSHEET
+Route::get('/form/worksheet','ActivityWorksheetController@index');
+Route::post('/form/worksheet', 'ActivityWorksheetController@create');
+
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
 
-<<<<<<< HEAD
 
-
-
-Route::get('/pdf1', function(){
-
-    $routeNumber = "doh7".date('Ymdhms').Auth::user()->id;
-    $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
-    $pdf = App::make('dompdf.wrapper');
-
-    $tmp = '<img src="data:image/png;base64,{{DNS1D::getBarcodePNG(\'11\', \'C39\')}}" alt="barcode" />';
-    $pdf->loadHTML('<h2>'.$tmp.'</h2>');
-    $pdf->loadHTML($bc.$routeNumber);
-    return $pdf->stream();
-});
-
-Route::get('/', function () {
-    if(Auth::check()) {
-        return redirect('/home');
-    }
-    return view('auth.login');
-});
-=======
->>>>>>> 941a6274dfcf8abf1afbfd4e08d9b6be4ba69e76
