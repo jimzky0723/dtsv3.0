@@ -17,7 +17,7 @@
             <tr>
                 <td class=""><label>Item Description</label></td>
                 <td>:</td>
-                <td><textarea class="form-control" id="itemdescription" name="itemdescription" rows="10" style="resize:none;"></textarea></td>
+                <td><textarea class="form-control" id="itemdescription" name="itemdescription" rows="10" style="resize:none;" required></textarea></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Amount</label></td>
@@ -38,13 +38,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" onclick="reload();" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" onclick="PRC_reload();" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
-<script>
-    function reload(){
-        if($("#itemdescription").val() && $("#amount").val() && $("#requestedby").val() && $("#chargeto").val() && $("#purpose") != ''){
-            setTimeout(function () { window.location.reload(); }, 10);
-        }
-    }
-</script>

@@ -37,20 +37,12 @@
             <tr>
                 <td class=""><label>Purpose</label></td>
                 <td>:</td>
-                <td><textarea class="form-control" id="purpose" name="purpose" rows="10" style="resize:none;"></textarea></td>
-                <?php echo DNS1D::getBarcodeHTML("4445645656", "C39"); ?>
+                <td><textarea class="form-control" id="purpose" name="purpose" rows="10" style="resize:none;" required></textarea></td>
             </tr>
         </table>   
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" onclick="reload();" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" onclick="PRR_reload();" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
-<script>
-    function reload(){
-        if($("#pr_no").val() && $("#amount").val() && $("#requestedby").val() && $("#chargeto").val() && $("#purpose") != ''){
-            setTimeout(function () { window.location.reload(); }, 10);
-        }
-    }
-</script>

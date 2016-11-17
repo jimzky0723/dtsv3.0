@@ -173,16 +173,37 @@ $(function(){
                     $('.modal_content').html(data);
                     $('#reservation').daterangepicker();
                     var datePicker = $('body').find('.datepicker');
+                    //Date picker
+                    $('.datepickercalendar').datepicker({
+                        autoclose: true
+                    });
                     $('input').attr('autocomplete', 'off');
                 }
             });
         },1000);
     });
+
 });
 
 function acceptNumber($this){
     $this.val($this.val().replace(/[^\d+(\.\.]/g, ''));
 }
+function PRC_reload(){
+    if($("#itemdescription").val() && $("#amount").val() && $("#requestedby").val() && $("#chargeto").val() && $("#purpose").val() != ''){
+        setTimeout(function () { window.location.reload(); }, 10);
+    }
+}
+function PRR_reload(){
+    if($("#pr_no").val() && $("#amount").val() && $("#requestedby").val() && $("#chargeto").val() && $("#purpose").val() != ''){
+        setTimeout(function () { window.location.reload(); }, 10);
+    }
+}
+function PO_reload(){
+    if($("#pr_no").val() && $("#po_date").val() && $("#pr_no").val() && $("#pr_date").val() && $("#supplier").val() != ''){
+        setTimeout(function () { window.location.reload(); }, 10);
+    }
+}
+
 
 function trackDocument(){
     var route_no = $('#track_route_no2').val();

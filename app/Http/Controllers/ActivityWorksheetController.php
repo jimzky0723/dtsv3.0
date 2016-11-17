@@ -2,32 +2,30 @@
 /**
  * Created by PhpStorm.
  * User: Lourence
- * Date: 11/10/2016
- * Time: 11:07 AM
+ * Date: 11/17/2016
+ * Time: 1:34 PM
  */
 
 namespace App\Http\Controllers;
+
 use App\Tracking;
-use Illuminate\Routing\Controller;
-use App;
+use App\Tracking_Details;
 use Illuminate\Http\Request;
-class RoutingController extends Controller
+class ActivityWorksheetController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    public function routing_slip() {
-        return view('form.routing_slip');
+    public function index(Request $request) {
+        $user = $request->user()->fname ." ".$request->user()->mname." ".$request->user()->lname;
+        return view('form.act_worksheet')->with('user', $user);
     }
     public function create(Request $request) {
         $tracking = new Tracking();
-        $route_no = date('Y')."-".$request->user()->id.date('mdHis');
-        $tracking->route_no = $route_no;
-        $tracking->prepared_date = date('Y-m-d H:i:s');
+        $tracking->route_no = date('Y')."-".$request->user()->id.date('mdHis');
         $tracking->prepared_by = $request->user()->id;
-        $tracking->route_from = $request->input('routed_from');
-        $tracking->route_to =   $request->input('routed_to');
+        $tracking->prepared_date =  date('Y-m-d H:i:s');
         $tracking->doc_type = $request->input('doctype');
         $tracking->description = $request->input('description');
         $tracking->save();
@@ -39,7 +37,7 @@ class RoutingController extends Controller
         $a->delivered_by = $request->user()->id;
         $a->remarks = $request->input('description');
         $a->save();
-
         return redirect('document');
+
     }
 }
