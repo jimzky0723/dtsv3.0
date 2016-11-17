@@ -12,7 +12,12 @@ class CreateDesignationTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('designation', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +27,6 @@ class CreateDesignationTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('designation');
     }
 }

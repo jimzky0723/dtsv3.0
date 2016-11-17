@@ -12,7 +12,13 @@ class CreateDivisionTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('division', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description');
+            $table->integer('head');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +28,6 @@ class CreateDivisionTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('division');
     }
 }

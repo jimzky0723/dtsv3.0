@@ -12,7 +12,15 @@ class CreateSectionTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('section', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('division');
+            $table->string('description');
+            $table->integer('head');
+            $table->string('code');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +30,6 @@ class CreateSectionTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('division');
     }
 }

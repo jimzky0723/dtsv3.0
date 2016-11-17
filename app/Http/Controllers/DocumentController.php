@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Tracking_Filter;
 use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 
 class DocumentController extends Controller
@@ -29,9 +30,9 @@ class DocumentController extends Controller
             ->paginate(10);
 
         return view('document.list',['documents' => $documents ]);
+
     }
 
-   
     public function accept(Request $request){
 //        if($request->user()->user_priv == 1) {
 //            return view('document.accept');
@@ -93,11 +94,24 @@ class DocumentController extends Controller
             case "SAL":
                 return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
                 break;
+            case "ROUTE" :
+                return "Routing Slip";
+                break;
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
                 break;
             case "TEV":
                 return "Travel Expense Voucher";
+            case "PRR":
+                return "Purchase Request - Regular Purchase";
+            case "CDO" :
+                return "Application for CDO, Leave";
+                break;
+            case "JUST_LETTER" :
+                return "Justification Letter";
+                break;
+            case "OFFICE_ORDER":
+                return "Office Order";
                 break;
             default:
                 return "N/A";
@@ -142,6 +156,15 @@ class DocumentController extends Controller
         return view('document.info',['document' => $document]);
     }
 
+    public function track($route_no)
+    {
+        $document = Tracking_Details::where('route_no',$route_no)
+            ->orderBy('id','asc')
+            ->get();
+        Session::put('route_no', $route_no);
+        return view('document.track',['document' => $document]);
+    }
+
     public static function pendingDocuments()
     {
         $user = Auth::user();
@@ -155,9 +178,9 @@ class DocumentController extends Controller
         return $documents;
     }
 
-    public static function timeDiff($date_in)
+    public static function timeDiff($date_in,$date_out=null)
     {
-        $date_now = date('Y-m-d H:i:s');
+        $date_now = isset($date_out) ? $date_out : date('Y-m-d H:i:s');
 
         $start_time = strtotime($date_in);
         $end_time = strtotime($date_now);
@@ -260,5 +283,22 @@ class DocumentController extends Controller
     {
         Tracking_Details::where('id',$id)
             ->update(['status'=> 1]);
+    }
+
+    public static function checkLastRecord($route_no)
+    {
+        $document = Tracking_Details::where('route_no',$route_no)
+                        ->orderBy('id','desc')
+                        ->first();
+        return $document->id;
+    }
+
+    public static function getNextRecord($route_no,$id)
+    {
+        $document = DB::table('tracking_details')
+                ->where('id', ( DB::raw("(SELECT min(id) FROM tracking_details WHERE id > $id)")) )
+                ->get();
+        $new_array[] = json_decode(json_encode($document), true);
+        return $new_array[0];
     }
 }

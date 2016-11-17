@@ -1,5 +1,6 @@
 <form action="{{ asset('form/salary') }}" method="POST">
 {{ csrf_field() }}
+
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
     <input type="hidden" value="{{ date('Y-m-d H:i:s') }}" name="prepared_date">
     <input type="hidden" value="SAL" name="doc_type">
@@ -14,13 +15,11 @@
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
                 <td><input type="text" disabled value="{{ date('m/d/Y h:i:s A') }}"  class="form-control"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Amount</label></td>
                 <td>:</td>
                 <td><input type="text" name="amount" class="form-control" required onkeyup="acceptNumber($(this));"></td>
-
             </tr>
             <tr>
                 <td class=""><label>Date Range</label></td>
@@ -37,7 +36,7 @@
             <tr>
                 <td class=""><label>Additional Information</label></td>
                 <td>:</td>
-                <td><textarea class="form-control" rows="10" style="resize:none;" name="description" required></textarea></td>
+                <td><textarea class="form-control" rows="3" style="resize:none;" name="description" required></textarea></td>
             </tr>
         </table>
     </div>
@@ -46,3 +45,4 @@
         <button type="submit" class="btn btn-success" onclick="$('form').attr('taraget','');"><i class="fa fa-send"></i> Submit</button>
     </div>
  </form>
+

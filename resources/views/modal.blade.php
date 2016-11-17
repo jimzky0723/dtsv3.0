@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-line-chart"></i> Track Document</h4>
+                <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
             </div>
         <div class="modal-body">             
             <table class="table table-hover table-form table-striped">
@@ -14,27 +14,41 @@
                 </tr>
             </table>
             <hr />                
-            <div class="track_history">
-                <table class="table table-hover table-striped">
-                    <caption>Tracking History</caption>
-                    <thead>
-                        <tr>
-                            <th width="25%">Date / Time In</th>
-                            <th width="25%">Received By</th>
-                            <th width="25%">Remarks</th>
-                            <th width="25%">Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody class="content_history">
-
-                    </tbody>
-                </table>
-            </div>
+            <div class="track_history"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <button type="button" class="btn btn-success"><i class="fa fa-print"></i> Print</button>
+            <button type="button" class="btn btn-success" onclick="window.open('{{ asset('pdf/track') }}')"><i class="fa fa-print"></i> Print</button>
         </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="trackDoc">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-form">
+                    <tr>
+                        <form action="{{ asset('document/track') }}" id="trackForm" onsubmit="return trackDocument(event);">
+                            {{ csrf_field() }}
+                            <td class="col-sm-4"><label>Route Number</label></td>
+                            <td class="col-sm-7"><input type="text" placeholder="Enter route number..." id="track_route_no2" class="form-control"></td>
+                            <td class="col-sm-1"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Track</button> </td>
+                        </form>
+                    </tr>
+                </table>
+                <hr />
+                <div class="track_history"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                <button type="button" class="btn btn-success btn-print hide" onclick="window.open('{{ asset('pdf/track') }}')"><i class="fa fa-print"></i> Print</button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
