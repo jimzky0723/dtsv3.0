@@ -77,7 +77,7 @@
                             <li><a href="#">Compensatory Time Off</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Purchase Order</a></li>
+                    <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('PurchaseOrder') }}">Purchase Order</a></li>
                     <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('prCashAdvance') }}">Purchase Request - Cash Advance Purchase</a></li>
                     <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('prRegularPurchase') }}">Purchase Request - Regular Purchase</a></li>
                     <li><a href="#">Reports</a></li>
@@ -106,7 +106,8 @@
                     <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
-                    <td><p>{{ $doc->description }}</p>
+                    <td>
+                        {!! nl2br($doc->description) !!}
                     </td>
                 </tr>  
                 @endforeach

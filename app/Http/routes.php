@@ -4,6 +4,7 @@ Use App\Tracking;
 
 Route::auth();
 //jimzky
+Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
@@ -29,6 +30,8 @@ Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
 Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
+Route::get('PurchaseOrder','PurchaseOrderController@PurchaseOrder');
+Route::post('PurchaseOrder','PurchaseOrderController@PurchaseOrderSave');
 Route::get('haha',function(){
     return Tracking::all();
 });

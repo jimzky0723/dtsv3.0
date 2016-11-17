@@ -102,4 +102,8 @@ class PurchaseRequestController extends Controller
         return redirect("/pdf");
     }
 
+    public function hello(){
+        return "Hello World";
+    }
+
 }

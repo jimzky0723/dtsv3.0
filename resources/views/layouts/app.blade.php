@@ -8,11 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('resources/img/favicon.png') }}">
-      
-    	
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>Document Tracking System</title>
-
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('resources/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
@@ -21,6 +18,8 @@
     <link href="{{ asset('resources/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
+      <!-- bootstrap datepicker -->
+      <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
     @yield('css')
     <style>
         body {
@@ -124,6 +123,8 @@
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
     @yield('plugin')
     <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
+    <!-- bootstrap datepicker -->
+    <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('resources/assets/js/script.js') }}"></script>
     @section('js')
 
