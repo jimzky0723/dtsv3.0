@@ -27,7 +27,7 @@
                         <a href="#" data-toggle="dropdown">Disbursement Voucher</a>
                         <ul class="dropdown-menu">
                             <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('form/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
-                            <li><a href="#">TEV</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('form/tev') }}">TEV</a></li>
                             <li><a href="#">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
                             <li><a href="#">Supplier (Payment of Transactions with PO)</a></li>
                             <li><a href="#">Infra - Contractor</a></li>
@@ -102,7 +102,7 @@
             <tbody>
                 @foreach($documents as $doc)
                 <tr>
-                    <td><a href="#track" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a href="#track" data-route="{{ $doc->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>

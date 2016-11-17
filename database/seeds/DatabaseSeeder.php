@@ -13,13 +13,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-                'fname' => 'John',
-                'mname' => 'X.',
-                'lname' => 'Doe',
+                'fname' => 'Administrator',
+                'mname' => '',
+                'lname' => '',
                 'username' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin'),
                 'user_priv' => 1,
             ]);
+
     }
 }

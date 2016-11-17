@@ -1,8 +1,11 @@
 <?php
 Use App\Tracking;
 Route::auth();
+
 //jimzky
-Route::get('/', 'HomeController@index');
+
+Route::get('/','HomeController@index');
+
 Route::get('home', 'HomeController@index');
 Route::get('document', 'DocumentController@index');
 Route::get('document/accept', 'DocumentController@accept');
@@ -10,14 +13,25 @@ Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
+Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
+
+Route::get('form/tev', 'TevController@index');
+Route::post('form/tev', 'TevController@store');
 
 Route::get('pdf', function(){
     $display = view("pdf.pdf");
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
 
+    return $pdf->stream();
+});
+
+Route::get('pdf/track', function(){
+    $display = view("pdf.track");
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
     return $pdf->stream();
 });
 //endjimzky

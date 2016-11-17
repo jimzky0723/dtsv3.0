@@ -95,7 +95,7 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#"><i class="fa fa-search"></i> Track Document</a></li>
+            <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

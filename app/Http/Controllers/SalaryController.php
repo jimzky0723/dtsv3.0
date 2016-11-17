@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Tracking_Details;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\ValidateSalaryForm;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Tracking;
 
 class SalaryController extends Controller
@@ -29,7 +27,6 @@ class SalaryController extends Controller
         $q->prepared_by = $request->input('prepared_by');
         $q->amount = $request->input('amount');
         $q->description = $request->input('description');
-        $q->dv_no = $request->input('dv_no');
         $q->event_daterange = $request->input('daterange');
         $q->save();
 

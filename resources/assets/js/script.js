@@ -86,12 +86,19 @@ $(function(){
     }); 
 
     //tracking history of the document
-    $("a[href='#track']").on('click',function(){  
+    $("a[href='#track']").on('click',function(){
         $('.track_history').html(loadingState);
+        var route_no = $(this).data('route');
+        $('#track_route_no').val('Loading...');
         setTimeout(function(){
-            var content = 'content here...';
-           
-        $('.track_history').html(content);
+            $('#track_route_no').val(route_no);
+            $.ajax({
+                url: 'document/track/'+route_no,
+                type: 'GET',
+                success: function(data) {
+                    $('.track_history').html(data);
+                }
+            });
         },1000);
         
     });
@@ -197,5 +204,29 @@ function PO_reload(){
     }
 }
 
+
+function trackDocument(){
+    var route_no = $('#track_route_no2').val();
+    var url = $('#trackForm').attr('action')+'/'+route_no;
+    $('.track_history').html(loadingState);
+    if(route_no.length > 0){
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.track_history').html(data);
+                    $('.btn-print').removeClass('hide');
+                }
+            });
+        },1000);
+    }else{
+        setTimeout(function(){
+            $('.track_history').html('<div class="alert alert-danger"><i class="fa fa-times"></i> Please enter route number!</div>');
+            $('.btn-print').addClass('hide');
+        },1000);
+    }
+    return false;
+}
 
 

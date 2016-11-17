@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Tracking_Filter;
 use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 
 class DocumentController extends Controller
@@ -96,6 +97,8 @@ class DocumentController extends Controller
                 return "Routing Slip";
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
+            case "TEV":
+                return "Travel Expense Voucher";
             case "PRR":
                 return "Purchase Request - Regular Purchase";
             case "CDO" :
@@ -151,6 +154,15 @@ class DocumentController extends Controller
         return view('document.info',['document' => $document]);
     }
 
+    public function track($route_no)
+    {
+        $document = Tracking_Details::where('route_no',$route_no)
+            ->orderBy('id','asc')
+            ->get();
+        Session::put('route_no', $route_no);
+        return view('document.track',['document' => $document]);
+    }
+
     public static function pendingDocuments()
     {
         $user = Auth::user();
@@ -164,9 +176,9 @@ class DocumentController extends Controller
         return $documents;
     }
 
-    public static function timeDiff($date_in)
+    public static function timeDiff($date_in,$date_out=null)
     {
-        $date_now = date('Y-m-d H:i:s');
+        $date_now = isset($date_out) ? $date_out : date('Y-m-d H:i:s');
 
         $start_time = strtotime($date_in);
         $end_time = strtotime($date_now);
@@ -269,5 +281,22 @@ class DocumentController extends Controller
     {
         Tracking_Details::where('id',$id)
             ->update(['status'=> 1]);
+    }
+
+    public static function checkLastRecord($route_no)
+    {
+        $document = Tracking_Details::where('route_no',$route_no)
+                        ->orderBy('id','desc')
+                        ->first();
+        return $document->id;
+    }
+
+    public static function getNextRecord($route_no,$id)
+    {
+        $document = DB::table('tracking_details')
+                ->where('id', ( DB::raw("(SELECT min(id) FROM tracking_details WHERE id > $id)")) )
+                ->get();
+        $new_array[] = json_decode(json_encode($document), true);
+        return $new_array[0];
     }
 }
