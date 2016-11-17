@@ -34,7 +34,6 @@ Route::get('haha',function(){
     return Tracking::all();
 });
 
-
 //traya
 //routing slip
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
@@ -53,28 +52,9 @@ Route::post('/form/office-order','OfficeOrderController@create');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
-
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
-
-
-Route::get('/pdf1', function(){
-    $routeNumber = "doh7".date('Ymdhms').Auth::user()->id;
-    $bc = DNS1D::getBarcodeHTML($routeNumber,"C39E",1,33);
-    $pdf = App::make('dompdf.wrapper');
-
-    $tmp = '<img src="data:image/png;base64,{{DNS1D::getBarcodePNG(\'11\', \'C39\')}}" alt="barcode" />';
-    $pdf->loadHTML('<h2>'.$tmp.'</h2>');
-    $pdf->loadHTML($bc.$routeNumber);
-    return $pdf->stream();
-});
-Route::get('/', function () {
-    if(Auth::check()) {
-        return redirect('/home');
-    }
-    return view('auth.login');
-});
 
