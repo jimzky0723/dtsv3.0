@@ -106,6 +106,11 @@ class DocumentController extends Controller
                 break;
             case "PO":
                 return "Purchase Order";
+            case "JUST_LETTER" :
+                return "Justification Letter";
+                break;
+            case "OFFICE_ORDER":
+                return "Office Order";
                 break;
             default:
                 return "N/A";

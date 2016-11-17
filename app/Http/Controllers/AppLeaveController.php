@@ -17,11 +17,6 @@ class AppLeaveController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request) {
-        $user = User::find($request->user()->id);
-        return view('form.application_cdo')->with('user', $user);
-    }
-
     public function create(Request $request) {
         $tracking = new Tracking();
         $tracking->route_no = date('Y')."-".$request->user()->id.date('mdHis');
@@ -35,5 +30,10 @@ class AppLeaveController extends Controller
         $tracking->save();
         return redirect('document');
 
+    }
+
+    public function index(Request $request) {
+        $user = $request->user()->fname." ".$request->user()->mname." ".$request->user()->lname;
+        return view('form.application_cdo')->with('user',$user);
     }
 }

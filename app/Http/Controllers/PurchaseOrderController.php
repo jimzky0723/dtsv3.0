@@ -32,4 +32,11 @@ class PurchaseOrderController extends Controller
                         <b>'.$request->get('aditionalinfo').'</b>';
         return $this->connect()->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $description, "", "", "", "", "", "", "", $request->get("supplier"), "", "", "", "", "", "", "", "", "", "");
     }
+
+    public static function quickRandom($length = 16)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+    }
 }

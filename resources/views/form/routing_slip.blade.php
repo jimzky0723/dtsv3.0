@@ -1,5 +1,5 @@
 
-<form action="{{ asset('/form/routing/slip/') }}" method="POST" id="form_route" target="_blank">
+<form action="{{ asset('/form/routing/slip/') }}" method="POST" id="form_route">
     {{ csrf_field() }}
     <input type="hidden" name="doctype" value="ROUTE" />
     <div class="modal-body">
