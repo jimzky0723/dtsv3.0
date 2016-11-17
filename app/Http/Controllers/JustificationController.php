@@ -30,7 +30,16 @@ class JustificationController extends Controller
         $tracking->description = $request->input('description');
         $tracking->doc_type = $request->input('doctype');
         $tracking->save();
+
+        $a = new Tracking_Details();
+        $a->route_no = $tracking->route_no;
+        $a->date_in = $tracking->prepared_date;
+        $a->received_by = $request->user()->id;
+        $a->delivered_by = $request->user()->id;
+        $a->remarks = $request->input('description');
+        $a->save();
         return redirect('document');
 
     }
+
 }

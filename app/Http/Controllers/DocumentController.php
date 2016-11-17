@@ -92,26 +92,22 @@ class DocumentController extends Controller
         switch($type){
             case "SAL":
                 return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
-                break;
             case "ROUTE" :
                 return "Routing Slip";
-                break;
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
-                break;
             case "PRR":
                 return "Purchase Request - Regular Purchase";
             case "CDO" :
                 return "Application for CDO, Leave";
-                break;
             case "PO":
                 return "Purchase Order";
             case "JUST_LETTER" :
                 return "Justification Letter";
-                break;
             case "OFFICE_ORDER":
                 return "Office Order";
-                break;
+            case "WORKSHEET" :
+                return "Activity Worksheet";
             default:
                 return "N/A";
         }

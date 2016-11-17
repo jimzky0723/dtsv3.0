@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use App\Tracking_Details;
 use Symfony\Component\HttpFoundation\Request;
 use App\User;
 use App\Tracking;
@@ -28,6 +29,14 @@ class AppLeaveController extends Controller
         $tracking->prepared_by = $request->user()->id;
         $tracking->description = $request->input('description');
         $tracking->save();
+
+        $a = new Tracking_Details();
+        $a->route_no = $tracking->route_no;
+        $a->date_in = $tracking->prepared_date;
+        $a->received_by = $request->user()->id;
+        $a->delivered_by = $request->user()->id;
+        $a->remarks = $request->input('description');
+        $a->save();
         return redirect('document');
 
     }

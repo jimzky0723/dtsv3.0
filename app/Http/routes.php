@@ -1,7 +1,5 @@
 <?php
-
 Use App\Tracking;
-
 Route::auth();
 //jimzky
 Route::get('/', 'HomeController@index');
@@ -52,6 +50,10 @@ Route::post('/form/justification/letter','JustificationController@create');
 //OFFICE ORDER
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
+//ACTIVITY WORKSHEET
+Route::get('/form/worksheet','ActivityWorksheetController@index');
+Route::post('/form/worksheet', 'ActivityWorksheetController@create');
+
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
@@ -69,10 +71,10 @@ Route::get('/pdf1', function(){
     $pdf->loadHTML($bc.$routeNumber);
     return $pdf->stream();
 });
-
 Route::get('/', function () {
     if(Auth::check()) {
         return redirect('/home');
     }
     return view('auth.login');
 });
+
