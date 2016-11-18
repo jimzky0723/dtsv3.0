@@ -86,16 +86,16 @@
               </ul>
             </li>
           @if(Auth::user()->user_priv==1)
-          <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li><a href="{{ asset('/users')  }}"><i class="fa fa-users"></i>&nbsp;&nbsp; Users</a></li>
-                  <li class="divider"></li>
-                  <li><a href="{{ asset('/designation') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Designation</a></li>
-                  <li><a href="{{ asset('/section') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Section</a></li>
-                  <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
-              </ul>
-          </li>
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="{{ asset('/users')  }}"><i class="fa fa-users"></i>&nbsp;&nbsp; Users</a></li>
+                      <li class="divider"></li>
+                      <li><a href="{{ asset('/designation') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Designation</a></li>
+                      <li><a href="{{ asset('/section') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Section</a></li>
+                      <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
+                  </ul>
+              </li>
           @endif
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
