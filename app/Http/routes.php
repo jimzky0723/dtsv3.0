@@ -7,13 +7,18 @@ Route::auth();
 Route::get('/','HomeController@index');
 
 Route::get('home', 'HomeController@index');
+
 Route::get('document', 'DocumentController@index');
+Route::post('document', 'DocumentController@search');
+
 Route::get('document/accept', 'DocumentController@accept');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
+
+
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 

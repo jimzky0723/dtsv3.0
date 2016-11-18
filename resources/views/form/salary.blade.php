@@ -36,7 +36,7 @@
             <tr>
                 <td class=""><label>Additional Information</label></td>
                 <td>:</td>
-                <td><textarea class="form-control" rows="3" style="resize:none;" name="description" required></textarea></td>
+                <td><textarea class="form-control" rows="5" style="resize:none;" name="description" required></textarea></td>
             </tr>
         </table>
     </div>

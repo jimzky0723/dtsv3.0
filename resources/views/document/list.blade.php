@@ -13,10 +13,12 @@
 @endif
 <div class="alert alert-jim" id="inputText">
     <h2 class="page-header">Documents</h2>    
-    <form class="form-inline form-accept">
+    <form class="form-inline" method="POST" action="{{ asset('document') }}">
+        {{ csrf_field() }}
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Quick Search" autofocus>
+            <input type="text" class="form-control" placeholder="Quick Search" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+
             <div class="btn-group">
                 <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-plus"></i>  Add New
@@ -84,7 +86,7 @@
                 </ul>
             </div>
         </div>
-    </form>  
+    </form>
     <div class="clearfix"></div>
     <div class="page-divider"></div>
     @if(count($documents))

@@ -59,7 +59,7 @@
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
         <div class="col-md-4">
-            <span class="title-info">Section:</span> <span class="title-desc">Information Communication and Technology Unit</span>
+            <span class="title-info">Section:</span> <span class="title-desc">{{ Auth::user()->section }}</span>
         </div>
         <div class="col-md-4">
             <span class="title-info">Date:</span> <span class="title-desc">{{ date('M d, Y') }}</span>

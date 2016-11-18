@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Tracking;
+use App\Tracking_Details;
 use App\User;
 use Symfony\Component\HttpFoundation\Request;
 
