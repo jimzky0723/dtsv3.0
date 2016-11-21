@@ -44,6 +44,12 @@ Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
 Route::get('PurchaseOrder','PurchaseOrderController@PurchaseOrder');
 Route::post('PurchaseOrder','PurchaseOrderController@PurchaseOrderSave');
+Route::get('division','DivisionController@division');
+Route::get('addDivision','DivisionController@addDivision');
+Route::post('addDivision','DivisionController@addDivisionSave');
+Route::get('section','SectionController@section');
+Route::get('addSection','SectionController@addSection');
+Route::post('addSection','SectionController@addSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });
