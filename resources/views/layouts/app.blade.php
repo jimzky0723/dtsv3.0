@@ -1,5 +1,5 @@
 <?php
-    use App\Http\Controllers\DocumentController as Doc;
+    use App\Section;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +62,10 @@
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
         <div class="col-md-4">
-            <span class="title-info">Section:</span> <span class="title-desc">{{ Auth::user()->section }}</span>
+            <span class="title-info">Section:</span>
+            <span class="title-desc">
+                {{ Section::find(Auth::user()->section)->description }}
+            </span>
         </div>
         <div class="col-md-4">
             <span class="title-info">Date:</span> <span class="title-desc">{{ date('M d, Y') }}</span>

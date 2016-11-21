@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <span id="url" data-link="{{ asset('/designation') }}"></span>
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Designations</h2>
         <form class="form-inline form-accept">
@@ -29,7 +29,18 @@
                     <tbody>
                     @foreach($designations as $d)
                         <tr>
-                            <td>Edit</td>
+                            <td>
+                                <span class="col-md-1">
+                                    <a href="#remove_designation" data-link="{{ asset('/remove/designation') }}" data-id="{{ $d->id }}">
+                                        <i class="fa fa-trash" aria-hidden="true" style="color: #9f191f;" title="Delete"></i>
+                                    </a>
+                                </span>
+                                <span class="col-md-1">
+                                    <a href="#edit_designation" data-link="{{ asset('/edit/designation') }}" data-id="{{ $d->id }}">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: #0000cc;" title="Edit"></i>
+                                    </a>
+                                </span>
+                            </td>
                             <td>{{ $d->description }}</td>
                         </tr>
                     @endforeach
@@ -52,4 +63,3 @@
 @section('css')
     <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
-
