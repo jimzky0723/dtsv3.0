@@ -1,4 +1,4 @@
-<?php $head = new \App\Http\Controllers\SectionController(); ?>
+<?php use \App\Http\Controllers\SectionController as Section; ?>
 @extends('layouts.app')
 @section('content')
     @if (count($errors) > 0)
@@ -31,21 +31,21 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="20%">Section ID</th>
-                        <th width="15%">Description</th>
-                        <th width="20%">Head</th>
+                        <th width="40%">Description</th>
+                        <th width="40%">Head</th>
                         <th>Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($section as $sec)
                         <tr>
-                            <td>{{ $sec->id }}</td>
                             <td><a class="title-info" data-route="{{ $sec->description }}" data-link="{{ asset('/document/'.$sec->id) }}" href="#document_info" data-toggle="modal">{{ $sec->description }}</a></td>
-                            <td><?php $head->getHead($sec->head); ?></td>
-                            <td><a href="#document_form" class="btn btn-danger" data-toggle="modal" data-link="{{ asset('deleteSection') }}">
-                                    <i class="fa fa-trash"></i>  Delete Section
-                                {{--</a>&nbsp;&nbsp;&nbsp;&nbsp;<button>Update</button>--}}
+                            <td>{{ Section::getHead($sec->head) }}</td>
+                            <td>
+                                <form action="#">
+                                <button class="btn btn-sm btn-info">Update</button>
+                                <button type="submit" class="btn btn-sm btn-danger" value="" data-toggle="modal" data-target="#confirmation" onclick="return false;">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

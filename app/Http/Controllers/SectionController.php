@@ -13,7 +13,7 @@ class SectionController extends Controller
         $this->middleware('auth');
     }
     public function section(){
-        $section = section::paginate(5);
+        $section = Section::orderBy('description','asc')->paginate(20);
         return view('section.section',['section' => $section ]);
     }
     public function addsection(){
@@ -30,8 +30,8 @@ class SectionController extends Controller
         $section->save();
         return redirect("section");
     }
-    public function getHead($id){
-        $user = Users::where('id',$id)->first();
-        return $user->fname.' '.$user->mname.' '.$user->lname;
+    public static function getHead($id){
+        $user = Users::find($id);
+        return $user['fname'].' '.$user['mname'].' '.$user['lname'];
     }
 }

@@ -1,4 +1,7 @@
- <!DOCTYPE html>
+<?php
+    use App\Http\Controllers\DocumentController as Doc;
+?>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -23,11 +26,11 @@
     @yield('css')
     <style>
         body {
-            background: url({{ asset('resources/img/backdrop.png') }}), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));   
+            background: url('{{ asset('resources/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
         .loading {
             opacity:0.4;
-            background:#ccc url({{ asset('resources/img/spin.gif') }}) no-repeat center;
+            background:#ccc url('{{ asset('resources/img/spin.gif')}}') no-repeat center;
             position:fixed;
             width:100%;
             height:100%;
@@ -59,7 +62,7 @@
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
         <div class="col-md-4">
-            <span class="title-info">Section:</span> <span class="title-desc">Information Communication and Technology Unit</span>
+            <span class="title-info">Section:</span> <span class="title-desc">{{ Auth::user()->section }}</span>
         </div>
         <div class="col-md-4">
             <span class="title-info">Date:</span> <span class="title-desc">{{ date('M d, Y') }}</span>
