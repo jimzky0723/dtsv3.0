@@ -82,5 +82,8 @@ Route::get('user/new', 'AdminController@create');
 Route::get('/designation', 'DesignationController@index');
 Route::get('/designation/create', 'DesignationController@create');
 Route::post('/designation/create', 'DesignationController@save');
+Route::get('/remove/designation', 'DesignationController@remove');
+Route::get('/edit/designation', 'DesignationController@edit');
+Route::post('/edit/designation', 'DesignationController@edit_save');
 
 
