@@ -43,8 +43,8 @@
                             <td>{{ Section::getHead($sec->head) }}</td>
                             <td>
                                 <form action="#">
-                                <button class="btn btn-sm btn-info">Update</button>
-                                <button type="submit" class="btn btn-sm btn-danger" value="" data-toggle="modal" data-target="#confirmation" onclick="return false;">Delete</button>
+                                <button class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Update</button>
+                                <button type="submit" class="btn btn-sm btn-danger" value="" data-toggle="modal" data-target="#confirmation" onclick="return false;"><i class="fa fa-trash"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>

@@ -31,4 +31,5 @@ class SectionController extends Controller
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];
     }
+
 }
