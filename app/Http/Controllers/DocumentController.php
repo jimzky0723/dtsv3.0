@@ -314,8 +314,4 @@ class DocumentController extends Controller
         return $new_array[0];
     }
 
-    public static function getSectionName($id){
-        $document = Tracking::find($id);
-        return $document->description;
-    }
 }
