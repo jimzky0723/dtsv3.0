@@ -78,3 +78,13 @@ Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
 
+//ADMIN CONTROLLER
+//users
+Route::get('users', 'AdminController@users');
+Route::get('user/new', 'AdminController@create');
+//designation
+Route::get('/designation', 'DesignationController@index');
+Route::get('/designation/create', 'DesignationController@create');
+Route::post('/designation/create', 'DesignationController@save');
+
+
