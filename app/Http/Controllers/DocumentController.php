@@ -24,19 +24,26 @@ class DocumentController extends Controller
     {
         $user = Auth::user();
         $id = $user->id;
+        $keyword = Session::get('keyword');
 
         $documents = Tracking::where('prepared_by',$id)
-            ->orderBy('id','desc')
+            ->where(function($q) use ($keyword){
+                $q->where('route_no','like',"%$keyword%")
+                  ->orwhere('description','like',"%$keyword%");
+            })
             ->paginate(10);
 
         return view('document.list',['documents' => $documents ]);
 
     }
 
+    public function search(Request $request){
+        Session::put('keyword',$request->keyword);
+        return self::index();
+//        return $request->keyword;
+    }
+
     public function accept(Request $request){
-//        if($request->user()->user_priv == 1) {
-//            return view('document.accept');
-//        }
         return view('document.accept');
     }
 
@@ -46,20 +53,27 @@ class DocumentController extends Controller
         $route_no = $request->route_no;
         $last = 0;
 
-        $document = Tracking_Details::where('route_no',$route_no)
+        $doc = Tracking::where('route_no',$route_no)
                 ->orderBy('id','desc')
                 ->first();
 
-        if($document){
-            Tracking_Details::where('route_no',$route_no)
-                ->where('received_by',$document->received_by)
-                ->update(['status'=> 1]);
-
+        if($doc){
+            $document = Tracking_Details::where('route_no',$route_no)
+                ->orderBy('id','desc')
+                ->first();
+            if($document):
+                Tracking_Details::where('route_no',$route_no)
+                    ->where('received_by',$document->received_by)
+                    ->update(['status'=> 1]);
+                $received_by = $document->received_by;
+            else:
+                $received_by = $doc->prepared_by;
+            endif;
             $q = new Tracking_Details();
             $q->route_no = $route_no;
             $q->date_in = date('Y-m-d H:i:s');
             $q->received_by = $id;
-            $q->delivered_by = $document->received_by;
+            $q->delivered_by = $received_by;
             $q->remarks = $request->remarks;
             $q->save();
             return json_encode(array('message' => 'SUCCESS'));
@@ -98,7 +112,7 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
             case "TEV":
-                return "Travel Expense Voucher";
+                return "Traveling Expense Voucher";
             case "PRR":
                 return "Purchase Request - Regular Purchase";
             case "CDO" :
@@ -298,5 +312,10 @@ class DocumentController extends Controller
                 ->get();
         $new_array[] = json_decode(json_encode($document), true);
         return $new_array[0];
+    }
+
+    public static function getSectionName($id){
+        $document = Tracking::find($id);
+        return $document->description;
     }
 }

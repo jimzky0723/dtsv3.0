@@ -1,4 +1,3 @@
-
 <form action="{{ asset('/form/worksheet') }}" method="POST" id="form_route">
     {{ csrf_field() }}
     <input type="hidden" name="doctype" value="WORKSHEET" />

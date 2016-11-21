@@ -1,4 +1,4 @@
-$(function(){
+    $(function(){
     $('input').attr('autocomplete', 'off');
     var url = window.location.pathname;
     var host = window.location.hostname;
@@ -145,20 +145,23 @@ $(function(){
     });
     //remove pending documents
     $("a[href='#remove_pending']").on('click',function(){
-        var id = $(this).data('id');
-        $('.loading').show();
-        var url = $(this).data('link');
-        setTimeout(function(){
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(data) {
-                    $('.table-'+id).fadeOut();
-                    $('.loading').hide();
-                }
-            });
-        },500);
-
+        var button = $(this);
+        $('#confirmation').modal('toggle');
+        $('#confirm').on('click',function(){
+            var id = button.data('id');
+            $('.loading').show();
+            var url = button.data('link');
+            setTimeout(function(){
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        $('.table-'+id).fadeOut();
+                        $('.loading').hide();
+                    }
+                });
+            },500);
+        });
     });
     //Get forms
     $('a[href="#document_form"]').on('click',function(){

@@ -1,9 +1,13 @@
 <?php
     use App\Tracking;
+    use App\Tracking_Details;
+    use App\User as User;
     use App\Http\Controllers\DocumentController as Doc;
     $route_no = Session::get('route_no');
-
     $document = Tracking::where('route_no',$route_no)->first();
+    $tracking = Tracking_Details::where('route_no',$route_no)
+        ->orderBy('id','asc')
+        ->get();
 ?>
 <html>
 <title>Track Details</title>
@@ -67,24 +71,25 @@
     <tr>
         <td width="30%">
             <strong>PREPARED BY:</strong><br>
-            Jimmy B. Lomocso Jr.
+            <?php $user = User::find($document->prepared_by); ?>
+            {{ $user->fname.' '.$user->lname }}
             <br><br>
         </td>
         <td>
             <strong>SECTION:</strong><br>
-            Information and Communications Technology Unit
+            {{ $document->section }}
             <br><br>
         </td>
         <td width="30%">
             <strong>PREPARED DATE:</strong><br>
-            November 17, 2016
+            {{ date('M d, Y',strtotime($document->prepared_date)) }}
             <br><br>
         </td>
     </tr>
     <tr>
         <td colspan="3">
             <strong>DOCUMENT TYPE:</strong>
-            Salary, Honoraria, Stipend, Remittances, CHT Mobilization
+            {{ Doc::getDocType($route_no) }}
             <br>
             <br>
         </td>
@@ -92,7 +97,7 @@
     <tr>
         <td colspan="3">
             <strong>REMARKS / SUBJECT:</strong>
-            Salary of Bohol Province
+            {{ $document->description }}
             <br>
             <br>
         </td>
@@ -106,13 +111,19 @@
         <th>ACTION / REMARKS</th>
         <th>SIGNATURE</th>
     </tr>
-    <tr>
-        <td>11/17/2016<br>11:12 AM</td>
-        <td>Jimmy Lomocso</td>
-        <td>For Action</td>
-        <td></td>
-    </tr>
-    @for($i=0; $i < 9; $i++)
+    @foreach($tracking as $doc)
+        <tr>
+            <td>{{ date('M d, Y', strtotime($doc->date_in)) }}<br>{{ date('h:i A', strtotime($doc->date_in)) }}</td>
+            <td>
+                <?php $user = User::find($doc->received_by); ?>
+                {{ $user->fname.' '.$user->mname.' '.$user->lname }}
+            </td>
+            <td>{{ $doc->remarks }}</td>
+            <td></td>
+        </tr>
+    @endforeach
+    <?php $i = count($tracking); ?>
+    @for($i; $i < 10; $i++)
     <tr>
         <td>&nbsp;<br><br></td>
         <td>&nbsp;</td>
@@ -121,40 +132,5 @@
     </tr>
     @endfor
 </table>
-{{--<table>--}}
-    {{--<thead>--}}
-        {{--<tr>--}}
-            {{--<td width="120"><strong>Document Type</strong></td>--}}
-            {{--<td width="10">:</td>--}}
-            {{--<td>{{ Doc::docTypeName($document->doc_type) }}</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td><strong>Route Number</strong></td>--}}
-            {{--<td>:</td>--}}
-            {{--<td>{{ $route_no }}</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td><strong>Prepared By</strong></td>--}}
-            {{--<td>:</td>--}}
-            {{--<td>{{ $document->prepared_by }}</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td><strong>Section</strong></td>--}}
-            {{--<td>:</td>--}}
-            {{--<td>{{ $document->section }}</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td><strong>Date Prepared</strong></td>--}}
-            {{--<td>:</td>--}}
-            {{--<td>{{ date('M d, Y h:i:s A', strtotime($document->prepared_date)) }}</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td><strong>Additional Information</strong></td>--}}
-            {{--<td>:</td>--}}
-            {{--<td>{{ $document->description }}</td>--}}
-        {{--</tr>--}}
-    {{--</thead>--}}
-{{--</table>--}}
-
 </body>
 </html>
