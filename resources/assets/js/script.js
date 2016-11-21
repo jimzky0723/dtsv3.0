@@ -231,5 +231,21 @@ function trackDocument(){
     }
     return false;
 }
-
-
+//ADDING NEW USERS
+$('a[href="#new"]').on('click',function(e){
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+    var url = $(this).data('link');
+    setTimeout(function() {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                $('.modal_content').html(data);
+                $('#create').attr('action', url);
+                $('input').attr('autocomplete', 'off');
+            }
+        });
+    },1000);
+});

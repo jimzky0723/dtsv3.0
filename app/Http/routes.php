@@ -49,10 +49,15 @@ Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
 Route::get('PurchaseOrder','PurchaseOrderController@PurchaseOrder');
 Route::post('PurchaseOrder','PurchaseOrderController@PurchaseOrderSave');
+Route::get('division','DivisionController@division');
+Route::get('addDivision','DivisionController@addDivision');
+Route::post('addDivision','DivisionController@addDivisionSave');
+Route::get('section','SectionController@section');
+Route::get('addSection','SectionController@addSection');
+Route::post('addSection','SectionController@addSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });
-
 
 //traya
 //routing slip
@@ -72,10 +77,19 @@ Route::post('/form/office-order','OfficeOrderController@create');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
-
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
 Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 Route::get('/session','DocumentController@session');
+
+//ADMIN CONTROLLER
+//users
+Route::get('users', 'AdminController@users');
+Route::get('user/new', 'AdminController@create');
+//designation
+Route::get('/designation', 'DesignationController@index');
+Route::get('/designation/create', 'DesignationController@create');
+Route::post('/designation/create', 'DesignationController@save');
+
 

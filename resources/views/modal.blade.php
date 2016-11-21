@@ -107,7 +107,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <strong>Are you sure you want to end the cycle of this document?</strong>
+                    <strong>Are you sure you?</strong>
                 </div>
             </div>
             <div class="modal-footer">

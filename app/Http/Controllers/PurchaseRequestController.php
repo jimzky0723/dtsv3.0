@@ -5,8 +5,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tracking;
 use Illuminate\Support\Facades\Session;
-use Milon\Barcode\DNS1D;
-use Dompdf\Dompdf;
 use App\Tracking_Details;
 use App;
 
