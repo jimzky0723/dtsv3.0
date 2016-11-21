@@ -1,3 +1,6 @@
+<?php
+    use App\Http\Controllers\DocumentController as Doc;
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,11 +26,11 @@
     @yield('css')
     <style>
         body {
-            background: url({{ asset('resources/img/backdrop.png') }}), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));   
+            background: url('{{ asset('resources/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
         .loading {
             opacity:0.4;
-            background:#ccc url({{ asset('resources/img/spin.gif') }}) no-repeat center;
+            background:#ccc url('{{ asset('resources/img/spin.gif')}}') no-repeat center;
             position:fixed;
             width:100%;
             height:100%;

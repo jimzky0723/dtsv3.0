@@ -10,7 +10,7 @@
                 <tr>
                     <td class="col-sm-3"><label>Route Number</label></td>
                     <td class="col-sm-1">:</td>
-                    <td class="col-sm-8"><input type="text" disabled id="track_route_no" value="" class="form-control"></td>
+                    <td class="col-sm-8"><input type="text" readonly id="track_route_no" value="" class="form-control"></td>
                 </tr>
             </table>
             <hr />                

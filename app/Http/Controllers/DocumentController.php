@@ -313,4 +313,9 @@ class DocumentController extends Controller
         $new_array[] = json_decode(json_encode($document), true);
         return $new_array[0];
     }
+
+    public static function getSectionName($id){
+        $document = Tracking::find($id);
+        return $document->description;
+    }
 }

@@ -28,7 +28,11 @@
                         $next = Doc::getNextRecord($doc->route_no,$doc->id);
                         if(count($next)):
                             foreach($next as $tmp){
-                                echo Doc::timeDiff($doc->date_in,$tmp['date_in']);
+                                if($tmp['route_no']!=$doc->route_no){
+                                    echo Doc::timeDiff($doc->date_in);
+                                }else{
+                                    echo Doc::timeDiff($doc->date_in,$tmp['date_in']);
+                                }
                             }
                         else:
                             echo Doc::timeDiff($doc->date_in);
