@@ -98,6 +98,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<<<<<<< HEAD
+=======
 <div class="modal fade" tabindex="-1" role="dialog" id="confirmation">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -118,3 +120,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+>>>>>>> 5fb5bdf870e39aee1d7018512e89375a44124818

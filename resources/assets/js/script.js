@@ -231,7 +231,7 @@ function trackDocument(){
     }
     return false;
 }
-//ADDING NEW USERS
+
 $('a[href="#new"]').on('click',function(e){
     $('#document_form').modal('show');
     $('.modal_content').html(loadingState);
@@ -248,4 +248,35 @@ $('a[href="#new"]').on('click',function(e){
             }
         });
     },1000);
+});
+
+$('a[href="#remove_designation"]').on('click', function (event) {
+    var data = {
+        "id" : $(this).data('id')
+    }
+    var url = $(this).data('link');
+    if(confirm("Delete designation ?") == true){
+        $.get(url,data,function(response){
+            var status = JSON.parse(response);
+            if(status.status == "ok") {
+                alert("Designation deleted.");
+                var url = $('#url').data('link');
+                window.location.href = url;
+            }
+        });
+    }
+});
+$('a[href="#edit_designation"]').on('click',function(event){
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+    var url = $(this).data('link');
+    var data = {
+        "id" : $(this).data('id')
+    };
+    $.get(url,data,function(response){
+        $('.modal_content').html(response);
+        $('#create').attr('action', url);
+        $('input').attr('autocomplete', 'off');
+    });
 });
