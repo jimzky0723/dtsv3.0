@@ -50,6 +50,7 @@ Route::post('addDivision','DivisionController@addDivisionSave');
 Route::get('section','SectionController@section');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
+Route::get('deleteSection','SectionController@deleteSection');
 Route::get('haha',function(){
     return Tracking::all();
 });

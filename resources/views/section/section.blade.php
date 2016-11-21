@@ -43,7 +43,10 @@
                             <td>{{ $sec->id }}</td>
                             <td><a class="title-info" data-route="{{ $sec->description }}" data-link="{{ asset('/document/'.$sec->id) }}" href="#document_info" data-toggle="modal">{{ $sec->description }}</a></td>
                             <td><?php $head->getHead($sec->head); ?></td>
-                            <td><button>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;<button>Update</button></td>
+                            <td><a href="#document_form" class="btn btn-danger" data-toggle="modal" data-link="{{ asset('deleteSection') }}">
+                                    <i class="fa fa-trash"></i>  Delete Section
+                                {{--</a>&nbsp;&nbsp;&nbsp;&nbsp;<button>Update</button>--}}
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

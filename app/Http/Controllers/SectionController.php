@@ -20,6 +20,9 @@ class SectionController extends Controller
         $user = Users::all();
         return view('section.addSection',['user' => $user ]);
     }
+    public function deletesection(){
+        return view('section.deleteSection');
+    }
     public function addsectionSave(Request $request){
         $section = new Section();
         $section->description = $request->get('description');
