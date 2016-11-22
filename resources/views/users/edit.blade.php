@@ -1,37 +1,33 @@
 
 <form action="" method="POST" id="create" onsubmit="create_user(this);">
     {{ csrf_field() }}
+    <input type="hidden" name="id" value="{{ $user->id }}" />
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>
                 <td class="col-sm-3"><label>First name</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="fname" class="form-control" required></td>
+                <td class="col-sm-8"><input type="text" name="fname" value="{{ $user->fname }}" class="form-control" required></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Middle name</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="mname" class="form-control" required></td>
+                <td class="col-sm-8"><input type="text" name="mname" value="{{ $user->mname }}" class="form-control" required></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Last name</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="lname" class="form-control" required></td>
+                <td class="col-sm-8"><input type="text" name="lname" value="{{ $user->lname }}" class="form-control" required></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Username</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="username" class="form-control" required></td>
+                <td class="col-sm-8"><input type="text" name="username" value="{{ $user->username }}" class="form-control" required></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Email</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="email" class="form-control" required></td>
-            </tr>
-            <tr>
-                <td class="col-sm-3"><label>Password</label></td>
-                <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="password" name="password" class="form-control" required></td>
+                <td class="col-sm-8"><input type="text" name="email" value="{{ $user->email }}" class="form-control" required></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>User Type</label></td>
@@ -39,8 +35,8 @@
                 <td class="col-sm-8">
                     <select name="user_type" required id="user_type" class="form-control">
                         <option value="" disabled selected>Select user type</option>
-                        <option value="1">Admin</option>
-                        <option value="0">Standard</option>
+                        <option {{ ($user->user_priv == 1 ? 'selected' : '') }}value="1">Admin</option>
+                        <option {{ ($user->user_priv == 0 ? 'selected' : '') }} value="0">Standard</option>
                     </select>
                 </td>
             </tr>
@@ -50,8 +46,8 @@
                 <td class="col-sm-8">
                     <select name="designation" required id="select_dis" class="form-control" data-link="{{ asset('/get/section') }}">
                         <option value="" selected disabled>Select Designation</option>
-                        @foreach($dis as $a)
-                            <option value="{{ $a->id }}">{{ $a->description }}</option>
+                        @foreach($designation as $a)
+                            <option {{ ($user->designation == $a->id ? 'selected' : '') }} value="{{ $a->id }}">{{ $a->description }}</option>
                         @endforeach
                     </select>
                 </td>
@@ -62,8 +58,20 @@
                 <td class="col-sm-8">
                     <select name="division" required id="select_div" onchange="loadDivision(this);" class="form-control" data-link="{{ asset('/get/section') }}">
                         <option value="" selected disabled>Select division</option>
-                        @foreach($div as $d)
-                            <option value="{{ $d->id }}">{{ $d->description }}</option>
+                        @foreach($division as $d)
+                            <option {{ ($user->division == $d->id ? 'selected' : '') }} value="{{ $d->id }}">{{ $d->description }}</option>
+                        @endforeach
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-3"><label>Section</label></td>
+                <td class="col-sm-1">:</td>
+                <td class="col-sm-8">
+                    <select name="division" required id="select_div" onchange="loadDivision(this);" class="form-control" data-link="{{ asset('/get/section') }}">
+                        <option value="" selected disabled>Select section</option>
+                        @foreach($section as $d)
+                            <option {{ ($user->section == $d->id ? 'selected' : '') }} value="{{ $d->id }}">{{ $d->description }}</option>
                         @endforeach
                     </select>
                 </td>
@@ -71,7 +79,7 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i>Submit</button>
+        <button type="submit" class="btn btn-danger" name="delete" value="delete" ><i class="fa fa-times"></i>Delete</button>
+        <button type="submit" class="btn btn-success" name="update" value="update"><i class="fa fa-send"></i>Update</button>
     </div>
 </form>

@@ -299,21 +299,50 @@ function deleteSection(result){
     });
 }
 
-function deleteDivision(result){
+function deleteDivision(result) {
     $("#nametoDelete").html(result.val());
-    $('#confirm').on('click',function(){
+    $('#confirm').on('click', function () {
         $('.loading').show();
         var url = result.data('link');
-        setTimeout(function(){
+        setTimeout(function () {
             $.ajax({
                 type: 'GET',
                 url: url,
-                dataType:  $(this).serialize(),
-                success: function(resultData) {
+                dataType: $(this).serialize(),
+                success: function (resultData) {
                     $('.loading').hide();
                     window.location.reload();
                 }
             });
-        },500);
+        }, 500);
+    });
+}
+
+$('a[href="#user"]').on('click', function(event){
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+    var data = {
+        "id" : $(this).data('id')
+    };
+    var url = $(this).data('link');
+    $.get(url,data, function(response){
+        $('.modal_content').html(response);
+        $('#create').attr('action', url);
+        $('input').attr('autocomplete', 'off');
+    });
+});
+
+function loadDivision(el){
+    var url = $(el).data('link');
+    var id = {
+        "id" : $(el).val()
+    };
+    var next = $(el).parent().parent().parent();
+    $.get(url,id,function(response){
+        if(response){
+            $(el).parent().parent().next('tr').remove();
+           next.append(response);
+        }
     });
 }

@@ -34,7 +34,10 @@ class SectionController extends Controller
         $section = Section::find($id);
         $section->delete();
     }
-    public function updateSection($id,$divisionId,$headId,$description){
+    public function updateSection($id,$divisionId,$headId){
+        ///SECTION INFO
+        $section = Section::where('id','=',$id)->first();
+        $description = $section['description'];
         //DIVISION INFO
         $divisionAll = Division::all();
         $division = Division::where('id','=',$divisionId)->first();

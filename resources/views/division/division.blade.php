@@ -39,7 +39,7 @@
                     <tbody>
                     @foreach($division as $div)
                         <tr>
-                            <td><a class="title-info" data-route="{{ $div->description }}" data-link="{{ asset('/document/'.$div->id) }}" href="#document_info" data-toggle="modal">{{ $div->description }}</a></td>
+                            <td><a class="title-info" data-route="{{ $div->description }}" data-link="" href="" data-toggle="">{{ $div->description }}</a></td>
                             <td>{{ Division::getHead($div->head) }}</td>
                             <td>
                                 <div class="btn-group">

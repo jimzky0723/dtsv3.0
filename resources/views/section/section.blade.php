@@ -39,11 +39,11 @@
                     <tbody>
                     @foreach($section as $sec)
                         <tr>
-                            <td><a class="title-info" data-route="{{ $sec->description }}" data-link="{{ asset('/document/'.$sec->id) }}" href="#document_info" data-toggle="modal">{{ $sec->description }}</a></td>
+                            <td><a class="title-info" data-route="{{ $sec->description }}" data-link="" href="" data-toggle="">{{ $sec->description }}</a></td>
                             <td>{{ Section::getHead($sec->head) }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="#document_form" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('updateSection/'.$sec->id.'/'.$sec->division.'/'.$sec->head.'/'.$sec->description) }}">
+                                    <a href="#document_form" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('updateSection/'.$sec->id.'/'.$sec->division.'/'.$sec->head.'/') }}">
                                         <i class="fa fa-pencil"></i>  Update
                                         <span class="caret"></span>
                                     </a>
