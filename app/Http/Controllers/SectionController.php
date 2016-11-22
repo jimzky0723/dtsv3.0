@@ -58,6 +58,10 @@ class SectionController extends Controller
         $section->save();
         return redirect('section');
     }
+    public function searchSection(Request $request){
+        $section = Section::where('description','like','%'.$request->get('search').'%')->orderBy('description','asc')->paginate(10);
+        return view('section.section',['section' => $section ]);
+    }
     public static function getHead($id){
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];

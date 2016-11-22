@@ -12,9 +12,10 @@
     @endif
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Documents</h2>
-        <form class="form-inline form-accept">
+        <form method="post" action="{{ asset('searchSection') }}" class="form-inline form-accept">
+            {{ csrf_field() }}
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Quick Search" autofocus>
+                <input type="text" class="form-control" placeholder="Quick Search" name="search" autofocus>
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <a href="#document_form" class="btn btn-success" data-toggle="modal" data-link="{{ asset('addSection') }}">

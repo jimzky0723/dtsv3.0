@@ -66,6 +66,7 @@ Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
 Route::post('updateSectionSave','SectionController@updateSectionSave');
+Route::post('searchSection','SectionController@searchSection');
 Route::get('haha',function(){
     return Tracking::all();
 });
