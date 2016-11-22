@@ -310,8 +310,17 @@ function loadDivision(el){
         }
     });
 }
-
-function create_user(el) {
-    var url = $(el).attr('action');
-
+function del_user(el) {
+    var url = $(el).data('link');
+    var id = {
+        "id" : $(el).data('id'),
+        "_token" : $('#token').data('token')
+    };
+    $('#confirmation').modal('show');
+    $('#confirm').click(function(){
+        $.post(url,id, function (response) {
+            console.log(response);
+            window.location.href = $('#url').data('link');
+        });
+    });
 }

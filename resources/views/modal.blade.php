@@ -114,7 +114,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                 <button type="button" class="btn btn-danger" id="confirm" data-dismiss="modal"><i class="fa fa-trash"></i> Yes</button>
             </div>
-
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -42,10 +42,6 @@ class AdminController extends Controller
     }
     public function handle_edit(Request $request) {
         $user = User::find($request->input('id'));
-        if($request->input('delete') == "delete"){
-            $user->delete();
-            return redirect('users');
-        }
         $user->fname = $request->input('fname');
         $user->mname = $request->input('mname');
         $user->lname = $request->input('lname');
@@ -70,6 +66,7 @@ class AdminController extends Controller
         $user->mname = $request->input('mname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
         $user->username = $request->input('username');
         $user->designation = $request->input('designation');
         $user->division = $request->input('division');
@@ -88,5 +85,12 @@ class AdminController extends Controller
             return view('users.users')->with('users',$user);
         }
         return view('users.users')->with('users', $user);
+    }
+    public function remove(Request $request){
+        $user = User::find($request->input('id'));
+        if(isset($user) and count($user) > 0){
+            $user->delete();
+            return json_encode(array('status' => 'ok'));
+        }
     }
 }

@@ -79,7 +79,7 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" name="delete" value="delete" ><i class="fa fa-times"></i>Delete</button>
-        <button type="submit" class="btn btn-success" name="update" value="update"><i class="fa fa-send"></i>Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+        <button type="submit" class="btn btn-success" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
     </div>
 </form>
