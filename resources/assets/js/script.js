@@ -348,16 +348,52 @@ function loadDivision(el){
 }
 function del_user(el) {
     var url = $(el).data('link');
-    var id = {
+    var data = {
         "id" : $(el).data('id'),
         "_token" : $('#token').data('token')
     };
     $('#confirmation').modal('show');
     $('#confirm').click(function(){
-        $.post(url,id, function (response) {
-            console.log(response);
-            window.location.href = $('#url').data('link');
+        $.post(url,data, function (response) {
+            if(JSON.parse(response).status == "ok") {
+                console.log("record deleted");
+                window.location.reload();
+            }
         });
     });
 }
+
+function delete_designation(el) {
+   var url = $('#delete').data('link');
+   var data = {
+        "id" : $(el).data('id'),
+       "_token" : $('#token').data('token')
+   };
+   $('#confirmation').modal('show');
+   $('#confirm').click(function(){
+       $.post(url,data,function(response){
+            if(JSON.parse(response).status == "ok") {
+                window.location.reload();
+            }
+       });
+   });
+}
+
+function edit_designation(el) {
+    var url = $('#edit').data('link');
+    var data = {
+        "id" : $(el).data('id'),
+        "_token" : $('#token').data('token')
+    };
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+
+    $.get(url,data,function(response){
+        $('.modal_content').html(response);
+        $('#create').attr('action', url);
+        $('input').attr('autocomplete', 'off');
+    });
+}
+
 

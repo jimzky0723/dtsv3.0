@@ -108,9 +108,10 @@ Route::post('/user/remove','AdminController@remove');
 Route::get('/designation', 'DesignationController@index');
 Route::get('/designation/create', 'DesignationController@create');
 Route::post('/designation/create', 'DesignationController@save');
-Route::get('/remove/designation', 'DesignationController@remove');
+Route::post('/remove/designation', 'DesignationController@remove');
 Route::get('/edit/designation', 'DesignationController@edit');
 Route::post('/edit/designation', 'DesignationController@edit_save');
+Route::get('/search/designation', 'DesignationController@search');
 
 
 Route::get('clear', function(){
