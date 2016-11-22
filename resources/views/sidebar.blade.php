@@ -19,10 +19,12 @@
                     <?php $user = User::find($pend->delivered_by); ?>
                     <tr><td>From: {{ $user->fname.' '.$user->lname }}</td></tr>
                     <tr><td>Duration: {{ Doc::timeDiff($pend->date_in) }}</td></tr>
-                    <tr><td>
+                    <tr>
+                        <td>
                             <a href="#document_info_pending" data-route="{{ $pend->route_no }}" data-link="{{ asset('document/'.$pend->route_no) }}" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>
                             <a href="#remove_pending" data-link="{{ asset('document/removepending/'.$pend->id) }}" data-id="{{ $pend->id }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Done</a>
-                        </td></tr>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             @endforeach

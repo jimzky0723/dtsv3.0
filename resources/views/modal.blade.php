@@ -107,7 +107,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <strong>Are you sure you?</strong>
+                    <strong>Are you sure you want to delete <p style="display: inline;" id="nametoDelete"></p>?</strong>
                 </div>
             </div>
             <div class="modal-footer">
