@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <span id="url" data-link="{{ asset('users') }}"></span>
+    <span id="token" data-token="{{ csrf_token() }}"></span>
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">System Users</h2>
-        <form class="form-inline form-accept" action="{{ asset('/search/user') }}" method="POST">
+        <form class="form-inline form-accept" action="{{ asset('/search/user') }}" method="GET">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
@@ -29,6 +30,7 @@
                         <th width="20%">Designation</th>
                         <th width="20%">Division</th>
                         <th width="20%">Section</th>
+                        <th width="20%" class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +46,7 @@
                             <td>{{ $designation }}</td>
                             <td>{{ $division }}</td>
                             <td>{{ $section }}</td>
+                            <td>  <button type="button" data-id="{{ $user->id }}" data-link="{{ asset('user/remove') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" name="delete" value="delete" ><i class="fa fa-times"></i>Delete</button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -75,5 +78,6 @@
         })($);
     </script>
 @endsection
+
 
 

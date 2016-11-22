@@ -103,7 +103,8 @@ Route::post('/user/new', 'AdminController@new_user');
 Route::get('/user/edit', 'AdminController@edit');
 Route::post('/user/edit', 'AdminController@handle_edit');
 Route::get('/get/section', 'AdminController@section');
-Route::post('/search/user','AdminController@search');
+Route::get('/search/user','AdminController@search');
+Route::post('/user/remove','AdminController@remove');
 //designation
 Route::get('/designation', 'DesignationController@index');
 Route::get('/designation/create', 'DesignationController@create');
@@ -113,3 +114,7 @@ Route::get('/edit/designation', 'DesignationController@edit');
 Route::post('/edit/designation', 'DesignationController@edit_save');
 
 
+Route::get('clear', function(){
+   Session::flush();
+    return redirect('/');
+});
