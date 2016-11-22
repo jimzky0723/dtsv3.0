@@ -1,4 +1,4 @@
-<?php $head = new \App\Http\Controllers\DivisionController(); ?>
+<?php use \App\Http\Controllers\DivisionController as Division; ?>
 @extends('layouts.app')
 @section('content')
     @if (count($errors) > 0)
@@ -31,19 +31,25 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="20%">Division ID</th>
-                        <th width="15%">Description</th>
-                        <th width="20%">Head</th>
+                        <th width="40%">Description</th>
+                        <th width="40%">Head</th>
                         <th>Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($division as $div)
                         <tr>
-                            <td>{{ $div->id }}</td>
                             <td><a class="title-info" data-route="{{ $div->description }}" data-link="{{ asset('/document/'.$div->id) }}" href="#document_info" data-toggle="modal">{{ $div->description }}</a></td>
-                            <td><?php $head->getHead($div->head); ?></td>
-                            <td><button>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;<button>Update</button></td>
+                            <td>{{ Division::getHead($div->head) }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#document_form" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('updateDivision/'.$div->id.'/'.$div->head) }}">
+                                        <i class="fa fa-pencil"></i>  Update
+                                        <span class="caret"></span>
+                                    </a>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-danger" value="{{ $div->description }}" data-link="{{ asset('deleteDivision/'.$div->id) }}" id="deleteValue" data-toggle="modal" data-target="#confirmation" onclick="deleteDivision($(this));"><i class="fa fa-trash"></i> Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -56,13 +62,11 @@
             </div>
         @endif
     </div>
-
 @endsection
 @section('plugin')
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
     <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 @endsection
-
 
 
 @section('css')

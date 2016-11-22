@@ -207,7 +207,6 @@ function PO_reload(){
     }
 }
 
-
 function trackDocument(){
     var route_no = $('#track_route_no2').val();
     var url = $('#trackForm').attr('action')+'/'+route_no;
@@ -280,3 +279,41 @@ $('a[href="#edit_designation"]').on('click',function(event){
         $('input').attr('autocomplete', 'off');
     });
 });
+
+function deleteSection(result){
+    $("#nametoDelete").html(result.val());
+    $('#confirm').on('click',function(){
+        $('.loading').show();
+        var url = result.data('link');
+        setTimeout(function(){
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType:  $(this).serialize(),
+                success: function(resultData) {
+                    $('.loading').hide();
+                    window.location.reload();
+                }
+            });
+        },500);
+    });
+}
+
+function deleteDivision(result){
+    $("#nametoDelete").html(result.val());
+    $('#confirm').on('click',function(){
+        $('.loading').show();
+        var url = result.data('link');
+        setTimeout(function(){
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType:  $(this).serialize(),
+                success: function(resultData) {
+                    $('.loading').hide();
+                    window.location.reload();
+                }
+            });
+        },500);
+    });
+}

@@ -107,14 +107,13 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <strong>Are you sure you?</strong>
+                    <strong>Are you sure you want to delete <p style="display: inline;" id="nametoDelete"></p>?</strong>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                 <button type="button" class="btn btn-danger" id="confirm" data-dismiss="modal"><i class="fa fa-trash"></i> Yes</button>
             </div>
-
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

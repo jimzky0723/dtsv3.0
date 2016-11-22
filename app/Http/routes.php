@@ -42,20 +42,30 @@ Route::get('pdf/track', function(){
 //endjimzky
 
 //rusel
+//PURCHASE REQUEST/REGULAR
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
 Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
 Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+//PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
+//PURCHASE ORDER
 Route::get('PurchaseOrder','PurchaseOrderController@PurchaseOrder');
 Route::post('PurchaseOrder','PurchaseOrderController@PurchaseOrderSave');
+//DIVISION
 Route::get('division','DivisionController@division');
 Route::get('addDivision','DivisionController@addDivision');
 Route::post('addDivision','DivisionController@addDivisionSave');
+Route::get('deleteDivision/{id}','DivisionController@deleteDivision');
+Route::get('updateDivision/{id}/{head}','DivisionController@updateDivision');
+Route::post('updateDivisionSave','DivisionController@updateDivisionSave');
+//SECTION
 Route::get('section','SectionController@section');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
-Route::get('deleteSection','SectionController@deleteSection');
+Route::get('deleteSection/{id}','SectionController@deleteSection');
+Route::get('updateSection/{id}/{division}/{head}/{description}','SectionController@updateSection');
+Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });

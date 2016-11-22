@@ -42,10 +42,13 @@
                             <td><a class="title-info" data-route="{{ $sec->description }}" data-link="{{ asset('/document/'.$sec->id) }}" href="#document_info" data-toggle="modal">{{ $sec->description }}</a></td>
                             <td>{{ Section::getHead($sec->head) }}</td>
                             <td>
-                                <form action="#">
-                                <button class="btn btn-sm btn-info"><i class="fa fa-pencil"></i> Update</button>
-                                <button type="submit" class="btn btn-sm btn-danger" value="" data-toggle="modal" data-target="#confirmation" onclick="return false;"><i class="fa fa-trash"></i> Delete</button>
-                                </form>
+                                <div class="btn-group">
+                                    <a href="#document_form" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('updateSection/'.$sec->id.'/'.$sec->division.'/'.$sec->head.'/'.$sec->description) }}">
+                                        <i class="fa fa-pencil"></i>  Update
+                                        <span class="caret"></span>
+                                    </a>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-danger" value="{{ $sec->description }}" data-link="{{ asset('deleteSection/'.$sec->id) }}" id="deleteValue" data-toggle="modal" data-target="#confirmation" onclick="deleteSection($(this));"><i class="fa fa-trash"></i> Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -59,7 +62,6 @@
             </div>
         @endif
     </div>
-
 @endsection
 @section('plugin')
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
