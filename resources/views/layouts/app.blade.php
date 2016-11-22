@@ -136,7 +136,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
-    
+    <script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
     <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
@@ -144,7 +144,7 @@
     <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
     <!-- bootstrap datepicker -->
     <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('resources/assets/js/script.js') }}"></script>
+    <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
     @section('js')
 
     @show

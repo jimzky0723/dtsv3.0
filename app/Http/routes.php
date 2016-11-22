@@ -87,6 +87,11 @@ Route::get('/session','DocumentController@session');
 //users
 Route::get('users', 'AdminController@users');
 Route::get('user/new', 'AdminController@create');
+Route::post('/user/new', 'AdminController@new_user');
+Route::get('/user/edit', 'AdminController@edit');
+Route::post('/user/edit', 'AdminController@handle_edit');
+Route::get('/get/section', 'AdminController@section');
+Route::post('/search/user','AdminController@search');
 //designation
 Route::get('/designation', 'DesignationController@index');
 Route::get('/designation/create', 'DesignationController@create');

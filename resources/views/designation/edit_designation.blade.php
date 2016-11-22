@@ -13,6 +13,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i>Edit</button>
+        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i>Update</button>
     </div>
 </form>

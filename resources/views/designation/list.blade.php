@@ -30,12 +30,14 @@
                     @foreach($designations as $d)
                         <tr>
                             <td>
-                                <span class="col-md-1">
+                                <span class="col-md-4">
                                     <a href="#remove_designation" data-link="{{ asset('/remove/designation') }}" data-id="{{ $d->id }}">
+                                        Delete
                                         <i class="fa fa-trash" aria-hidden="true" style="color: #9f191f;" title="Delete"></i>
                                     </a>
                                 </span>
-                                <span class="col-md-1">
+                                <span class="col-md-4">
+                                    Edit
                                     <a href="#edit_designation" data-link="{{ asset('/edit/designation') }}" data-id="{{ $d->id }}">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: #0000cc;" title="Edit"></i>
                                     </a>

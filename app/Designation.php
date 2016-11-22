@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Designation extends Model
 {
-    protected $table = 'division';
+    protected $table = 'designation';
     protected $primaryKey = 'id';
 }

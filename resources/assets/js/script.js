@@ -280,3 +280,38 @@ $('a[href="#edit_designation"]').on('click',function(event){
         $('input').attr('autocomplete', 'off');
     });
 });
+
+$('a[href="#user"]').on('click', function(event){
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+    var data = {
+        "id" : $(this).data('id')
+    };
+    var url = $(this).data('link');
+    $.get(url,data, function(response){
+        $('.modal_content').html(response);
+        $('#create').attr('action', url);
+        $('input').attr('autocomplete', 'off');
+    });
+});
+
+function loadDivision(el){
+
+    var url = $(el).data('link');
+    var id = {
+        "id" : $(el).val()
+    };
+    var next = $(el).parent().parent().parent();
+    $.get(url,id,function(response){
+        if(response){
+            $(el).parent().parent().next('tr').remove();
+           next.append(response);
+        }
+    });
+}
+
+function create_user(el) {
+    var url = $(el).attr('action');
+
+}
