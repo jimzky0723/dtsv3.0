@@ -3,7 +3,6 @@ use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
 $documents = Session::get('deliveredDocuments');
-
 ?>
 <html>
 <title>Print Logs</title>

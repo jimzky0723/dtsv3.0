@@ -67,8 +67,8 @@
                             <option>Compensatory Time Off</option>
                         </optgroup>
                         <option value="PO">Purchase Order</option>
-                        <option>Purchase Request - Cash Advance Purchase</option>
-                        <option>Purchase Request - Regular Purchase</option>
+                        <option value="PRC">Purchase Request - Cash Advance Purchase</option>
+                        <option value="PRR">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
                     </select>
                 </div>
@@ -125,32 +125,10 @@
 
 @endsection
 @section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
-    <script>
-        $('#reservation').daterangepicker();
-        $('.chosen-select').chosen();
-
-        function checkDocTye(){
-            var doc = $('select[name="doc_type"]').val();
-            if(doc.length == 0){
-                $('.error').removeClass('hide');
-            }
-        }
-    </script>
-    <script>
-        function searchDocument(){
-            $('.loading').show();
-            setTimeout(function(){
-                return true;
-            },2000);
-        }
-    </script>
+    
 @endsection
 
 @section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+
 @endsection
 

@@ -11,7 +11,7 @@
                 <td class=""><label>Head</label></td>
                 <td>:</td>
                 <td>
-                    <select name="head" id="" class="form-control select2" required>
+                    <select name="head" id="" class="chosen-select" required>
                         <option value="">Select Head</option>
                         @foreach($user as $head)
                             <option value="{{ $head['id'] }}">{{ $head['fname'].' '.$head['mname'].' '.$head['lname'] }}</option>
@@ -26,4 +26,7 @@
         <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
+<script>
+    $('.chosen-select').chosen();
+</script>
 
