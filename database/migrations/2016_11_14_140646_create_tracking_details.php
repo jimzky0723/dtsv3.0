@@ -18,7 +18,7 @@ class CreateTrackingDetails extends Migration
             $table->dateTime('date_in');
             $table->integer('received_by');
             $table->integer('delivered_by');
-            $table->string('remarks');
+            $table->string('action');
             $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();

@@ -87,8 +87,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
               <ul class="dropdown-menu">                
-                <li><a href="{{ URL::to('log') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Logs</a></li>
-                <li><a href="{{ URL::to('pending') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Pending</a></li>
+                <li><a href="{{ URL::to('document/delivered') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Delivered Documents</a></li>
+                <li><a href="{{ URL::to('docureceived') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
               </ul>
             </li>
           @if(Auth::user()->user_priv==1)

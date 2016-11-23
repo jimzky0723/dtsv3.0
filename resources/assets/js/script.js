@@ -89,11 +89,12 @@
     $("a[href='#track']").on('click',function(){
         $('.track_history').html(loadingState);
         var route_no = $(this).data('route');
+        var url = $(this).data('link');
         $('#track_route_no').val('Loading...');
         setTimeout(function(){
             $('#track_route_no').val(route_no);
             $.ajax({
-                url: 'document/track/'+route_no,
+                url: url,
                 type: 'GET',
                 success: function(data) {
                     $('.track_history').html(data);
@@ -129,6 +130,7 @@
         $('.modal_content').html(loadingState);
         $('.modal-title').html('Route #: '+route_no);
         var url = $(this).data('link');
+        console.log(url);
         setTimeout(function(){
             $.ajax({
                 url: url,
@@ -158,6 +160,7 @@
                     success: function(data) {
                         $('.table-'+id).fadeOut();
                         $('.loading').hide();
+                        window.location.reload();
                     }
                 });
             },500);
@@ -280,25 +283,6 @@ $('a[href="#edit_designation"]').on('click',function(event){
     });
 });
 
-function deleteSection(result){
-    $("#nametoDelete").html(result.val());
-    $('#confirm').on('click',function(){
-        $('.loading').show();
-        var url = result.data('link');
-        setTimeout(function(){
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType:  $(this).serialize(),
-                success: function(resultData) {
-                    $('.loading').hide();
-                    window.location.reload();
-                }
-            });
-        },500);
-    });
-}
-
 function deleteDivision(result) {
     $("#nametoDelete").html(result.val());
     $('#confirm').on('click', function () {
@@ -348,15 +332,17 @@ function loadDivision(el){
 }
 function del_user(el) {
     var url = $(el).data('link');
-    var id = {
+    var data = {
         "id" : $(el).data('id'),
         "_token" : $('#token').data('token')
     };
     $('#confirmation').modal('show');
     $('#confirm').click(function(){
-        $.post(url,id, function (response) {
-            console.log(response);
-            window.location.href = $('#url').data('link');
+        $.post(url,data, function (response) {
+            if(JSON.parse(response).status == "ok") {
+                console.log("record deleted");
+                window.location.reload();
+            }
         });
     });
 }
@@ -386,3 +372,35 @@ function searchDivision(result){
 }
 
 
+function delete_designation(el) {
+   var url = $('#delete').data('link');
+   var data = {
+        "id" : $(el).data('id'),
+       "_token" : $('#token').data('token')
+   };
+   $('#confirmation').modal('show');
+   $('#confirm').click(function(){
+       $.post(url,data,function(response){
+            if(JSON.parse(response).status == "ok") {
+                window.location.reload();
+            }
+       });
+   });
+}
+
+function edit_designation(el) {
+    var url = $('#edit').data('link');
+    var data = {
+        "id" : $(el).data('id'),
+        "_token" : $('#token').data('token')
+    };
+    $('#document_form').modal('show');
+    $('.modal_content').html(loadingState);
+    $('.modal-title').html($(this).html());
+
+    $.get(url,data,function(response){
+        $('.modal_content').html(response);
+        $('#create').attr('action', url);
+        $('input').attr('autocomplete', 'off');
+    });
+}

@@ -37,7 +37,7 @@ class TEVController extends Controller
         $q->date_in = $request->input('prepared_date');
         $q->received_by = $request->input('prepared_by');
         $q->delivered_by = $request->input('prepared_by');
-        $q->remarks = $request->input('description');
+        $q->action = $request->input('description');
         $q->save();
         return redirect('document');
     }

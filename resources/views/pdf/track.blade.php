@@ -3,6 +3,7 @@
     use App\Tracking_Details;
     use App\User as User;
     use App\Http\Controllers\DocumentController as Doc;
+    use App\Section;
     $route_no = Session::get('route_no');
     $document = Tracking::where('route_no',$route_no)->first();
     $tracking = Tracking_Details::where('route_no',$route_no)
@@ -30,10 +31,10 @@
     }
     .table th {
         border:1px solid #000;
-        width: 25%;
     }
     .table td {
         padding: 5px;
+        vertical-align: top;
     }
     .barcode {
         position:absolute;
@@ -77,7 +78,7 @@
         </td>
         <td>
             <strong>SECTION:</strong><br>
-            {{ $document->section }}
+            {{ Section::find($user->section)->description }}
             <br><br>
         </td>
         <td width="30%">
@@ -106,21 +107,25 @@
 
 <table cellspacing="0" class="table">
     <tr>
-        <th>DATE</th>
-        <th>FROM</th>
-        <th>ACTION / REMARKS</th>
-        <th>SIGNATURE</th>
+        <th width="15%">DATE</th>
+        <th width="35%">RECEIVED BY</th>
+        <th width="35%">ACTION / REMARKS</th>
+        <th width="15%">SIGNATURE</th>
     </tr>
     @foreach($tracking as $doc)
+        @if($doc->received_by != $doc->delivered_by)
         <tr>
             <td>{{ date('M d, Y', strtotime($doc->date_in)) }}<br>{{ date('h:i A', strtotime($doc->date_in)) }}</td>
             <td>
                 <?php $user = User::find($doc->received_by); ?>
                 {{ $user->fname.' '.$user->mname.' '.$user->lname }}
+                <br>
+                <em>({{ Section::find($user->section)->description }})</em>
             </td>
-            <td>{{ $doc->remarks }}</td>
+            <td>{{ $doc->action }}</td>
             <td></td>
         </tr>
+        @endif
     @endforeach
     <?php $i = count($tracking); ?>
     @for($i; $i < 10; $i++)

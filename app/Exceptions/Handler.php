@@ -51,6 +51,6 @@ class Handler extends ExceptionHandler
             return redirect('/home');
         }
         //return redirect('/home');
-        return parent::render($request, $e);
+        return parent::render($request,$e);
     }
 }

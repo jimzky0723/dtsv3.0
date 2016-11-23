@@ -1,6 +1,7 @@
 <?php
     use App\Http\Controllers\DocumentController as Doc;
     use App\User as User;
+    use App\Section;
 ?>
 @if(count($document))
 <table class="table table-hover table-striped">
@@ -17,7 +18,10 @@
         <tr>
             <td>
                 <?php $user = User::find($doc->received_by); ?>
-                {{ $user->fname.' '.$user->lname }}</td>
+                {{ $user->fname.' '.$user->lname }}
+                <br>
+                <em>({{ Section::find($user->section)->description }})</em>
+            </td>
             <td>{{ date('M d, Y', strtotime($doc->date_in)) }}<br>{{ date('h:i A', strtotime($doc->date_in)) }}</td>
             <td>
                 <?php $check = Doc::checkLastRecord($doc->route_no); ?>
@@ -40,7 +44,7 @@
                     ?>
                 @endif
             </td>
-            <td>{{ $doc->remarks }}</td>
+            <td>{{ $doc->action }}</td>
         </tr>
     @endforeach
     </tbody>
