@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="MySQL - dtsv3.0@localhost" uuid="4740d8f4-8a1b-4446-9aab-5160e7e6b310" />
-    <data-source name="MySQL - dtsv3.0@localhost [2]" uuid="f9d25725-2288-43a3-91ae-20cb0a4a53ea" />
+    <data-source name="MySQL - dtsv3.0@localhost" uuid="4740d8f4-8a1b-4446-9aab-5160e7e6b310">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>dtsv3.0.*</schema-pattern>
+      <default-schemas>dtsv3.0.*</default-schemas>
+    </data-source>
+    <data-source name="MySQL - dtsv3.0@localhost [2]" uuid="f9d25725-2288-43a3-91ae-20cb0a4a53ea">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>dtsv3.0.*</schema-pattern>
+      <default-schemas>dtsv3.0.*</default-schemas>
+    </data-source>
   </component>
 </project>

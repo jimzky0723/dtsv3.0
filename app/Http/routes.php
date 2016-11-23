@@ -57,19 +57,30 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
 //endjimzky
 
 //rusel
+//PURCHASE REQUEST/REGULAR
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
 Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
 Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+//PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
+//PURCHASE ORDER
 Route::get('PurchaseOrder','PurchaseOrderController@PurchaseOrder');
 Route::post('PurchaseOrder','PurchaseOrderController@PurchaseOrderSave');
+//DIVISION
 Route::get('division','DivisionController@division');
 Route::get('addDivision','DivisionController@addDivision');
 Route::post('addDivision','DivisionController@addDivisionSave');
+Route::get('deleteDivision/{id}','DivisionController@deleteDivision');
+Route::get('updateDivision/{id}/{head}','DivisionController@updateDivision');
+Route::post('updateDivisionSave','DivisionController@updateDivisionSave');
+//SECTION
 Route::get('section','SectionController@section');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
+Route::get('deleteSection/{id}','SectionController@deleteSection');
+Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
+Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });
@@ -102,12 +113,23 @@ Route::get('/session','DocumentController@session');
 //users
 Route::get('users', 'AdminController@users');
 Route::get('user/new', 'AdminController@create');
+Route::post('/user/new', 'AdminController@new_user');
+Route::get('/user/edit', 'AdminController@edit');
+Route::post('/user/edit', 'AdminController@handle_edit');
+Route::get('/get/section', 'AdminController@section');
+Route::get('/search/user','AdminController@search');
+Route::post('/user/remove','AdminController@remove');
 //designation
 Route::get('/designation', 'DesignationController@index');
 Route::get('/designation/create', 'DesignationController@create');
 Route::post('/designation/create', 'DesignationController@save');
-Route::get('/remove/designation', 'DesignationController@remove');
+Route::post('/remove/designation', 'DesignationController@remove');
 Route::get('/edit/designation', 'DesignationController@edit');
 Route::post('/edit/designation', 'DesignationController@edit_save');
+Route::get('/search/designation', 'DesignationController@search');
 
 
+Route::get('clear', function(){
+   Session::flush();
+    return redirect('/');
+});

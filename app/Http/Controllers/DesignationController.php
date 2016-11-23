@@ -32,7 +32,6 @@ class DesignationController extends Controller
         return redirect('designation');
     }
     public function remove(Request $request) {
-
         $d = Designation::find($request->input('id'));
         if(isset($d) and count($d) > 0) {
             $d->delete();
@@ -54,4 +53,12 @@ class DesignationController extends Controller
             return redirect('designation');
         }
     }
+    public function search(Request $request){
+        $designation = Designation::where('description','LIKE', "%". $request->input('search') ."%")->paginate(10);
+        if(isset($designation) and count($designation) > 0) {
+            return view('designation.list')->with('designations', $designation);
+        }
+        return view('designation.list')->with('designations', $designation);
+    }
+
 }
