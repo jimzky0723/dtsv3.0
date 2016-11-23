@@ -89,11 +89,12 @@
     $("a[href='#track']").on('click',function(){
         $('.track_history').html(loadingState);
         var route_no = $(this).data('route');
+        var url = $(this).data('link');
         $('#track_route_no').val('Loading...');
         setTimeout(function(){
             $('#track_route_no').val(route_no);
             $.ajax({
-                url: 'document/track/'+route_no,
+                url: url,
                 type: 'GET',
                 success: function(data) {
                     $('.track_history').html(data);
@@ -129,6 +130,7 @@
         $('.modal_content').html(loadingState);
         $('.modal-title').html('Route #: '+route_no);
         var url = $(this).data('link');
+        console.log(url);
         setTimeout(function(){
             $.ajax({
                 url: url,
@@ -158,6 +160,7 @@
                     success: function(data) {
                         $('.table-'+id).fadeOut();
                         $('.loading').hide();
+                        location.reload();
                     }
                 });
             },500);
@@ -280,3 +283,4 @@ $('a[href="#edit_designation"]').on('click',function(event){
         $('input').attr('autocomplete', 'off');
     });
 });
+

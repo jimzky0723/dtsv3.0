@@ -13,7 +13,7 @@
 @endif
 <div class="alert alert-jim" id="inputText">
     <h2 class="page-header">Documents</h2>    
-    <form class="form-inline" method="POST" action="{{ asset('document') }}">
+    <form class="form-inline" method="POST" action="{{ asset('document') }}" onsubmit="return searchDocument();" id="searchForm">
         {{ csrf_field() }}
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Quick Search" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
@@ -104,8 +104,8 @@
             <tbody>
                 @foreach($documents as $doc)
                 <tr>
-                    <td><a href="#track" data-route="{{ $doc->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                    <td><a href="#track" data-link="{{ asset('document/track/'.$doc->route_no) }}" data-route="{{ $doc->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td>
@@ -128,6 +128,14 @@
 @section('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+<script>
+    function searchDocument(){
+        $('.loading').show();
+        setTimeout(function(){
+            return true;
+        },2000);
+    }
+</script>
 @endsection
 
 

@@ -31,6 +31,7 @@ class DocumentController extends Controller
                 $q->where('route_no','like',"%$keyword%")
                   ->orwhere('description','like',"%$keyword%");
             })
+            ->orderBy('id','desc')
             ->paginate(10);
 
         return view('document.list',['documents' => $documents ]);
@@ -74,7 +75,7 @@ class DocumentController extends Controller
             $q->date_in = date('Y-m-d H:i:s');
             $q->received_by = $id;
             $q->delivered_by = $received_by;
-            $q->remarks = $request->remarks;
+            $q->action = $request->remarks;
             $q->save();
             return json_encode(array('message' => 'SUCCESS'));
         }else{
@@ -312,6 +313,40 @@ class DocumentController extends Controller
                 ->get();
         $new_array[] = json_decode(json_encode($document), true);
         return $new_array[0];
+    }
+
+    function deliveredDocument(Request $request){
+        $doc_type = $request->doc_type;
+        $id = Auth::user()->id;
+
+        $str = $request->daterange;
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $startdate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $enddate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        Session::put('startdate',$startdate);
+        Session::put('enddate',$enddate);
+        Session::put('doc_type',self::docTypeName($doc_type));
+        $documents = DB::table('tracking_details')
+            ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+            ->where('doc_type',$doc_type)
+            ->where('delivered_by',$id)
+            ->where('received_by','!=',$id)
+            ->where('date_in','>=',$startdate)
+            ->where('date_in','<=',$enddate)
+            ->orderBy('date_in','asc')
+            ->get();
+        Session::put('deliveredDocuments',$documents);
+        return view('document.delivered',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
+    }
+
+    function receivedDocument(){
+
     }
 
 }

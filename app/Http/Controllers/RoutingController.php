@@ -37,7 +37,7 @@ class RoutingController extends Controller
         $a->date_in = $tracking->prepared_date;
         $a->received_by = $request->user()->id;
         $a->delivered_by = $request->user()->id;
-        $a->remarks = $request->input('description');
+        $a->action = $request->input('description');
         $a->save();
 
         return redirect('document');

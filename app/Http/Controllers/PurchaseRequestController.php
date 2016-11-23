@@ -94,7 +94,7 @@ class PurchaseRequestController extends Controller
         $q->date_in = $prepared_date;
         $q->received_by = $prepare_by;
         $q->delivered_by = $prepare_by;
-        $q->remarks = $description;
+        $q->action = $description;
         $q->save();
 
         return redirect("/pdf");

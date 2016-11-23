@@ -3,7 +3,6 @@ Use App\Tracking;
 Route::auth();
 
 //jimzky
-
 Route::get('/','HomeController@index');
 
 Route::get('home', 'HomeController@index');
@@ -14,10 +13,12 @@ Route::post('document', 'DocumentController@search');
 Route::get('document/accept', 'DocumentController@accept');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
-Route::get('document/{route}', 'DocumentController@show');
+Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 
+Route::get('document/delivered', 'DocumentController@deliveredDocument');
+Route::post('document/delivered', 'DocumentController@deliveredDocument');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
@@ -37,6 +38,20 @@ Route::get('pdf/track', function(){
     $display = view("pdf.track");
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
+    return $pdf->stream();
+});
+
+Route::get('pdf/logs/{doc_type}', function($doc_type){
+    if($doc_type=='SAL' || $doc_type=='TEV' || $doc_type=='PO'){
+        $display = view("logs.salary");
+    }else if($doc_type=='PR'){
+        return 'pdf file';
+    }else{
+        $display = view("logs.default");
+    }
+
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
     return $pdf->stream();
 });
 //endjimzky

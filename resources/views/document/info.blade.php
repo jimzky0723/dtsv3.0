@@ -1,10 +1,10 @@
 <?php
-    use App\User;
-    use App\Http\Controllers\DocumentController as Doc;
+use App\User;
+use App\Http\Controllers\DocumentController as Doc;
 
-    $user = User::find($document->prepared_by);
+$user = User::find($document->prepared_by);
 
-    $filter = Doc::isIncluded($document->doc_type);
+$filter = Doc::isIncluded($document->doc_type);
 ?>
 <table class="table table-hover table-striped">
 
@@ -76,7 +76,7 @@
         <?php
         if($filter[13]!='hide'):
             $applicant = User::find($document->cdo_applicant);
-        ?>
+            ?>
         <td class="text-right">Applicant :</td>
         ?>
         <td>{{ $applicant->fname.' '.$applicant->mname.' '.$applicant->lname }}</td>
@@ -99,8 +99,8 @@
         <td>{{ $document->item }}</td>
     </tr>
     {{--<tr class="{{ $filter[18] }}">--}}
-        {{--<td class="text-right">DV Number :</td>--}}
-        {{--<td>{{ $document->dv_no }}</td>--}}
+    {{--<td class="text-right">DV Number :</td>--}}
+    {{--<td>{{ $document->dv_no }}</td>--}}
     {{--</tr>--}}
 
 </table>
