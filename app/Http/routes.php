@@ -59,6 +59,8 @@ Route::post('addDivision','DivisionController@addDivisionSave');
 Route::get('deleteDivision/{id}','DivisionController@deleteDivision');
 Route::get('updateDivision/{id}/{head}','DivisionController@updateDivision');
 Route::post('updateDivisionSave','DivisionController@updateDivisionSave');
+Route::post('searchDivision','DivisionController@searchDivision');
+Route::get('searchDivision','DivisionController@searchDivisionSave');
 //SECTION
 Route::get('section','SectionController@section');
 Route::get('addSection','SectionController@addSection');
@@ -67,6 +69,7 @@ Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
 Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
+Route::get('searchSection','SectionController@searchSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });
