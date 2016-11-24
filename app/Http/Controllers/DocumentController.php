@@ -108,24 +108,66 @@ class DocumentController extends Controller
         switch($type){
             case "SAL":
                 return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
-            case "ROUTE" :
-                return "Routing Slip";
-            case "PRC":
-                return "Purchase Request - Cash Advance Purchase";
+            case "SAL":
+                return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
             case "TEV":
-                return "Traveling Expense Voucher";
-            case "PRR":
-                return "Purchase Request - Regular Purchase";
-            case "CDO" :
-                return "Application for CDO, Leave";
+                return "TEV";
+            case "BILLS":
+                return "Bills, Cash Advance Replenishment, Grants/Fund Transfer";
+            case "SUPPLIER":
+                return "Supplier (Payment of Transactions with PO)";
+            case "INFRA":
+                return "Infra - Contractor";
+            case "INCOMING":
+                return "Incoming";
+            case "OUTGOING":
+                return "Outgoing";
+            case "SERVICE":
+                return "Service Record";
+            case "SALN":
+                return "SALN";
+            case "PLANS":
+                return "Plans (includes Allocation List)";
+            case "ROUTE":
+                return "Routing Slip";
+            case "MEMO":
+                return "Memorandum";
+            case "ISO":
+                return "ISO Documents";
+            case "APPOINTMENT":
+                return "Appointment";
+            case "RESOLUTION":
+                return "Resolutions";
+            case "WORKSHEET":
+                return "Activity Worksheet";
+            case "JUST_LETTER":
+                return "Justification";
+            case "CERT":
+                return "Certifications";
+            case "CERT_APPEARANCE":
+                return "Certificate of Appearance";
+            case "CERT_EMPLOYMENT":
+                return "Certificate of Employment";
+            case "CERT_CLEARANCE":
+                return "Certificate of Clearance";
+            case "SO":
+                return "Office Order";
+            case "DTR":
+                return "DTR";
+            case "CDO":
+                return "Application for Leave";
+            case "OT":
+                return "Certificate of Overtime Credit";
+            case "TIME_OFF":
+                return "Compensatory Time Off";
             case "PO":
                 return "Purchase Order";
-            case "JUST_LETTER" :
-                return "Justification Letter";
-            case "OFFICE_ORDER":
-                return "Office Order";
-            case "WORKSHEET" :
-                return "Activity Worksheet";
+            case "PRC":
+                return "Purchase Request - Cash Advance Purchase";
+            case "PRR":
+                return "Purchase Request - Regular Purchase";
+            case "REPORT":
+                return "Reports";
             case "ALL" :
                 return "All Documents";
             default:
@@ -404,5 +446,7 @@ class DocumentController extends Controller
         Session::put('receivedDocuments',$documents);
         return view('document.received',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
     }
+
+
 
 }

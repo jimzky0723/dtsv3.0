@@ -17,6 +17,9 @@ Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 
+Route::get('document/filter', 'FilterController@index');
+Route::post('document/filter', 'FilterController@update');
+
 Route::get('document/delivered', 'DocumentController@deliveredDocument');
 Route::post('document/delivered', 'DocumentController@deliveredDocument');
 

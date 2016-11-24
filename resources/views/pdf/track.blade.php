@@ -37,9 +37,9 @@
         vertical-align: top;
     }
     .barcode {
-        position:absolute;
         top: 130px;
-        left: 30%;
+        position: relative;
+        left: -50%;
     }
     .route_no {
         font-size:1.2em;
@@ -48,11 +48,12 @@
 
 </style>
 <body>
-<div class="barcode">
-    <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,43) ?>
-    <font class="route_no">{{ $route_no }}</font>
+<div style="position: absolute; left: 50%;">
+    <div class="barcode">
+        <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,43) ?>
+        <font class="route_no">{{ $route_no }}</font>
+    </div>
 </div>
-
 <table class="upper" cellpadding="0" cellspacing="0">
     <tr>
         <td width="20%"><center><img src="{{ asset('resources/img/doh.png') }}" width="100"></center></td>

@@ -47,7 +47,6 @@
                             <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/routing/slip') }}">Routing Slip</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Memorandum</a></li>
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Management System Documents</a>
                         <ul class="dropdown-menu">
