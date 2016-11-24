@@ -56,16 +56,8 @@ $documents = Session::get('deliveredDocuments');
                 Route No: {{ $doc->route_no }}<br>
                 {!! nl2br($doc->action) !!}
             </td>
-            <td>
-                {{
-                    \App\Tracking::where('route_no',$doc->route_no)->pluck('route_from')->first()
-                 }}
-            </td>
-            <td>
-                {{
-                    \App\Tracking::where('route_no',$doc->route_no)->pluck('route_to')->first()
-                 }}
-            </td>
+            <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_from')->first() }} </td>
+            <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_to')->first() }} </td>
         </tr>
     @endforeach
     </tbody>

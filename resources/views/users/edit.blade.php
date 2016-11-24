@@ -22,7 +22,10 @@
             <tr>
                 <td class="col-sm-3"><label>Username</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="username" value="{{ $user->username }}" class="form-control" required></td>
+                <td class="col-sm-8">
+                    <input type="text" name="username" value="{{ $user->username }}" class="form-control" onblur="checkUser(this);" data-link="{{ asset('check/user') }}"required>
+                    <span class="hidden" style="color:red;">User name already used.</span>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>User Type</label></td>
@@ -75,7 +78,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
+        <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
     </div>
 </form>
 <script>
