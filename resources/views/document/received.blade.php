@@ -1,8 +1,8 @@
 <?php
-    use App\Users;
-    use App\Section;
+use App\Users;
+use App\Section;
 
-    $code = Session::get('doc_type_code');
+$code = Session::get('doc_type_code');
 ?>
 @extends('layouts.app')
 
@@ -18,8 +18,8 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Delivered Documents</h2>
-        <form class="form-inline" method="POST" action="{{ asset('document/delivered') }}" onsubmit="return searchDocument()">
+        <h2 class="page-header">Received Documents</h2>
+        <form class="form-inline" method="POST" action="{{ asset('document/received') }}" onsubmit="return searchDocument()">
             {{ csrf_field() }}
             <div class="form-group">
                 <div class="input-group">
@@ -77,7 +77,7 @@
                 </div>
                 <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>
                 @if(count($documents))
-                    <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
+                    <a target="_blank" href="{{ asset('pdf/pending/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
                 @endif
             </div>
         </form>
@@ -92,8 +92,8 @@
                 <tr>
                     <th width="8%"></th>
                     <th width="20%">Route #</th>
-                    <th width="15%">Delivered Date</th>
-                    <th width="15%">Delivered To</th>
+                    <th width="15%">Received Date</th>
+                    <th width="15%">Received From</th>
                     <th width="20%">Document Type</th>
                     <th>Remarks</th>
                 </tr>
@@ -105,7 +105,7 @@
                         <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                         <td>{{ date('M d, Y',strtotime($doc->date_in)) }}<br>{{ date('h:i:s A',strtotime($doc->date_in)) }}</td>
                         <td>
-                            <?php $user = Users::find($doc->received_by);?>
+                            <?php $user = Users::find($doc->delivered_by);?>
                             {{ $user->fname }}
                             {{ $user->lname }}
                             <br>
@@ -127,9 +127,6 @@
     </div>
 @endsection
 @section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
     <script>
         $('#reservation').daterangepicker();
         $('.chosen-select').chosen();
@@ -152,7 +149,6 @@
 @endsection
 
 @section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+
 @endsection
 

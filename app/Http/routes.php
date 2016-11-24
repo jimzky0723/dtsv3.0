@@ -20,6 +20,9 @@ Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('document/delivered', 'DocumentController@deliveredDocument');
 Route::post('document/delivered', 'DocumentController@deliveredDocument');
 
+Route::get('document/received', 'DocumentController@receivedDocument');
+Route::post('document/received', 'DocumentController@receivedDocument');
+
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
@@ -46,8 +49,26 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view("logs.salary");
     }else if($doc_type=='PR'){
         return 'pdf file';
+    }else if($doc_type=='ALL'){
+        $display = view("logs.all");
     }else{
-        $display = view("logs.default");
+        return redirect('document/delivered');
+    }
+
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('pdf/pending/{doc_type}', function($doc_type){
+    if($doc_type=='SAL' || $doc_type=='TEV' || $doc_type=='PO'){
+        $display = view("pending.salary");
+    }else if($doc_type=='PR'){
+        return 'pdf file';
+    }else if($doc_type=='ALL'){
+        $display = view("pending.all");
+    }else{
+        return redirect('document/delivered');
     }
 
     $pdf = App::make('dompdf.wrapper');

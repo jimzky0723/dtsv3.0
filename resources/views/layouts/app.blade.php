@@ -24,6 +24,8 @@
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
     @yield('css')
+    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <style>
         body {
             background: url('{{ asset('resources/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
@@ -88,7 +90,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
               <ul class="dropdown-menu">                
                 <li><a href="{{ URL::to('document/delivered') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Delivered Documents</a></li>
-                <li><a href="{{ URL::to('docureceived') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
+                <li><a href="{{ URL::to('document/received') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
               </ul>
             </li>
           @if(Auth::user()->user_priv==1)
@@ -140,11 +142,16 @@
     <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
-    @yield('plugin')
     <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
     <!-- bootstrap datepicker -->
     <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
+
+    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+
+    @yield('plugin')
     @section('js')
 
     @show

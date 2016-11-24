@@ -11,6 +11,8 @@ use App\Tracking;
 use Illuminate\Routing\Controller;
 use App;
 use Illuminate\Http\Request;
+use App\Tracking_Details;
+
 class RoutingController extends Controller
 {
     public function __construct()
