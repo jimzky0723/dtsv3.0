@@ -73,6 +73,7 @@ class AdminController extends Controller
             $user->save();
             return redirect('users');
         }
+
     }
     public function section(Request $request) {
         $section = Section::where('division',$request->input('id'))->get();

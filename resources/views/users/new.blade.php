@@ -24,11 +24,6 @@
                 <td class="col-sm-8"><input type="text" name="username" class="form-control" required></td>
             </tr>
             <tr>
-                <td class="col-sm-3"><label>Email</label></td>
-                <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="email" class="form-control" required></td>
-            </tr>
-            <tr>
                 <td class="col-sm-3"><label>Password</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8"><input type="password" name="password" class="form-control" required></td>
@@ -48,7 +43,7 @@
                 <td class="col-sm-3"><label>Designation</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">
-                    <select name="designation" required id="select_dis" class="form-control" data-link="{{ asset('/get/section') }}">
+                    <select name="designation" required id="select_dis" class="chosen-select form-control" data-link="{{ asset('/get/section') }}">
                         <option value="" selected disabled>Select Designation</option>
                         @foreach($dis as $a)
                             <option value="{{ $a->id }}">{{ $a->description }}</option>
@@ -60,7 +55,7 @@
                 <td class="col-sm-3"><label>Division</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">
-                    <select name="division" required id="select_div" onchange="loadDivision(this);" class="form-control" data-link="{{ asset('/get/section') }}">
+                    <select name="division" required id="select_div" onchange="loadDivision(this);" class="chosen-select form-control" data-link="{{ asset('/get/section') }}">
                         <option value="" selected disabled>Select division</option>
                         @foreach($div as $d)
                             <option value="{{ $d->id }}">{{ $d->description }}</option>
@@ -75,3 +70,7 @@
         <button type="submit" class="btn btn-success"><i class="fa fa-send"></i>Submit</button>
     </div>
 </form>
+
+<script>
+    $('.chosen-select').chosen();
+</script>

@@ -13,7 +13,7 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Documents</h2>
+        <h2 class="page-header">Divisions</h2>
         <form class="form-inline form-accept">
             <div class="form-group">
                 <input type="text" class="form-control" id="search" placeholder="Quick Search" autofocus>
@@ -21,7 +21,6 @@
                 <div class="btn-group">
                     <a href="#document_form" class="btn btn-success" data-toggle="modal" data-link="{{ asset('addDivision') }}">
                         <i class="fa fa-plus"></i>  Add New
-                        <span class="caret"></span>
                     </a>
                 </div>
             </div>
@@ -41,13 +40,12 @@
                     <tbody>
                     @foreach($division as $div)
                         <tr>
-                            <td><a class="title-info" data-route="{{ $div->description }}" data-link="" href="" data-toggle="">{{ $div->description }}</a></td>
+                            <td><a class="title-info">{{ $div->description }}</a></td>
                             <td>{{ Division::getHead($div->head) }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a href="#document_form" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('updateDivision/'.$div->id.'/'.$div->head) }}">
                                         <i class="fa fa-pencil"></i>  Update
-                                        <span class="caret"></span>
                                     </a>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-danger" value="{{ $div->description }}" data-link="{{ asset('deleteDivision/'.$div->id) }}" id="deleteValue" data-toggle="modal" data-target="#confirmation" onclick="deleteDivision($(this));"><i class="fa fa-trash"></i> Delete</button>
