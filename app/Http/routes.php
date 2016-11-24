@@ -55,7 +55,9 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view('logs.PurchaseRequestCA');
     }else if($doc_type=='ALL'){
         $display = view("logs.all");
-    }else{
+    } else if($doc_type == 'ROUTE') {
+        $display = view('logs.routing_slip');
+    } else{
         return redirect('document/delivered');
     }
 
