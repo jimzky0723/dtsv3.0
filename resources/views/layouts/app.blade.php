@@ -23,6 +23,9 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+     <title>
+         @yield('title','Home')
+     </title>
     @yield('css')
     <style>
         body {
@@ -122,7 +125,7 @@
 
     <div class="container">
         <div class="loading"></div>
-        @yield('content')     
+        @yield('content')
         <div class="clearfix"></div>
     </div> <!-- /container -->
     <footer class="footer">

@@ -41,6 +41,7 @@ class AdminController extends Controller
         }
     }
     public function handle_edit(Request $request) {
+
         $user = User::find($request->input('id'));
         $user->fname = $request->input('fname');
         $user->mname = $request->input('mname');

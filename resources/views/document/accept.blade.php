@@ -1,5 +1,5 @@
-@extends('layouts.app')
 
+@extends('layouts.app')
 @section('content')
 <div class="col-md-9 wrapper">
     <div class="alert alert-jim">

@@ -315,6 +315,8 @@ class DocumentController extends Controller
         return $new_array[0];
     }
 
+
+
     function deliveredDocument(Request $request){
         $doc_type = $request->doc_type;
         $id = Auth::user()->id;
