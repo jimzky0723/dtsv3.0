@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Section;
 use App\Division;
@@ -14,7 +15,7 @@ class SectionController extends Controller
         $this->middleware('auth');
     }
     public function section(){
-        $section = Section::orderBy('description','asc')->paginate(20);
+        $section = Section::orderBy('description','asc')->paginate(10);
         return view('section.section',['section' => $section ]);
     }
     public function addSection(){
@@ -57,6 +58,13 @@ class SectionController extends Controller
         $section->head=$request->get('head');
         $section->save();
         return redirect('section');
+    }
+    public function searchSection(Request $request){
+        Session::put("search",$request->get("search"));
+    }
+    public function searchSectionSave(){
+        $section = Section::where('description','like','%'.Session::get('search').'%')->orderBy('description','asc')->paginate(10);
+        return view('section.section',['section' => $section ]);
     }
     public static function getHead($id){
         $user = Users::find($id);

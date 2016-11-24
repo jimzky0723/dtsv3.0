@@ -35,7 +35,7 @@
                     @foreach($users as $user)
                         <?php $section = \App\Section::where('id', $user->section)->pluck('description')->first(); ?>
                         <?php $division = \App\Division::where('id', $user->division)->pluck('description')->first(); ?>
-                        <?php $designation = \App\Designation::where('id', $user->division)->pluck('description')->first(); ?>
+                        <?php $designation = \App\Designation::where('id', $user->designation)->pluck('description')->first(); ?>
 
                         <tr>
                             <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="title-info">{{ $user->username }}</a></td>

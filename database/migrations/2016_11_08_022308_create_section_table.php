@@ -30,6 +30,6 @@ class CreateSectionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('division');
+        Schema::drop('section');
     }
 }

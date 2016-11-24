@@ -23,9 +23,15 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+     <title>
+         @yield('title','Home')
+     </title>
+      <!--DATE RANGE-->
+      <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
+      <!--CHOOSEN SELECT -->
+      <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+
     @yield('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <style>
         body {
             background: url('{{ asset('resources/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
@@ -124,7 +130,7 @@
 
     <div class="container">
         <div class="loading"></div>
-        @yield('content')     
+        @yield('content')
         <div class="clearfix"></div>
     </div> <!-- /container -->
     <footer class="footer">
@@ -147,11 +153,32 @@
     <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
-
     @yield('plugin')
+
+    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+    <!-- DATE RANGE SELECT -->
+    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- SELECT CHOOSEN -->
+    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+    <script>
+        $('#reservation').daterangepicker();
+        $('.chosen-select').chosen();
+
+        function checkDocTye(){
+            var doc = $('select[name="doc_type"]').val();
+            if(doc.length == 0){
+                $('.error').removeClass('hide');
+            }
+        }
+    </script>
+    <script>
+        function searchDocument(){
+            $('.loading').show();
+            setTimeout(function(){
+                return true;
+            },2000);
+        }
+    </script>
     @section('js')
 
     @show

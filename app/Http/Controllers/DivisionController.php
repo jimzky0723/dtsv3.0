@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Session;
 use App\Division;
 use App\Users;
 use App;
@@ -46,6 +47,13 @@ class DivisionController extends Controller
         $division->head=$request->get('head');
         $division->save();
         return redirect('division');
+    }
+    public function searchDivision(Request $request){
+        Session::put("search",$request->get("search"));
+    }
+    public function searchDivisionSave(){
+        $division = Division::where('description','like','%'.Session::get('search').'%')->orderBy('description','asc')->paginate(10);
+        return view('division.division',['division' => $division ]);
     }
     public static function getHead($id){
         $user = Users::find($id);

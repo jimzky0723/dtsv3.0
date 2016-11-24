@@ -31,8 +31,8 @@
                         <tr>
                             <td class="title-info">{{ $d->description }}</td>
                             <td>
-                                <button type="button" class="btn btn-success" data-id="{{ $d->id }}" onclick="edit_designation(this);"><i class="fa fa-pencil"></i> Update </button>
-                                <button type="button" class="btn btn-danger" data-id="{{ $d->id }}" onclick="delete_designation(this);"><i class="fa fa-trash"></i> Delete </button>
+                                <button type="button" class="btn btn-info btn-sm" data-id="{{ $d->id }}" onclick="edit_designation(this);"><i class="fa fa-pencil"></i> Update </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-id="{{ $d->id }}" onclick="delete_designation(this);"><i class="fa fa-trash"></i> Delete </button>
                             </td>
                         </tr>
                     @endforeach
