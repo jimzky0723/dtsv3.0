@@ -6,7 +6,7 @@
                 <td class=""><label>Division</label></td>
                 <td>:</td>
                 <td>
-                    <select name="division" class="form-control" required>
+                    <select name="division" class="chosen-select" required>
                         <option value="">Select Division</option>
                         @foreach($division as $div)
                             <option value="{{ $div['id'] }}">{{ $div['description'] }}</option>
@@ -23,7 +23,7 @@
                 <td class=""><label>Head</label></td>
                 <td>:</td>
                 <td>
-                    <select name="head" class="form-control" required>
+                    <select name="head" class="chosen-select" required>
                         <option value="">Select Head</option>
                         @foreach($user as $head)
                             <option value="{{ $head['id'] }}">{{ $head['fname'].' '.$head['mname'].' '.$head['lname'] }}</option>
@@ -38,4 +38,7 @@
         <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
+<script>
+    $('.chosen-select').chosen();
+</script>
 

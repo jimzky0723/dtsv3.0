@@ -283,6 +283,25 @@ $('a[href="#edit_designation"]').on('click',function(event){
     });
 });
 
+function deleteSection(result) {
+    $("#nametoDelete").html(result.val());
+    $('#confirm').on('click', function () {
+        $('.loading').show();
+        var url = result.data('link');
+        setTimeout(function () {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: $(this).serialize(),
+                success: function (resultData) {
+                    $('.loading').hide();
+                    window.location.reload();
+                }
+            });
+        }, 500);
+    });
+}
+
 function deleteDivision(result) {
     $("#nametoDelete").html(result.val());
     $('#confirm').on('click', function () {
@@ -346,6 +365,31 @@ function del_user(el) {
         });
     });
 }
+function searchSection(result){
+    if($("#search").val() != '') {
+        var url = result.data('link');
+        var save = {
+            "search" : $("#search").val(),
+            "_token" : $("#token").data("token")
+        };
+        $.post(url,save,function(){
+            window.location.href = url;
+        });
+    }
+}
+function searchDivision(result){
+    if($("#search").val() != '') {
+        var url = result.data('link');
+        var save = {
+            "search" : $("#search").val(),
+            "_token" : $("#token").data("token")
+        };
+        $.post(url,save,function(){
+            window.location.href = url;
+        });
+    }
+}
+
 
 function delete_designation(el) {
    var url = $('#delete').data('link');

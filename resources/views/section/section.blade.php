@@ -1,6 +1,8 @@
 <?php use \App\Http\Controllers\SectionController as Section; ?>
 @extends('layouts.app')
 @section('content')
+    <span id="url" data-link="{{ asset('searchSection') }}"></span>
+    <span id="token" data-token="{{ csrf_token() }}"></span>
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -13,9 +15,10 @@
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Documents</h2>
         <form class="form-inline form-accept">
+            {{ csrf_field() }}
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Quick Search" autofocus>
-                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                <input type="text" class="form-control" placeholder="Quick Search" id="search" autofocus>
+                <button type="submit" class="btn btn-default" onclick="searchSection($(this));" data-link="{{ asset('searchSection') }}"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <a href="#document_form" class="btn btn-success" data-toggle="modal" data-link="{{ asset('addSection') }}">
                         <i class="fa fa-plus"></i>  Add New

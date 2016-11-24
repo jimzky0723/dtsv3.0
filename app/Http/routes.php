@@ -42,17 +42,24 @@ Route::get('pdf/track', function(){
 });
 
 Route::get('pdf/logs/{doc_type}', function($doc_type){
-    if($doc_type=='SAL' || $doc_type=='TEV' || $doc_type=='PO'){
+    if($doc_type=='SAL' || $doc_type=='TEV'){
         $display = view("logs.salary");
-    }else if($doc_type=='PR'){
-        return 'pdf file';
-    }else{
+    }else if($doc_type=='PO'){
+        $display = view('logs.PurchaseOrder');
+    }else if($doc_type=="PRC"){
+        $display = view('logs.PurchaseRequestCA');
+    }else if($doc_type=="PRR"){
+        $display = view('logs.PurchaseRequestCA');
+    }
+    else{
         $display = view("logs.default");
     }
-
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display)->setPaper('a4', 'landscape');
     return $pdf->stream();
+});
+Route::get('tayong',function(){
+   return view('logs.PurchaseRequestR');
 });
 //endjimzky
 
@@ -74,6 +81,8 @@ Route::post('addDivision','DivisionController@addDivisionSave');
 Route::get('deleteDivision/{id}','DivisionController@deleteDivision');
 Route::get('updateDivision/{id}/{head}','DivisionController@updateDivision');
 Route::post('updateDivisionSave','DivisionController@updateDivisionSave');
+Route::post('searchDivision','DivisionController@searchDivision');
+Route::get('searchDivision','DivisionController@searchDivisionSave');
 //SECTION
 Route::get('section','SectionController@section');
 Route::get('addSection','SectionController@addSection');
@@ -81,6 +90,8 @@ Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
 Route::post('updateSectionSave','SectionController@updateSectionSave');
+Route::post('searchSection','SectionController@searchSection');
+Route::get('searchSection','SectionController@searchSectionSave');
 Route::get('haha',function(){
     return Tracking::all();
 });
@@ -133,3 +144,4 @@ Route::get('clear', function(){
    Session::flush();
     return redirect('/');
 });
+
