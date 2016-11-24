@@ -12,10 +12,13 @@ use App\Division;
 use Illuminate\Http\Request;
 use App\User;
 use App\Section;
+use Illuminate\Support\Facades\Auth;
+
 class AdminController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('user_priv');
         $this->middleware('auth');
     }
     public function users(Request $request) {
@@ -36,7 +39,6 @@ class AdminController extends Controller
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
-            $user->email = $request->input('email');
             $user->password = bcrypt($request->input('password'));
             $user->username = $request->input('username');
             $user->designation = $request->input('designation');
@@ -64,7 +66,6 @@ class AdminController extends Controller
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
-            $user->email = $request->input('email');
             $user->username = $request->input('username');
             $user->designation = $request->input('designation');
             $user->division = $request->input('division');
@@ -73,7 +74,6 @@ class AdminController extends Controller
             $user->save();
             return redirect('users');
         }
-
     }
     public function section(Request $request) {
         $section = Section::where('division',$request->input('id'))->get();
@@ -99,5 +99,12 @@ class AdminController extends Controller
             $user->delete();
             return json_encode(array('status' => 'ok'));
         }
+    }
+    public function check_user(Request $request) {
+        $user = User::where('username',$request->input('username'))->first();
+        if(isset($user) and count($user) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
     }
 }

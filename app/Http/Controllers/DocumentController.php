@@ -320,6 +320,7 @@ class DocumentController extends Controller
 
 
     function deliveredDocument(Request $request){
+
         $doc_type = $request->doc_type;
         $id = Auth::user()->id;
 

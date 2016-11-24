@@ -146,6 +146,7 @@ Route::match(['get','post'],'user/edit','AdminController@user_edit');
 Route::get('/get/section', 'AdminController@section');
 Route::get('/search/user','AdminController@search');
 Route::post('/user/remove','AdminController@remove');
+Route::get('/check/user','AdminController@check_user');
 //designation
 Route::get('/designation', 'DesignationController@index');
 Route::match(['get','post'],'/designation/create','DesignationController@create');
