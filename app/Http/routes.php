@@ -123,22 +123,17 @@ Route::get('/session','DocumentController@session');
 //ADMIN CONTROLLER
 //users
 Route::get('users', 'AdminController@users');
-Route::get('user/new', 'AdminController@create');
-Route::post('/user/new', 'AdminController@new_user');
-Route::get('/user/edit', 'AdminController@edit');
-Route::post('/user/edit', 'AdminController@handle_edit');
+Route::match(['get','post'],'user/new','AdminController@user_create');
+Route::match(['get','post'],'user/edit','AdminController@user_edit');
 Route::get('/get/section', 'AdminController@section');
 Route::get('/search/user','AdminController@search');
 Route::post('/user/remove','AdminController@remove');
 //designation
 Route::get('/designation', 'DesignationController@index');
-Route::get('/designation/create', 'DesignationController@create');
-Route::post('/designation/create', 'DesignationController@save');
-Route::post('/remove/designation', 'DesignationController@remove');
-Route::get('/edit/designation', 'DesignationController@edit');
-Route::post('/edit/designation', 'DesignationController@edit_save');
+Route::match(['get','post'],'/designation/create','DesignationController@create');
+Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
-
+Route::post('/remove/designation', 'DesignationController@remove');
 
 Route::get('clear', function(){
    Session::flush();

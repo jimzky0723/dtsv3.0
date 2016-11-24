@@ -23,16 +23,16 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
-<<<<<<< HEAD
+
      <title>
          @yield('title','Home')
      </title>
-=======
+
       <!--DATE RANGE-->
       <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
       <!--CHOOSEN SELECT -->
       <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
->>>>>>> 3df63aada389bcd13b414302be6b682c7faa53e0
+
     @yield('css')
     <style>
         body {
