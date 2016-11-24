@@ -7,10 +7,10 @@
 <table class="table table-hover table-striped">
     <thead>
         <tr>
-            <th>Received By</th>
-            <th>Date In</th>
-            <th>Duration</th>
-            <th>Remarks</th>
+            <th width="25%">Received By</th>
+            <th width="25%">Date In</th>
+            <th width="25%">Duration</th>
+            <th width="25%">Remarks</th>
         </tr>
     </thead>
     <tbody>

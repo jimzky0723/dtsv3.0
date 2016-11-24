@@ -23,10 +23,14 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+     <title>
+         @yield('title','Home')
+     </title>
       <!--DATE RANGE-->
       <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
       <!--CHOOSEN SELECT -->
       <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+
     @yield('css')
     <style>
         body {
@@ -92,7 +96,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
               <ul class="dropdown-menu">                
                 <li><a href="{{ URL::to('document/delivered') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Delivered Documents</a></li>
-                <li><a href="{{ URL::to('docureceived') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
+                <li><a href="{{ URL::to('document/received') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
               </ul>
             </li>
           @if(Auth::user()->user_priv==1)
@@ -126,7 +130,7 @@
 
     <div class="container">
         <div class="loading"></div>
-        @yield('content')     
+        @yield('content')
         <div class="clearfix"></div>
     </div> <!-- /container -->
     <footer class="footer">
@@ -144,11 +148,13 @@
     <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
-    @yield('plugin')
     <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
     <!-- bootstrap datepicker -->
     <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
+
+    @yield('plugin')
+
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
     <!-- DATE RANGE SELECT -->
     <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>

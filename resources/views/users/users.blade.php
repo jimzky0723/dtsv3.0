@@ -24,29 +24,35 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="20%">Username</th>
-                        <th width="15%">Name </th>
-                        <th width="20%">User email</th>
-                        <th width="20%">Designation</th>
-                        <th width="20%">Division</th>
-                        <th width="20%">Section</th>
-                        <th width="20%" class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
+                        <th>Username</th>
+                        <th>Name </th>
+                        <th>Designation</th>
+                        <th>Section / Division</th>
+                        <th width="20%">Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($users as $user)
                         <?php $section = \App\Section::where('id', $user->section)->pluck('description')->first(); ?>
                         <?php $division = \App\Division::where('id', $user->division)->pluck('description')->first(); ?>
-                        <?php $designation = \App\Designation::where('id', $user->division)->pluck('description')->first(); ?>
+                        <?php $designation = \App\Designation::where('id', $user->designation)->pluck('description')->first(); ?>
 
                         <tr>
-                            <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}">{{ $user->username }}</a></td>
-                            <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                            <td>{{ $user->email }}</td>
+                            <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="title-info">{{ $user->username }}</a></td>
+                            <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
                             <td>{{ $designation }}</td>
-                            <td>{{ $division }}</td>
-                            <td>{{ $section }}</td>
-                            <td>  <button type="button" data-id="{{ $user->id }}" data-link="{{ asset('user/remove') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" name="delete" value="delete" ><i class="fa fa-times"></i>Delete</button></td>
+                            <td>
+                                {{ $section }}<br>
+                                <em>({{ $division }})</em>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#user" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('user/edit') }}" data-id="{{ $user->id }}">
+                                        <i class="fa fa-pencil"></i>  Update
+                                    </a>
+                                </div>
+                                <button type="button" data-id="{{ $user->id }}" data-link="{{ asset('user/remove') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" name="delete" value="delete" ><i class="fa fa-trash"></i> Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

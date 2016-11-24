@@ -22,28 +22,18 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="8%"></th>
-                        <th width="20%">Description</th>
+                        <th>Description</th>
+                        <th width="20%">Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($designations as $d)
                         <tr>
+                            <td class="title-info">{{ $d->description }}</td>
                             <td>
-                                <span class="col-md-4">
-                                    <button class="btn  btn-danger" data-id="{{ $d->id }}" onclick="delete_designation(this);">
-                                        Delete
-                                        <i class="fa fa-trash" aria-hidden="true" style="color: #9f191f;" title="Delete"></i>
-                                    </button>
-                                </span>
-                                <span class="col-md-4">
-                                    <button class="btn btn-default" data-id="{{ $d->id }}" onclick="edit_designation(this);">
-                                        Edit
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: #0000cc;" title="Edit"></i>
-                                    </button>
-                                </span>
+                                <button type="button" class="btn btn-info btn-sm" data-id="{{ $d->id }}" onclick="edit_designation(this);"><i class="fa fa-pencil"></i> Update </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-id="{{ $d->id }}" onclick="delete_designation(this);"><i class="fa fa-trash"></i> Delete </button>
                             </td>
-                            <td>{{ $d->description }}</td>
                         </tr>
                     @endforeach
                     </tbody>
