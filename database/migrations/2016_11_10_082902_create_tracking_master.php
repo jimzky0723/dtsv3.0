@@ -31,7 +31,7 @@ class CreateTrackingMaster extends Migration
             $table->dateTime('event_date');
             $table->string('event_location');
             $table->string('event_participant');
-            $table->integer('cdo_applicant');
+            $table->string('cdo_applicant');
             $table->integer('cdo_day');
             $table->string('event_daterange');
             $table->string('payee');

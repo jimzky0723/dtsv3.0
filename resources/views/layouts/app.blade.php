@@ -23,9 +23,11 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+
      <title>
          @yield('title','Home')
      </title>
+
       <!--DATE RANGE-->
       <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
       <!--CHOOSEN SELECT -->
