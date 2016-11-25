@@ -12,6 +12,7 @@ class DivisionController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
     public function division(){
         $division = Division::orderBy('description','asc')->paginate(10);

@@ -423,7 +423,6 @@ function edit_designation(el) {
         $('input').attr('autocomplete', 'off');
     });
 }
-
 function checkUser(el){
     var url = $(el).data('link');
     var data = {
@@ -495,3 +494,4 @@ function divisionValidate(){
         $('#form').attr('onsubmit','return true;');
     }
 }
+
