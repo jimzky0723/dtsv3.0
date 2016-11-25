@@ -122,6 +122,12 @@ Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSecti
 Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
 Route::get('searchSection','SectionController@searchSectionSave');
+//CHECK SECTION
+Route::get('checkSection','SectionController@checkSection');
+Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
+//CHECK DIVISION
+Route::get('checkDivision','DivisionController@checkDivision');
+Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('haha',function(){
     return Tracking::all();
 });

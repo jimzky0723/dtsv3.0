@@ -6,7 +6,11 @@
             <tr>
                 <td class="col-sm-3"><label>Description</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="description" value="{{ $description }}" class="form-control" required></td>
+                <td class="col-sm-8">
+                    <input type="hidden" id="uniqueDescription" value="{{ $description }}">
+                    <input type="text" name="description" value="{{ $description }}" class="form-control" onkeyup="checkDescriptionUpdate(this);" data-link="{{ asset('checkDivisionUpdate') }}" required>
+                    <span class="hidden" style="color:red;">Description already used.</span>
+                </td>
             </tr>
             <tr>
                 <td class=""><label>Head</label></td>
