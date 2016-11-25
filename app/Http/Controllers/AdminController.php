@@ -12,10 +12,13 @@ use App\Division;
 use Illuminate\Http\Request;
 use App\User;
 use App\Section;
+use Illuminate\Support\Facades\Auth;
+
 class AdminController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('user_priv');
         $this->middleware('auth');
     }
     public function users(Request $request) {
@@ -23,37 +26,55 @@ class AdminController extends Controller
         return view('users.users')
                 ->with('users',$users);
     }
-    public function create(Request $request) {
-        $div = Division::all();
-        $dis = Designation::all();
-        return view('users.new')
+    public function user_create(Request $request){
+        if($request->isMethod('get')){
+            $div = Division::all();
+            $dis = Designation::all();
+            return view('users.new')
                 ->with('div', $div)
                 ->with('dis', $dis);
+        }
+        if($request->isMethod('post')){
+            $user = new User();
+            $user->fname = $request->input('fname');
+            $user->mname = $request->input('mname');
+            $user->lname = $request->input('lname');
+            $user->password = bcrypt($request->input('password'));
+            $user->username = $request->input('username');
+            $user->designation = $request->input('designation');
+            $user->division = $request->input('division');
+            $user->section = $request->input('section');
+            $user->user_priv = $request->input('user_type');
+            $user->save();
+            return redirect('users');
+        }
     }
-    public function edit(Request $request) {
-        $user = User::find($request->input('id'));
-        if(isset($user) and count($user) > 0) {
-            return view('users.edit')
+    public function user_edit(Request $request){
+
+        if($request->isMethod('get')){
+            $user = User::find($request->input('id'));
+            if(isset($user) and count($user) > 0) {
+                return view('users.edit')
                     ->with('user', $user)
                     ->with('section',Section::all())
                     ->with('division',Division::all())
                     ->with('designation',Designation::all());
+            }
         }
-    }
-    public function handle_edit(Request $request) {
+        if($request->isMethod('post')){
+            $user = User::find($request->input('id'));
+            $user->fname = $request->input('fname');
+            $user->mname = $request->input('mname');
+            $user->lname = $request->input('lname');
+            $user->username = $request->input('username');
+            $user->designation = $request->input('designation');
+            $user->division = $request->input('division');
+            $user->section = $request->input('section');
+            $user->user_priv = $request->input('user_type');
+            $user->save();
+            return redirect('users');
+        }
 
-        $user = User::find($request->input('id'));
-        $user->fname = $request->input('fname');
-        $user->mname = $request->input('mname');
-        $user->lname = $request->input('lname');
-        $user->username = $request->input('username');
-        $user->email = $request->input('username').'@doh7.net';
-        $user->designation = $request->input('designation');
-        $user->division = $request->input('division');
-        $user->section = $request->input('section');
-        $user->user_priv = $request->input('user_type');
-        $user->save();
-        return redirect('users');
     }
     public function section(Request $request) {
         $section = Section::where('division',$request->input('id'))->get();
@@ -61,21 +82,7 @@ class AdminController extends Controller
             return view('users.tr')->with('section', $section);
         }
     }
-    public function new_user(Request $request) {
-        $user = new User();
-        $user->fname = $request->input('fname');
-        $user->mname = $request->input('mname');
-        $user->lname = $request->input('lname');
-        $user->password = bcrypt($request->input('password'));
-        $user->username = $request->input('username');
-        $user->email = $request->input('username').'@doh7.net';
-        $user->designation = $request->input('designation');
-        $user->division = $request->input('division');
-        $user->section = $request->input('section');
-        $user->user_priv = $request->input('user_type');
-        $user->save();
-        return redirect('users');
-    }
+
     public function search(Request $request) {
         $user = User::where('fname','LIKE', "%". $request->input('search') ."%")
                     ->orWhere('mname', 'LIKE', "%". $request->input('search')."%")
@@ -93,5 +100,12 @@ class AdminController extends Controller
             $user->delete();
             return json_encode(array('status' => 'ok'));
         }
+    }
+    public function check_user(Request $request) {
+        $user = User::where('username',$request->input('username'))->first();
+        if(isset($user) and count($user) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
     }
 }

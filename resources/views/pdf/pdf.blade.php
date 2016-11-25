@@ -1,13 +1,22 @@
 <html>
 <style type="text/css">
-    html {
-        margin-top:955px;
-        margin-left:280px;
+    .barcode {
+        top: 930px;
+        position: relative;
+        left: -50%;
+    }
+    .route_no {
+        font-size: 1em;
+        text-align:center;
     }
 </style>
 <title>{{ Session::get('route_no') }}</title>
 <body>
-<?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,33) ?>
-{{ Session::get('route_no') }}
+<div style="position: absolute; left: 50%;">
+    <div class="barcode">
+        <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
+        <font class="route_no">{{ Session::get('route_no') }}</font>
+    </div>
+</div>
 </body>
 </html>

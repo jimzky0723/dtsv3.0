@@ -22,35 +22,32 @@ class DesignationController extends Controller
         $d = Designation::paginate(10);
         return view('designation.list')->with('designations',$d);
     }
-    public function create() {
-        return view('designation.create');
-    }
-    public function save(Request $request){
-        $d = new Designation();
-        $d->description = $request->input('designation');
-        $d->save();
-        return redirect('designation');
-    }
-    public function remove(Request $request) {
-        $d = Designation::find($request->input('id'));
-        if(isset($d) and count($d) > 0) {
-            $d->delete();
-            return json_encode(array('status' => 'ok'));
+    public function create(Request $request){
+        if($request->isMethod('get')){
+            return view('designation.create');
         }
-        return json_encode(array('status' => 'failed'));
-    }
-    public function edit(Request $request) {
-        $d = Designation::find($request->input('id'));
-        if(isset($d) and count($d) > 0) {
-            return view('designation.edit_designation')->with('d', $d);
-        }
-    }
-    public function edit_save(Request $request){
-        $d = Designation::find($request->input('id'));
-        if(isset($d) and count($d) > 0) {
+        if($request->isMethod('post')){
+            $d = new Designation();
             $d->description = $request->input('designation');
             $d->save();
             return redirect('designation');
+        }
+    }
+
+    public function edit(Request $request){
+        if($request->isMethod('get')) {
+            $d = Designation::find($request->input('id'));
+            if(isset($d) and count($d) > 0) {
+                return view('designation.edit_designation')->with('d', $d);
+            }
+        }
+        if($request->isMethod('post')){
+            $d = Designation::find($request->input('id'));
+            if(isset($d) and count($d) > 0) {
+                $d->description = $request->input('designation');
+                $d->save();
+                return redirect('designation');
+            }
         }
     }
     public function search(Request $request){
@@ -60,5 +57,12 @@ class DesignationController extends Controller
         }
         return view('designation.list')->with('designations', $designation);
     }
-
+    public function remove(Request $request) {
+        $d = Designation::find($request->input('id'));
+        if(isset($d) and count($d) > 0) {
+            $d->delete();
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'failed'));
+    }
 }

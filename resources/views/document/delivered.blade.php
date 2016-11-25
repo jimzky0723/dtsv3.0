@@ -45,9 +45,8 @@
                             <option>Service Record</option>
                             <option>SALN</option>
                             <option>Plans (includes Allocation List)</option>
-                            <option>Routing Slip</option>
+                            <option value="ROUTE">Routing Slip</option>
                         </optgroup>
-                        <option>Memorandum</option>
                         <optgroup label="Management System Documents">
                             <option>Memorandum</option>
                             <option>ISO Documents</option>

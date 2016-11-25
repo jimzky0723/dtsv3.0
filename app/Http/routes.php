@@ -17,6 +17,9 @@ Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 
+Route::get('document/filter', 'FilterController@index');
+Route::post('document/filter', 'FilterController@update');
+
 Route::get('document/delivered', 'DocumentController@deliveredDocument');
 Route::post('document/delivered', 'DocumentController@deliveredDocument');
 
@@ -55,7 +58,9 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view('logs.PurchaseRequestCA');
     }else if($doc_type=='ALL'){
         $display = view("logs.all");
-    }else{
+    } else if($doc_type == 'ROUTE') {
+        $display = view('logs.routing_slip');
+    } else{
         return redirect('document/delivered');
     }
 
@@ -148,22 +153,18 @@ Route::get('/session','DocumentController@session');
 //ADMIN CONTROLLER
 //users
 Route::get('users', 'AdminController@users');
-Route::get('user/new', 'AdminController@create');
-Route::post('/user/new', 'AdminController@new_user');
-Route::get('/user/edit', 'AdminController@edit');
-Route::post('/user/edit', 'AdminController@handle_edit');
+Route::match(['get','post'],'user/new','AdminController@user_create');
+Route::match(['get','post'],'user/edit','AdminController@user_edit');
 Route::get('/get/section', 'AdminController@section');
 Route::get('/search/user','AdminController@search');
 Route::post('/user/remove','AdminController@remove');
+Route::get('/check/user','AdminController@check_user');
 //designation
 Route::get('/designation', 'DesignationController@index');
-Route::get('/designation/create', 'DesignationController@create');
-Route::post('/designation/create', 'DesignationController@save');
-Route::post('/remove/designation', 'DesignationController@remove');
-Route::get('/edit/designation', 'DesignationController@edit');
-Route::post('/edit/designation', 'DesignationController@edit_save');
+Route::match(['get','post'],'/designation/create','DesignationController@create');
+Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
-
+Route::post('/remove/designation', 'DesignationController@remove');
 
 Route::get('clear', function(){
    Session::flush();

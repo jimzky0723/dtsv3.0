@@ -20,7 +20,7 @@ $filter = Doc::isIncluded($document->doc_type);
         <td class="text-right">Prepared Date :</td>
         <td>{{ date('M d, Y h:i:s A',strtotime($document->prepared_date)) }}</td>
     </tr>
-    <tr>
+    <tr class="{{ $filter[0] }}">
         <td class="text-right">Remarks :</td>
         <td>{{ $document->description }}</td>
     </tr>
