@@ -24,12 +24,16 @@ class SectionController extends Controller
         return view('section.addSection',['user' => $user,'division' => $division ]);
     }
     public function addSectionSave(Request $request){
-        $section = new Section();
-        $section->division = $request->get('division');
-        $section->description = $request->get('description');
-        $section->head = $request->get('head');
-        $section->save();
-        return redirect("section");
+        if(Section::where('description','=',$request->get('description'))->first()){
+            $section = new Section();
+            $section->division = $request->get('division');
+            $section->description = $request->get('description');
+            $section->head = $request->get('head');
+            $section->save();
+            return redirect("section");
+        }else{
+            echo "false";
+        }
     }
     public function deleteSection($id){
         $section = Section::find($id);

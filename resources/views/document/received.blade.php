@@ -70,8 +70,8 @@ $code = Session::get('doc_type_code');
                             <option>Compensatory Time Off</option>
                         </optgroup>
                         <option value="PO">Purchase Order</option>
-                        <option>Purchase Request - Cash Advance Purchase</option>
-                        <option>Purchase Request - Regular Purchase</option>
+                        <option value="PRC">Purchase Request - Cash Advance Purchase</option>
+                        <option value="PRR">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
                     </select>
                 </div>

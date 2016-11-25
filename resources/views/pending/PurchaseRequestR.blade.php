@@ -2,9 +2,7 @@
 use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
-use App\Http\Controllers\DocumentController as Doc;
 $documents = Session::get('receivedDocuments');
-
 ?>
 <html>
 <title>Print Logs</title>
@@ -33,18 +31,17 @@ $documents = Session::get('receivedDocuments');
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th>Document Type</th>
-        <th>Date Received</th>
+        <th>Date Delivered</th>
         <th>Received From</th>
         <th>Route # / Remarks</th>
+        <th>Amount</th>
+        <th>Requested By</th>
+        <th>Charge To</th>
     </tr>
     </thead>
     <tbody>
     @foreach($documents as $doc)
         <tr>
-            <td>
-                {{ Doc::docTypeName($doc->doc_type) }}
-            </td>
             <td>
                 {{ date('M d, Y',strtotime($doc->date_in)) }}<br>
                 {{ date('h:i:s A',strtotime($doc->date_in)) }}
@@ -58,8 +55,11 @@ $documents = Session::get('receivedDocuments');
             </td>
             <td>
                 Route No: {{ $doc->route_no }}<br>
-                {!! nl2br($doc->action) !!}
+                {!! nl2br($doc->description) !!}
             </td>
+            <td>{{ number_format($doc->amount) }}</td>
+            <td>{{ $doc->requested_by }}</td>
+            <td>{{ $doc->source_fund }}</td>
         </tr>
     @endforeach
     </tbody>
