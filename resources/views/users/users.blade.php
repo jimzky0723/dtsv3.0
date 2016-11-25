@@ -70,6 +70,7 @@
             </div>
         @endif
     </div>
+
 @endsection
 @section('plugin')
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>

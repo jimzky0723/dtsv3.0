@@ -16,7 +16,7 @@ $documents = Session::get('deliveredDocuments');
             <td width="60%">
                 <center>
                     <strong>Republic of the Philippines</strong><br>
-                    Depart of Health - Regional Office 7<br>
+                    Department of Health - Regional Office 7<br>
                     <h4 style="margin:0;">DOCUMENT TRACKING SYSTEM LOGS</h4>
                     (Delivered Documents)<br>
                     {{ date('M d, Y',strtotime(Session::get('startdate'))) }} - {{ date('M d, Y',strtotime(Session::get('enddate'))) }}
