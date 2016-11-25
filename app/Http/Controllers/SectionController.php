@@ -13,6 +13,7 @@ class SectionController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
     public function section(){
         $section = Section::orderBy('description','asc')->paginate(10);
