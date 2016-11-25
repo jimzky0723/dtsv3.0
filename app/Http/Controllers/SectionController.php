@@ -11,18 +11,25 @@ use App;
 
 class SectionController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
-    public function section(){
-        $section = Section::orderBy('description','asc')->paginate(10);
-        return view('section.section',['section' => $section ]);
+
+    public function section()
+    {
+        $section = Section::orderBy('description', 'asc')->paginate(10);
+        return view('section.section', ['section' => $section]);
     }
-    public function addSection(){
+
+    public function addSection()
+    {
         $division = Division::all();
         $user = Users::all()->sortBy("fname");
-        return view('section.addSection',['user' => $user,'division' => $division ]);
+        return view('section.addSection', ['user' => $user, 'division' => $division]);
     }
+
     public function addSectionSave(Request $request){
         $section = new Section();
         $section->division = $request->get('division');
@@ -69,5 +76,19 @@ class SectionController extends Controller
     public static function getHead($id){
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];
+    }
+    public function checkSection(Request $request) {
+        $section = Section::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
+    }
+    public function checkSectionUpdate(Request $request) {
+        $section = Section::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
     }
 }

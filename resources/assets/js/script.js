@@ -423,4 +423,75 @@ function edit_designation(el) {
         $('input').attr('autocomplete', 'off');
     });
 }
+function checkUser(el){
+    var url = $(el).data('link');
+    var data = {
+        "username" : $(el).val()
+    }
+    $.get(url,data,function(response){
+        var res = JSON.parse(response);
+        if(res.status == "ok") {
+            $(el).next().removeClass('hidden');
+            $('.user_add').prop('disabled',true);
+        }
+        if(res.status == "false") {
+            $(el).next().addClass('hidden');
+            $('.user_add').prop('disabled',false);
+        }
+    });
+}
+
+function checkDescription(description){
+    var url = $(description).data('link');
+    var data = {
+        "description" : $(description).val()
+    }
+    $.get(url,data,function(response){
+        var res = JSON.parse(response);
+        if(res.status == "ok") {
+            $(description).next().removeClass('hidden');
+            $('#sectionSubmit').prop('disabled',true);
+        }
+        if(res.status == "false") {
+            $(description).next().addClass('hidden');
+            $('#sectionSubmit').prop('disabled',false);
+        }
+    });
+}
+
+function checkDescriptionUpdate(description){
+    var url = $(description).data('link');
+    var data = {
+        "description" : $(description).val()
+    }
+    $.get(url,data,function(response){
+        var res = JSON.parse(response);
+        if(res.status == "ok" && $("#uniqueDescription").val() != $(description).val() ) {
+            $(description).next().removeClass('hidden');
+            $('#sectionSubmit').prop('disabled', true);
+        }
+        if(res.status == "false" || $("#uniqueDescription").val() == $(description).val() ) {
+            $(description).next().addClass('hidden');
+            $('#sectionSubmit').prop('disabled',false);
+        }
+    });
+}
+
+function divisionValidate(){
+    if($("#division").val() == ""){
+        $('#form').attr('onsubmit','return false;');
+        $("#divisionBorder").css({'border': '2px solid red'});
+    } else {
+        $("#divisionBorder").removeAttr("style");
+    }
+    if($("#head").val() == ""){
+        $('#form').attr('onsubmit','return false;');
+        $("#headBorder").css({'border': '2px solid red'});
+    } else {
+        $("#headBorder").removeAttr("style");
+    }
+    if($("#division").val() && $("#description").val() && $("#head").val() != ""){
+        $('#form').attr('onsubmit','return true;');
+    }
+}
 

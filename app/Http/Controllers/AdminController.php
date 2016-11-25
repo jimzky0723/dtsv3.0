@@ -22,7 +22,7 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
     public function users(Request $request) {
-        $users = User::where('id','<>', $request->user()->id)->paginate(10);
+        $users = User::where('id','!=', $request->user()->id)->paginate(10);
         return view('users.users')
                 ->with('users',$users);
     }

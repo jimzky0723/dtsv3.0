@@ -12,6 +12,7 @@ class DivisionController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
     public function division(){
         $division = Division::orderBy('description','asc')->paginate(10);
@@ -58,5 +59,19 @@ class DivisionController extends Controller
     public static function getHead($id){
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];
+    }
+    public function checkDivision(Request $request) {
+        $section = Division::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
+    }
+    public function checkDivisionUpdate(Request $request) {
+        $section = Division::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
     }
 }

@@ -12,6 +12,7 @@ class FilterController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
 
     public function index(){
