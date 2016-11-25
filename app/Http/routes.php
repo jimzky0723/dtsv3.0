@@ -60,6 +60,8 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view("logs.all");
     } else if($doc_type == 'ROUTE') {
         $display = view('logs.routing_slip');
+    } else if($doc_type == 'APPLEAVE'){
+        $display = view('logs.app_leave');
     } else{
         return redirect('document/delivered');
     }
@@ -164,3 +166,6 @@ Route::get('clear', function(){
     return redirect('/');
 });
 
+Route::get('modal',function(){
+    return view('users.modal');
+});

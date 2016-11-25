@@ -64,7 +64,7 @@
                         <optgroup label="Personnel Related Documents">
                             <option>Office Order</option>
                             <option>DTR</option>
-                            <option>Application for Leave</option>
+                            <option value="APPLEAVE">Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
                             <option>Compensatory Time Off</option>
                         </optgroup>

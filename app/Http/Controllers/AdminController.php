@@ -68,6 +68,10 @@ class AdminController extends Controller
             }
         }
         if($request->isMethod('post')){
+            $user = User::where('username', $request->input('username'))->first();
+            if(isset($user) and count($user) > 0) {
+                return redirect('users')->with('used','Username is already used.');
+            }
             $user = User::find($request->input('id'));
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
@@ -81,7 +85,6 @@ class AdminController extends Controller
             $user->save();
             return redirect('users');
         }
-
     }
     public function section(Request $request) {
         $section = Section::where('division',$request->input('id'))->get();
