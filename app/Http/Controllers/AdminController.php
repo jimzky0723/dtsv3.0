@@ -27,6 +27,7 @@ class AdminController extends Controller
                 ->with('users',$users);
     }
     public function user_create(Request $request){
+
         if($request->isMethod('get')){
             $div = Division::all();
             $dis = Designation::all();
@@ -35,11 +36,16 @@ class AdminController extends Controller
                 ->with('dis', $dis);
         }
         if($request->isMethod('post')){
+            $user = User::where('username', $request->input('username'))->first();
+            if(isset($user) and count($user) > 0) {
+                return redirect('users')->with('used','Username is already used.');
+            }
             $user = new User();
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
             $user->password = bcrypt($request->input('password'));
+            $user->email = "dummy";
             $user->username = $request->input('username');
             $user->designation = $request->input('designation');
             $user->division = $request->input('division');
@@ -68,6 +74,7 @@ class AdminController extends Controller
             $user->lname = $request->input('lname');
             $user->username = $request->input('username');
             $user->designation = $request->input('designation');
+            $user->email = "dummy";
             $user->division = $request->input('division');
             $user->section = $request->input('section');
             $user->user_priv = $request->input('user_type');
@@ -99,12 +106,5 @@ class AdminController extends Controller
             $user->delete();
             return json_encode(array('status' => 'ok'));
         }
-    }
-    public function check_user(Request $request) {
-        $user = User::where('username',$request->input('username'))->first();
-        if(isset($user) and count($user) > 0) {
-            return json_encode(array('status' => 'ok'));
-        }
-        return json_encode(array('status' => 'false'));
     }
 }

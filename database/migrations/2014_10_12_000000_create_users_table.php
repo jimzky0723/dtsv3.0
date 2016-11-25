@@ -17,10 +17,10 @@ class CreateUsersTable extends Migration
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');
-            $table->string('username',50)->unique;
-            $table->string('email')->unique();
+            $table->string('username',50)->unique();
             $table->integer('designation');
             $table->integer('division');
+            $table->string('email');
             $table->integer('section');
             $table->string('password');
             $table->boolean('user_priv');

@@ -33,8 +33,8 @@
                 <td class="col-sm-8">
                     <select name="user_type" required id="user_type" class="form-control">
                         <option value="" disabled selected>Select user type</option>
-                        <option {{ ($user->user_priv == 1 ? 'selected' : '') }}value="1">Admin</option>
-                        <option {{ ($user->user_priv == 0 ? 'selected' : '') }} value="0">Standard</option>
+                        <option {{ ($user->user_priv == 1 ? ' selected' : '') }}value="1">Admin</option>
+                        <option {{ ($user->user_priv == 0 ? ' selected' : '') }} value="0">Standard</option>
                     </select>
                 </td>
             </tr>
