@@ -19,6 +19,11 @@
         </form>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
+        @if(Session::has('used'))
+            <div class="alert alert-danger">
+                <strong>{{ Session::get('used') }}</strong>
+            </div>
+        @endif
         @if(count($users) > 0)
             <div class="table-responsive">
                 <table class="table table-list table-hover table-striped">
@@ -83,6 +88,7 @@
                 $(this).submit();
             });
         })($);
+
     </script>
 @endsection
 
