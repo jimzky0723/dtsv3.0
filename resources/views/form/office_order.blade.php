@@ -1,7 +1,7 @@
 
 <form action="{{ asset('/form/justification/letter') }}" method="POST" id="form_route">
     {{ csrf_field() }}
-    <input type="hidden" name="doctype" value="OFFICE_ORDER" />
+    <input type="hidden" name="doctype" value="SO" />
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>

@@ -119,9 +119,9 @@ class DocumentController extends Controller
             case "INFRA":
                 return "Infra - Contractor";
             case "INCOMING":
-                return "Incoming";
+                return "Incoming Letter";
             case "OUTGOING":
-                return "Outgoing";
+                return "Outgoing Letter";
             case "SERVICE":
                 return "Service Record";
             case "SALN":
@@ -154,7 +154,7 @@ class DocumentController extends Controller
                 return "Office Order";
             case "DTR":
                 return "DTR";
-            case "CDO":
+            case "APPLEAVE":
                 return "Application for Leave";
             case "OT":
                 return "Certificate of Overtime Credit";

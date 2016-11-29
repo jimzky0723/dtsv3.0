@@ -60,7 +60,17 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view("logs.all");
     } else if($doc_type == 'ROUTE') {
         $display = view('logs.routing_slip');
-    } else{
+    } else if($doc_type == 'APPLEAVE'){
+        $display = view('logs.app_leave');
+    } else if($doc_type == 'INCOMING'){
+        $display = view('logs.incoming');
+    } else if($doc_type == 'SO'){
+        $display = view('logs.office_order');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('logs.worksheet');
+    } else if($doc_type == 'JUST_LETTER') {
+        $display = view('logs.just_letter');
+    }else{
         return redirect('document/delivered');
     }
 
@@ -138,7 +148,7 @@ Route::get('haha',function(){
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::post('/form/routing/slip', 'RoutingController@create');
 //incoming letter
-Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 //APP LEAVE CDO
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
@@ -178,3 +188,6 @@ Route::get('clear', function(){
     return redirect('/');
 });
 
+Route::get('modal',function(){
+return view('users.modal');
+});

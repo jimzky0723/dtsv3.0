@@ -40,7 +40,7 @@
                             <option <?php if($code=='INFRA') echo 'selected'; ?> value="INFRA">Infra - Contractor</option>
                         </optgroup>
                         <optgroup label="Letter/Mail/Communication">
-                            <option>Incoming</option>
+                            <option value='INCOMING'>Incoming</option>
                             <option>Outgoing</option>
                             <option>Service Record</option>
                             <option>SALN</option>
@@ -54,17 +54,18 @@
                             <option>Resolutions</option>
                         </optgroup>
                         <optgroup label="Miscellaneous">
-                            <option>Activity Worksheet</option>
-                            <option>Justification</option>
+                            <option value="WORKSHEET">Activity Worksheet</option>
+                            <option value="JUST_LETTER">Justification</option>
                             <option>Certifications</option>
                             <option>Certificate of Appearance</option>
                             <option>Certificate of Employment</option>
                             <option>Certificate of Clearance</option>
                         </optgroup>
+                        </optgroup>
                         <optgroup label="Personnel Related Documents">
-                            <option>Office Order</option>
+                            <option value="SO">Office Order</option>
                             <option>DTR</option>
-                            <option>Application for Leave</option>
+                            <option value="APPLEAVE">Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
                             <option>Compensatory Time Off</option>
                         </optgroup>
