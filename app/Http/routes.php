@@ -62,7 +62,15 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view('logs.routing_slip');
     } else if($doc_type == 'APPLEAVE'){
         $display = view('logs.app_leave');
-    } else{
+    } else if($doc_type == 'INCOMING'){
+        $display = view('logs.incoming');
+    } else if($doc_type == 'SO'){
+        $display = view('logs.office_order');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('logs.worksheet');
+    } else if($doc_type == 'JUST_LETTER') {
+        $display = view('logs.just_letter');
+    }else{
         return redirect('document/delivered');
     }
 
@@ -180,5 +188,5 @@ Route::get('clear', function(){
 });
 
 Route::get('modal',function(){
-    return view('users.modal');
+return view('users.modal');
 });
