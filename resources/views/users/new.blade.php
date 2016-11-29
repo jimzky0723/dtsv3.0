@@ -1,5 +1,5 @@
 
-<form action="" method="POST" id="create"  data-link="{{ asset('check/user') }}">
+<form action="" method="POST" id="create" data-link="{{ asset('check/user') }}">
     {{ csrf_field() }}
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
@@ -76,5 +76,23 @@
 
 <script>
     $('.chosen-select').chosen();
-
+    (function($){
+        $('#create').submit(function(event){
+            var node = $(this);
+            var url = $(this).data('link');
+            var data = node.find('input[name="username"]').val();
+            var ok = true;
+            event.preventDefault();
+            $.get(url, {username : data}, function(response){
+                if(JSON.parse(response).status == 'ok'){
+                    alert("username already used");
+                    ok = false;
+                }
+                if(JSON.parse(response).status == 'false') {
+                    ok = true;
+                }
+            });
+            return ok;
+        });
+    })($);
 </script>

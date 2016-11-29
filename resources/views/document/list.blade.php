@@ -38,7 +38,7 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Letter/Mail/Communication</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-link="{{ asset('/form/incoming/letter') }}">Incoming</a></li>
+                            <li><a href="#document_form" data-toggle="modal" data-link="{{ asset('/form/incoming/letter') }}">Incoming Mail</a></li>
                             <li><a href="#">Outgoing</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Service Record</a></li>

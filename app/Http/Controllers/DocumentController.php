@@ -11,7 +11,7 @@ use App\Tracking_Filter;
 use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-
+Session_start();
 
 class DocumentController extends Controller
 {
@@ -119,9 +119,9 @@ class DocumentController extends Controller
             case "INFRA":
                 return "Infra - Contractor";
             case "INCOMING":
-                return "Incoming";
+                return "Incoming Letter";
             case "OUTGOING":
-                return "Outgoing";
+                return "Outgoing Letter";
             case "SERVICE":
                 return "Service Record";
             case "SALN":
@@ -154,7 +154,7 @@ class DocumentController extends Controller
                 return "Office Order";
             case "DTR":
                 return "DTR";
-            case "CDO":
+            case "APPLEAVE":
                 return "Application for Leave";
             case "OT":
                 return "Certificate of Overtime Credit";
@@ -235,6 +235,10 @@ class DocumentController extends Controller
             ->limit(7)
             ->get();
         return $documents;
+    }
+
+    public function get_date_in($count){
+        return $this->timeDiff($_SESSION['count'][$count]);
     }
 
     public static function timeDiff($date_in,$date_out=null)

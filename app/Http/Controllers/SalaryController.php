@@ -40,6 +40,5 @@ class SalaryController extends Controller
         $q->save();
         return redirect('document');
     }
-
     
 }

@@ -2,10 +2,10 @@
 use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
-$documents = Session::get('deliveredDocuments');
+$documents = Session::get('receivedDocuments');
 ?>
 <html>
-<title>Routing Slip logs</title>
+<title>Print Logs</title>
 <head>
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
 </head>
@@ -16,9 +16,9 @@ $documents = Session::get('deliveredDocuments');
         <td width="60%">
             <center>
                 <strong>Republic of the Philippines</strong><br>
-                Depart of Health - Regional Office 7<br>
+                Department of Health - Regional Office 7<br>
                 <h4 style="margin:0;">DOCUMENT TRACKING SYSTEM LOGS</h4>
-                (Delivered Documents)<br>
+                (Received Documents)<br>
                 {{ date('M d, Y',strtotime(Session::get('startdate'))) }} - {{ date('M d, Y',strtotime(Session::get('enddate'))) }}
             </center>
         </td>
@@ -32,10 +32,9 @@ $documents = Session::get('deliveredDocuments');
     <thead>
     <tr>
         <th>Date Delivered</th>
-        <th>Delivered To</th>
+        <th>Received From</th>
         <th>Route # / Remarks</th>
-        <th>Routed From</th>
-        <th>Routed To</th>
+        <th>Supplier</th>
     </tr>
     </thead>
     <tbody>
@@ -46,7 +45,7 @@ $documents = Session::get('deliveredDocuments');
                 {{ date('h:i:s A',strtotime($doc->date_in)) }}
             </td>
             <td>
-                <?php $user = Users::find($doc->received_by);?>
+                <?php $user = Users::find($doc->delivered_by);?>
                 {{ $user->fname }}
                 {{ $user->lname }}
                 <br>
@@ -56,8 +55,7 @@ $documents = Session::get('deliveredDocuments');
                 Route No: {{ $doc->route_no }}<br>
                 {!! nl2br($doc->description) !!}
             </td>
-            <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_from')->first() }} </td>
-            <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_to')->first() }} </td>
+            <td>{{ $doc->supplier }}</td>
         </tr>
     @endforeach
     </tbody>

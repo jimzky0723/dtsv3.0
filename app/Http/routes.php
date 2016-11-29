@@ -70,7 +70,17 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view("logs.all");
     } else if($doc_type == 'ROUTE') {
         $display = view('logs.routing_slip');
-    } else{
+    } else if($doc_type == 'APPLEAVE'){
+        $display = view('logs.app_leave');
+    } else if($doc_type == 'INCOMING'){
+        $display = view('logs.incoming');
+    } else if($doc_type == 'SO'){
+        $display = view('logs.office_order');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('logs.worksheet');
+    } else if($doc_type == 'JUST_LETTER') {
+        $display = view('logs.just_letter');
+    }else{
         return redirect('document/delivered');
     }
 
@@ -80,11 +90,18 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
 });
 
 Route::get('pdf/pending/{doc_type}', function($doc_type){
-    if($doc_type=='SAL' || $doc_type=='TEV' || $doc_type=='PO'){
+    if($doc_type=='SAL' || $doc_type=='TEV'){
         $display = view("pending.salary");
     }else if($doc_type=='ALL'){
         $display = view("pending.all");
-    }else{
+    }else if($doc_type=='PO'){
+        $display = view('pending.PurchaseOrder');
+    }else if($doc_type=="PRC"){
+        $display = view('pending.PurchaseRequestCA');
+    }else if($doc_type=="PRR") {
+        $display = view('pending.PurchaseRequestCA');
+    }
+    else{
         return redirect('document/received');
     }
     $pdf = App::make('dompdf.wrapper');
@@ -125,8 +142,15 @@ Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSecti
 Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
 Route::get('searchSection','SectionController@searchSectionSave');
+//CHECK SECTION
+Route::get('checkSection','SectionController@checkSection');
+Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
+//CHECK DIVISION
+Route::get('checkDivision','DivisionController@checkDivision');
+Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
+Route::get('date_in/{count}','DocumentController@get_date_in');
 Route::get('haha',function(){
-    return Tracking::all();
+    return Session::get("date_in"[1]);
 });
 
 //traya
@@ -134,7 +158,7 @@ Route::get('haha',function(){
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::post('/form/routing/slip', 'RoutingController@create');
 //incoming letter
-Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 //APP LEAVE CDO
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
@@ -174,3 +198,6 @@ Route::get('clear', function(){
     return redirect('/');
 });
 
+Route::get('modal',function(){
+return view('users.modal');
+});

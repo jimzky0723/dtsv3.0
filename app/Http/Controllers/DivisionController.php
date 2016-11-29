@@ -60,4 +60,18 @@ class DivisionController extends Controller
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];
     }
+    public function checkDivision(Request $request) {
+        $section = Division::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
+    }
+    public function checkDivisionUpdate(Request $request) {
+        $section = Division::where('description',$request->input('description'))->first();
+        if(isset($section) and count($section) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
+    }
 }
