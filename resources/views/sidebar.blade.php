@@ -25,10 +25,11 @@
                         Session::put('date_in',array($pend->date_in));
                     ?>
                     <tr><td>From: {{ $user->fname.' '.$user->lname }}</td></tr>
+                    <input type="hidden" data-div="div-{{ $pend->id }}" class="duration" value="{{ $pend->date_in }}">
                     <tr>
                         <td>
                             <body onload=display_duration();>
-                                Duration:<div id='{{ $duration }}'></div>
+                                Duration: <font id='{{ $duration }}'></font>
                                 <?php
                                     $_SESSION['count'][$count] = $pend->date_in;
                                     /*echo $_SESSION['count'][$count]." ".$count;*/

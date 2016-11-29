@@ -22,7 +22,7 @@ $filter = Doc::isIncluded($document->doc_type);
     </tr>
     <tr class="{{ $filter[0] }}">
         <td class="text-right">Remarks :</td>
-        <td>{{ $document->description }}</td>
+        <td>{{ nl2br($document->description) }}</td>
     </tr>
     <tr class="{{ $filter[1] }}">
         <td class="text-right">Amount :</td>
@@ -98,9 +98,16 @@ $filter = Doc::isIncluded($document->doc_type);
         <td class="text-right">Item/s :</td>
         <td>{{ $document->item }}</td>
     </tr>
-    {{--<tr class="{{ $filter[18] }}">--}}
-    {{--<td class="text-right">DV Number :</td>--}}
-    {{--<td>{{ $document->dv_no }}</td>--}}
-    {{--</tr>--}}
-
+    <tr class="{{ $filter[18] }}">
+    <td class="text-right">DV Number :</td>
+    <td>{{ $document->dv_no }}</td>
+    </tr>
+    <tr class="{{ $filter[19] }}">
+        <td class="text-right">ORS Number :</td>
+        <td>{{ $document->ors_no }}</td>
+    </tr>
+    <tr class="{{ $filter[20] }}">
+        <td class="text-right">Fund Source :</td>
+        <td>{{ $document->fund_source_budget }}</td>
+    </tr>
 </table>

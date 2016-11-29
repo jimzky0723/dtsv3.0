@@ -54,7 +54,7 @@ $documents = Session::get('deliveredDocuments');
             </td>
             <td>
                 Route No: {{ $doc->route_no }}<br>
-                {!! nl2br($doc->action) !!}
+                {!! nl2br($doc->description) !!}
             </td>
             <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_from')->first() }} </td>
             <td>{{ \App\Tracking::where('route_no',$doc->route_no)->pluck('route_to')->first() }} </td>

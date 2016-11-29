@@ -111,7 +111,7 @@ class DocumentController extends Controller
             case "SAL":
                 return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
             case "TEV":
-                return "TEV";
+                return "Travel Expenses Voucher";
             case "BILLS":
                 return "Bills, Cash Advance Replenishment, Grants/Fund Transfer";
             case "SUPPLIER":
@@ -150,7 +150,7 @@ class DocumentController extends Controller
                 return "Certificate of Employment";
             case "CERT_CLEARANCE":
                 return "Certificate of Clearance";
-            case "SO":
+            case "OFFICE_ORDER":
                 return "Office Order";
             case "DTR":
                 return "DTR";
@@ -195,7 +195,9 @@ class DocumentController extends Controller
             'event_daterange',
             'payee',
             'item',
-            'dv_no');
+            'dv_no',
+            'ors_no',
+            'fund_source_budget');
         for($i=0;$i<count($filter);$i++){
             if(!Tracking_Filter::where($filter[$i],1)
                             ->where('doc_type',$doc_type)
