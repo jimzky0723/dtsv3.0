@@ -119,9 +119,9 @@ class DocumentController extends Controller
             case "INFRA":
                 return "Infra - Contractor";
             case "INCOMING":
-                return "Incoming";
+                return "Incoming Letter";
             case "OUTGOING":
-                return "Outgoing";
+                return "Outgoing Letter";
             case "SERVICE":
                 return "Service Record";
             case "SALN":

@@ -139,7 +139,7 @@ Route::get('haha',function(){
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::post('/form/routing/slip', 'RoutingController@create');
 //incoming letter
-Route::get('/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
 //APP LEAVE CDO
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');

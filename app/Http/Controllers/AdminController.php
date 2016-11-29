@@ -111,4 +111,12 @@ class AdminController extends Controller
             return json_encode(array('status' => 'ok'));
         }
     }
+    public function check_user(Request $request)
+    {
+        $user = User::where('username', $request->input('username'))->first();
+        if (isset($user) and count($user) > 0) {
+            return json_encode(array('status' => 'ok'));
+        }
+        return json_encode(array('status' => 'false'));
+    }
 }
