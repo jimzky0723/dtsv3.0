@@ -36,7 +36,7 @@ $documents = Session::get('receivedDocuments');
         <th>Received From</th>
         <th>Route # / Remarks</th>
         <th>Amount</th>
-        <th>Event Date / Travel Time</th>
+        <th>Daterange / Travel Time</th>
     </tr>
     </thead>
     <tbody>
@@ -55,7 +55,7 @@ $documents = Session::get('receivedDocuments');
             </td>
             <td>
                 Route No: {{ $doc->route_no }}<br>
-                {!! nl2br($doc->action) !!}
+                {!! nl2br($doc->description) !!}
             </td>
             <td>{{ number_format($doc->amount) }}</td>
             <td>{{ $doc->event_daterange }}</td>

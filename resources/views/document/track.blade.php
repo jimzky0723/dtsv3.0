@@ -44,7 +44,7 @@
                     ?>
                 @endif
             </td>
-            <td>{{ $doc->action }}</td>
+            <td>{{ nl2br($doc->action) }}</td>
         </tr>
     @endforeach
     </tbody>

@@ -30,6 +30,8 @@
                     <th>payee</th>
                     <th>item</th>
                     <th>dv_no</th>
+                    <th>ors_no</th>
+                    <th>fund_source_budget</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -150,6 +152,18 @@
                                     @endif
                             >
                         </td>
+                        <td><input data-type="{{ $doc->doc_type }}" type="checkbox" class="update_filter flat-red" data-column="{{ 'ors_no' }}"
+                            @if($doc->ors_no==1)
+                                {{ 'checked' }}
+                                    @endif
+                            >
+                        </td>
+                        <td><input data-type="{{ $doc->doc_type }}" type="checkbox" class="update_filter flat-red" data-column="{{ 'fund_source_budget' }}"
+                            @if($doc->fund_source_budget==1)
+                                {{ 'checked' }}
+                                    @endif
+                            >
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -218,6 +232,25 @@
             },500);
         });
 
+    </script>
+    <script>
+        var down=false;
+        var scrollLeft=0;
+        var x = 0;
+
+        $('.table-responsive').mousedown(function(e) {
+            down = true;
+            scrollLeft = this.scrollLeft;
+            x = e.clientX;
+        }).mouseup(function() {
+            down = false;
+        }).mousemove(function(e) {
+            if (down) {
+                this.scrollLeft = scrollLeft + x - e.clientX;
+            }
+        }).mouseleave(function() {
+            down = false;
+        });
     </script>
 @endsection
 

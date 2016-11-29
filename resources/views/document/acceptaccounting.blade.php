@@ -1,37 +1,42 @@
 
 @extends('layouts.app')
 @section('content')
-<div class="col-md-9 wrapper">
-    <div class="alert alert-jim">
-        <h2 class="page-header">Accept Documents</h2>
-        <form class="form-inline form-accept" id="accept_form">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <input type="text" name="route_no" class="form-control route_no" disabled placeholder="Enter route #" autofocus>
-                <input type="text" name="remarks" class="form-control remarks" disabled placeholder="Enter remarks">
-                <button type="submit" class="btn btn-success btn-accept"><i class="fa fa-plus"></i> Accept Document</button>
-            </div>
-            <div class="clearfix"></div><br>
-            <div class="alert alert-danger error-accept hide">Please input route number!</div>
-        </form>
-        <hr />
-        <div class="accepted-list">
+    <div class="col-md-9 wrapper">
+        <div class="alert alert-jim">
+            <h2 class="page-header">Accept Documents <small class="text-muted">[Accounting Section]</small> </h2>
+            <form class="form-inline form-accept" id="accept_form">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <input type="text" name="route_no" class="form-control route_no" disabled placeholder="Enter route #" autofocus>
+                    <input type="text" name="dv_no" class="form-control dv_no" disabled placeholder="Enter DV #">
+                    <button type="button" onclick="acceptDocument()" class="btn btn-success btn-accept"><i class="fa fa-plus"></i> Accept Document</button>
+                </div>
+                <div class="clearfix"></div><br>
+                <div class="alert alert-danger error-accept hide">Please input route number!</div>
+            </form>
+            <hr />
+            <div class="accepted-list">
 
+            </div>
         </div>
     </div>
-</div>
-@include('sidebar')
+    @include('sidebar')
 @endsection
 
 @section('js')
     <script>
-        <?php echo 'var url="'. asset('document/accept').'";'; ?>
+        $(window).load(function(){
+            $('.route_no').prop("disabled", false); // Element(s) are now enabled.
+            $('.dv_no').prop("disabled", false); // Element(s) are now enabled.
+            $('.route_no').focus();
+        });
         var route_nos = [];
-        $('.form-accept').on('submit',function(e){
+        <?php echo 'var url="'. asset('accounting/accept').'";'; ?>
+        function acceptDocument(){
             $('.loading').show();
-            var remarks = $('.remarks').val();
+            var dv_no = $('.dv_no').val();
             var route_no = $('.route_no').val();
-            var content = '<div class="alert alert-info"><span class="pull-right"><a href="#" class="remove-accept" data-route="'+route_no+'"><i class="fa fa-times"></i></a></span><strong>ACCEPTED!</strong><br>Route Number: <strong>'+route_no+'</strong><br>Remarks: '+remarks+'</div>';
+            var content = '<div class="alert alert-info"><span class="pull-right"><a href="#" class="remove-accept" data-route="'+route_no+'"><i class="fa fa-times"></i></a></span><strong>ACCEPTED!</strong><br>Route Number: <strong>'+route_no+'</strong><br>DV Number: '+dv_no+'</div>';
             if(route_no){
                 for(var i=0; i<route_nos.length; i++){
                     if(route_nos[i]==route_no){
@@ -41,7 +46,6 @@
                     }
                 }
                 //post data to database
-                var data = [$('.route_no').val, $('.remarks').val];
                 var form = $('#accept_form');
                 $.ajax({
                     url: url,
@@ -54,9 +58,8 @@
                             route_nos.push(route_no);
                             $('.accepted-list').append(content);
                             $('.route_no').val(null).focus();
-                            $('.remarks').val(null);
+                            $('.dv_no').val(null);
                             $('.error-accept').addClass('hide').fadeOut(500);
-
                             //if remove accept
                             $('.remove-accept').on('click',function(){
                                 $('.loading').show();
@@ -76,33 +79,23 @@
                                 }
                             });
 
+                        }else if(jim.message=='DUPLICATE'){
+                            $('.error-accept').removeClass('hide').fadeIn(500).html('DV # \''+dv_no+'\' is already in use!');
+                            return false;
                         }else{
                             $('.error-accept').removeClass('hide').fadeIn(500).html('Route # \''+route_no+'\' not found in the database!');
                             return false;
                         }
-
                     },
                     error: function () {
                         console.log('error');
                     }
                 });
-
-
             }else{
                 $('.error-accept').removeClass('hide').fadeIn(500).html('Please input route number!');
                 $('.route_no').focus();
                 $('.loading').hide();
             }
-
-            e.preventDefault();
-            return false;
-        });
-
-        $(window).load(function(){
-            $('.route_no').prop("disabled", false); // Element(s) are now enabled.
-            $('.remarks').prop("disabled", false); // Element(s) are now enabled.
-            $('.route_no').focus();
-        });
-        
+        }
     </script>
 @endsection

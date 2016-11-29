@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([ 'id' => '1', 'fname' => 'DOH', 'mname' => '', 'lname' => 'RO7', 'username' => 'admin', 'designation' => '17', 'division' => '3', 'section' => '37', 'password' => bcrypt('admin'), 'user_priv' => 1, ]);
+        DB::table('users')->insert([ 'id' => '1', 'fname' => 'DOH', 'mname' => '', 'lname' => 'RO7', 'username' => 'admin', 'designation' => '17', 'division' => '6', 'section' => '42', 'password' => bcrypt('admin'), 'user_priv' => 1, ]);
         DB::table('users')->insert([ 'id' => '2', 'fname' => 'Mary Nonna Rose', 'mname' => 'B.', 'lname' => 'Durano', 'username' => '199200017', 'designation' => '11', 'division' => '6', 'section' => '12', 'password' => bcrypt('199200017'), 'user_priv' => 0, ]);
         DB::table('users')->insert([ 'id' => '3', 'fname' => 'Irene', 'mname' => 'S.', 'lname' => 'Chua', 'username' => '198600029', 'designation' => '9', 'division' => '6', 'section' => '5', 'password' => bcrypt('198600029'), 'user_priv' => 0, ]);
         DB::table('users')->insert([ 'id' => '5', 'fname' => 'Eduardo', 'mname' => 'G.', 'lname' => 'Dablo', 'username' => '198800042', 'designation' => '4', 'division' => '6', 'section' => '14', 'password' => bcrypt('198800042'), 'user_priv' => 0, ]);

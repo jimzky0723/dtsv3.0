@@ -6,16 +6,26 @@ Route::auth();
 Route::get('/','HomeController@index');
 
 Route::get('home', 'HomeController@index');
+Route::get('home/chart', 'HomeController@chart');
 
 Route::get('document', 'DocumentController@index');
 Route::post('document', 'DocumentController@search');
 
-Route::get('document/accept', 'DocumentController@accept');
+Route::get('document/accept', 'DocumentController@accept')->middleware('access');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
+
+// FOR ACCOUNTING SECTION
+Route::get('accounting/accept','AccountingController@accept');
+Route::post('accounting/accept','AccountingController@save');
+
+//FOR BUDGET SECTION
+Route::get('budget/accept','BudgetController@accept');
+Route::post('budget/accept','BudgetController@save');
+
 
 Route::get('document/filter', 'FilterController@index');
 Route::post('document/filter', 'FilterController@update');
