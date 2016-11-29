@@ -17,11 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');
-<<<<<<< HEAD
-            $table->string('username',50)->unique();
-=======
             $table->string('username',50)->unique;
->>>>>>> ba9e0b12dc57c7601998f595c97f9350bcfc49af
             $table->integer('designation');
             $table->integer('division');
             $table->string('email');

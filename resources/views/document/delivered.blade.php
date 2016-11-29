@@ -62,7 +62,7 @@
                             <option>Certificate of Clearance</option>
                         </optgroup>
                         <optgroup label="Personnel Related Documents">
-                            <option>Office Order</option>
+                            <option <?php if($code=='OFFICE_ORDER') echo 'selected'; ?> value="OFFICE_ORDER">Office Order</option>
                             <option>DTR</option>
                             <option>Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
@@ -112,7 +112,7 @@
                         </td>
                         <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                         <td>
-                            {!! nl2br($doc->action) !!}
+                            {!! nl2br($doc->description) !!}
                         </td>
                     </tr>
                 @endforeach

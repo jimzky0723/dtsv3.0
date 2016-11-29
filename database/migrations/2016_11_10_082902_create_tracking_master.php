@@ -37,6 +37,8 @@ class CreateTrackingMaster extends Migration
             $table->string('payee');
             $table->string('item');
             $table->string('dv_no');
+            $table->string('ors_no');
+            $table->string('fund_source_budget');
             $table->rememberToken();
             $table->timestamps();
         });

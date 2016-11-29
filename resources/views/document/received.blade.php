@@ -112,7 +112,7 @@ $code = Session::get('doc_type_code');
                         </td>
                         <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                         <td>
-                            {!! nl2br($doc->action) !!}
+                            {!! nl2br($doc->description) !!}
                         </td>
                     </tr>
                 @endforeach

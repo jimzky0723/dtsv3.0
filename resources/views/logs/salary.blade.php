@@ -1,8 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use App\Users;
 use App\Section;
 $documents = Session::get('deliveredDocuments');
+$section = Auth::user()->section;
 ?>
 <html>
 <title>Print Logs</title>
@@ -35,7 +37,7 @@ $documents = Session::get('deliveredDocuments');
             <th>Delivered To</th>
             <th>Route # / Remarks</th>
             <th>Amount</th>
-            <th>Event Date / Travel Time</th>
+            <th>Daterange / Travel Time</th>
         </tr>
         </thead>
         <tbody>
@@ -54,7 +56,7 @@ $documents = Session::get('deliveredDocuments');
                 </td>
                 <td>
                     Route No: {{ $doc->route_no }}<br>
-                    {!! nl2br($doc->action) !!}
+                    {!! nl2br($doc->description) !!}
                 </td>
                 <td>{{ number_format($doc->amount) }}</td>
                 <td>{{ $doc->event_daterange }}</td>

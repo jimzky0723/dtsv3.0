@@ -34,6 +34,8 @@ class CreateTrackingFilter extends Migration
             $table->integer('payee');
             $table->integer('item');
             $table->integer('dv_no');
+            $table->integer('ors_no');
+            $table->integer('fund_source_budget');
             $table->rememberToken();
             $table->timestamps();
         });
