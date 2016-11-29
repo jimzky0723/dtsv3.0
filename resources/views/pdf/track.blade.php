@@ -99,7 +99,7 @@
     <tr>
         <td colspan="3">
             <strong>REMARKS / SUBJECT:</strong>
-            {{ $document->description }}
+            {!! nl2br($document->description) !!}
             <br>
             <br>
         </td>
