@@ -11,7 +11,7 @@ use App\Tracking_Filter;
 use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-
+Session_start();
 
 class DocumentController extends Controller
 {
@@ -233,6 +233,10 @@ class DocumentController extends Controller
             ->limit(7)
             ->get();
         return $documents;
+    }
+
+    public function get_date_in($count){
+        return $this->timeDiff($_SESSION['count'][$count]);
     }
 
     public static function timeDiff($date_in,$date_out=null)

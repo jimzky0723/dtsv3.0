@@ -138,8 +138,9 @@ Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
 //CHECK DIVISION
 Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
+Route::get('date_in/{count}','DocumentController@get_date_in');
 Route::get('haha',function(){
-    return Tracking::all();
+    return Session::get("date_in"[1]);
 });
 
 //traya
