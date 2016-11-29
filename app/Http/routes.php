@@ -140,7 +140,7 @@ Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
 Route::get('haha',function(){
-    return Session::get("date_in"[1]);
+    return Session::get("date_in");
 });
 
 //traya
