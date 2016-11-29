@@ -34,7 +34,6 @@ $documents = Session::get('deliveredDocuments');
         <th>Date Delivered</th>
         <th>Delivered To</th>
         <th>Route # / Remarks</th>
-
     </tr>
     </thead>
     <tbody>
