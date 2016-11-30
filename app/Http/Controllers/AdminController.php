@@ -71,7 +71,7 @@ class AdminController extends Controller
         //POST
         if($request->isMethod('post')){
             $username = '';
-            if($user->id == $request->input('id')) {
+            if($user->username == $request->input('username')) {
                 $username = $request->input('username');
             } else {
                 $user = User::where('username', $request->input('username'))->first();
