@@ -1,5 +1,5 @@
 
-<form action="" method="POST" id="create" onsubmit="create_user(this);">
+<form action="" method="POST" id="create">
     {{ csrf_field() }}
     <input type="hidden" name="id" value="{{ $user->id }}" />
     <div class="modal-body">
