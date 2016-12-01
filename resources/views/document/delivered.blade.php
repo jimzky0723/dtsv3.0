@@ -45,7 +45,7 @@
                             <option>Service Record</option>
                             <option>SALN</option>
                             <option>Plans (includes Allocation List)</option>
-                            <option value="ROUTE">Routing Slip</option>
+                            <option <?php if($code=='ROUTE') echo 'selected'; ?> value="ROUTE">Routing Slip</option>
                         </optgroup>
                         <optgroup label="Management System Documents">
                             <option>Memorandum</option>

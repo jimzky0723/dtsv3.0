@@ -76,23 +76,4 @@
 
 <script>
     $('.chosen-select').chosen();
-    (function($){
-        $('#create').submit(function(event){
-            var node = $(this);
-            var url = $(this).data('link');
-            var data = node.find('input[name="username"]').val();
-            var ok = true;
-            event.preventDefault();
-            $.get(url, {username : data}, function(response){
-                if(JSON.parse(response).status == 'ok'){
-                    alert("username already used");
-                    ok = false;
-                }
-                if(JSON.parse(response).status == 'false') {
-                    ok = true;
-                }
-            });
-            return ok;
-        });
-    })($);
 </script>

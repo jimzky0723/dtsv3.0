@@ -345,23 +345,6 @@ function edit_designation(el) {
         $('input').attr('autocomplete', 'off');
     });
 }
-function checkUser(el){
-    var url = $(el).data('link');
-    var data = {
-        "username" : $(el).val()
-    }
-    $.get(url,data,function(response){
-        var res = JSON.parse(response);
-        if(res.status == "ok") {
-            $(el).next().removeClass('hidden');
-            $('.user_add').prop('disabled',true);
-        }
-        if(res.status == "false") {
-            $(el).next().addClass('hidden');
-            $('.user_add').prop('disabled',false);
-        }
-    });
-}
 
 function checkDescription(description){
     var url = $(description).data('link');

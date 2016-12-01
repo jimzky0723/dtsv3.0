@@ -24,7 +24,6 @@
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">
                     <input type="text" name="username" value="{{ $user->username }}" class="form-control" onblur="checkUser(this);" data-link="{{ asset('check/user') }}"required>
-                    <span class="hidden" style="color:red;">User name already used.</span>
                 </td>
             </tr>
             <tr>
