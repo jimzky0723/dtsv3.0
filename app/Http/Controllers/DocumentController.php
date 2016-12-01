@@ -150,7 +150,7 @@ class DocumentController extends Controller
                 return "Certificate of Employment";
             case "CERT_CLEARANCE":
                 return "Certificate of Clearance";
-            case "OFFICE_ORDER":
+            case "SO":
                 return "Office Order";
             case "DTR":
                 return "DTR";

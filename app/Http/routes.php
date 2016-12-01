@@ -100,6 +100,14 @@ Route::get('pdf/pending/{doc_type}', function($doc_type){
         $display = view('pending.PurchaseRequestCA');
     }else if($doc_type=="PRR") {
         $display = view('pending.PurchaseRequestCA');
+    } else if($doc_type == 'INCOMING') {
+        $display = view('pending.incoming');
+    } else if($doc_type == 'ROUTE'){
+        $display = view('pending.routing');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('pending.worksheet');
+    } else if($doc_type == 'SO') {
+        $display = view('pending.office_order');
     }
     else{
         return redirect('document/received');
