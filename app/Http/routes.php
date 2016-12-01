@@ -108,6 +108,8 @@ Route::get('pdf/pending/{doc_type}', function($doc_type){
         $display = view('pending.worksheet');
     } else if($doc_type == 'SO') {
         $display = view('pending.office_order');
+    } else if($doc_type == 'JUST_LETTER'){
+        $display = view('pending.justification');
     }
     else{
         return redirect('document/received');

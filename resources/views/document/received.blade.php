@@ -55,7 +55,7 @@ $code = Session::get('doc_type_code');
                         </optgroup>
                         <optgroup label="Miscellaneous">
                             <option value="WORKSHEET">Activity Worksheet</option>
-                            <option>Justification</option>
+                            <option value="JUST_LETTER">Justification</option>
                             <option>Certifications</option>
                             <option>Certificate of Appearance</option>
                             <option>Certificate of Employment</option>
