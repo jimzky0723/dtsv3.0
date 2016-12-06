@@ -168,6 +168,8 @@ class DocumentController extends Controller
                 return "Purchase Request - Regular Purchase";
             case "REPORT":
                 return "Reports";
+            case "GENERAL" :
+                return "General Documents";
             case "ALL" :
                 return "All Documents";
             default:

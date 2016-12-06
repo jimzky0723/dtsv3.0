@@ -80,6 +80,8 @@ Route::get('pdf/logs/{doc_type}', function($doc_type){
         $display = view('logs.worksheet');
     } else if($doc_type == 'JUST_LETTER') {
         $display = view('logs.just_letter');
+    } else if($doc_type == 'GENERAL'){
+        $display = view('logs.general');
     }else{
         return redirect('document/delivered');
     }
@@ -181,6 +183,8 @@ Route::post('/form/office-order','OfficeOrderController@create');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
+//GENERAL DOC
+Route::match(['get','post'],'general', 'GeneralDocument@create');
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
