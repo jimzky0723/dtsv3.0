@@ -72,6 +72,8 @@ class PrintLogsController extends Controller
             $display = view('pending.office_order');
         } else if($doc_type == 'JUST_LETTER'){
             $display = view('pending.justification');
+        } else if($doc_type == 'GENERAL'){
+            $display = view('pending.general');
         }
         else{
             return redirect('document/received');
