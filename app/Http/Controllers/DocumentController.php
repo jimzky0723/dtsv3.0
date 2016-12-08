@@ -148,7 +148,7 @@ class DocumentController extends Controller
                 return "Certificate of Employment";
             case "CERT_CLEARANCE":
                 return "Certificate of Clearance";
-            case "OFFICE_ORDER":
+            case "SO":
                 return "Office Order";
             case "DTR":
                 return "DTR";
@@ -166,6 +166,8 @@ class DocumentController extends Controller
                 return "Purchase Request - Regular Purchase";
             case "REPORT":
                 return "Reports";
+            case "GENERAL" :
+                return "General Documents";
             case "ALL" :
                 return "All Documents";
             default:

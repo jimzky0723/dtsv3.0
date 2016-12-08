@@ -5,7 +5,7 @@ use App\Section;
 $documents = Session::get('deliveredDocuments');
 ?>
 <html>
-<title>Routing Slip logs</title>
+<title>General Docuements</title>
 <head>
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
 </head>
@@ -52,7 +52,7 @@ $documents = Session::get('deliveredDocuments');
             </td>
             <td>
                 Route No: {{ $doc->route_no }}<br>
-                {!! nl2br($doc->action) !!}
+                {!! nl2br($doc->description) !!}
             </td>
         </tr>
     @endforeach

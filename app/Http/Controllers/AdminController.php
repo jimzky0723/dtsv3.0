@@ -57,8 +57,9 @@ class AdminController extends Controller
     }
     public function user_edit(Request $request){
 
+        $user = User::find($request->input('id'));
+        //GET
         if($request->isMethod('get')){
-            $user = User::find($request->input('id'));
             if(isset($user) and count($user) > 0) {
                 return view('users.edit')
                     ->with('user', $user)
@@ -67,16 +68,23 @@ class AdminController extends Controller
                     ->with('designation',Designation::all());
             }
         }
+        //POST
         if($request->isMethod('post')){
-            $user = User::where('username', $request->input('username'))->first();
-            if(isset($user) and count($user) > 0) {
-                return redirect('users')->with('used','Username is already used.');
+            $username = '';
+            if($user->username == $request->input('username')) {
+                $username = $request->input('username');
+            } else {
+                $user = User::where('username', $request->input('username'))->first();
+                if(isset($user) and count($user) > 0) {
+                    return redirect('users')->with('used','Username is already used.');
+                }
             }
+
             $user = User::find($request->input('id'));
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
-            $user->username = $request->input('username');
+            $user->username = $username;
             $user->designation = $request->input('designation');
             $user->email = "dummy";
             $user->division = $request->input('division');

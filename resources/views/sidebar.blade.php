@@ -22,7 +22,7 @@
                     <tr><td>Route #: {{ $pend->route_no }}</td></tr>
                     <?php
                         $user = User::find($pend->delivered_by);
-                        Session::put('date_in'[$count],$pend->date_in);
+                        Session::put('date_in',array($pend->date_in));
                     ?>
                     <tr><td>From: {{ $user->fname.' '.$user->lname }}</td></tr>
                     <input type="hidden" data-div="div-{{ $pend->id }}" class="duration" value="{{ $pend->date_in }}">

@@ -53,10 +53,11 @@ Route::get('pdf', function(){
     return $pdf->stream();
 });
 
-Route::get('pdf/track','ReportController@printTrack');
-Route::get('pdf/logs/{doc_type}', 'ReportController@printLogs');
-Route::get('pdf/pending/{doc_type}', 'ReportController@printPending');
-    
+//PRINT LOGS
+Route::get('pdf/track','PrintLogsController@printTrack');
+Route::get('pdf/logs/{doc_type}', 'PrintLogsController@delivered_docs');
+Route::get('pdf/pending/{doc_type}', 'PrintLogsController@received_docs');
+
 Route::get('tayong',function(){
    return view('logs.PurchaseRequestR');
 });
@@ -99,7 +100,7 @@ Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
 Route::get('haha',function(){
-    return Session::get("date_in"[1]);
+    return Session::get("date_in");
 });
 
 //traya
@@ -120,6 +121,8 @@ Route::post('/form/office-order','OfficeOrderController@create');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
+//GENERAL DOC
+Route::match(['get','post'],'general', 'GeneralDocument@create');
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');

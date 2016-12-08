@@ -40,12 +40,12 @@ $code = Session::get('doc_type_code');
                             <option <?php if($code=='INFRA') echo 'selected'; ?> value="INFRA">Infra - Contractor</option>
                         </optgroup>
                         <optgroup label="Letter/Mail/Communication">
-                            <option>Incoming</option>
+                            <option value="INCOMING">Incoming</option>
                             <option>Outgoing</option>
                             <option>Service Record</option>
                             <option>SALN</option>
                             <option>Plans (includes Allocation List)</option>
-                            <option>Routing Slip</option>
+                            <option value="ROUTE">Routing Slip</option>
                         </optgroup>
                         <optgroup label="Management System Documents">
                             <option>Memorandum</option>
@@ -54,15 +54,15 @@ $code = Session::get('doc_type_code');
                             <option>Resolutions</option>
                         </optgroup>
                         <optgroup label="Miscellaneous">
-                            <option>Activity Worksheet</option>
-                            <option>Justification</option>
+                            <option value="WORKSHEET">Activity Worksheet</option>
+                            <option value="JUST_LETTER">Justification</option>
                             <option>Certifications</option>
                             <option>Certificate of Appearance</option>
                             <option>Certificate of Employment</option>
                             <option>Certificate of Clearance</option>
                         </optgroup>
                         <optgroup label="Personnel Related Documents">
-                            <option>Office Order</option>
+                            <option value="SO">Office Order</option>
                             <option>DTR</option>
                             <option>Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
@@ -72,6 +72,7 @@ $code = Session::get('doc_type_code');
                         <option value="PRC">Purchase Request - Cash Advance Purchase</option>
                         <option value="PRR">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
+                        <option value="GENERAL">General Documents</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>

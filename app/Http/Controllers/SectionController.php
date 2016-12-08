@@ -32,6 +32,7 @@ class SectionController extends Controller
 
     public function addSectionSave(Request $request){
         $section = new Section();
+        $section->code = $request->get('code');
         $section->division = $request->get('division');
         $section->description = $request->get('description');
         $section->head = $request->get('head');
@@ -45,6 +46,7 @@ class SectionController extends Controller
     public function updateSection($id,$divisionId,$headId){
         ///SECTION INFO
         $section = Section::where('id','=',$id)->first();
+        $code = $section['code'];
         $description = $section['description'];
         //DIVISION INFO
         $divisionAll = Division::all();
@@ -56,10 +58,11 @@ class SectionController extends Controller
         $headId = $head['id'];
         $headName  = $head['fname'].' '.$head['mname'].' '.$head['lname'];
         $user = Users::all()->sortBy("fname");
-        return view('section.updateSection',['id' => $id ,'user' => $user,'divisionAll' => $divisionAll,'headId' => $headId,'headName' => $headName,'description' => $description,'divisionId' => $divisionId, 'divisionName' => $divisionName] );
+        return view('section.updateSection',['id' => $id ,'user' => $user,'divisionAll' => $divisionAll,'headId' => $headId,'headName' => $headName,'code' => $code,'description' => $description,'divisionId' => $divisionId, 'divisionName' => $divisionName] );
     }
     public function updateSectionSave(Request $request){
         $section = Section::find($request->get('id'));
+        $section->code=$request->get('code');
         $section->division=$request->get('division');
         $section->description=$request->get('description');
         $section->head=$request->get('head');

@@ -1,5 +1,5 @@
 
-<form action="" method="POST" id="create" onsubmit="create_user(this);">
+<form action="" method="POST" id="create">
     {{ csrf_field() }}
     <input type="hidden" name="id" value="{{ $user->id }}" />
     <div class="modal-body">
@@ -24,7 +24,6 @@
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">
                     <input type="text" name="username" value="{{ $user->username }}" class="form-control" onblur="checkUser(this);" data-link="{{ asset('check/user') }}"required>
-                    <span class="hidden" style="color:red;">User name already used.</span>
                 </td>
             </tr>
             <tr>
