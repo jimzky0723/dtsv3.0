@@ -108,8 +108,6 @@ class DocumentController extends Controller
         switch($type){
             case "SAL":
                 return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
-            case "SAL":
-                return "Salary, Honoraria, Stipend, Remittances, CHT Mobilization";
             case "TEV":
                 return "Travel Expenses Voucher";
             case "BILLS":

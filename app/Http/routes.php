@@ -42,6 +42,9 @@ Route::post('form/salary','SalaryController@store');
 Route::get('form/tev', 'TevController@index');
 Route::post('form/tev', 'TevController@store');
 
+Route::get('form/bills','BillsController@index');
+Route::post('form/bills','BillsController@store');
+
 Route::get('pdf', function(){
     $display = view("pdf.pdf");
     $pdf = App::make('dompdf.wrapper');
@@ -50,64 +53,10 @@ Route::get('pdf', function(){
     return $pdf->stream();
 });
 
-Route::get('pdf/track', function(){
-    $display = view("pdf.track");
-    $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML($display);
-    return $pdf->stream();
-});
-
-Route::get('pdf/logs/{doc_type}', function($doc_type){
-    if($doc_type=='SAL' || $doc_type=='TEV'){
-        $display = view("logs.salary");
-    }else if($doc_type=='PO'){
-        $display = view('logs.PurchaseOrder');
-    }else if($doc_type=="PRC"){
-        $display = view('logs.PurchaseRequestCA');
-    }else if($doc_type=="PRR"){
-        $display = view('logs.PurchaseRequestCA');
-    }else if($doc_type=='ALL'){
-        $display = view("logs.all");
-    } else if($doc_type == 'ROUTE') {
-        $display = view('logs.routing_slip');
-    } else if($doc_type == 'APPLEAVE'){
-        $display = view('logs.app_leave');
-    } else if($doc_type == 'INCOMING'){
-        $display = view('logs.incoming');
-    } else if($doc_type == 'SO'){
-        $display = view('logs.office_order');
-    } else if($doc_type == 'WORKSHEET') {
-        $display = view('logs.worksheet');
-    } else if($doc_type == 'JUST_LETTER') {
-        $display = view('logs.just_letter');
-    }else{
-        return redirect('document/delivered');
-    }
-
-    $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
-    return $pdf->stream();
-});
-
-Route::get('pdf/pending/{doc_type}', function($doc_type){
-    if($doc_type=='SAL' || $doc_type=='TEV'){
-        $display = view("pending.salary");
-    }else if($doc_type=='ALL'){
-        $display = view("pending.all");
-    }else if($doc_type=='PO'){
-        $display = view('pending.PurchaseOrder');
-    }else if($doc_type=="PRC"){
-        $display = view('pending.PurchaseRequestCA');
-    }else if($doc_type=="PRR") {
-        $display = view('pending.PurchaseRequestCA');
-    }
-    else{
-        return redirect('document/received');
-    }
-    $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
-    return $pdf->stream();
-});
+Route::get('pdf/track','ReportController@printTrack');
+Route::get('pdf/logs/{doc_type}', 'ReportController@printLogs');
+Route::get('pdf/pending/{doc_type}', 'ReportController@printPending');
+    
 Route::get('tayong',function(){
    return view('logs.PurchaseRequestR');
 });

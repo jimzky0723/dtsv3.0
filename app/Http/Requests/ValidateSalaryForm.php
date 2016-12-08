@@ -25,7 +25,7 @@ class ValidateSalaryForm extends Request
     {
         return [
             'amount' => 'required|numeric',
-            'description' => 'required|min:5'
+            'description' => 'required'
         ];
     }
 }
