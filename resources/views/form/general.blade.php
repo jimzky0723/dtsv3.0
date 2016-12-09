@@ -7,7 +7,7 @@
             <tr>
                 <td class="col-sm-3"><label>Prepared by</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="routed_from" class="form-control" value="{{ $user }}" required readonly></td>
+                <td class="col-sm-8"><input type="text" name="routed_from" class="form-control" value="{{ Auth::user()->fname }} {{ Auth::user()->mname }} {{ Auth::user()->lname }}" required readonly></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Prepared date</label></td>

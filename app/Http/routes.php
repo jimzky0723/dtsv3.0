@@ -42,6 +42,9 @@ Route::post('form/salary','SalaryController@store');
 Route::get('form/tev', 'TevController@index');
 Route::post('form/tev', 'TevController@store');
 
+Route::get('form/bills','BillsController@index');
+Route::post('form/bills','BillsController@store');
+
 Route::get('pdf', function(){
     $display = view("pdf.pdf");
     $pdf = App::make('dompdf.wrapper');
@@ -50,13 +53,8 @@ Route::get('pdf', function(){
     return $pdf->stream();
 });
 
-Route::get('pdf/track', function(){
-    $display = view("pdf.track");
-    $pdf = App::make('dompdf.wrapper');
-    $pdf->loadHTML($display);
-    return $pdf->stream();
-});
 //PRINT LOGS
+Route::get('pdf/track','PrintLogsController@printTrack');
 Route::get('pdf/logs/{doc_type}', 'PrintLogsController@delivered_docs');
 Route::get('pdf/pending/{doc_type}', 'PrintLogsController@received_docs');
 

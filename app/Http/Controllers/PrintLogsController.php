@@ -82,4 +82,11 @@ class PrintLogsController extends Controller
         $pdf->loadHTML($display)->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
+    
+    function printTrack(){
+        $display = view("pdf.track");
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display);
+        return $pdf->stream();
+    }
 }
