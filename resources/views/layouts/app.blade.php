@@ -23,6 +23,10 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+      <!-- SMART MENU -->
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-core-css.css') }}" />
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-mint/sm-mint.css') }}" />
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/custom.css') }}" />
 
      <title>
          @yield('title','Home')
@@ -87,8 +91,8 @@
             <img src="{{ asset('resources/img/banner.png') }}" class="img-responsive" />
         </div>
     </div>
-      <div class="container">
-        
+      @include('layouts.smart-menu')
+      <div class="container hidden-sm">
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
@@ -164,6 +168,9 @@
     <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
     <!-- SELECT CHOOSEN -->
     <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+    <!-- SMART MENU -->
+    <script src="{{ asset('resources/assets/menu/jquery.smartmenus.js') }}"></script>
+    <script src="{{ asset('resources/assets/menu/custom.js') }}"></script>
     <script>
         $('#reservation').daterangepicker();
         $('.chosen-select').chosen();
@@ -186,5 +193,6 @@
     @section('js')
 
     @show
+
   </body>
 </html>
