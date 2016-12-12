@@ -2,7 +2,7 @@
 <nav id="main-nav" role="navigation" class="text-center container-fluid hidden-lg">
     <input id="main-menu-state" type="checkbox" />
     <label class="main-menu-btn" for="main-menu-state">
-        <span class="main-menu-btn-icon"></span>Toggle menu
+        <span class="main-menu-btn-icon" style="font-weight: bolder;"></span>
     </label>
     <ul  id="main-menu" class="sm sm-mint">
     <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>

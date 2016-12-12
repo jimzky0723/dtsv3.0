@@ -74,6 +74,8 @@ class PrintLogsController extends Controller
             $display = view('pending.justification');
         } else if($doc_type == 'GENERAL'){
             $display = view('pending.general');
+        } else if($doc_type == 'APPLEAVE'){
+            $display = view('pending.app_leave');
         }
         else{
             return redirect('document/received');
