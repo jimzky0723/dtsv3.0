@@ -1,10 +1,14 @@
 <?php
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use App\Users;
 use App\Section;
+use App\Http\Controllers\AccessController as Access;
 use App\Http\Controllers\DocumentController as Doc;
-$documents = Session::get('logsDocument');
 
+$access = Access::access();
+$documents = Session::get('logsDocument');
+$section = Auth::user()->section;
 ?>
 <html>
 <title>Print Logs</title>
@@ -38,12 +42,19 @@ $documents = Session::get('logsDocument');
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th width="17%">Route # / Remarks</th>
-        <th width="15%">Received Date</th>
-        <th width="15%">Received From</th>
-        <th width="15%">Released Date</th>
-        <th width="15%">Released To</th>
-        <th width="20%">Document Type</th>
+        <th>Route # / Remarks</th>
+        <th>Received Date</th>
+        <th>Received From</th>
+        <th>Released Date</th>
+        <th>Released To</th>
+        <th>Amount</th>
+        @if($access=='accounting')
+            <th>DV #</th>
+        @endif
+        @if($access=='budget')
+            <th>ORS #</th>
+            <th>Fund Source</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -78,7 +89,14 @@ $documents = Session::get('logsDocument');
                 <td></td>
                 <td></td>
             @endif
-            <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
+            <td>{{ number_format($doc->amount) }}</td>
+            @if($access=='accounting')
+                <td>{{ $doc->dv_no }}</td>
+            @endif
+            @if($access=='budget')
+                <td>{{ $doc->ors_no }}</td>
+                <td>{{ $doc->fund_source_budget }}</td>
+            @endif
         </tr>
     @endforeach
     </tbody>
