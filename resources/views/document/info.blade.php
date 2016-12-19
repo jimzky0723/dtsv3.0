@@ -1,9 +1,10 @@
 <?php
 use App\User;
 use App\Http\Controllers\DocumentController as Doc;
+use App\Http\Controllers\AccessController as Access;
 
+$access = Access::access();
 $user = User::find($document->prepared_by);
-
 $filter = Doc::isIncluded($document->doc_type);
 ?>
 <table class="table table-hover table-striped">
@@ -98,10 +99,13 @@ $filter = Doc::isIncluded($document->doc_type);
         <td class="text-right">Item/s :</td>
         <td>{{ $document->item }}</td>
     </tr>
+    @if($access=='accounting')
     <tr class="{{ $filter[18] }}">
-    <td class="text-right">DV Number :</td>
-    <td>{{ $document->dv_no }}</td>
+        <td class="text-right">DV Number :</td>
+        <td>{{ $document->dv_no }}</td>
     </tr>
+    @endif
+    @if($access=='budget')
     <tr class="{{ $filter[19] }}">
         <td class="text-right">ORS Number :</td>
         <td>{{ $document->ors_no }}</td>
@@ -110,4 +114,5 @@ $filter = Doc::isIncluded($document->doc_type);
         <td class="text-right">Fund Source :</td>
         <td>{{ $document->fund_source_budget }}</td>
     </tr>
+    @endif
 </table>

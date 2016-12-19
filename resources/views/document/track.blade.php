@@ -3,6 +3,7 @@
     use App\User as User;
     use App\Section;
 ?>
+
 @if(count($document))
 <table class="table table-hover table-striped">
     <thead>

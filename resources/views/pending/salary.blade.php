@@ -2,6 +2,9 @@
 use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
+use App\Http\Controllers\AccessController as Access;
+
+$access = Access::access();
 $documents = Session::get('receivedDocuments');
 ?>
 <html>
@@ -36,6 +39,13 @@ $documents = Session::get('receivedDocuments');
         <th>Route # / Remarks</th>
         <th>Amount</th>
         <th>Daterange / Travel Time</th>
+        @if($access=='accounting')
+        <th>DV #</th>
+        @endif
+        @if($access=='budget')
+        <th>ORS #</th>
+        <th>Fund Source</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -58,6 +68,13 @@ $documents = Session::get('receivedDocuments');
             </td>
             <td>{{ number_format($doc->amount) }}</td>
             <td>{{ $doc->event_daterange }}</td>
+            @if($access=='accounting')
+            <td>{{ $doc->dv_no }}</td>
+            @endif
+            @if($access=='budget')
+            <td>{{ $doc->ors_no }}</td>
+            <td>{{ $doc->fund_source_budget }}</td>
+            @endif
         </tr>
     @endforeach
     </tbody>

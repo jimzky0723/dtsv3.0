@@ -17,10 +17,10 @@ $documents = Session::get('receivedDocuments');
         <td width="20%"><center><img src="{{ asset('resources/img/doh.png') }}" width="100"></center></td>
         <td width="60%">
             <center>
-                <strong>Republic of the Philippines</strong><br>
-                Department of Health - Regional Office 7<br>
+                RECEIVED DOCUMENTS<br>
                 <h4 style="margin:0;">DOCUMENT TRACKING SYSTEM LOGS</h4>
-                (Received Documents)<br>
+                ({{ Section::find(Auth::user()->section)->description }})<br>
+                {{ Auth::user()->fname }} {{ Auth::user()->lname }}<br>
                 {{ date('M d, Y',strtotime(Session::get('startdate'))) }} - {{ date('M d, Y',strtotime(Session::get('enddate'))) }}
             </center>
         </td>

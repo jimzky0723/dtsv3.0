@@ -26,15 +26,15 @@ class DocumentController extends Controller
         $id = $user->id;
         $keyword = Session::get('keyword');
 
-        $documents = Tracking::where('prepared_by',$id)
+        $data['documents'] = Tracking::where('prepared_by',$id)
             ->where(function($q) use ($keyword){
                 $q->where('route_no','like',"%$keyword%")
                   ->orwhere('description','like',"%$keyword%");
             })
             ->orderBy('id','desc')
             ->paginate(10);
-
-        return view('document.list',['documents' => $documents ]);
+        $data['access'] = $this->middleware('access');
+        return view('document.list',$data);
 
     }
 
@@ -365,53 +365,19 @@ class DocumentController extends Controller
         return $new_array[0];
     }
 
-
-
-    function deliveredDocument(Request $request){
-
-        $doc_type = $request->doc_type;
-        $id = Auth::user()->id;
-
-        $str = $request->daterange;
-        $temp1 = explode('-',$str);
-        $temp2 = array_slice($temp1, 0, 1);
-        $tmp = implode(',', $temp2);
-        $startdate = date('Y-m-d H:i:s',strtotime($tmp));
-
-        $temp3 = array_slice($temp1, 1, 1);
-        $tmp = implode(',', $temp3);
-        $enddate = date('Y-m-d H:i:s',strtotime($tmp));
-
-        Session::put('startdate',$startdate);
-        Session::put('enddate',$enddate);
-        Session::put('doc_type',self::docTypeName($doc_type));
-        Session::put('doc_type_code',$doc_type);
-        if($doc_type!='ALL'){
-            $documents = DB::table('tracking_details')
-                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
-                ->where('doc_type',$doc_type)
-                ->where('delivered_by',$id)
-                ->where('received_by','!=',$id)
-                ->where('date_in','>=',$startdate)
-                ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc')
-                ->get();
-        }else{
-            $documents = DB::table('tracking_details')
-                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
-                ->where('delivered_by',$id)
-                ->where('received_by','!=',$id)
-                ->where('date_in','>=',$startdate)
-                ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc')
-                ->get();
-        }
-
+    static function deliveredDocument($route_no,$id,$doc_type='ALL'){
+        $documents = DB::table('tracking_details')
+            ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+            ->where('tracking_details.route_no',$route_no)
+            ->where('doc_type',$doc_type)
+            ->where('delivered_by',$id)
+            ->where('received_by','!=',$id)
+            ->first();
         Session::put('deliveredDocuments',$documents);
-        return view('document.delivered',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
+        return $documents;
     }
 
-    function receivedDocument(Request $request){
+    function logsDocument(Request $request){
         $doc_type = $request->doc_type;
         $id = Auth::user()->id;
 
@@ -434,7 +400,6 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where('doc_type',$doc_type)
                 ->where('received_by',$id)
-                ->where('delivered_by','!=',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
                 ->orderBy('date_in','asc')
@@ -443,17 +408,14 @@ class DocumentController extends Controller
             $documents = DB::table('tracking_details')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where('received_by',$id)
-                ->where('delivered_by','!=',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
                 ->orderBy('date_in','asc')
                 ->get();
         }
 
-        Session::put('receivedDocuments',$documents);
-        return view('document.received',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
+        Session::put('logsDocument',$documents);
+        return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
     }
-
-
 
 }
