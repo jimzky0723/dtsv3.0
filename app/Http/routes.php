@@ -36,6 +36,9 @@ Route::post('document/delivered', 'DocumentController@deliveredDocument');
 Route::get('document/received', 'DocumentController@receivedDocument');
 Route::post('document/received', 'DocumentController@receivedDocument');
 
+Route::get('document/logs','DocumentController@logsDocument');
+Route::post('document/logs','DocumentController@logsDocument');
+
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
@@ -55,8 +58,7 @@ Route::get('pdf', function(){
 
 //PRINT LOGS
 Route::get('pdf/track','PrintLogsController@printTrack');
-Route::get('pdf/logs/{doc_type}', 'PrintLogsController@delivered_docs');
-Route::get('pdf/pending/{doc_type}', 'PrintLogsController@received_docs');
+Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 Route::get('tayong',function(){
    return view('logs.PurchaseRequestR');

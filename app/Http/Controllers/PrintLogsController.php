@@ -16,8 +16,15 @@ class PrintLogsController extends Controller
     {
         $this->middleware('auth');
     }
+    
+    function printTrack(){
+        $display = view("pdf.track");
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display);
+        return $pdf->stream();
+    }
 
-    public function delivered_docs(Request $request, $doc_type){
+    function printLogs(Request $request, $doc_type) {
         if($doc_type =='SAL' || $doc_type=='TEV'){
             $display = view("logs.salary");
         }else if($doc_type=='PO'){
@@ -48,45 +55,6 @@ class PrintLogsController extends Controller
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($display)->setPaper('a4', 'landscape');
-        return $pdf->stream();
-    }
-    public function received_docs(Request $request, $doc_type) {
-
-        if($doc_type=='SAL' || $doc_type=='TEV'){
-            $display = view("pending.salary");
-        }else if($doc_type=='ALL'){
-            $display = view("pending.all");
-        }else if($doc_type=='PO'){
-            $display = view('pending.PurchaseOrder');
-        }else if($doc_type=="PRC"){
-            $display = view('pending.PurchaseRequestCA');
-        }else if($doc_type=="PRR") {
-            $display = view('pending.PurchaseRequestCA');
-        } else if($doc_type == 'INCOMING') {
-            $display = view('pending.incoming');
-        } else if($doc_type == 'ROUTE'){
-            $display = view('pending.routing');
-        } else if($doc_type == 'WORKSHEET') {
-            $display = view('pending.worksheet');
-        } else if($doc_type == 'SO') {
-            $display = view('pending.office_order');
-        } else if($doc_type == 'JUST_LETTER'){
-            $display = view('pending.justification');
-        } else if($doc_type == 'GENERAL'){
-            $display = view('pending.general');
-        }
-        else{
-            return redirect('document/received');
-        }
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($display)->setPaper('a4', 'landscape');
-        return $pdf->stream();
-    }
-    
-    function printTrack(){
-        $display = view("pdf.track");
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($display);
         return $pdf->stream();
     }
 }

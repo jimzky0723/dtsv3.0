@@ -11,6 +11,7 @@
         </ul>
     </div>
 @endif
+
 <div class="alert alert-jim" id="inputText">
     <h2 class="page-header">Documents</h2>    
     <form class="form-inline" method="POST" action="{{ asset('document') }}" onsubmit="return searchDocument();" id="searchForm">
