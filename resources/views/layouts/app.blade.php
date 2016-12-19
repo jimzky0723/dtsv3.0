@@ -23,6 +23,10 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
       <!-- bootstrap datepicker -->
       <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+      <!-- SMART MENU -->
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-core-css.css') }}" />
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-mint/sm-mint.css') }}" />
+      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/custom.css') }}" />
 
      <title>
          @yield('title','Home')
@@ -67,7 +71,7 @@
     <!-- Fixed navbar -->
 
     <nav class="navbar navbar-default navbar-static-top">
-    <div class="header" style="background-color:#2F4054;padding:10px;">
+        <div class="header" style="background-color:#2F4054;padding:10px;">
         <div class="col-md-4">
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
@@ -82,12 +86,12 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="header" style="background-color:#00CC99;padding:15px;">
+        <div class="header" style="background-color:#00CC99;padding:15px;">
         <div class="container">
             <img src="{{ asset('resources/img/banner.png') }}" class="img-responsive" />
         </div>
     </div>
-      <div class="container">
+        <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -97,6 +101,8 @@
           </button>
           <a class="navbar-brand" href="#"></a>
         </div>
+
+      <div class="container hidden-sm">
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
@@ -132,8 +138,8 @@
           </ul>
         </div><!--/.nav-collapse -->
       </div>
-    </nav>
 
+    </nav>
     <div class="container">
         <div class="loading"></div>
         @yield('content')
@@ -166,6 +172,9 @@
     <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
     <!-- SELECT CHOOSEN -->
     <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+    <!-- SMART MENU -->
+    <script src="{{ asset('resources/assets/menu/jquery.smartmenus.js') }}"></script>
+    <script src="{{ asset('resources/assets/menu/custom.js') }}"></script>
     <script>
         $('#reservation').daterangepicker();
         $('.chosen-select').chosen();
@@ -188,5 +197,6 @@
     @section('js')
 
     @show
+
   </body>
 </html>

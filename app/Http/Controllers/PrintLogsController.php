@@ -57,4 +57,5 @@ class PrintLogsController extends Controller
         $pdf->loadHTML($display)->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
+
 }
