@@ -1,9 +1,9 @@
 <?php
-    use App\Section;
+use App\Section;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,21 +21,17 @@
     <link href="{{ asset('resources/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
-      <!-- bootstrap datepicker -->
-      <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
-      <!-- SMART MENU -->
-      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-core-css.css') }}" />
-      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/css/sm-mint/sm-mint.css') }}" />
-      <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/custom.css') }}" />
+    <!-- bootstrap datepicker -->
+    <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
 
-     <title>
-         @yield('title','Home')
-     </title>
+    <title>
+        @yield('title','Home')
+    </title>
 
-      <!--DATE RANGE-->
-      <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-      <!--CHOOSEN SELECT -->
-      <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+    <!--DATE RANGE-->
+    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
+    <!--CHOOSEN SELECT -->
+    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
 
     @yield('css')
     <style>
@@ -58,20 +54,20 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="{{ asset('resources/assets/js/ie-emulation-modes-warning.js') }}"></script>
-    
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <!-- Fixed navbar -->
+<!-- Fixed navbar -->
 
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="header" style="background-color:#2F4054;padding:10px;">
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="header" style="background-color:#2F4054;padding:10px;">
         <div class="col-md-4">
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
@@ -86,117 +82,112 @@
         </div>
         <div class="clearfix"></div>
     </div>
-        <div class="header" style="background-color:#00CC99;padding:15px;">
+    <div class="header" style="background-color:#00CC99;padding:15px;">
         <div class="container">
             <img src="{{ asset('resources/img/banner.png') }}" class="img-responsive" />
         </div>
     </div>
-        <div class="container">
+    <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
         </div>
 
-      <div class="container hidden-sm">
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-            <li><a href="{{ URL::to('document/accept') }}"><i class="fa fa-plus"></i> Accept Document</a></li>            
-            <li><a href="{{ URL::to('document') }}"><i class="fa fa-file"></i> Create Document</a></li>
-            <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
-          @if(Auth::user()->user_priv==1)
-              <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                      <li><a href="{{ asset('/users')  }}"><i class="fa fa-users"></i>&nbsp;&nbsp; Users</a></li>
-                      <li class="divider"></li>
-                      <li><a href="{{ asset('/designation') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Designation</a></li>
-                      <li><a href="{{ asset('/section') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Section</a></li>
-                      <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
-                      <li class="divider"></li>
-                      <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
-                  </ul>
-              </li>
-          @endif
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
-              <ul class="dropdown-menu">                
-                <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
-                <li class="divider"></li>
-                <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
-              </ul>
-            </li>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ URL::to('document/accept') }}"><i class="fa fa-plus"></i> Accept Document</a></li>
+                <li><a href="{{ URL::to('document') }}"><i class="fa fa-file"></i> Create Document</a></li>
+                <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
+                @if(Auth::user()->user_priv==1)
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ asset('/users')  }}"><i class="fa fa-users"></i>&nbsp;&nbsp; Users</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ asset('/designation') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Designation</a></li>
+                            <li><a href="{{ asset('/section') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Section</a></li>
+                            <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
+                        </ul>
+                    </li>
+                @endif
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
+                    </ul>
+                </li>
 
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
-          </ul>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
-      </div>
+    </div>
+</nav>
 
-    </nav>
+<div class="container">
+    <div class="loading"></div>
+    @yield('content')
+    <div class="clearfix"></div>
+</div> <!-- /container -->
+<footer class="footer">
     <div class="container">
-        <div class="loading"></div>
-        @yield('content')
-        <div class="clearfix"></div>
-    </div> <!-- /container -->
-    <footer class="footer">
-      <div class="container">
         <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
-      </div>
-    </footer>
-    @include('modal')
+    </div>
+</footer>
+@include('modal')
 
-    <!-- Bootstrap core JavaScript
+        <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
-    <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
-    <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
-    <!-- bootstrap datepicker -->
-    <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
+<script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
+<script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
+<!-- bootstrap datepicker -->
+<script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 
-    @yield('plugin')
+@yield('plugin')
 
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <!-- DATE RANGE SELECT -->
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-    <!-- SELECT CHOOSEN -->
-    <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
-    <!-- SMART MENU -->
-    <script src="{{ asset('resources/assets/menu/jquery.smartmenus.js') }}"></script>
-    <script src="{{ asset('resources/assets/menu/custom.js') }}"></script>
-    <script>
-        $('#reservation').daterangepicker();
-        $('.chosen-select').chosen();
+<script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+<!-- DATE RANGE SELECT -->
+<script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+<!-- SELECT CHOOSEN -->
+<script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+<script>
+    $('#reservation').daterangepicker();
+    $('.chosen-select').chosen();
 
-        function checkDocTye(){
-            var doc = $('select[name="doc_type"]').val();
-            if(doc.length == 0){
-                $('.error').removeClass('hide');
-            }
+    function checkDocTye(){
+        var doc = $('select[name="doc_type"]').val();
+        if(doc.length == 0){
+            $('.error').removeClass('hide');
         }
-    </script>
-    <script>
-        function searchDocument(){
-            $('.loading').show();
-            setTimeout(function(){
-                return true;
-            },2000);
-        }
-    </script>
-    @section('js')
+    }
+</script>
+<script>
+    function searchDocument(){
+        $('.loading').show();
+        setTimeout(function(){
+            return true;
+        },2000);
+    }
+</script>
+@section('js')
 
-    @show
-
-  </body>
+@show
+</body>
 </html>

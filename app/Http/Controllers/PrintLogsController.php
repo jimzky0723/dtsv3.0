@@ -27,6 +27,8 @@ class PrintLogsController extends Controller
     function printLogs(Request $request, $doc_type) {
         if($doc_type =='SAL' || $doc_type=='TEV'){
             $display = view("logs.salary");
+        }else if($doc_type =='BILLS'){
+            $display = view("logs.bills");
         }else if($doc_type=='PO'){
             $display = view('logs.PurchaseOrder');
         }else if($doc_type=="PRC"){
