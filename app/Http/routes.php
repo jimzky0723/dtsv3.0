@@ -111,15 +111,13 @@ Route::get('/form/routing/slip', 'RoutingController@routing_slip');
 Route::post('/form/routing/slip', 'RoutingController@create');
 //incoming letter
 Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingController@incoming_letter');
+//JUSTIFICTION LETTER
+Route::match(['get','post'], '/form/justification/letter','JustificationController@index');
 //APP LEAVE CDO
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
-//JUSTIFICTION LETTER
-Route::get('/form/justification/letter', 'JustificationController@index');
-Route::post('/form/justification/letter','JustificationController@create');
 //OFFICE ORDER
-Route::get('/form/office-order','OfficeOrderController@index');
-Route::post('/form/office-order','OfficeOrderController@create');
+Route::match(['get','post'],'/form/office-order', 'OfficeOrderController@index');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
