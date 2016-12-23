@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <span class="col-md-4">
-                            <input type="text" name="name_to[]" class="form-control" />
+                            <input type="text" name="name_to[]" class="form-control" id="to-1" />
                         </span>
                         <span class="col-md-4">
                             <input type="text" name="desig_to[]" class="form-control" />
@@ -52,10 +52,10 @@
                     </div>
                     <div class="row">
                         <span class="col-md-4">
-                            <input type="text" name="name_thru[]" class="form-control" />
+                            <input type="text" name="name_thru[]" class="form-control" id="to-name-1" />
                         </span>
                         <span class="col-md-4">
-                            <input type="text" name="desig_thru[]" class="form-control" />
+                            <input type="text" name="desig_thru[]" class="form-control" id="to-des-1" />
                         </span>
                         <span class="col-md-1">
                             <span class="glyphicon glyphicon-plus btn btn-success" onclick="add_thru_field(this);" aria-hidden="true"></span>
@@ -79,6 +79,10 @@
 </form>
 <script>
     function add_to_field(el){
+        var before_el = $(el).before();
+        console.log(before_el);
+
+        /*
         $(el).parent().parent().after('' +
                 '<div class="row"> ' +
                 '<br />' +
@@ -92,6 +96,7 @@
                 '<span class="glyphicon glyphicon-minus btn btn-danger" onclick="remove_field(this);" aria-hidden="true"></span>' +
                 '</span>' +
                 '</div>');
+         */
     }
     function remove_field(el){
         $(el).parent().parent().remove();
