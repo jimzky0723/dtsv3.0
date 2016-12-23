@@ -1,5 +1,5 @@
-
-<form action="{{ asset('/form/justification/letter') }}" method="POST" id="form_route">
+<form action="{{ asset('/form/justification/letter') }}" method="POST" id="form_route"
+      xmlns="http://www.w3.org/1999/html">
     {{ csrf_field() }}
     <input type="hidden" name="doctype" value="JUST_LETTER" />
     <div class="modal-body">
@@ -31,10 +31,14 @@
                     </div>
                     <div class="row">
                         <span class="col-md-4">
-                            <input type="text" name="name_to[]" class="form-control" id="to-1" />
+                            <span class="form-group">
+                                <input type="text" name="name_to[]" class="form-control" id="to-name-1" />
+                            </span>
                         </span>
                         <span class="col-md-4">
-                            <input type="text" name="desig_to[]" class="form-control" />
+                            <span class="form-group">
+                                <input type="text" name="desig_to[]" class="form-control" id="to-dis-1" />
+                            </span>
                         </span>
                         <span class="col-md-1">
                             <span class="glyphicon glyphicon-plus btn btn-success" onclick="add_to_field(this);" aria-hidden="true"></span>
@@ -52,10 +56,14 @@
                     </div>
                     <div class="row">
                         <span class="col-md-4">
-                            <input type="text" name="name_thru[]" class="form-control" id="to-name-1" />
+                            <span class="form-group">
+                                <input type="text" name="name_thru[]" class="form-control has-error" id="thru-name-1" />
+                            </span>
                         </span>
                         <span class="col-md-4">
-                            <input type="text" name="desig_thru[]" class="form-control" id="to-des-1" />
+                            <span class="form-group">
+                                <input type="text" name="desig_thru[]" class="form-control has-error" id="thru-des-1" />
+                            </span>
                         </span>
                         <span class="col-md-1">
                             <span class="glyphicon glyphicon-plus btn btn-success" onclick="add_thru_field(this);" aria-hidden="true"></span>
@@ -78,11 +86,30 @@
     </div>
 </form>
 <script>
+
+    var to_name = 1;
+    var to_des = 1;
+    var thru_name = 1;
+    var thru_des = 1;
+    var error = false;
     function add_to_field(el){
         var before_el = $(el).before();
-        console.log(before_el);
+        var to = $('#to-name-' + to_name);
+        var des = $('#to-dis-' + to_des);
+        if(to.val() == "" || to.val() == null) {
+            to.parent().addClass(' has-error');
+            to.parent().append("<label style='color:red;'>Required</label>");
+            error = true;
+        }
+        if(des.val() == "" || des.val() == null){
+            des.parent().addClass(' has-error');
+            des.parent().append("<label style='color:red;'>Required</label>");
+            error = true;
+        }
+        if(! error){
 
-        /*
+        }
+
         $(el).parent().parent().after('' +
                 '<div class="row"> ' +
                 '<br />' +
@@ -96,7 +123,7 @@
                 '<span class="glyphicon glyphicon-minus btn btn-danger" onclick="remove_field(this);" aria-hidden="true"></span>' +
                 '</span>' +
                 '</div>');
-         */
+
     }
     function remove_field(el){
         $(el).parent().parent().remove();
