@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lourence
- * Date: 11/14/2016
- * Time: 2:46 PM
- */
 
 namespace App\Http\Controllers;
 
 
 use App\Tracking;
 use App\Http\Requests\ValidateSalaryForm;
+use App\Http\Requests\Request;
 use App\Tracking_Details;
 
 class TEVController extends Controller
@@ -21,7 +16,7 @@ class TEVController extends Controller
     public function create() {
         $tracking = new Tracking();
     }
-    public function store(ValidateSalaryForm $request){
+    public function store(Request $request){
         $q = new Tracking();
         $route_no = date('Y-').$request->input('prepared_by').date('mdHis');
         $q->route_no = $route_no;
@@ -41,5 +36,10 @@ class TEVController extends Controller
         $r->action = $request->input('description');
         $r->save();
         return redirect('document');
+
     }
+//    public function store(Request $request){
+//        echo '<pre>';
+//        print_r($_POST);
+//    }
 }

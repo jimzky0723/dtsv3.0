@@ -400,3 +400,7 @@ function divisionValidate(){
     }
 }
 
+function isEmpty(val){
+    if(val == null ) return false;
+    return (val.length <= 0 || val == "" || val == undefined);
+}

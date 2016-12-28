@@ -1,7 +1,7 @@
 
 <form action="{{ asset('/form/application/leave') }}" method="POST" id="form_route">
     {{ csrf_field() }}
-    <input type="hidden" name="doctype" value="APPLEAVE" />
+    <input type="hidden" name="doctype" value="CDO" />
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>
