@@ -23,7 +23,7 @@ $filter = Doc::isIncluded($document->doc_type);
     </tr>
     <tr class="{{ $filter[0] }}">
         <td class="text-right">Remarks :</td>
-        <td>{{ nl2br($document->description) }}</td>
+        <td>{!! nl2br($document->description) !!}</td>
     </tr>
     <tr class="{{ $filter[1] }}">
         <td class="text-right">Amount :</td>
@@ -74,13 +74,10 @@ $filter = Doc::isIncluded($document->doc_type);
         <td>{{ $document->event_participant }}</td>
     </tr>
     <tr class="{{ $filter[13] }}">
-        <?php
-        if($filter[13]!='hide'):
-            $applicant = User::find($document->cdo_applicant);
-            ?>
+        @if($filter[13]!='hide')
+        <?php $applicant = User::find($document->cdo_applicant); ?>
         <td class="text-right">Applicant :</td>
-        ?>
-        <td>{{ $applicant->fname.' '.$applicant->mname.' '.$applicant->lname }}</td>
+        <td>{{ $document->cdo_applicant }}</td>
         @endif
     </tr>
     <tr class="{{ $filter[14] }}">
@@ -88,7 +85,7 @@ $filter = Doc::isIncluded($document->doc_type);
         <td>{{ $document->cdo_day }}</td>
     </tr>
     <tr class="{{ $filter[15] }}">
-        <td class="text-right">Date of Event :</td>
+        <td class="text-right">Date Range :</td>
         <td>{{ $document->event_daterange }}</td>
     </tr>
     <tr class="{{ $filter[16] }}">
