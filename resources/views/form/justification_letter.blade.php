@@ -37,11 +37,11 @@
                         </span>
                         <span class="col-md-4">
                             <span class="form-group">
-                                <input type="text" name="desig_to[]" class="form-control" id="to-dis-1" />
+                                <input type="text" name="desig_to[]" class="form-control" id="to-des-1" />
                             </span>
                         </span>
                         <span class="col-md-1">
-                            <span class="glyphicon glyphicon-plus btn btn-success" onclick="add_to_field(this);" aria-hidden="true"></span>
+                            <a href="#" style="color:#5cb85c;" onclick="add_to_field(this);"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                         </span>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             </span>
                         </span>
                         <span class="col-md-1">
-                            <span class="glyphicon glyphicon-plus btn btn-success" onclick="add_thru_field(this);" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-plus" style="color:#5cb85c;" onclick="add_thru_field(this);" aria-hidden="true"></span>
                         </span>
                     </div>
                 </div>
@@ -86,51 +86,86 @@
     </div>
 </form>
 <script>
-
+    (function($){
+        $('input[type="text"]').val();
+    })($);
     var to_name = 1;
     var to_des = 1;
     var thru_name = 1;
     var thru_des = 1;
     var error = false;
+    var name_show_error = false;
+    var des_show_error = false;
+
     function add_to_field(el){
-        var before_el = $(el).before();
+
+        console.log("Top function  error =" + error);
+        var parent = $(el).parent().parent().parent();
+        console.log(parent);
+
         var to = $('#to-name-' + to_name);
-        var des = $('#to-dis-' + to_des);
-        if(to.val() == "" || to.val() == null) {
-            to.parent().addClass(' has-error');
-            to.parent().append("<label style='color:red;'>Required</label>");
+        var des = $('#to-des-' + to_des);
+        if(isEmpty(to.val())) {
+            console.log("to name is required");
+            if(!name_show_error){
+                to.parent().addClass(' has-error');
+                to.parent().append("<label style='color:red;'>Required</label>");
+                name_show_error = true;
+            }
             error = true;
+        } else {
+            error = false;
+            to.parent().removeClass(' has-error');
+            to.parent().find('label').remove();
         }
-        if(des.val() == "" || des.val() == null){
-            des.parent().addClass(' has-error');
-            des.parent().append("<label style='color:red;'>Required</label>");
+
+        if(isEmpty(des.val())){
+            console.log("to designation is required");
+            if(!des_show_error){
+                des.parent().addClass(' has-error');
+                des.parent().append("<label style='color:red;'>Required</label>");
+                des_show_error = true;
+            }
             error = true;
+        } else {
+            error = false;
+            des.parent().removeClass(' has-error');
+            des.parent().find('label').remove();
         }
-        if(! error){
-
+        if(! error) {
+            name_show_error = false;
+            des_show_error = false;
+            to_name++;
+            to_des++;
+            parent.append('' +
+                    '<div class="row"> ' +
+                    '<br />' +
+                    '<span class="col-md-4"> ' +
+                    '<span class="form-group"> ' +
+                    '<input type="text" name="name_to[]" class="form-control" id="to-name-' + to_name + '"/> ' +
+                    '</span>' +
+                    '</span> ' +
+                    '<span class="col-md-4"> ' +
+                    '<input type="text" name="desig_to[]" class="form-control" id="to-des-' + to_des + '"/> ' +
+                    '</span> ' +
+                    '<span class="col-md-1"> ' +
+                    '<a href="#" style="color:#5cb85c;" onclick="add_to_field(this);"> <span class="glyphicon glyphicon-plus"  aria-hidden="true"></span></a>' +
+                    '<a href="#" style="color:red;" onclick="remove_field(this);"> <span class="glyphicon glyphicon-minus"  aria-hidden="true"></span></a>' +
+                    '</span>' +
+                    '</div>');
         }
-
-        $(el).parent().parent().after('' +
-                '<div class="row"> ' +
-                '<br />' +
-                '<span class="col-md-4"> ' +
-                '<input type="text" name="name_to[]" class="form-control" /> ' +
-                '</span> '+
-                '<span class="col-md-4"> ' +
-                '<input type="text" name="desig_to[]" class="form-control" /> ' +
-                '</span> ' +
-                '<span class="col-md-1"> ' +
-                '<span class="glyphicon glyphicon-minus btn btn-danger" onclick="remove_field(this);" aria-hidden="true"></span>' +
-                '</span>' +
-                '</div>');
-
+        console.log("To : " + to_name);
+        console.log("Thru : " + to_des);
     }
     function remove_field(el){
         $(el).parent().parent().remove();
+        to_name --;
+        to_des --;
     }
 
     function add_thru_field(el){
-        $(el).parent().parent().after('' +
+        var parent = $(el).parent().parent().parent();
+        parent.append('' +
                 '<div class="row"> ' +
                 '<br />' +
                 '<span class="col-md-4"> ' +
