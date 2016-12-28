@@ -36,17 +36,11 @@ Route::post('document/delivered', 'DocumentController@deliveredDocument');
 Route::get('document/received', 'DocumentController@receivedDocument');
 Route::post('document/received', 'DocumentController@receivedDocument');
 
-Route::get('document/logs','DocumentController@logsDocument');
-Route::post('document/logs','DocumentController@logsDocument');
-
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
 Route::get('form/tev', 'TevController@index');
 Route::post('form/tev', 'TevController@store');
-
-Route::get('form/bills','BillsController@index');
-Route::post('form/bills','BillsController@store');
 
 Route::get('pdf', function(){
     $display = view("pdf.pdf");
@@ -56,12 +50,74 @@ Route::get('pdf', function(){
     return $pdf->stream();
 });
 
-//PRINT LOGS
-Route::get('pdf/track','PrintLogsController@printTrack');
-Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
+Route::get('pdf/track', function(){
+    $display = view("pdf.track");
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
+    return $pdf->stream();
+});
 
+Route::get('pdf/logs/{doc_type}', function($doc_type){
+    if($doc_type=='SAL' || $doc_type=='TEV'){
+        $display = view("logs.salary");
+    }else if($doc_type=='PO'){
+        $display = view('logs.PurchaseOrder');
+    }else if($doc_type=="PRC"){
+        $display = view('logs.PurchaseRequestCA');
+    }else if($doc_type=="PRR"){
+        $display = view('logs.PurchaseRequestCA');
+    }else if($doc_type=='ALL'){
+        $display = view("logs.all");
+    } else if($doc_type == 'ROUTE') {
+        $display = view('logs.routing_slip');
+    } else if($doc_type == 'APPLEAVE'){
+        $display = view('logs.app_leave');
+    } else if($doc_type == 'INCOMING'){
+        $display = view('logs.incoming');
+    } else if($doc_type == 'SO'){
+        $display = view('logs.office_order');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('logs.worksheet');
+    } else if($doc_type == 'JUST_LETTER') {
+        $display = view('logs.just_letter');
+    }else{
+        return redirect('document/delivered');
+    }
+
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('pdf/pending/{doc_type}', function($doc_type){
+    if($doc_type=='SAL' || $doc_type=='TEV'){
+        $display = view("pending.salary");
+    }else if($doc_type=='ALL'){
+        $display = view("pending.all");
+    }else if($doc_type=='PO'){
+        $display = view('pending.PurchaseOrder');
+    }else if($doc_type=="PRC"){
+        $display = view('pending.PurchaseRequestCA');
+    }else if($doc_type=="PRR") {
+        $display = view('pending.PurchaseRequestCA');
+    } else if($doc_type == 'INCOMING') {
+        $display = view('pending.incoming');
+    } else if($doc_type == 'ROUTE'){
+        $display = view('pending.routing');
+    } else if($doc_type == 'WORKSHEET') {
+        $display = view('pending.worksheet');
+    } else if($doc_type == 'SO') {
+        $display = view('pending.office_order');
+    }
+    else{
+        return redirect('document/received');
+    }
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display)->setPaper('a4', 'landscape');
+    return $pdf->stream();
+});
 Route::get('tayong',function(){
-   return view('logs.PurchaseRequestR');
+    return view('logs.PurchaseRequestR');
 });
 //endjimzky
 
@@ -101,9 +157,22 @@ Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
 Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
+//GET DESIGNATION
+Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
+//APPOINTMENT
+Route::get('appointment','AppointmentController@appointment');
+Route::post('appointment','AppointmentController@appointmentSave');
+//PR PDF
+Route::get('pdf_pr','PurchaseRequestController@pdf_pr');
+//APPEND
+Route::get('append',function(){
+    return view('prCreated');
+});
+//
 Route::get('haha',function(){
     return Session::get("date_in");
 });
+Route::get('hehe','PurchaseRequestController@hello');
 
 //traya
 //routing slip
@@ -123,8 +192,6 @@ Route::post('/form/office-order','OfficeOrderController@create');
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
-//GENERAL DOC
-Route::match(['get','post'],'general', 'GeneralDocument@create');
 //CHANGE PASSWORD
 Route::get('/change/password', 'PasswordController@change_password');
 Route::post('/change/password', 'PasswordController@save_changes');
@@ -148,10 +215,10 @@ Route::get('/search/designation', 'DesignationController@search');
 Route::post('/remove/designation', 'DesignationController@remove');
 
 Route::get('clear', function(){
-   Session::flush();
+    Session::flush();
     return redirect('/');
 });
 
 Route::get('modal',function(){
-return view('users.modal');
+    return view('users.modal');
 });

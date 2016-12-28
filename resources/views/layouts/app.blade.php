@@ -1,7 +1,7 @@
 <?php
 use App\Section;
 ?>
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -159,9 +159,8 @@ use App\Section;
 <!-- bootstrap datepicker -->
 <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
-
+<script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
 @yield('plugin')
-
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
@@ -186,6 +185,7 @@ use App\Section;
         },2000);
     }
 </script>
+
 @section('js')
 
 @show

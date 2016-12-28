@@ -6,7 +6,6 @@ use App\Http\Controllers\AccessController as Access;
 
 $access = Access::access();
 $documents = Session::get('receivedDocuments');
-
 ?>
 <html>
 <title>Print Logs</title>

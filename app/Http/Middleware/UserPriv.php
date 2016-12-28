@@ -16,8 +16,10 @@ class UserPriv
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->user_priv == 0) {
-            return redirect()->intended();
+        if(Auth::check()){
+            if(Auth::user()->user_priv == 0) {
+                return redirect()->intended();
+            }
         }
         return $next($request);
     }

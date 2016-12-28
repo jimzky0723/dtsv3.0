@@ -45,7 +45,6 @@ class AdminController extends Controller
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
             $user->password = bcrypt($request->input('password'));
-            $user->email = "dummy";
             $user->username = $request->input('username');
             $user->designation = $request->input('designation');
             $user->division = $request->input('division');
@@ -86,7 +85,6 @@ class AdminController extends Controller
             $user->lname = $request->input('lname');
             $user->username = $username;
             $user->designation = $request->input('designation');
-            $user->email = "dummy";
             $user->division = $request->input('division');
             $user->section = $request->input('section');
             $user->user_priv = $request->input('user_type');

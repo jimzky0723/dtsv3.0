@@ -4,37 +4,70 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tracking;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Tracking_Details;
 use App;
+use App\Purchase_Request_RP;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
+use App\User;
+use App\Section;
+use App\Division;
+use App\Designation;
 
 class PurchaseRequestController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
+        $this->middleware('user_priv');
     }
 
-    public function prCashAdvance()
-    {
+    public function prCashAdvance(){
         return view('form.prCashAdvance');
     }
 
-    public function savePrCashAdvance(Request $request)
-    {
+    public function savePrCashAdvance(Request $request){
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('itemdescription'), $request->get('amount'), "", "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
-    public function prRegularPurchase()
-    {
-        return view('form.prRegularPurchase', ['name' => 'rusel']);
+    public function prRegularPurchase(){
+        $section = Section::all();
+        foreach($section as $row){
+            $user = User::where('id','=',$row->head)->first();
+            $section_head[] = $user;
+        }
+        $division = Division::all();
+        foreach($division as $row){
+            $user = User::where('id','=',$row->head)->first();
+            $division_head[] = $user;
+        }
+        return view('form.prRegularPurchase',['section_head' => $section_head, 'division_head' => $division_head]);
+    }
+
+    public function getDesignation($id){
+        return Designation::where('id','=',$id)->first()->description;
     }
 
     public function savePrRegularPurchase(Request $request)
     {
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
-        return $this->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $request->get('purpose'), $request->get('amount'), $request->get('pr_no'), "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
+        $count = 0;
+        foreach($request->get('qty') as $pr){
+            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('cost')[$count] != '') {
+                $pr = new Purchase_Request_RP();
+                $pr->route_no = $route_no;
+                $pr->qty = $request->get('qty')[$count];
+                $pr->issue = $request->get("issue")[$count];
+                $pr->description = $request->get("description")[$count];
+                $pr->unit_cost = $request->get("unit_cost")[$count];
+                $pr->cost = $request->get("cost")[$count];
+                $pr->save();
+            }
+            $count++;
+        }
+        return $this->saveDatabase($route_no, $request->get('doc_type'), $request->get('prepared_date'), $request->get('prepared_by'), $request->get('division_head'), "", "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
@@ -97,11 +130,29 @@ class PurchaseRequestController extends Controller
         $q->action = $description;
         $q->save();
 
-        return redirect("/pdf");
+        return redirect("/pdf_pr");
+    }
+
+    public function pdf_pr(){
+        $item = Purchase_Request_RP::all();
+        $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
+        $user = User::where('id','=',$tracking->prepared_by)->first();
+        $section = Section::where('id','=',$user->section)->first();
+        $division = Division::where('id','=',$user->division)->first();
+
+        $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display);
+
+        return $pdf->stream();
     }
 
     public function hello(){
-        return "Hello World";
+        $data = DB::table('Purchase_Request')
+            ->latest()
+            ->first()
+            ->id;
+        return Response::json($data);
     }
 
 }
