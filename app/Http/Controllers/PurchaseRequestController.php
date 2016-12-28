@@ -62,7 +62,7 @@ class PurchaseRequestController extends Controller
                 $pr->issue = $request->get("issue")[$count];
                 $pr->description = $request->get("description")[$count];
                 $pr->unit_cost = $request->get("unit_cost")[$count];
-                $pr->cost = $request->get("cost")[$count];
+                $pr->estimated_cost = $request->get("estimated_cost")[$count];
                 $pr->save();
             }
             $count++;
