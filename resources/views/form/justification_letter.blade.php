@@ -94,16 +94,22 @@
     /**
      * Created by lourence on 12/28/2016.
      */
+    var to_name = 1;
+    var to_des = 1;
+    var thru_name = 1;
+    var thru_des = 1;
+    var error = false;
+    var name_show_error = false;
+    var des_show_error = false;
+
+    function remove_to(el){
+        $(el).parent().parent().remove();
+        to_name --;
+        to_des --;
+    }
 
     (function($){
 
-        var to_name = 1;
-        var to_des = 1;
-        var thru_name = 1;
-        var thru_des = 1;
-        var error = false;
-        var name_show_error = false;
-        var des_show_error = false;
 
         $('#add').click(function(evt){
 
@@ -156,7 +162,7 @@
                         '<input type="text" name="desig_to[]" class="form-control" id="to-des-' + to_des + '"/> ' +
                         '</span> ' +
                         '<span class="col-md-1"> ' +
-                        '<a href="#" style="color:red;" id="remove"> <span class="glyphicon glyphicon-trash"  aria-hidden="true"></span></a>' +
+                        '<a href="#" style="color:red;" onclick="remove_to(this);"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' +
                         '</span>' +
                         '</div>');
             }
@@ -167,12 +173,6 @@
         $('#remove').click(function(evt){
             alert("hello");
         });
-
-        var remove_field = function(el){
-            $(el).parent().parent().remove();
-            to_name --;
-            to_des --;
-        };
 
         var add_thru_field = function(el){
             var parent = $(el).parent().parent().parent();
