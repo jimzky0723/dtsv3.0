@@ -148,11 +148,11 @@ class DocumentController extends Controller
                 return "Certificate of Employment";
             case "CERT_CLEARANCE":
                 return "Certificate of Clearance";
-            case "SO":
+            case "OFFICE_ORDER":
                 return "Office Order";
             case "DTR":
                 return "DTR";
-            case "APPLEAVE":
+            case "CDO":
                 return "Application for Leave";
             case "OT":
                 return "Certificate of Overtime Credit";

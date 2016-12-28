@@ -63,7 +63,7 @@ $code = Session::get('doc_type_code');
                             <option>Certificate of Clearance</option>
                         </optgroup>
                         <optgroup label="Personnel Related Documents">
-                            <option value="SO">Office Order</option>
+                            <option value="OFFICE_ORDER">Office Order</option>
                             <option>DTR</option>
                             <option>Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
