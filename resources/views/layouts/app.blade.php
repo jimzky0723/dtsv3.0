@@ -1,7 +1,7 @@
 <?php
 use App\Section;
 ?>
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -88,22 +88,19 @@ use App\Section;
         </div>
     </div>
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"></a>
-        </div>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li><a href="{{ URL::to('document/accept') }}"><i class="fa fa-plus"></i> Accept Document</a></li>
                 <li><a href="{{ URL::to('document') }}"><i class="fa fa-file"></i> Create Document</a></li>
-                <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ URL::to('document/delivered') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Delivered Documents</a></li>
+                        <li><a href="{{ URL::to('document/received') }}"><i class="fa fa-hourglass-half"></i>&nbsp;&nbsp; Received Documents</a></li>
+                    </ul>
+                </li>
                 @if(Auth::user()->user_priv==1)
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
@@ -147,8 +144,10 @@ use App\Section;
 </footer>
 @include('modal')
 
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
+        <!-- NUMERAL JS-->
+<script src="{{ asset('resources/assets/js/Numeral-js/numeral.js') }}"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
