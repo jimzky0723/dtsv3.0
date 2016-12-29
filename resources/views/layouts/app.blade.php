@@ -173,6 +173,8 @@ use App\Section;
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+<!-- NUMERAL JS -->
+<script src="{{ asset('resources/assets/js/Numeral-js/src/numeral.js') }}"></script>
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
 <script>
