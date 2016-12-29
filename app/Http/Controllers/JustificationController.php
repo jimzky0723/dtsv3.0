@@ -21,18 +21,22 @@ class JustificationController extends Controller
     }
     public function index(Request $request) {
         if($request->isMethod('get')) {
-            $user = $request->user()->fname." ".$request->user()->mname." ".$request->user()->lname;
-            return view('form.justification_letter')->with('user', $user);
+            $name = $request->user()->fname." ".$request->user()->mname." ".$request->user()->lname;
+           // return view('form.justification_letter')->with('user', $user);
+            return view('form.just_letter_sample')->with('name', $name);
         }
 
         if($request->isMethod('post')){
-            return $request->all();
+
             $tracking = new Tracking();
             $tracking->route_no = date('Y')."-".$request->user()->id.date('mdHis');
             $tracking->prepared_by = $request->user()->id;
             $tracking->prepared_date = date('Y-m-d H:i:s');
             $tracking->description = $request->input('description');
+            $tracking->route_from = $request->input('routed_from');
+            $tracking->route_to = $request->input('routed_to');
             $tracking->doc_type = $request->input('doctype');
+
             $tracking->save();
 
             $a = new Tracking_Details();
