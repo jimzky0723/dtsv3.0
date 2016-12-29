@@ -24,6 +24,7 @@ class JustificationController extends Controller
             $user = $request->user()->fname." ".$request->user()->mname." ".$request->user()->lname;
             return view('form.justification_letter')->with('user', $user);
         }
+
         if($request->isMethod('post')){
             return $request->all();
             $tracking = new Tracking();

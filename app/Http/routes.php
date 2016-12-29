@@ -184,8 +184,7 @@ Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingControll
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
 //JUSTIFICTION LETTER
-Route::get('/form/justification/letter', 'JustificationController@index');
-Route::post('/form/justification/letter','JustificationController@create');
+Route::match(['get','post'], '/form/justification/letter','JustificationController@index');
 //OFFICE ORDER
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
