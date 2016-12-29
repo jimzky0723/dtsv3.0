@@ -111,6 +111,29 @@
             });
         },1000);
     });
+
+    //Get forms
+    $('a[href="#prr"]').on('click',function(){
+        $('.modal_content').html(loadingState);
+        $('.modal-title').html($(this).html());
+        var url = $(this).data('link');
+        setTimeout(function() {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    //Date picker
+                    $('.datepickercalendar').datepicker({
+                        autoclose: true
+                    });
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+    });
 });
 
 function acceptNumber($this){
