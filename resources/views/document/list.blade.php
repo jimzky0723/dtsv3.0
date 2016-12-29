@@ -211,6 +211,17 @@
                 '<td><input type="text" name="total[]" class="form-control"></td>'+
                 '</tr>');
     }
+
+    function subTotal(){
+        var values = {};
+        var total = $('input[name="total[]"]');
+        var c = 0;
+        total.each(function(){
+            values[c] = total.val();
+            c++;
+        });
+        console.log(values);
+    }
 </script>
 @endsection
 

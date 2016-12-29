@@ -12,6 +12,7 @@ class TEVController extends Controller
 {
     public function index() {
         return view('form.tev');
+//        return view('form.sample');
     }
     public function create() {
         $tracking = new Tracking();

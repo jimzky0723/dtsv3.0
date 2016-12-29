@@ -152,7 +152,7 @@ class DocumentController extends Controller
                 return "Office Order";
             case "DTR":
                 return "DTR";
-            case "CDO":
+            case "APP_LEAVE":
                 return "Application for Leave";
             case "OT":
                 return "Certificate of Overtime Credit";
