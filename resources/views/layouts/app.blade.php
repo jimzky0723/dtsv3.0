@@ -103,7 +103,16 @@ use App\Section;
                 <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li><a href="{{ URL::to('document/accept') }}"><i class="fa fa-plus"></i> Accept Document</a></li>
                 <li><a href="{{ URL::to('document') }}"><i class="fa fa-file"></i> Create Document</a></li>
-                <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Print Logs</a></li>
+                        @if(Auth::user()->user_priv==1)
+                        <li class="divider"></li>
+                        <li><a href="{{ URL::to('report') }}"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp; Print Report</a></li>
+                        @endif
+                    </ul>
+                </li>
                 @if(Auth::user()->user_priv==1)
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
@@ -165,6 +174,8 @@ use App\Section;
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+<!-- NUMERAL JS -->
+<script src="{{ asset('resources/assets/js/Numeral-js/src/numeral.js') }}"></script>
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
 <script>

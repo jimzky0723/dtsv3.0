@@ -94,4 +94,9 @@ class SectionController extends Controller
         }
         return json_encode(array('status' => 'false'));
     }
+
+    static function getSections($id){
+        $sections = Section::where('division',$id)->get();
+        return $sections;
+    }
 }

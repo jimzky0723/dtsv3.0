@@ -63,9 +63,9 @@ $code = Session::get('doc_type_code');
                             <option>Certificate of Clearance</option>
                         </optgroup>
                         <optgroup label="Personnel Related Documents">
-                            <option value="OFFICE_ORDER">Office Order</option>
+                            <option <?php if($code=='OFFICE_ORDER') echo 'selected'; ?> value="OFFICE_ORDER">Office Order</option>
                             <option>DTR</option>
-                            <option>Application for Leave</option>
+                            <option <?php if($code=='APP_LEAVE') echo 'selected'; ?> value="APP_LEAVE">Application for Leave</option>
                             <option>Certificate of Overtime Credit</option>
                             <option>Compensatory Time Off</option>
                         </optgroup>

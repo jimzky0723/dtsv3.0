@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Section;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class AdminController extends Controller
 {
@@ -124,5 +126,45 @@ class AdminController extends Controller
             return json_encode(array('status' => 'ok'));
         }
         return json_encode(array('status' => 'false'));
+    }
+
+    function report(){
+        $year = date('Y');
+        $start = $year.'-01-01 00:00:00';
+        $end = $year.'-12-31 23:59:59';
+        $divison = Division::orderBy('description','asc')->get();
+        return view('report.documents',['division'=>$divison]);
+    }
+
+    static function countAccepted($section){
+        $year = date('Y');
+        $start = $year.'-01-01 00:00:00';
+        $end = $year.'-12-31 23:59:59';
+
+        $accepted = DB::table('tracking_details')
+            ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
+            ->leftJoin('section', 'users.section', '=', 'section.id')
+            ->where('tracking_details.date_in','>=',$start)
+            ->where('tracking_details.date_in','<=',$end)
+            ->where('section.id',$section)
+            ->count();
+
+        return $accepted;
+    }
+
+    static function countCreated($section){
+        $year = date('Y');
+        $start = $year.'-01-01 00:00:00';
+        $end = $year.'-12-31 23:59:59';
+
+        $created = DB::table('tracking_master')
+            ->leftJoin('users', 'tracking_master.prepared_by', '=', 'users.id')
+            ->leftJoin('section', 'users.section', '=', 'section.id')
+            ->where('tracking_master.prepared_date','>=',$start)
+            ->where('tracking_master.prepared_date','<=',$end)
+            ->where('section.id',$section)
+            ->count();
+
+        return $created;
     }
 }
