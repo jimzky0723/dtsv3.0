@@ -106,13 +106,13 @@ Use App\Designation;
                         <tbody class="input_fields_wrap">
                         <tr>
                             <td id="border-bottom" ></td>
-                            <td id="border-bottom" class="qty1"><input type="text" name="qty[]" id="qty1" class="form-control" onkeyup="trapping()" required><small id="E_qty1">required!</small></td>
+                            <td id="border-bottom" class="qty1"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
                             <td id="border-bottom" class="issue1"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
                             <td id="border-bottom" class="description1">
                                 <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
                             </td>
                             <td id="border-bottom"></td>
-                            <td id="border-bottom" class="unit_cost1"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeyup="trapping()" required><small id="E_unit_cost1">required!</small></td>
+                            <td id="border-bottom" class="unit_cost1"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
                             <td id="border-bottom" class="estimated_cost1">
                                 <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
                                 <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
@@ -142,7 +142,7 @@ Use App\Designation;
                         </tr>
                         <tr>
                             <td class="align" colspan="6"><b>TOTAL</b></td>
-                            <td class="align"><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
+                            <td><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -261,7 +261,7 @@ Use App\Designation;
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
-    /*console.log(numeral(1000).format('0,0'));*/
+    console.log(numeral(1000).format('0,0'));
     $('.chosen-select').chosen();
     var count = 1;
     var ok = "";
@@ -282,7 +282,10 @@ Use App\Designation;
         }
     }
 
-    function trapping(){
+    function trapping(event,flag){
+        if(flag)
+            key_code(event);
+
         var total = 0;
         for(var i=1; i<=count; i++){
             if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == ''){
@@ -293,38 +296,28 @@ Use App\Designation;
             $("#description"+i).val() == '' ? ($(".description"+i).addClass("has-error"),$("#E_description"+i).show()) : ($(".description"+i).removeClass("has-error"),$("#E_description"+i).hide());
             $("#unit_cost"+i).val() == '' ? ($(".unit_cost"+i).addClass("has-error"),$("#E_unit_cost"+i).show()) : ($(".unit_cost"+i).removeClass("has-error"),$("#E_unit_cost"+i).hide());
 
-            /*$(function(){
-                $('#unit_cost'+i).keyup(function(e){
-                    $('<span id="width">').append( $(this).val() ).appendTo('body');
-                    $(this).width( $('#width').width() + 2 );
-                    $("#width").remove();
-                });
-            });*/
-            $(document).ready(function() {
-                $("#unit_cost"+i).keydown(function (e) {
-                    // Allow: backspace, delete, tab, escape, enter and .
-                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                                // Allow: Ctrl+A, Command+A
-                            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                                // Allow: home, end, left, right, down, up
-                            (e.keyCode >= 35 && e.keyCode <= 40)) {
-                        // let it happen, don't do anything
-                        return;
-                    }
-                    // Ensure that it is a number and stop the keypress
-                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                        e.preventDefault();
-                    }
-                });
-            });
-
             var noComma = parseFloat(numeral($("#unit_cost"+i).val()).format('0,0.00').replace(/,/g, ''));
-            $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#estimated_cost"+i).val(numeral($("#qty"+i).val()*noComma).format('0,0.00')),$("#estimated_cost"+i).css('color','blue')) : $("#estimated_cost"+i).val('');
+            $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? (parseFloat($("#estimated_cost"+i).val($("#qty"+i).val()*noComma))) : $("#estimated_cost"+i).val('');
             $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#qty"+i).val()*noComma).format('0,0.00'))) : $("#e_cost"+i).text('');
-            var estimated_cost = parseFloat(numeral($("#estimated_cost"+i).val()).format('0,0.00').replace( /,/g, ''));
-            total += estimated_cost;
-            console.log(total);
-            $("#total").text(numeral(total).format('0,0.00'));
+            var estimated_cost = $("#estimated_cost"+i).val();
+            total += parseFloat(estimated_cost);
+        }
+        $("#total").text(numeral(total).format('0,0.00'));
+    }
+
+    function key_code(e){
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
         }
     }
 
@@ -366,5 +359,27 @@ Use App\Designation;
             count = 1;
         }
     };
+
+    /*$(function(){
+         $('#unit_cost'+i).keydown(function(e){
+             $('<span id="width">').append( $(this).val() ).appendTo('body');
+             $(this).width( $('#width').width() + 2 );
+             $("#width").remove();
+         });
+     });*/
+
+    /*$(document).ready(function() {
+     $("#qty"+i).keydown(function (e) {
+     key_code(e);
+     });
+     });
+     $(document).ready(function() {
+     $("#unit_cost"+i).keydown(function (e) {
+     key_code(e);
+     });
+     });*/
+    /*if (((event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
+     event.preventDefault();
+     }*/
 
 </script>
