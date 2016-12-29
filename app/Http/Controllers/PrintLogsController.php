@@ -39,14 +39,14 @@ class PrintLogsController extends Controller
             $display = view("logs.all");
         } else if($doc_type == 'ROUTE') {
             $display = view('logs.routing_slip');
-        } else if($doc_type == 'APPLEAVE'){
-            $display = view('logs.app_leave');
+        } else if($doc_type == 'APP_LEAVE'){
+            $display = view('logs.general');
         } else if($doc_type == 'INCOMING'){
-            $display = view('logs.incoming');
+            $display = view('logs.general');
         } else if($doc_type == 'SO'){
             $display = view('logs.office_order');
         } else if($doc_type == 'WORKSHEET') {
-            $display = view('logs.worksheet');
+            $display = view('logs.general');
         } else if($doc_type == 'JUST_LETTER') {
             $display = view('logs.just_letter');
         } else if($doc_type == 'GENERAL'){

@@ -312,7 +312,7 @@
                             <td><input type="text" name="transAllow[]" class="form-control"></td>
                             <td><input type="text" name="dailyAllow[]" class="form-control"></td>
                             <td><input type="text" name="perDiem[]" class="form-control"></td>
-                            <td><input type="text" name="total[]" class="form-control"></td>
+                            <td><input type="text" name="total[]" class="form-control" onkeyup="subTotal()"></td>
                         </tr>
                     </tbody>
                     <tfoot>
