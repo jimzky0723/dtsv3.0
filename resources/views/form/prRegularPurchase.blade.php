@@ -71,33 +71,34 @@ Use App\Designation;
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <thead>
                         <tr>
-                            <td colspan="7" class="align">
+                            <td colspan="8" class="align">
                                 <strong>PURCHASE REQUEST</strong>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">Department:</td>
-                            <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
+                            <td colspan="3">{{ Division::find(Auth::user()->division)->description }}</td>
                             <td colspan="2">PR No:</td>
                             <td>Date: {{ date('Y-m-d H:i:s') }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">Section:</td>
-                            <td colspan="2">{{ Section::find(Auth::user()->section)->description }}</td>
+                            <td colspan="3">{{ Section::find(Auth::user()->section)->description }}</td>
                             <td colspan="2">SAI No.:</td>
                             <td> </td>
                         </tr>
                         <tr>
                             <td colspan="2">Unit:</td>
-                            <td colspan="2"></td>
+                            <td colspan="3"></td>
                             <td colspan="2">ALOBS No.:</td>
                             <td> </td>
                         </tr>
                         <tr>
                             <td><b>Option</b></td>
-                            <td ><b>Qty</b></td>
+                            <td><b>Qty</b></td>
                             <td><b>Unit of Issue</b></td>
                             <td><b>Item Description</b></td>
+                            <td><b>Item Specification</b></td>
                             <td><b>Stock No.</b></td>
                             <td><b>Unit Cost</b></td>
                             <td><b>Estimated Cost</b></td>
@@ -108,6 +109,9 @@ Use App\Designation;
                             <td id="border-bottom" ></td>
                             <td id="border-bottom" class="qty1"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
                             <td id="border-bottom" class="issue1"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
+                            <td id="border-bottom" class="description1">
+                                <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
+                            </td>
                             <td id="border-bottom" class="description1">
                                 <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
                             </td>
@@ -127,6 +131,7 @@ Use App\Designation;
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
+                            <td id="border-top"></td>
                             <td id="border-top"><a onclick="add();" href="#">Add new</a></td>
                         </tr>
                         </tbody>
@@ -135,13 +140,14 @@ Use App\Designation;
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
-                            <td id="border-top" width="35%"><br><br> Prepared By:<br><br><u>{{ Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname }}</u><br>{{ Designation::find(Auth::user()->designation)->description }}</td>
+                            <td id="border-top"><br><br> Prepared By:<br><br><u>{{ Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname }}</u><br>{{ Designation::find(Auth::user()->designation)->description }}</td>
+                            <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                         </tr>
                         <tr>
-                            <td class="align" colspan="6"><b>TOTAL</b></td>
+                            <td class="align" colspan="7"><b>TOTAL</b></td>
                             <td><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
                         </tr>
                         </tfoot>

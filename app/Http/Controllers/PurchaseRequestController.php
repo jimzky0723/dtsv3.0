@@ -55,7 +55,7 @@ class PurchaseRequestController extends Controller
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         $count = 0;
         foreach($request->get('qty') as $pr){
-            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('cost')[$count] != '') {
+            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] != '') {
                 $pr = new Purchase_Request_RP();
                 $pr->route_no = $route_no;
                 $pr->qty = $request->get('qty')[$count];
