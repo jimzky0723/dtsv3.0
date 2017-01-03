@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
-$documents = Session::get('deliveredDocuments');
+$documents = Session::get('logsDocument');
 ?>
 <html>
 <title>Routing Slip logs</title>

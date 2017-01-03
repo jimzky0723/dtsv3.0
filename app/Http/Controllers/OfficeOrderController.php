@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Tracking;
 use Symfony\Component\HttpFoundation\Request;
+use App\Tracking_Details;
 
 class OfficeOrderController extends Controller
 {
@@ -17,18 +18,20 @@ class OfficeOrderController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(Request $request){
+    public function create(Request $request){
         if($request->isMethod('get')) {
             $user = $request->user()->fname . " " . $request->user()->mname . " " . $request->user()->lname;
-            return view('form.office_order')->with('user', $user);
+            return view('form.office_order_simple')->with('user', $user);
         }
         if($request->isMethod('post')) {
             $tracking = new Tracking();
             $tracking->route_no = date('Y')."-".$request->user()->id.date('mdHis');
             $tracking->prepared_by = $request->user()->id;
             $tracking->prepared_date = date('Y-m-d H:i:s');
+            $tracking->route_from = $request->input('routed_from');
+            $tracking->route_to = $request->input('routed_to');
             $tracking->doc_type = $request->input('doctype');
-            $tracking->description = $request->input('descripition');
+            $tracking->description = $request->input('description');
             $tracking->save();
 
             $a = new Tracking_Details();
