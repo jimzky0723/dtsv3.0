@@ -113,8 +113,11 @@ Route::post('/form/application/leave', 'AppLeaveController@create');
 //JUSTIFICTION LETTER
 Route::match(['get','post'], '/form/justification/letter','JustificationController@index');
 //OFFICE ORDER
+Route::match(['get','post'] ,'/form/office-order', 'OfficeOrderController@create');
+/*
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
+*/
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
