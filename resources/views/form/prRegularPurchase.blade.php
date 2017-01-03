@@ -28,6 +28,9 @@ Use App\Designation;
     .align{
         text-align: center;
     }
+    .align-top{
+        vertical-align: top;
+    }
     .table1 {
         width: 100%;
     }
@@ -70,25 +73,25 @@ Use App\Designation;
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <thead>
                         <tr>
-                            <td colspan="8" class="align">
+                            <td colspan="7" class="align">
                                 <strong>PURCHASE REQUEST</strong>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">Department:</td>
-                            <td colspan="3">{{ Division::find(Auth::user()->division)->description }}</td>
+                            <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
                             <td colspan="2">PR No:</td>
                             <td>Date: {{ date('Y-m-d H:i:s') }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">Section:</td>
-                            <td colspan="3">{{ Section::find(Auth::user()->section)->description }}</td>
+                            <td colspan="2">{{ Section::find(Auth::user()->section)->description }}</td>
                             <td colspan="2">SAI No.:</td>
                             <td> </td>
                         </tr>
                         <tr>
                             <td colspan="2">Unit:</td>
-                            <td colspan="3"></td>
+                            <td colspan="2"></td>
                             <td colspan="2">ALOBS No.:</td>
                             <td> </td>
                         </tr>
@@ -97,7 +100,6 @@ Use App\Designation;
                             <td><b>Qty</b></td>
                             <td><b>Unit of Issue</b></td>
                             <td><b>Item Description</b></td>
-                            <td><b>Item Specification</b></td>
                             <td><b>Stock No.</b></td>
                             <td><b>Unit Cost</b></td>
                             <td><b>Estimated Cost</b></td>
@@ -106,16 +108,15 @@ Use App\Designation;
                         <tbody class="input_fields_wrap">
                         <tr>
                             <td id="border-bottom" ></td>
-                            <td id="border-bottom" class="qty1"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
-                            <td id="border-bottom" class="issue1"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
-                            <td id="border-bottom" class="description1">
+                            <td id="border-bottom" class="qty1 align-top"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
+                            <td id="border-bottom" class="issue1 align-top"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
+                            <td id="border-bottom" class="description1 align-top" width="40%">
                                 <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
-                            </td>
-                            <td id="border-bottom" class="specification1">
+                                <br><strong>Item Description</strong>
                                 <textarea type="text" name="specification[]" id="specification1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
                             </td>
                             <td id="border-bottom"></td>
-                            <td id="border-bottom" class="unit_cost1"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
+                            <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
                             <td id="border-bottom" class="estimated_cost1">
                                 <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
                                 <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
@@ -124,7 +125,6 @@ Use App\Designation;
                         </tbody>
                         <tbody>
                         <tr>
-                            <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
@@ -143,11 +143,10 @@ Use App\Designation;
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
-                            <td id="border-top"></td>
                         </tr>
                         <tr>
-                            <td class="align" colspan="7"><b>TOTAL</b></td>
-                            <td><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
+                            <td class="align" colspan="6"><b>TOTAL</b></td>
+                            <td class="align-top"><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
                         </tr>
                         </tfoot>
                     </table>

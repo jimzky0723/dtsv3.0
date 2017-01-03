@@ -6,6 +6,8 @@
     <style>
         html {
             margin: 30px;
+            font-size:x-small;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
         #border{
             border-collapse: collapse;
@@ -17,7 +19,7 @@
         }
         #border-right{
             border-collapse: collapse;
-            border-right: none;
+            border:1px solid #000;
         }
         #border-bottom{
             border-collapse: collapse;
@@ -25,10 +27,13 @@
         }
         #border-left{
             border-collapse: collapse;
-            border-left: none;
+            border:1px solid #000;
         }
         .align{
             text-align: center;
+        }
+        .align-top{
+            vertical-align : top;
         }
         .table1 {
             width: 100%;
@@ -39,12 +44,11 @@
     </style>
 </head>
 <body>
-<small>
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
             <td width="90%" id="border">
-                <div class="align" style="margin-top:-10px;">
+                <div class="align small-text" style="margin-top:-10px;">
                     Republic of the Philippines<br>
                     <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br>
                     Osmeña Boulevard, Cebu City, 6000 Philippines<br>
@@ -78,39 +82,46 @@
             <td>Date: </td>
         </tr>
         <tr>
-            <td><b>Item No</b></td>
-            <td><b>Qty</b></td>
-            <td><b>Unit of Issue</b></td>
-            <td width="35%"><b>Item Description</b></td>
-            <td><b>Stock No.</b></td>
-            <td><b>Estimated Unit Cost</b></td>
-            <td><b>Estimated Cost</b></td>
+            <th id="border-left">Item No</th>
+            <th id="border-right">Qty</th>
+            <th id="border-right">Unit of Issue</th>
+            <th width="35%" id="border-right">Item Description</th>
+            <th id="border-right">Stock No.</th>
+            <th>Estimated Unit Cost</th>
+            <th id="border-right">Estimated Cost</th>
         </tr>
+        <tbody>
         @foreach($item as $row)
             <tr>
-                <td id="border-bottom">{{ $row->id }}</td>
-                <td id="border-bottom">{{ $row->qty }}</td>
-                <td id="border-bottom">{{ $row->issue }}</td>
-                <td id="border-bottom">
-                    <?php
-                    $count = 0;
-                    if(strlen($row->description) <= 35){
-                        echo "<br>".$row->description."<br>";
-                    } else {
-                        for($i=0;$i<=strlen($row->description);$i++){
-                            if($i % 35 == 0){
-                                echo "<br>".substr($row->description,$count,35)."<br>";
-                                $count = $count + 35;
+                <td id="border-bottom" class="align-top">{{ $row->id }}</td>
+                <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
+                <td id="border-bottom" class="align-top">{{ $row->issue }}</td>
+                <td id="border-bottom" class="align-top">
+                    <span class="small-text">
+                        <?php
+                        $count = 0;
+                        $total += $row->estimated_cost;
+                        echo "<strong>".$row->description."</strong>"."<br>";
+                        if(strlen($row->specification) <= 35){
+                            echo "<br>".$row->specification."<br>";
+                        } else {
+                            for($i=0;$i<=strlen($row->specification);$i++){
+                                if($i % 35 == 0){
+                                    echo "<br>".substr($row->specification,$count,35)."<br>";
+                                    $count = $count + 35;
+                                }
                             }
                         }
-                    }
-                    ?>
+                        ?>
+                    </span>
                 </td>
                 <td id="border-bottom"></td>
-                <td id="border-bottom">{{ $row->unit_cost }}</td>
-                <td id="border-bottom">{{ $row->cost }}</td>
+                <td id="border-bottom" class="align-top">{{ $row->unit_cost }}</td>
+                <td id="border-bottom" class="align-top"><strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($row->estimated_cost,2) }}</strong></td>
             </tr>
         @endforeach
+        </tbody>
+        <tfoot>
         <tr>
             <td id="border-top"></td>
             <td id="border-top"></td>
@@ -122,8 +133,9 @@
         </tr>
         <tr>
             <td class="align" colspan="6"><b>TOTAL</b></td>
-            <td class="align">1111</td>
+            <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($total,2) }}</strong></td>
         </tr>
+
         <tr>
             <td colspan="7" class="align"><b style="margin-right:5%">CERTIFICATION</b></td>
         </tr>
@@ -142,12 +154,13 @@
         <tr>
             <td colspan="7" id="border-top">Chargeable to: <b>hahaha</b></td>
         </tr>
+        </tfoot>
     </table>
     <table class="table1" cellpadding="0" cellspacing="0">
         <tr>
             <td id="border-bottom" width="15%"></td>
-            <td id="border-bottom" width="40%">Recommending Approval:</td>
-            <td id="border-bottom" width="40%">Approved By:</td>
+            <td id="border-bottom" width="40%">&nbsp;Recommending Approval:</td>
+            <td id="border-bottom" width="40%">&nbsp;Approved By:</td>
         </tr>
         <tr>
             <td id="border-top border-bottom">&nbsp;Signature:</td>
@@ -161,8 +174,8 @@
         </tr>
         <tr>
             <td id="border-top" >&nbsp;Designation:</td>
-            <td id="border-top" class="align">Officer-In-Charge Assistant Regional Director</td>
-            <td id="border-top" class="align">Director IV</td>
+            <td id="border-top" class="align">&nbsp;Officer-In-Charge Assistant Regional Director</td>
+            <td id="border-top" class="align">&nbsp;Director IV</td>
         </tr>
     </table>
     <br><br>
@@ -172,6 +185,5 @@
             <font class="route_no">{{ Session::get('route_no') }}</font>
         </div>
     </div>
-</small>
 </body>
 </html>

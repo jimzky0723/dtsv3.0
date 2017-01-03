@@ -120,8 +120,9 @@ class PurchaseRequestController extends Controller
         $section = Section::where('id','=',$user->section)->first();
         $division = Division::where('id','=',$user->division)->first();
 
-        $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
+        $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,'total' => "0"]);
         $pdf = App::make('dompdf.wrapper');
+        /*$pdf->loadHTML($display)->setPaper('a4', 'landscape');*/
         $pdf->loadHTML($display);
 
         return $pdf->stream();
