@@ -14,6 +14,7 @@ class CreatePurchaseRequest extends Migration
             $table->integer('qty');
             $table->string('issue');
             $table->text('description');
+            $table->text('specification');
             $table->text('unit_cost');
             $table->text('estimated_cost');
             $table->boolean('status');

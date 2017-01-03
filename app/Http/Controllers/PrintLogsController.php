@@ -34,7 +34,7 @@ class PrintLogsController extends Controller
         }else if($doc_type=="PRC"){
             $display = view('logs.PurchaseRequestCA');
         }else if($doc_type=="PRR"){
-            $display = view('logs.PurchaseRequestCA');
+            $display = view('logs.PurchaseRequestR');
         }else if($doc_type=='ALL'){
             $display = view("logs.all");
         } else if($doc_type == 'ROUTE') {

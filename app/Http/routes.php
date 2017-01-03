@@ -97,8 +97,20 @@ Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
 Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
+//GET DESIGNATION
+Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
+//APPOINTMENT
+Route::get('appointment','AppointmentController@appointment');
+Route::post('appointment','AppointmentController@appointmentSave');
+//PR PDF
+Route::get('pdf_pr','PurchaseRequestController@pdf_pr');
+//APPEND
+Route::get('append',function(){
+    return view('prCreated');
+});
+//
 Route::get('haha',function(){
-    return Session::get("date_in");
+    return view('logs.PurchaseRequestR');
 });
 
 //traya
