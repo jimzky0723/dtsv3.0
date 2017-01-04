@@ -40,10 +40,10 @@ class PrintLogsController extends Controller
         } else if($doc_type == 'ROUTE') {
             $display = view('logs.routing_slip');
         } else if($doc_type == 'APP_LEAVE'){
-            $display = view('logs.general');
+            $display = view('logs.app_leave');
         } else if($doc_type == 'INCOMING'){
-            $display = view('logs.general');
-        } else if($doc_type == 'SO'){
+            $display = view('logs.incoming');
+        } else if($doc_type == 'OFFICE_ORDER'){
             $display = view('logs.office_order');
         } else if($doc_type == 'WORKSHEET') {
             $display = view('logs.general');
