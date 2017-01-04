@@ -42,7 +42,7 @@ class PrintLogsController extends Controller
         } else if($doc_type == 'APP_LEAVE'){
             $display = view('logs.app_leave');
         } else if($doc_type == 'INCOMING'){
-            $display = view('logs.general');
+            $display = view('logs.incoming');
         } else if($doc_type == 'SO'){
             $display = view('logs.office_order');
         } else if($doc_type == 'WORKSHEET') {
