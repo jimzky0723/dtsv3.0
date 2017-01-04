@@ -109,8 +109,15 @@ Route::get('append',function(){
     return view('prCreated');
 });
 //
-Route::get('haha',function(){
-    return view('logs.PurchaseRequestR');
+Route::get('calendar',function(){
+    return view('calendar.calendar');
+});
+Route::get('calendar_form',function(){
+    return view('calendar.calendar_form');
+});
+Route::post('calendar_save','PurchaseRequestController@calendar');
+Route::get('calendar_event',function(){
+    return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
 });
 
 //traya

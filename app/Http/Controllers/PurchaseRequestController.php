@@ -15,6 +15,7 @@ use App\Users;
 use App\Section;
 use App\Division;
 use App\Designation;
+use App\Calendar;
 
 class PurchaseRequestController extends Controller
 {
@@ -71,7 +72,7 @@ class PurchaseRequestController extends Controller
             }
             $count++;
         }
-        return $this->saveDatabase($route_no, $request->get('doc_type'), $prepared_date, $request->get('prepared_by'), $request->get('division_head'), "", "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
+        return $this->saveDatabase($route_no, $request->get('doc_type'), $prepared_date, $request->get('prepared_by'), $request->get('division_head'), $request->get('amount'), "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
@@ -110,7 +111,10 @@ class PurchaseRequestController extends Controller
         $q->action = $description;
         $q->save();
 
-        return redirect("/pdf_pr");
+        if($doc_type == "PRR")
+            return redirect("/pdf_pr");
+        else
+            return redirect("/document");
     }
 
     public function pdf_pr(){
@@ -120,7 +124,7 @@ class PurchaseRequestController extends Controller
         $section = Section::where('id','=',$user->section)->first();
         $division = Division::where('id','=',$user->division)->first();
 
-        $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,'total' => "0"]);
+        $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
         $pdf = App::make('dompdf.wrapper');
         /*$pdf->loadHTML($display)->setPaper('a4', 'landscape');*/
         $pdf->loadHTML($display);
@@ -135,5 +139,14 @@ class PurchaseRequestController extends Controller
             ->id;
         return Response::json($data);
     }
+    public function calendar(Request $request){
+        $calendar = new Calendar();
+        $calendar->title = $request->get('title');
+        $calendar->start = $request->get('start');
+        $calendar->backgroundColor = $request->get('background_color');
+        $calendar->borderColor = $request->get('border_color');
+        $calendar->save();
 
+        return redirect('/calendar');
+    }
 }

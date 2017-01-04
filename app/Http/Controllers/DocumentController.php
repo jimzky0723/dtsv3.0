@@ -19,7 +19,6 @@ class DocumentController extends Controller
     {
         $this->middleware('auth');
     }
-
     public function index()
     {
         $user = Auth::user();
