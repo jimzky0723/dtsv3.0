@@ -111,6 +111,7 @@
             });
         },1000);
     });
+
 });
 
 function acceptNumber($this){

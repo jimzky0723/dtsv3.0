@@ -169,6 +169,7 @@ use App\Section;
 <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
+<script src="{{ asset('resources/plugin/ckeditor/ckeditor.js') }}"></script>
 @yield('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->

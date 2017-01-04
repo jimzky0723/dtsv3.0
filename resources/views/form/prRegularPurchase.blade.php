@@ -28,6 +28,9 @@ Use App\Designation;
     .align{
         text-align: center;
     }
+    .align-top{
+        vertical-align: top;
+    }
     .table1 {
         width: 100%;
     }
@@ -45,7 +48,6 @@ Use App\Designation;
     <span id="token" data-token="{{ csrf_token() }}"></span>
     <input type="hidden" name="doc_type" value="PRR">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
-    <input type="hidden" name="prepared_date" value="{{ date('Y-m-d H:i:s') }}" class="form-control">
     <div class="modal-body">
         <div class="content-wrapper">
             <!-- Main content -->
@@ -95,7 +97,7 @@ Use App\Designation;
                         </tr>
                         <tr>
                             <td><b>Option</b></td>
-                            <td ><b>Qty</b></td>
+                            <td><b>Qty</b></td>
                             <td><b>Unit of Issue</b></td>
                             <td><b>Item Description</b></td>
                             <td><b>Stock No.</b></td>
@@ -106,13 +108,15 @@ Use App\Designation;
                         <tbody class="input_fields_wrap">
                         <tr>
                             <td id="border-bottom" ></td>
-                            <td id="border-bottom" class="qty1"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
-                            <td id="border-bottom" class="issue1"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
-                            <td id="border-bottom" class="description1">
+                            <td id="border-bottom" class="qty1 align-top"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
+                            <td id="border-bottom" class="issue1 align-top"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
+                            <td id="border-bottom" class="description1 align-top" width="40%">
                                 <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
+                                <br><strong>Item Description</strong>
+                                <textarea type="text" name="specification[]" id="specification1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
                             </td>
                             <td id="border-bottom"></td>
-                            <td id="border-bottom" class="unit_cost1"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
+                            <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
                             <td id="border-bottom" class="estimated_cost1">
                                 <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
                                 <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
@@ -135,14 +139,14 @@ Use App\Designation;
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
-                            <td id="border-top" width="35%"><br><br> Prepared By:<br><br><u>{{ Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname }}</u><br>{{ Designation::find(Auth::user()->designation)->description }}</td>
+                            <td id="border-top"><br><br> Prepared By:<br><br><u>{{ Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname }}</u><br>{{ Designation::find(Auth::user()->designation)->description }}</td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                         </tr>
                         <tr>
                             <td class="align" colspan="6"><b>TOTAL</b></td>
-                            <td><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
+                            <td class="align-top"><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -156,7 +160,7 @@ Use App\Designation;
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Requested By:</label>
                             <div class="col-sm-10">
-                                <select  class="chosen-select" onchange="get_designation($(this),'section')" name="requested_by">
+                                <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
                                     <option value="">Select Name</option>
                                     @foreach($section_head as $row)
                                         <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
@@ -222,7 +226,7 @@ Use App\Designation;
                     <div class="col-xs-6">
                         <label class="col-sm-4 control-label">Printed Name:</label>
                         <div class="col-sm-10">
-                            <select class="chosen-select" onchange="get_designation($(this),'division');" name="division_head">
+                            <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
                                 <option value="">Select Name</option>
                                 @foreach($division_head as $row)
                                     <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
@@ -252,6 +256,13 @@ Use App\Designation;
                         <button type="submit" class="btn btn-primary pull-left" onclick="haha();" style="margin-right: 5px;">
                             <i class="fa fa-download"></i> Generate PDF
                         </button>
+                        <li><a href="#" data-link onclick="refresh_page()">REFRESH</a></li>
+                        <script type="text/javascript">
+                            function refresh_page()
+                            {
+                                window.location.reload();
+                            }
+                        </script>
                     </div>
                 </div>
             </section>
@@ -262,7 +273,7 @@ Use App\Designation;
 <div class="clearfix"></div>
 <script>
     console.log(numeral(1000).format('0,0'));
-    $('.chosen-select').chosen();
+    /*$('.chosen-select').chosen();*/
     var count = 1;
     var ok = "";
     function add(){
@@ -286,20 +297,22 @@ Use App\Designation;
         if(flag)
             key_code(event);
 
+        var estimated_cost = 0;
         var total = 0;
         for(var i=1; i<=count; i++){
-            if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == ''){
+            if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#specification"+i).val() == ''){
                 ok = "false";
             }
             $("#qty"+i).val() == '' ? ($(".qty"+i).addClass("has-error"),$("#E_qty"+i).show()) :($(".qty"+i).removeClass("has-error"),$("#E_qty"+i).hide()) ;
             $("#issue"+i).val() == '' ? ($(".issue"+i).addClass("has-error"),$("#E_issue"+i).show()) : ($(".issue"+i).removeClass("has-error"),$("#E_issue"+i).hide());
             $("#description"+i).val() == '' ? ($(".description"+i).addClass("has-error"),$("#E_description"+i).show()) : ($(".description"+i).removeClass("has-error"),$("#E_description"+i).hide());
             $("#unit_cost"+i).val() == '' ? ($(".unit_cost"+i).addClass("has-error"),$("#E_unit_cost"+i).show()) : ($(".unit_cost"+i).removeClass("has-error"),$("#E_unit_cost"+i).hide());
+            $("#specification"+i).val() == '' ? ($(".specification"+i).addClass("has-error"),$("#E_specification"+i).show()) : ($(".specification"+i).removeClass("has-error"),$("#E_specification"+i).hide());
 
             var noComma = parseFloat(numeral($("#unit_cost"+i).val()).format('0,0.00').replace(/,/g, ''));
             $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? (parseFloat($("#estimated_cost"+i).val($("#qty"+i).val()*noComma))) : $("#estimated_cost"+i).val('');
-            $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#qty"+i).val()*noComma).format('0,0.00'))) : $("#e_cost"+i).text('');
-            var estimated_cost = $("#estimated_cost"+i).val();
+            $("#qty"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#qty"+i).val()*noComma).format('0,0.00')),estimated_cost = $("#estimated_cost"+i).val()) : ($("#e_cost"+i).text(''),estimated_cost = 0);
+
             total += parseFloat(estimated_cost);
         }
         $("#total").text(numeral(total).format('0,0.00'));
@@ -326,7 +339,7 @@ Use App\Designation;
         $.get(url, function(designation){
             request == 'section' ?
                     result.val() ? $("#section_head").val(designation) : $("#section_head").val('') :
-                        result.val() ? $("#division_head").val(designation) : $("#division_head").val('');
+                    result.val() ? $("#division_head").val(designation) : $("#division_head").val('');
         });
     }
 
@@ -359,27 +372,4 @@ Use App\Designation;
             count = 1;
         }
     };
-
-    /*$(function(){
-         $('#unit_cost'+i).keydown(function(e){
-             $('<span id="width">').append( $(this).val() ).appendTo('body');
-             $(this).width( $('#width').width() + 2 );
-             $("#width").remove();
-         });
-     });*/
-
-    /*$(document).ready(function() {
-     $("#qty"+i).keydown(function (e) {
-     key_code(e);
-     });
-     });
-     $(document).ready(function() {
-     $("#unit_cost"+i).keydown(function (e) {
-     key_code(e);
-     });
-     });*/
-    /*if (((event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
-     event.preventDefault();
-     }*/
-
 </script>

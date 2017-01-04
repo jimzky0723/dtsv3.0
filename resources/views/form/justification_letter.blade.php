@@ -80,7 +80,8 @@
             <div class="row">
                 <div class="col-md-2"><strong>Message/Remarks</strong></div>
                 <div class="col-md-10">
-                    <textarea class="form-control" name="description" rows="10" style="resize:none;" required></textarea>
+                    <textarea class="form-control" name="description" id="description" rows="10" style="resize:none;" required></textarea>
+                    <script>CKEDITOR.replace( 'description');</script>
                 </div>
             </div>
         </div>
@@ -145,6 +146,10 @@
                 des.parent().removeClass(' has-error');
                 des.parent().find('label').remove();
             }
+            if(isEmpty(des.val()) || isEmpty(to.val())){
+                error = true;
+            }
+
             if(! error) {
                 name_show_error = false;
                 des_show_error = false;
@@ -162,7 +167,7 @@
                         '<input type="text" name="desig_to[]" class="form-control" id="to-des-' + to_des + '"/> ' +
                         '</span> ' +
                         '<span class="col-md-1"> ' +
-                        '<a href="#" style="color:red;" onclick="remove_to(this);"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' +
+                        '<a href="#" onclick="remove_to(this);"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' +
                         '</span>' +
                         '</div>');
             }

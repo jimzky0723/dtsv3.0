@@ -97,8 +97,20 @@ Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
 Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
+//GET DESIGNATION
+Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
+//APPOINTMENT
+Route::get('appointment','AppointmentController@appointment');
+Route::post('appointment','AppointmentController@appointmentSave');
+//PR PDF
+Route::get('pdf_pr','PurchaseRequestController@pdf_pr');
+//APPEND
+Route::get('append',function(){
+    return view('prCreated');
+});
+//
 Route::get('haha',function(){
-    return Session::get("date_in");
+    return view('logs.PurchaseRequestR');
 });
 
 //traya
@@ -111,11 +123,13 @@ Route::match(['get','post'],'/form/incoming/letter', 'MailLetterIncomingControll
 Route::get('/form/application/leave', 'AppLeaveController@index');
 Route::post('/form/application/leave', 'AppLeaveController@create');
 //JUSTIFICTION LETTER
-Route::get('/form/justification/letter', 'JustificationController@index');
-Route::post('/form/justification/letter','JustificationController@create');
+Route::match(['get','post'], '/form/justification/letter','JustificationController@index');
 //OFFICE ORDER
+Route::match(['get','post'] ,'/form/office-order', 'OfficeOrderController@create');
+/*
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
+*/
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
