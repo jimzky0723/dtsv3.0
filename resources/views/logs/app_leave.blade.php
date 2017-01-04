@@ -47,6 +47,7 @@ $section = Auth::user()->section;
         <th>Received From</th>
         <th>Released Date</th>
         <th>Released To</th>
+        <th>Applicant / Days leave</th>
         @if($access=='accounting')
             <th>DV #</th>
         @endif
@@ -95,6 +96,11 @@ $section = Auth::user()->section;
                 <td>{{ $doc->ors_no }}</td>
                 <td>{{ $doc->fund_source_budget }}</td>
             @endif
+            <td>
+                {{ $doc->cdo_applicant }}
+                <br>
+                <em>({{ $doc->cdo_day }}) - days</em>
+            </td>
         </tr>
     @endforeach
     </tbody>
