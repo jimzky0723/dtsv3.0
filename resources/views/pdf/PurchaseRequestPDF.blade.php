@@ -100,7 +100,6 @@
                     <span class="small-text">
                         <?php
                         $count = 0;
-                        $total += $row->estimated_cost;
                         echo "<strong>".$row->description."</strong>"."<br>";
                         if(strlen($row->specification) <= 35){
                             echo "<br>".$row->specification."<br>";
@@ -133,7 +132,7 @@
         </tr>
         <tr>
             <td class="align" colspan="6"><b>TOTAL</b></td>
-            <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($total,2) }}</strong></td>
+            <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($tracking->amount,2) }}</strong></td>
         </tr>
 
         <tr>

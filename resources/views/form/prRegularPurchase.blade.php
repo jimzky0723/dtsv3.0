@@ -146,7 +146,10 @@ Use App\Designation;
                         </tr>
                         <tr>
                             <td class="align" colspan="6"><b>TOTAL</b></td>
-                            <td class="align-top"><strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong></td>
+                            <td class="align-top">
+                                <input type="hidden" name="amount" id="amount">
+                                <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong>
+                            </td>
                         </tr>
                         </tfoot>
                     </table>
@@ -256,13 +259,6 @@ Use App\Designation;
                         <button type="submit" class="btn btn-primary pull-left" onclick="haha();" style="margin-right: 5px;">
                             <i class="fa fa-download"></i> Generate PDF
                         </button>
-                        <li><a href="#" data-link onclick="refresh_page()">REFRESH</a></li>
-                        <script type="text/javascript">
-                            function refresh_page()
-                            {
-                                window.location.reload();
-                            }
-                        </script>
                     </div>
                 </div>
             </section>
@@ -316,6 +312,7 @@ Use App\Designation;
             total += parseFloat(estimated_cost);
         }
         $("#total").text(numeral(total).format('0,0.00'));
+        $("#amount").val(numeral(total).format('0,0.00'));
     }
 
     function key_code(e){

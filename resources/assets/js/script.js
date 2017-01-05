@@ -178,7 +178,7 @@ $('a[href="#new"]').on('click',function(e){
 $('a[href="#remove_designation"]').on('click', function (event) {
     var data = {
         "id" : $(this).data('id')
-    }
+    };
     var url = $(this).data('link');
     if(confirm("Delete designation ?") == true){
         $.get(url,data,function(response){
