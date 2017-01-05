@@ -41,6 +41,10 @@
         .table1 td {
             border:1px solid #000;
         }
+        .page {
+            page-break-after:always;
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -120,7 +124,6 @@
             </tr>
         @endforeach
         </tbody>
-        <tfoot>
         <tr>
             <td id="border-top"></td>
             <td id="border-top"></td>
@@ -153,7 +156,6 @@
         <tr>
             <td colspan="7" id="border-top">Chargeable to: <b>hahaha</b></td>
         </tr>
-        </tfoot>
     </table>
     <table class="table1" cellpadding="0" cellspacing="0">
         <tr>
@@ -178,11 +180,17 @@
         </tr>
     </table>
     <br><br>
-    <div style="position: absolute; left: 20%;">
-        <div class="barcode">
-            <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-            <font class="route_no">{{ Session::get('route_no') }}</font>
+    <footer class="footer">
+        <div style="position: absolute; left: 20%;">
+            <div class="barcode">
+                <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
+                <font class="route_no">{{ Session::get('route_no') }}</font>
+            </div>
         </div>
-    </div>
+    </footer>
+     <!-- <div class="page">
+        <div style="position: absolute;bottom: 10px; left: 10px; ">THIS IS MY FOOTER</div>
+     </div> -->
+
 </body>
 </html>
