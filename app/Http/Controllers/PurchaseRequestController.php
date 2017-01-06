@@ -49,7 +49,8 @@ class PurchaseRequestController extends Controller
     }
 
     public function getDesignation($id){
-        return Designation::where('id','=',$id)->first()->description;
+        $designation_id = Users::find($id)->designation;
+        return Designation::where('id','=',$designation_id)->first()->description;
     }
 
     public function savePrRegularPurchase(Request $request)
@@ -127,7 +128,7 @@ class PurchaseRequestController extends Controller
         $display = view("pdf.PurchaseRequestPDF",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
         $pdf = App::make('dompdf.wrapper');
         /*$pdf->loadHTML($display)->setPaper('a4', 'landscape');*/
-        $pdf->loadHTML($display);
+        $pdf->loadHTML($display)->setPaper('a4','portrait');
 
         return $pdf->stream();
     }

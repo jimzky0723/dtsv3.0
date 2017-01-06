@@ -1,4 +1,4 @@
-<span id="url" data-link=" {{ asset('calendar_event') }} "></span>
+<span id="calendar_event" data-link=" {{ asset('calendar_event') }} "></span>
 <span id="save" data-link=" {{ asset('calendar_save') }} "></span>
 <span id="token" data-token="{{ csrf_token() }}"></span>
 <!-- fullCalendar 2.2.5-->
@@ -126,64 +126,58 @@
             /* initialize the calendar
              -----------------------------------------------------------------*/
             //Date for the calendar events (dummy data)
-            var calendar_event = $("#url").data('link');
-            /*$.get(calendar_event,function(response){
-                $("#tayong").html(response);
-            });*/
-            console.log($('#tayong').data('link'));
-            var curEvents = [];
-            curEvents.push(
-                    'http://localhost/dtsv3.0/calendar_event'
-            );
-            $('#calendar').fullCalendar({
+            var calendar_event = $("#calendar_event").data('link');
+            $.get(calendar_event,function(result){
+                $('#calendar').fullCalendar({
 
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                buttonText: {
-                    today: 'today',
-                    month: 'month',
-                    week: 'week',
-                    day: 'day'
-                },
-                //Random default events
-                events: 'http://localhost/dtsv3.0/calendar_event',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    buttonText: {
+                        today: 'today',
+                        month: 'month',
+                        week: 'week',
+                        day: 'day'
+                    },
+                    //Random default events
+                    events: result,
 
-                editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar !!!
-                drop: function (date, allDay) { // this function is called when something is dropped
+                    editable: true,
+                    droppable: true, // this allows things to be dropped onto the calendar !!!
+                    drop: function (date, allDay) { // this function is called when something is dropped
 
-                    // retrieve the dropped element's stored Event Object
-                    var originalEventObject = $(this).data('eventObject');
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
 
-                    // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject);
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
 
-                    // assign it the date that was reported
-                    copiedEventObject.start = date;
-                    copiedEventObject.allDay = allDay;
-                    copiedEventObject.backgroundColor = $(this).css("background-color");
-                    copiedEventObject.borderColor = $(this).css("border-color");
+                        // assign it the date that was reported
+                        copiedEventObject.start = date;
+                        copiedEventObject.allDay = allDay;
+                        copiedEventObject.backgroundColor = $(this).css("background-color");
+                        copiedEventObject.borderColor = $(this).css("border-color");
 
-                    // render the event on the calendar
-                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
-                    var url = $('#save').data('link');
-                    var json = {
-                        'title' : $(this).data('eventObject')['title'],
-                        'start' : date.format(),
-                        'background_color' : $(this).css('background-color'),
-                        'border_color' : $(this).css('border-color'),
-                        "_token" : $('#token').data('token')
-                    };
-                    $.post(url,json,function(){
-                        console.log("Successfully added event");
-                    });
-                    $(this).remove();
-                }
+                        var url = $('#save').data('link');
+                        var json = {
+                            'title' : $(this).data('eventObject')['title'],
+                            'start' : date.format(),
+                            'background_color' : $(this).css('background-color'),
+                            'border_color' : $(this).css('border-color'),
+                            "_token" : $('#token').data('token')
+                        };
+                        $.post(url,json,function(){
+                            console.log("Successfully added event");
+                        });
+                        $(this).remove();
+                    }
+                });
             });
 
             /* ADDING EVENTS */

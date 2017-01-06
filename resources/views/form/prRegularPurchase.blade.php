@@ -166,7 +166,7 @@ Use App\Designation;
                                 <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
                                     <option value="">Select Name</option>
                                     @foreach($section_head as $row)
-                                        <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                        <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -232,7 +232,7 @@ Use App\Designation;
                             <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
                                 <option value="">Select Name</option>
                                 @foreach($division_head as $row)
-                                    <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                 @endforeach
                             </select>
                         </div>

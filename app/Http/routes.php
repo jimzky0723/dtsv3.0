@@ -117,7 +117,7 @@ Route::get('calendar_form',function(){
 });
 Route::post('calendar_save','PurchaseRequestController@calendar');
 Route::get('calendar_event',function(){
-    echo \App\Calendar::all(['title','start','backgroundColor','borderColor']);
+    return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
 });
 
 //traya
