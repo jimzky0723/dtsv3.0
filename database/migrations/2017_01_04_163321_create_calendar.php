@@ -7,7 +7,7 @@ class CreateCalendar extends Migration
 {
     public function up()
     {
-        Schema::create('create_calendar', function (Blueprint $table) {
+        Schema::create('calendar', function (Blueprint $table) {
             $table->increments('id');
             $table->text('title');
             $table->text('start');

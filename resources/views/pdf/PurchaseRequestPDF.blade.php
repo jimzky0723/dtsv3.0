@@ -1,3 +1,8 @@
+<?php
+    $total = 0;
+    use App\Users;
+    use App\Designation;
+?>
 <!DOCTYPE html>
 <html>
 <title>Purchase Request</title>
@@ -8,6 +13,9 @@
             margin: 30px;
             font-size:x-small;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        body {
+            margin-bottom: 50px;
         }
         #border{
             border-collapse: collapse;
@@ -25,6 +33,11 @@
             border-collapse: collapse;
             border-bottom: none;
         }
+        #border-bottom-t{
+            border-collapse: collapse;
+            border-top:1px solid red;
+            border-bottom:1px solid red;
+        }
         #border-left{
             border-collapse: collapse;
             border:1px solid #000;
@@ -41,8 +54,29 @@
         .table1 td {
             border:1px solid #000;
         }
+        .footer {
+            width: 100%;
+            text-align: center;
+            position: fixed;
+        }
+        .footer {
+            bottom: 40px;
+        }
+        .pagenum:before {
+            content: counter(page);
+        }
+        .pagenum:before {
+            content: counter(page);
+        }
     </style>
 </head>
+<div class="footer">
+    <hr>
+    <div style="position:absolute; left: 30%;" class="align">
+        <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
+        <font class="route_no">{{ Session::get('route_no') }}</font>
+    </div>
+</div>
 <body>
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
@@ -97,30 +131,30 @@
                 <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
                 <td id="border-bottom" class="align-top">{{ $row->issue }}</td>
                 <td id="border-bottom" class="align-top">
-                    <span class="small-text">
-                        <?php
-                        $count = 0;
-                        echo "<strong>".$row->description."</strong>"."<br>";
-                        if(strlen($row->specification) <= 35){
-                            echo "<br>".$row->specification."<br>";
-                        } else {
-                            for($i=0;$i<=strlen($row->specification);$i++){
-                                if($i % 35 == 0){
-                                    echo "<br>".substr($row->specification,$count,35)."<br>";
-                                    $count = $count + 35;
+                        <span class="small-text">
+                            <?php
+                            $total += $row->estimated_cost;
+                            $count = 0;
+                            echo "<strong>".$row->description."</strong>"."<br>";
+                            if(strlen($row->specification) <= 35){
+                                echo "<br>".$row->specification."<br>";
+                            } else {
+                                for($i=0;$i<=strlen($row->specification);$i++){
+                                    if($i % 35 == 0){
+                                        echo "<br>".substr($row->specification,$count,35)."<br>";
+                                        $count = $count + 35;
+                                    }
                                 }
                             }
-                        }
-                        ?>
-                    </span>
+                            ?>
+                        </span>
                 </td>
                 <td id="border-bottom"></td>
-                <td id="border-bottom" class="align-top">{{ $row->unit_cost }}</td>
+                <td id="border-bottom" class="align-top"><span style="font-family: DejaVu Sans;">&#x20b1; {{ number_format($row->unit_cost,2) }}</span></td>
                 <td id="border-bottom" class="align-top"><strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($row->estimated_cost,2) }}</strong></td>
             </tr>
         @endforeach
         </tbody>
-        <tfoot>
         <tr>
             <td id="border-top"></td>
             <td id="border-top"></td>
@@ -132,28 +166,28 @@
         </tr>
         <tr>
             <td class="align" colspan="6"><b>TOTAL</b></td>
-            <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($tracking->amount,2) }}</strong></td>
+            <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($total,2) }}</strong></td>
         </tr>
-
+    </table>
+    <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="7" class="align"><b style="margin-right:5%">CERTIFICATION</b></td>
         </tr>
         <tr>
-            <td id="border-bottom" colspan="7">This is to certify that diligent efforts have been exerted to ensure that the price/s indicated above (in relation to the<br>specification) is/are within the prevailing market price/s.
+            <td id="border-bottom" colspan="7">This is to certify that diligent efforts have been exerted to ensure that the price/s indicated above (in relation to the specification) is/are within the prevailing market price/s.
                 <br><br>
                 Requested By:
             </td>
         </tr>
         <tr>
-            <td id="border-top" colspan="7" class="align"><u><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Garizaldy Epistola&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><br>Computer Maintenance V</u></td>
+            <td id="border-top" colspan="7" class="align"><u><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ Users::find($tracking->requested_by)->fname.' '.Users::find($tracking->requested_by)->mname.' '.Users::find($tracking->requested_by)->lname }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><br>{{ \App\Designation::find(Users::find($tracking->requested_by)->designation)->description }}</u></td>
         </tr>
         <tr>
-            <td colspan="7" id="border-bottom">Purpose: <b>hahaha</b></td>
+            <td colspan="7" id="border-bottom">Purpose: <b>{{ $tracking->purpose }}</b></td>
         </tr>
         <tr>
-            <td colspan="7" id="border-top">Chargeable to: <b>hahaha</b></td>
+            <td colspan="7" id="border-top">Chargeable to: <b>{{ $tracking->source_fund }}</b></td>
         </tr>
-        </tfoot>
     </table>
     <table class="table1" cellpadding="0" cellspacing="0">
         <tr>
@@ -168,21 +202,14 @@
         </tr>
         <tr>
             <td id="border-top border-bottom">&nbsp;Printed Name:</td>
-            <td id="border-top border-bottom" class="align"><u><b>Sophia M. Mancao</b></u></td>
+            <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->description)->fname.' '.Users::find($tracking->description)->mname.' '.Users::find($tracking->description)->lname }}</b></u></td>
             <td id="border-top border-bottom" class="align"><u><b>Jaime S. Bernadas, MD, MGM, CESO III</b></u></td>
         </tr>
         <tr>
             <td id="border-top" >&nbsp;Designation:</td>
-            <td id="border-top" class="align">&nbsp;Officer-In-Charge Assistant Regional Director</td>
+            <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->description)->designation)->description }}</td>
             <td id="border-top" class="align">&nbsp;Director IV</td>
         </tr>
     </table>
-    <br><br>
-    <div style="position: absolute; left: 20%;">
-        <div class="barcode">
-            <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-            <font class="route_no">{{ Session::get('route_no') }}</font>
-        </div>
-    </div>
 </body>
 </html>

@@ -111,13 +111,13 @@ Use App\Designation;
                             <td id="border-bottom" class="qty1 align-top"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
                             <td id="border-bottom" class="issue1 align-top"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
                             <td id="border-bottom" class="description1 align-top" width="40%">
-                                <textarea type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_description1">required!</small>
-                                <br><strong>Item Description</strong>
+                                <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
+                                <br><strong><i>Specification(s)</i></strong>
                                 <textarea type="text" name="specification[]" id="specification1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
-                            <td id="border-bottom" class="estimated_cost1">
+                            <td id="border-bottom" class="estimated_cost1 align-top">
                                 <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
                                 <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
                             </td>
@@ -166,7 +166,7 @@ Use App\Designation;
                                 <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
                                     <option value="">Select Name</option>
                                     @foreach($section_head as $row)
-                                        <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                        <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -232,7 +232,7 @@ Use App\Designation;
                             <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
                                 <option value="">Select Name</option>
                                 @foreach($division_head as $row)
-                                    <option value="{{ $row['designation'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                 @endforeach
                             </select>
                         </div>
