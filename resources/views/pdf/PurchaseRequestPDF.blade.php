@@ -1,5 +1,6 @@
 <?php
     $total = 0;
+    $item_no = 1;
     use App\Users;
     use App\Designation;
 ?>
@@ -127,7 +128,7 @@
         <tbody>
         @foreach($item as $row)
             <tr>
-                <td id="border-bottom" class="align-top">{{ $row->id }}</td>
+                <td id="border-bottom" class="align-top">{{ $item_no }}</td>
                 <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
                 <td id="border-bottom" class="align-top">{{ $row->issue }}</td>
                 <td id="border-bottom" class="align-top">
@@ -135,6 +136,7 @@
                             <?php
                             $total += $row->estimated_cost;
                             $count = 0;
+                            $item_no++;
                             echo "<strong>".$row->description."</strong>"."<br>";
                             if(strlen($row->specification) <= 35){
                                 echo "<br>".$row->specification."<br>";
