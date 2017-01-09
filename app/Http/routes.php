@@ -120,6 +120,24 @@ Route::get('calendar_event',function(){
     return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
 });
 
+Route::get('sendemail', function () {
+
+    $data = array(
+        'name' => "Learning Laravel",
+    );
+
+    Mail::send('emails.welcome', $data, function ($message) {
+
+        $message->from('nevermoretayong@gmail.com', 'Learning Laravel');
+
+        $message->to('ruseltayong@gmail.com')->subject('Learning Laravel test email');
+
+    });
+
+    return "Your email has been sent successfully";
+
+});
+
 //traya
 //routing slip
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
