@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Tracking;
-use App\Http\Requests\ValidateSalaryForm;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use App\Tracking_Details;
 
 class TEVController extends Controller
