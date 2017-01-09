@@ -119,7 +119,7 @@ class PurchaseRequestController extends Controller
     }
 
     public function pdf_pr(){
-        $item = Purchase_Request_RP::all();
+        $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
         $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
         $user = Users::where('id','=',$tracking->prepared_by)->first();
         $section = Section::where('id','=',$user->section)->first();
