@@ -181,7 +181,13 @@ Route::match(['get','post'],'/designation/create','DesignationController@create'
 Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
 Route::post('/remove/designation', 'DesignationController@remove');
-
+//feedback
+Route::match(['get','post'] ,'feedback', 'FeedbackController@index');
+Route::match(['get','post'], 'users/feedback', 'FeedbackController@view_feedback');
+Route::match(['get','post'],'view-feedback','FeedbackController@message');
+Route::get('feedback_ok',function(){
+    return view('feedback_ok');
+});
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');
