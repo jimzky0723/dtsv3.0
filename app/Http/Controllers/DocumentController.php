@@ -417,4 +417,16 @@ class DocumentController extends Controller
         return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
     }
 
+    static function countOnlineUsers()
+    {
+        $startTime = date('Y-m-d ').'00:00:00';
+        $endTime = date('Y-m-d ').'23:59:59';
+        $count = User::where('updated_at','>=',$startTime)
+                ->where('updated_at','<=',$endTime)
+                ->where('status',1)
+                ->count();
+
+        return $count;
+    }
+
 }

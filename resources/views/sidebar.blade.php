@@ -4,6 +4,8 @@
     $pending = Doc::pendingDocuments();
     $count = 0;
     $duration="duration"."0";
+
+    $online = Doc::countOnlineUsers();
 ?>
 <span id="url" data-link="{{ asset('date_in') }}"></span>
 <span id="token" data-token="{{ csrf_token() }}"></span>
@@ -75,6 +77,25 @@
                 </div>
 
             @endif
+        </div>
+    </div>
+
+    <div class="panel panel-jim">
+        <div class="panel-heading">
+            <h3 class="panel-title">ONLINE USERS</h3>
+        </div>
+        <div class="panel-body text-success">
+            <center>
+                <i class="fa fa-users fa-3x"></i><br />
+                <div style="margin-top:10px"></div>
+                <font class="text-bold">
+                    @if($online<=1)
+                        {{ $online }} Online User
+                    @else
+                        {{ $online }} Online Users
+                    @endif
+                </font>
+            </center>
         </div>
     </div>
 </div>
