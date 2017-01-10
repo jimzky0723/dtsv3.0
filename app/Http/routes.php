@@ -186,7 +186,7 @@ Route::match(['get','post'] ,'feedback', 'FeedbackController@index');
 Route::match(['get','post'], 'users/feedback', 'FeedbackController@view_feedback');
 Route::match(['get','post'],'view-feedback','FeedbackController@message');
 Route::get('feedback_ok',function(){
-    return view('feedback_ok');
+    return view('feedback.feedback_ok');
 });
 Route::get('clear', function(){
     Session::flush();

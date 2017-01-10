@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="alert alert-success">
-                    {{ $message }}
+                    <strong>Tel no. {{ $feedback->telno }}</strong> <br />
+                    {{ $feedback->message }}
                 </div>
             </div>
         </div>

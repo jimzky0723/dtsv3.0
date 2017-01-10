@@ -32,7 +32,7 @@ class FeedbackController extends Controller
             $feedback->telno = $request->input('telno');
             $feedback->message = $request->input('message');
             $feedback->save();
-            return redirect('feedback.feedback_ok')->with('name',$name);
+            return redirect('feedback_ok')->with('name',$name);
         }
     }
     public function view_feedback(Request $request){
@@ -43,7 +43,7 @@ class FeedbackController extends Controller
     }
     public function message(Request $request)
     {
-        $message = Feedback::where('id', $request->input('id'))->pluck('message')->first();
-        return view('feedback.message')->with('message',$message);
+        $feedback = Feedback::where('id', $request->input('id'))->first();
+        return view('feedback.message')->with('feedback',$feedback);
     }
 }
