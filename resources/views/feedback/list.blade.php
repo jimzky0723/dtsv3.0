@@ -16,7 +16,6 @@
                         <th>Name </th>
                         <th>Designation</th>
                         <th>Section / Division</th>
-                        <th>Subject</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,7 +33,6 @@
                                 {{ $section }}<br>
                                 <em>({{ $division }})</em>
                             </td>
-                            <td>{{ $feedback->subject }}</td>
                         </tr>
                     @endforeach
                     </tbody>

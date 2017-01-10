@@ -37,7 +37,7 @@ class FeedbackController extends Controller
     }
     public function view_feedback(Request $request){
         if($request->isMethod('get')) {
-            $feedbacks = Feedback::paginate(20);
+            $feedbacks = Feedback::orderBy('created_at', 'ASC')->paginate(20);
             return view('feedback.list')->with('feedbacks',$feedbacks);
         }
     }
