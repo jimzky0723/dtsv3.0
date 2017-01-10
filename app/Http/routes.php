@@ -27,6 +27,8 @@ Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
+Route::get('document/list','DocumentController@allDocuments');
+Route::post('document/list','DocumentController@searchDocuments');
 
 // FOR ACCOUNTING SECTION
 Route::get('accounting/accept','AccountingController@accept');

@@ -108,6 +108,9 @@ use App\Section;
                         <li><a href="{{ asset('document/accept')  }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Accept Document</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Create Document</a></li>
+                        @if(Auth::user()->user_priv==1)
+                        <li><a href="{{ asset('document/list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; All Documents</a></li>
+                        @endif
                     </ul>
                 </li>
                 <li class="dropdown">
