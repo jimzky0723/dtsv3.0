@@ -1,4 +1,4 @@
-<form action="{{ asset('prCashAdvance') }}" method="POST" target="_blank">
+<form action="{{ asset('prCashAdvance') }}" method="POST">
     <input type="hidden" name="doctype" value="PRC">
     <input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
     {{ csrf_field() }}

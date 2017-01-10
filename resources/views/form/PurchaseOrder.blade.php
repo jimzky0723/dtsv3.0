@@ -1,4 +1,4 @@
-<form action="{{ asset('PurchaseOrder') }}" method="POST" target="_blank">
+<form action="{{ asset('PurchaseOrder') }}" method="POST">
     <input type="hidden" name="doctype" value="PO">
     <input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
     {{ csrf_field() }}

@@ -130,6 +130,24 @@ Route::get('calendar_event',function(){
     return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
 });
 
+Route::get('sendemail', function () {
+
+    $data = array(
+        'name' => "Learning Laravel",
+    );
+
+    Mail::send('emails.welcome', $data, function ($message) {
+
+        $message->from('nevermoretayong@gmail.com', 'Learning Laravel');
+
+        $message->to('ruseltayong@gmail.com')->subject('Learning Laravel test email');
+
+    });
+
+    return "Your email has been sent successfully";
+
+});
+
 //traya
 //routing slip
 Route::get('/form/routing/slip', 'RoutingController@routing_slip');
@@ -173,7 +191,13 @@ Route::match(['get','post'],'/designation/create','DesignationController@create'
 Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
 Route::post('/remove/designation', 'DesignationController@remove');
-
+//feedback
+Route::match(['get','post'] ,'feedback', 'FeedbackController@index');
+Route::match(['get','post'], 'users/feedback', 'FeedbackController@view_feedback');
+Route::match(['get','post'],'view-feedback','FeedbackController@message');
+Route::get('feedback_ok',function(){
+    return view('feedback_ok');
+});
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');

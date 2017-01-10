@@ -104,7 +104,7 @@
             <td colspan="2">Department:</td>
             <td rowspan="3" colspan="2">{{ $division->description }}<br> {{ $section->description }}</td>
             <td colspan="2">PR No:</td>
-            <td><small>Date:12/29/16</small></td>
+            <td><small>Date: {{ substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,0,4) }}</small></td>
         </tr>
         <tr>
             <td colspan="2">Section:</td>

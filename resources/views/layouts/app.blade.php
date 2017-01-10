@@ -131,6 +131,7 @@ use App\Section;
                             <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
+                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; User Feedbacks</a></li>
                         </ul>
                     </li>
                 @endif
@@ -142,7 +143,11 @@ use App\Section;
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
+                        <i class="fa fa-sign-out"></i> Feedback
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
@@ -203,6 +208,35 @@ use App\Section;
             return true;
         },2000);
     }
+
+    $("a[href='#feedback']").on('click',function(){
+        alert("Hello");
+    });
+
+    (function(){
+        $('#feedback').popover('show');
+        setTimeout(function(){
+            $('#feedback').popover('hide');
+        },2000);
+
+        $('#feedback').click(function(){
+            $('#feedback').popover('hide');
+            $('#document_form').modal('show');
+            $('.modal_content').html(loadingState);
+            $('.modal-title').html($(this).html());
+            var url = $(this).data('link');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#create').attr('action', url);
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        });
+    })();
 </script>
 
 @section('js')
