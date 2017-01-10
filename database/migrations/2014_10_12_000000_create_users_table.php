@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('section');
             $table->string('password');
             $table->boolean('user_priv');
+            $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();
         });

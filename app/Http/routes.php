@@ -1,9 +1,19 @@
 <?php
 Use App\Tracking;
+use App\User;
 Route::auth();
 
 //jimzky
 Route::get('/','HomeController@index');
+Route::get('logout',function(){
+    $user = Auth::user();
+    echo $id = $user->id;
+
+    Auth::logout();
+    User::where('id',$id)
+        ->update(['status' => 0]);
+    return redirect('login');
+});
 
 Route::get('home', 'HomeController@index');
 Route::get('home/chart', 'HomeController@chart');
