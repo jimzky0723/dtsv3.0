@@ -12,8 +12,10 @@ use App\Division;
 use Illuminate\Http\Request;
 use App\User;
 use App\Section;
+use App\Tracking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 
 class AdminController extends Controller
@@ -166,5 +168,23 @@ class AdminController extends Controller
             ->count();
 
         return $created;
+    }
+
+    public function allDocuments()
+    {
+        $keyword = Session::get('keywordAll');
+        $data['documents'] = Tracking::where(function($q) use ($keyword){
+            $q->where('route_no','like',"%$keyword%")
+                ->orwhere('description','like',"%$keyword%");
+        })
+            ->orderBy('id','desc')
+            ->paginate(10);
+        $data['access'] = $this->middleware('access');
+        return view('document.all',$data);
+    }
+
+    public function searchDocuments(Request $request){
+        Session::put('keywordAll',$request->keyword);
+        return self::allDocuments();
     }
 }

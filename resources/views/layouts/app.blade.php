@@ -108,6 +108,9 @@ use App\Section;
                         <li><a href="{{ asset('document/accept')  }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Accept Document</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Create Document</a></li>
+                        @if(Auth::user()->user_priv==1)
+                        <li><a href="{{ asset('document/list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; All Documents</a></li>
+                        @endif
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -131,7 +134,7 @@ use App\Section;
                             <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
-                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; User Feedbacks</a></li>
+                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp; User Feedbacks</a></li>
                         </ul>
                     </li>
                 @endif
@@ -150,6 +153,7 @@ use App\Section;
                         </a>
                     </li>
 
+                <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
@@ -165,7 +169,19 @@ use App\Section;
 </div> <!-- /container -->
 <footer class="footer">
     <div class="container">
+        <p class="pull-right">
+            <?php
+                use App\Http\Controllers\DocumentController as Doc;
+                $online = Doc::countOnlineUsers();
+            ?>
+            @if($online<=1)
+                {{ $online }} Online User | <i class="fa fa-user"></i>
+            @else
+                {{ $online }} Online Users | <i class="fa fa-users"></i>
+            @endif
+        </p>
         <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
+
     </div>
 </footer>
 @include('modal')

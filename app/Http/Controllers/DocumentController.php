@@ -40,7 +40,6 @@ class DocumentController extends Controller
     public function search(Request $request){
         Session::put('keyword',$request->keyword);
         return self::index();
-//        return $request->keyword;
     }
 
     public function accept(Request $request){
