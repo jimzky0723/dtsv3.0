@@ -117,6 +117,7 @@ use App\Section;
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Print Logs</a></li>
+                        <li><a href="{{ URL::to('document/section/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Print Section Logs</a></li>
                         @if(Auth::user()->user_priv==1)
                         <li class="divider"></li>
                         <li><a href="{{ URL::to('report') }}"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp; Print Report</a></li>

@@ -37,7 +37,7 @@
                 <td class=""><label>Head</label></td>
                 <td>:</td>
                 <td>
-                    <select name="head" id="" class="form-control" required>
+                    <select name="head" id="sectionHead" class="form-control chosen-select" required>
                         <option value="{{ $headId }}">{{ $headName }}</option>
                         @foreach($user as $head)
                             @if($headId != $head['id'])

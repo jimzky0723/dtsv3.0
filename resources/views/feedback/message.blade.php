@@ -2,11 +2,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div class="alert alert-default">
-                    <strong>Subject : {{ $feedback->subject }}</strong><br />
-                    <strong>Tel no. {{ $feedback->telno }}</strong> <br />
-                    {{ $feedback->message }}
-                </div>
+                <table class="table table-hover table-striped">
+                    <tr>
+                        <td class="text-right col-lg-5">Subject :</td>
+                        <td class="col-lg-7">{{ $feedback->subject }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right col-lg-5">Tel No. :</td>
+                        <td class="col-lg-7">{{ $feedback->telno }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right col-lg-5">Message :</td>
+                        <td class="col-lg-7">{!! nl2br($feedback->message) !!}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

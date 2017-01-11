@@ -12,7 +12,7 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="20%">Option</th>
+                        <th width="10%">Option</th>
                         <th>Name </th>
                         <th>Designation</th>
                         <th>Section / Division</th>
@@ -26,7 +26,7 @@
                         <?php $designation = \App\Designation::where('id', $user->designation)->pluck('description')->first(); ?>
 
                         <tr>
-                            <td><a href="#view" class="btn btn-success" data-id="{{ $feedback->id }}" data-link="{{ asset('view-feedback') }}" class="title-info">View</a></td>
+                            <td><a href="#view" class="btn btn-success" data-id="{{ $feedback->id }}" data-link="{{ asset('view-feedback') }}" class="title-info"><i class="fa fa-eye"></i> View</a></td>
                             <td><strong class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</strong></td>
                             <td>{{ $designation }}</td>
                             <td>

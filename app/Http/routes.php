@@ -12,6 +12,7 @@ Route::get('logout',function(){
     Auth::logout();
     User::where('id',$id)
         ->update(['status' => 0]);
+    \Illuminate\Support\Facades\Session::flush();
     return redirect('login');
 });
 
@@ -46,7 +47,9 @@ Route::get('document/received', 'DocumentController@receivedDocument');
 Route::post('document/received', 'DocumentController@receivedDocument');
 
 Route::get('document/logs','DocumentController@logsDocument');
-Route::post('document/logs','DocumentController@logsDocument');
+Route::post('document/logs','DocumentController@searchLogs');
+Route::get('document/section/logs','DocumentController@sectionLogs');
+Route::post('document/section/logs','DocumentController@searchSectionLogs');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
@@ -57,12 +60,11 @@ Route::post('form/tev', 'TevController@store');
 Route::get('form/bills','BillsController@index');
 Route::post('form/bills','BillsController@store');
 
-Route::get('pdf', function(){
-    $display = view("pdf.pdf");
+Route::get('pdf/v1/{size}', function($size){
+    $display = view("pdf.pdf",['size'=>$size]);
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
-
-    return $pdf->stream();
+    return $pdf->setPaper($size, 'portrait')->stream();
 });
 
 //PRINT LOGS
@@ -95,6 +97,7 @@ Route::post('searchDivision','DivisionController@searchDivision');
 Route::get('searchDivision','DivisionController@searchDivisionSave');
 //SECTION
 Route::get('section','SectionController@section');
+Route::post('section','SectionController@searchSection');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');

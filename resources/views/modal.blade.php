@@ -77,9 +77,43 @@
             <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode v2</a>
+                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#paperSize">Print Barcode v1</button>
+                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Print Barcode v2</a>
             </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="paperSize">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Paper Size</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/letter') }}" class="text-success" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Letter
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/a4') }}" class="text-info" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        A4
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/legal') }}" class="text-warning" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Legal
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

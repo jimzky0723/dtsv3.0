@@ -107,6 +107,7 @@
                         autoclose: true
                     });
                     $('input').attr('autocomplete', 'off');
+                    $('.chosen-select').chosen();
                 }
             });
         },1000);

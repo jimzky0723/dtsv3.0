@@ -69,11 +69,11 @@ $code = Session::get('doc_type_code');
                             <option>Certificate of Overtime Credit</option>
                             <option>Compensatory Time Off</option>
                         </optgroup>
-                        <option value="PO">Purchase Order</option>
-                        <option value="PRC">Purchase Request - Cash Advance Purchase</option>
-                        <option value="PRR">Purchase Request - Regular Purchase</option>
+                        <option <?php if($code=='PO') echo 'selected'; ?> value="PO">Purchase Order</option>
+                        <option <?php if($code=='PRC') echo 'selected'; ?> value="PRC">Purchase Request - Cash Advance Purchase</option>
+                        <option <?php if($code=='PRR') echo 'selected'; ?> value="PRR">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
-                        <option value="GENERAL">General Documents</option>
+                        <option <?php if($code=='GENERAL') echo 'selected'; ?> value="GENERAL">General Documents</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>
@@ -140,6 +140,7 @@ $code = Session::get('doc_type_code');
                 @endforeach
                 </tbody>
             </table>
+            {{ $documents->links() }}
         @else
             <div class="alert alert-warning">
                 <strong><i class="fa fa-warning fa-lg"></i> No documents found! </strong>

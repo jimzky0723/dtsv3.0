@@ -31,7 +31,7 @@ class DocumentController extends Controller
                   ->orwhere('description','like',"%$keyword%");
             })
             ->orderBy('id','desc')
-            ->paginate(10);
+            ->paginate(15);
         $data['access'] = $this->middleware('access');
         return view('document.list',$data);
 
@@ -375,11 +375,12 @@ class DocumentController extends Controller
         return $documents;
     }
 
-    function logsDocument(Request $request){
-        $doc_type = $request->doc_type;
+    function logsDocument(){
+        $keyword = Session::get('searchLogs');
+        $doc_type = $keyword['doc_type'];
         $id = Auth::user()->id;
 
-        $str = $request->daterange;
+        $str = $keyword['str'];
         $temp1 = explode('-',$str);
         $temp2 = array_slice($temp1, 0, 1);
         $tmp = implode(',', $temp2);
@@ -394,26 +395,99 @@ class DocumentController extends Controller
         Session::put('doc_type',self::docTypeName($doc_type));
         Session::put('doc_type_code',$doc_type);
         if($doc_type!='ALL'){
-            $documents = DB::table('tracking_details')
+            $data = DB::table('tracking_details')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where('doc_type',$doc_type)
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc')
-                ->get();
+                ->orderBy('date_in','asc');
+            $logs = $data->get();
+            $documents = $data->paginate(15);
+
         }else{
-            $documents = DB::table('tracking_details')
+            $data = DB::table('tracking_details')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc')
-                ->get();
+                ->orderBy('date_in','asc');
+            $logs = $data->get();
+            $documents = $data->paginate(15);
+
         }
 
-        Session::put('logsDocument',$documents);
-        return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $request->daterange]);
+        Session::put('logsDocument',$logs);
+        return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str']]);
+    }
+
+    function sectionLogs(){
+
+        $keyword = Session::get('sectionLogs');
+        $doc_type = $keyword['doc_type'];
+        $section = Auth::user()->section;
+
+        $str = $keyword['str'];
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $startdate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $enddate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        Session::put('startdate',$startdate);
+        Session::put('enddate',$enddate);
+        Session::put('doc_type',self::docTypeName($doc_type));
+        Session::put('doc_type_code',$doc_type);
+        if($doc_type!='ALL'){
+            $data = DB::table('tracking_details')
+                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->leftJoin('users', 'tracking_master.prepared_by', '=', 'users.id')
+                ->where('doc_type',$doc_type)
+                ->where('users.section',$section)
+                ->where('date_in','>=',$startdate)
+                ->where('date_in','<=',$enddate)
+                ->orderBy('date_in','asc');
+            $logs = $data->get();
+            $documents = $data->paginate(15);
+
+        }else{
+            $data = DB::table('tracking_details')
+                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->leftJoin('users', 'tracking_master.prepared_by', '=', 'users.id')
+                ->where('users.section',$section)
+                ->where('date_in','>=',$startdate)
+                ->where('date_in','<=',$enddate)
+                ->orderBy('date_in','asc');
+            $logs = $data->get();
+            $documents = $data->paginate(15);
+
+        }
+        Session::put('logsDocument',$logs);
+
+        return view('document.sectionLogs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str']]);
+    }
+
+    function searchLogs(Request $req)
+    {
+        $keyword = array(
+            'doc_type' => $req->doc_type,
+            'str' => $req->daterange
+        );
+        Session::put('searchLogs',$keyword);
+        return self::logsDocument();
+    }
+
+    function searchSectionLogs(Request $req)
+    {
+        $keyword = array(
+            'doc_type' => $req->doc_type,
+            'str' => $req->daterange
+        );
+        Session::put('sectionLogs',$keyword);
+        return self::sectionLogs();
     }
 
     static function countOnlineUsers()
