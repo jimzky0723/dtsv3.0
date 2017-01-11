@@ -1,9 +1,19 @@
 <?php
 Use App\Tracking;
+use App\User;
 Route::auth();
 
 //jimzky
 Route::get('/','HomeController@index');
+Route::get('logout',function(){
+    $user = Auth::user();
+    echo $id = $user->id;
+
+    Auth::logout();
+    User::where('id',$id)
+        ->update(['status' => 0]);
+    return redirect('login');
+});
 
 Route::get('home', 'HomeController@index');
 Route::get('home/chart', 'HomeController@chart');
@@ -17,6 +27,8 @@ Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
+Route::get('document/list','AdminController@allDocuments');
+Route::post('document/list','AdminController@searchDocuments');
 
 // FOR ACCOUNTING SECTION
 Route::get('accounting/accept','AccountingController@accept');
@@ -181,7 +193,14 @@ Route::match(['get','post'],'/designation/create','DesignationController@create'
 Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
 Route::post('/remove/designation', 'DesignationController@remove');
-
+//feedback
+Route::match(['get','post'] ,'feedback', 'FeedbackController@index');
+Route::match(['get','post'], 'users/feedback', 'FeedbackController@view_feedback');
+Route::match(['get','post'],'view-feedback','FeedbackController@message');
+Route::get('feedback_ok',function(){
+    return view('feedback.feedback_ok');
+});
+Route::post('feedback/action', 'FeedbackController@action');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');

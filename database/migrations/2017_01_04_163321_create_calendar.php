@@ -20,6 +20,6 @@ class CreateCalendar extends Migration
 
     public function down()
     {
-        Schema::drop('create_calendar');
+        Schema::drop('calendar');
     }
 }

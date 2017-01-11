@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class Authenticate
 {
@@ -24,7 +25,11 @@ class Authenticate
                 return redirect()->guest('login');
             }
         }
+        $user = Auth::user();
+        $id = $user->id;
 
+        User::where('id',$id)
+            ->update(['status'=>1]);
         return $next($request);
     }
 }
