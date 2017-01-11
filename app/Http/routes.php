@@ -198,6 +198,7 @@ Route::match(['get','post'],'view-feedback','FeedbackController@message');
 Route::get('feedback_ok',function(){
     return view('feedback.feedback_ok');
 });
+Route::post('feedback/action', 'FeedbackController@action');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');

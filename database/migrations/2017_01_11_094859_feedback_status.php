@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-class Feedback extends Migration
+use Illuminate\Support\Facades\Schema;
+class FeedbackStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,9 @@ class Feedback extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('feedback_status', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('userid');
-            $table->string('subject');
-            $table->string('telno');
-            $table->string('message');
-            $table->string('stat_id');
-            $table->string('is_read');
+            $table->string('action');
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ class Feedback extends Migration
      */
     public function down()
     {
-        \Illuminate\Support\Facades\Schema::drop('feedback');
+        Schema::drop('feedback_status');
     }
 }
