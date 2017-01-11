@@ -37,27 +37,9 @@ class DocumentController extends Controller
 
     }
 
-    public function allDocuments()
-    {
-        $keyword = Session::get('keywordAll');
-        $data['documents'] = Tracking::where(function($q) use ($keyword){
-                $q->where('route_no','like',"%$keyword%")
-                    ->orwhere('description','like',"%$keyword%");
-            })
-            ->orderBy('id','desc')
-            ->paginate(10);
-        $data['access'] = $this->middleware('access');
-        return view('document.all',$data);
-    }
-
     public function search(Request $request){
         Session::put('keyword',$request->keyword);
         return self::index();
-    }
-
-    public function searchDocuments(Request $request){
-        Session::put('keywordAll',$request->keyword);
-        return self::allDocuments();
     }
 
     public function accept(Request $request){

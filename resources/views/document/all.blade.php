@@ -17,7 +17,7 @@
 @endif
 
 <div class="alert alert-jim" id="inputText">
-    <h2 class="page-header">Documents</h2>
+    <h2 class="page-header">All Documents</h2>
     <form class="form-inline" method="POST" action="{{ asset('document/list') }}" onsubmit="return searchDocument();" id="searchForm">
         {{ csrf_field() }}
         <div class="form-group">
