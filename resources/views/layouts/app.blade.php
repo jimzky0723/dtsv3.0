@@ -134,7 +134,7 @@ use App\Section;
                             <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
-                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp; User Feedbacks</a></li>
+                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp; User Feedbacks <span class="badge">{{ \App\Feedback::where('is_read','0')->count() }}</span></a></li>
                         </ul>
                     </li>
                 @endif
