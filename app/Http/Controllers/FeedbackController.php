@@ -32,18 +32,18 @@ class FeedbackController extends Controller
             $feedback->telno = $request->input('telno');
             $feedback->message = $request->input('message');
             $feedback->save();
-            return redirect('feedback.feedback_ok')->with('name',$name);
+            return redirect('feedback_ok')->with('name',$name);
         }
     }
     public function view_feedback(Request $request){
         if($request->isMethod('get')) {
-            $feedbacks = Feedback::paginate(20);
+            $feedbacks = Feedback::orderBy('created_at', 'ASC')->paginate(20);
             return view('feedback.list')->with('feedbacks',$feedbacks);
         }
     }
     public function message(Request $request)
     {
-        $message = Feedback::where('id', $request->input('id'))->pluck('message')->first();
-        return view('feedback.message')->with('message',$message);
+        $feedback = Feedback::where('id', $request->input('id'))->first();
+        return view('feedback.message')->with('feedback',$feedback);
     }
 }

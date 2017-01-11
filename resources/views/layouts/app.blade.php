@@ -146,11 +146,13 @@ use App\Section;
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
-                        <i class="fa fa-sign-out"></i> Feedback
-                    </a>
-                </li>
+                @if(Auth::user()->user_priv == "0")
+                    <li>
+                        <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
+                            <i class="fa fa-sign-out"></i> Feedback
+                        </a>
+                    </li>
+                @endif
                 <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
