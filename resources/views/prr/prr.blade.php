@@ -6,6 +6,8 @@
             Use App\Division;
             Use App\Section;
             Use App\Designation;
+                $count = 0;
+                $total = 0;
             ?>
             <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
             <style>
@@ -85,7 +87,7 @@
                                         <td colspan="2">Department:</td>
                                         <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
                                         <td colspan="2">PR No:</td>
-                                        <td>Date: {{ date('Y-m-d H:i:s') }}</td>
+                                        <td>Date:<input class="form-control datepickercalendar" value=""></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">Section:</td>
@@ -110,22 +112,30 @@
                                     </tr>
                                     </thead>
                                     <tbody class="input_fields_wrap">
+                                    <?php
+                                            foreach($item as $row):
+                                            $total += $row->estimated_cost;
+                                            $count++;
+                                    ?>
                                     <tr>
                                         <td id="border-bottom" ></td>
-                                        <td id="border-bottom" class="qty1 align-top"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
-                                        <td id="border-bottom" class="issue1 align-top"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
-                                        <td id="border-bottom" class="description1 align-top" width="40%">
-                                            <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
+                                        <td id="border-bottom" class="{{ 'qty'.$count }} align-top"><input type="text" name="qty[]" value="{{ $row->qty }}" id="{{ 'qty'.$count }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_qty'.$count }}">required!</small></td>
+                                        <td id="border-bottom" class="{{ 'issue'.$count }} align-top"><input type="text" name="issue[]" id="{{ 'issue'.$count }}" value="{{ $row->issue }}" class="form-control" onkeyup="trapping()" required><small id="{{ 'E_issue'.$count }}">required!</small></td>
+                                        <td id="border-bottom" class="{{ 'description'.$count }} align-top" width="40%">
+                                            <input type="text" name="description[]" id="{{ 'description'.$count }}" value="{{ $row->description }}"  class="form-control" onkeyup="trapping()" required><small id="{{ 'E_description'.$count }}">required!</small>
                                             <br><strong><i>Specification(s)</i></strong>
-                                            <textarea type="text" name="specification[]" id="specification1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
+                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="form-control" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
                                         </td>
                                         <td id="border-bottom"></td>
-                                        <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
-                                        <td id="border-bottom" class="estimated_cost1 align-top">
-                                            <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
-                                            <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
+                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
+                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-top">
+                                            <input type="hidden" name="estimated_cost[]" id="{{ 'estimated_cost'.$count }}" value="{{ $row->estimated_cost }}"  class="form-control">
+                                            <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count }}">{{ $row->estimated_cost }} </strong>
                                         </td>
                                     </tr>
+                                    <?php
+                                        endforeach;
+                                    ?>
                                     </tbody>
                                     <tbody>
                                     <tr>
@@ -151,8 +161,9 @@
                                     <tr>
                                         <td class="align" colspan="6"><b>TOTAL</b></td>
                                         <td class="align-top">
+                                            <input type="hidden" id="count" value="{{ $count }}">
                                             <input type="hidden" name="amount" id="amount">
-                                            <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"></strong>
+                                            <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total">{{ $total }}</strong>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -258,13 +269,21 @@
                             </div>
                             <hr>
                             <!-- this row will not appear when printing -->
-                            <div class="row no-print">
-                                <div class="col-xs-12">
-                                    <button type="submit" class="btn btn-primary pull-left" onclick="haha();" style="margin-right: 5px;">
-                                        <i class="fa fa-download"></i> Generate PDF
-                                    </button>
+                            <div class="col-lg-12">
+                                <div class="btn-group btn-group-lg;">
+                                    <button class="btn btn-primary" type="submit" >
+                                        <i class="fa fa-download"></i> Generate-PDF</button>
+                                </div>
+                                <div class="btn-group btn-group-lg;">
+                                    <button class="btn btn-warning" type="button" >
+                                        <i class="fa fa-plus"></i> Update </button>
+                                </div>
+                                <div class="btn-group btn-group-lg;">
+                                    <button class="btn btn-danger" type="button" >
+                                        <i class="fa fa-trash"></i> Delete </button>
                                 </div>
                             </div>
+
                         </section>
                     </div>
                 </div>
@@ -278,11 +297,16 @@
 
 @section('js')
     <script>
+        $('.datepickercalendar').datepicker({
+            autoclose: true
+        });
         console.log(numeral(1000).format('0,0'));
-        /*$('.chosen-select').chosen();*/
-        var count = 1;
+        var count = $("#count").val();
+        trapping(event,false);
+
         var ok = "";
         function add(){
+            event.preventDefault();
             ok = "true";
             var wrapper= $(".input_fields_wrap"); //Fields wrapper
 
@@ -360,7 +384,7 @@
         }
 
         function stack(){
-            count = 1;
+            count = $("#count").val();
         }
 
         $("form").submit(function (e) {
@@ -376,7 +400,7 @@
                 isEscape = (evt.keyCode == 27);
             }
             if (isEscape) {
-                count = 1;
+                count = $("#count").val();
             }
         };
     </script>

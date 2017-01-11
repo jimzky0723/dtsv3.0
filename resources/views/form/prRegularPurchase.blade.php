@@ -41,10 +41,11 @@ Use App\Designation;
         color:red;
     }
 </style>
-<form method="post" id="form" target="_blank" action="{{ asset('prRegularPurchase') }}">
+<form method="post" id="form" action="{{ asset('prRegularPurchase') }}">
     {{ csrf_field() }}
     <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
     <span id="url" data-link="{{ asset('append') }}"></span>
+    <span id="this_url" data-link="{{ asset('document') }}"></span>
     <span id="token" data-token="{{ csrf_token() }}"></span>
     <input type="hidden" name="doc_type" value="PRR">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
@@ -81,7 +82,7 @@ Use App\Designation;
                             <td colspan="2">Department:</td>
                             <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
                             <td colspan="2">PR No:</td>
-                            <td>Date: {{ date('Y-m-d H:i:s') }}</td>
+                            <td>Date:<input class="form-control datepickercalendar" name="prepared_date" required></td>
                         </tr>
                         <tr>
                             <td colspan="2">Section:</td>
@@ -353,8 +354,9 @@ Use App\Designation;
         count = 1;
     }
 
-    $("form").submit(function (e) {
-        setTimeout(function () { window.location.reload(); }, 10);
+    $("form").submit(function () {
+        url = "http://www.mydomain.com/new-page.html";
+        $( location ).attr("href", url);
     });
 
     document.onkeydown = function(evt) {

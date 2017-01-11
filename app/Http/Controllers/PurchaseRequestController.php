@@ -56,7 +56,6 @@ class PurchaseRequestController extends Controller
     {
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         Session::put('route_no', $route_no);
-        $prepared_date = date('Y-m-d H:i:s');
         $count = 0;
         foreach($request->get('qty') as $pr){
             if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
@@ -72,7 +71,7 @@ class PurchaseRequestController extends Controller
             }
             $count++;
         }
-        return $this->saveDatabase($route_no, $request->get('doc_type'), $prepared_date, $request->get('prepared_by'), $request->get('division_head'), $request->get('amount'), "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
+        return $this->saveDatabase($route_no, $request->get('doc_type'), $request->get('prepared_date'), $request->get('prepared_by'), $request->get('division_head'), $request->get('amount'), "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
@@ -111,13 +110,9 @@ class PurchaseRequestController extends Controller
         $q->action = $description;
         $q->save();
 
-        if($doc_type == "PRR")
-            return redirect("/pdf_pr");
-        else
-            return redirect("/document");
     }
 
-    public function pdf_pr(){
+    public function prr_pdf(){
         $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
         $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
         $user = Users::where('id','=',$tracking->prepared_by)->first();
@@ -151,6 +146,7 @@ class PurchaseRequestController extends Controller
     }
 
     public function prr(){
+        $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
         $section = Section::all();
         foreach($section as $row){
             $user = Users::where('id','=',$row->head)->first();
@@ -161,6 +157,6 @@ class PurchaseRequestController extends Controller
             $user = Users::where('id','=',$row->head)->first();
             $division_head[] = $user;
         }
-        return view('prr.prr',['section_head' => $section_head, 'division_head' => $division_head]);
+        return view('prr.prr',['section_head' => $section_head, 'division_head' => $division_head,'item' => $item]);
     }
 }

@@ -78,6 +78,7 @@ Route::get('report','AdminController@report');
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
 Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
 Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+Route::get('prr_pdf','PurchaseRequestController@prr_pdf');
 //PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
