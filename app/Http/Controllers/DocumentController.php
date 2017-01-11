@@ -207,10 +207,11 @@ class DocumentController extends Controller
         return $filter;
     }
 
-    public function show($route_no){
+    public function show($route_no,$doc_type){
         $document = Tracking::where('route_no',$route_no)
                         ->first();
         Session::put('route_no', $route_no);
+        Session::put('doc_type', $doc_type);
         return view('document.info',['document' => $document]);
     }
 

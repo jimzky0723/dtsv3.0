@@ -75,11 +75,6 @@
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Document</h4>
             </div>
             <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode v2</a>
-            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

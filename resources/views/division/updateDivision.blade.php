@@ -16,7 +16,7 @@
                 <td class=""><label>Head</label></td>
                 <td>:</td>
                 <td>
-                    <select name="head" id="" class="form-control" required>
+                    <select name="head" id="" class="chosen-select" required>
                         <option value="{{ $headId }}">{{ $headName }}</option>
                         @foreach($user as $head)
                             @if($headId != $head['id'])
@@ -33,3 +33,6 @@
         <button type="submit" class="btn btn-success" id="sectionSubmit"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
+<script>
+    $(".chosen-select").chosen();
+</script>

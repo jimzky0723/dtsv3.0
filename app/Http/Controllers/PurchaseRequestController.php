@@ -149,4 +149,18 @@ class PurchaseRequestController extends Controller
 
         return redirect('/calendar');
     }
+
+    public function prr(){
+        $section = Section::all();
+        foreach($section as $row){
+            $user = Users::where('id','=',$row->head)->first();
+            $section_head[] = $user;
+        }
+        $division = Division::all();
+        foreach($division as $row){
+            $user = Users::where('id','=',$row->head)->first();
+            $division_head[] = $user;
+        }
+        return view('prr.prr',['section_head' => $section_head, 'division_head' => $division_head]);
+    }
 }

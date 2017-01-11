@@ -10,7 +10,7 @@ $filter = Doc::isIncluded($document->doc_type);
 <table class="table table-hover table-striped">
 
     <tr>
-        <td class="text-right col-lg-5">Document Type :</td>
+        <td class="text-right col-lg-5">Document Type:</td>
         <td class="col-lg-7">{{ Doc::docTypeName($document->doc_type) }}</td>
     </tr>
     <tr>
@@ -113,3 +113,20 @@ $filter = Doc::isIncluded($document->doc_type);
     </tr>
     @endif
 </table>
+
+<div class="button_content">
+    @if(Session::get('doc_type') == 'PRR')
+        <div style="padding: 2%">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
+            <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode v2</a>
+            <a href="{{ asset('prr') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
+        </div>
+    @else
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
+            <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode v2</a>
+        </div>
+    @endif
+</div>

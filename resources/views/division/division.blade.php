@@ -16,8 +16,8 @@
         <h2 class="page-header">Divisions</h2>
         <form class="form-inline form-accept">
             <div class="form-group">
-                <input type="text" class="form-control" id="search" placeholder="Quick Search" autofocus>
-                <button type="submit" class="btn btn-default" onclick="searchDivision($(this));" data-link="{{ asset('searchDivision') }}"><i class="fa fa-search"></i> Search</button>
+                <input type="text" class="form-control" id="search" value="{{ Session::get('search') }}" placeholder="Quick Search" autofocus>
+                <button type="button" class="btn btn-default" onclick="searchDivision($(this));" data-link="{{ asset('searchDivision') }}"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <a href="#document_form" class="btn btn-success" data-toggle="modal" data-link="{{ asset('addDivision') }}">
                         <i class="fa fa-plus"></i>  Add New
