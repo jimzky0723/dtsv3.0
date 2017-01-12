@@ -45,7 +45,6 @@ Use App\Designation;
     {{ csrf_field() }}
     <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
     <span id="url" data-link="{{ asset('append') }}"></span>
-    <span id="this_url" data-link="{{ asset('document') }}"></span>
     <span id="token" data-token="{{ csrf_token() }}"></span>
     <input type="hidden" name="doc_type" value="PRR">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
@@ -272,6 +271,7 @@ Use App\Designation;
     console.log(numeral(1000).format('0,0'));
     /*$('.chosen-select').chosen();*/
     var count = 1;
+    var limit = 10;
     var ok = "";
     function add(){
         ok = "true";
@@ -279,7 +279,7 @@ Use App\Designation;
 
         trapping();
 
-        if(count < 10 && ok == "true") {
+        if(count < limit && ok == "true") {
             count++;
             var url = $("#url").data('link');
             url += "?count=" + count;
@@ -345,7 +345,7 @@ Use App\Designation;
         console.log(count);
     }
     function erase(result){
-        count--;
+        limit++;
         $("#"+result.val()).remove();
         trapping();
     }
@@ -353,11 +353,6 @@ Use App\Designation;
     function stack(){
         count = 1;
     }
-
-    $("form").submit(function () {
-        url = "http://www.mydomain.com/new-page.html";
-        $( location ).attr("href", url);
-    });
 
     document.onkeydown = function(evt) {
         evt = evt || window.event;
@@ -371,4 +366,9 @@ Use App\Designation;
             count = 1;
         }
     };
+
+    $("form").submit(function () {
+        /*url = "http://www.mydomain.com/new-page.html";
+        $( location ).attr("href", url);*/
+    });
 </script>

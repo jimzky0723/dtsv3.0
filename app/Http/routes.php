@@ -116,7 +116,7 @@ Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
 Route::get('appointment','AppointmentController@appointment');
 Route::post('appointment','AppointmentController@appointmentSave');
 //PR PDF
-Route::get('pdf_pr','PurchaseRequestController@pdf_pr');
+Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
 //APPEND
 Route::get('append',function(){
     return view('prCreated');
@@ -150,6 +150,8 @@ Route::get('sendemail', function () {
     return "Your email has been sent successfully";
 });
 Route::get('prr','PurchaseRequestController@prr');
+Route::post('update_prr','PurchaseRequestController@update_prr');
+Route::get('update_history','PurchaseRequestController@update_history');
 
 //traya
 //routing slip

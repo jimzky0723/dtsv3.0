@@ -46,11 +46,17 @@
                 small{
                     color:red;
                 }
+                hr {
+                    height: 10px;
+                    border: 0;
+                    box-shadow: 0 10px 10px -10px #8c8c8c inset;
+                }
             </style>
-            <form method="post" id="form" target="_blank" action="{{ asset('prRegularPurchase') }}">
+            <form method="post" id="form" action="{{ asset('update_prr') }}">
                 {{ csrf_field() }}
                 <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
                 <span id="url" data-link="{{ asset('append') }}"></span>
+                <span id="update_history" data-link="{{ asset('update_history') }}"></span>
                 <span id="token" data-token="{{ csrf_token() }}"></span>
                 <input type="hidden" name="doc_type" value="PRR">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
@@ -87,7 +93,7 @@
                                         <td colspan="2">Department:</td>
                                         <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
                                         <td colspan="2">PR No:</td>
-                                        <td>Date:<input class="form-control datepickercalendar" value=""></td>
+                                        <td>Date:<input class="form-control" name="prepared_date" value="{{ substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,0,4) }}" readonly></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">Section:</td>
@@ -117,8 +123,9 @@
                                             $total += $row->estimated_cost;
                                             $count++;
                                     ?>
-                                    <tr>
-                                        <td id="border-bottom" ></td>
+                                    <tr id="{{ $count }}">
+                                        <input type="hidden" value="{{ $row->id }}" name="pr_id">
+                                        <td id="border-bottom" class="align-top"><button type="button" value="{{ $count }}" onclick="erase($(this))" class="btn-sm"><small><i class="glyphicon glyphicon-remove"></i></small></button></td>
                                         <td id="border-bottom" class="{{ 'qty'.$count }} align-top"><input type="text" name="qty[]" value="{{ $row->qty }}" id="{{ 'qty'.$count }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_qty'.$count }}">required!</small></td>
                                         <td id="border-bottom" class="{{ 'issue'.$count }} align-top"><input type="text" name="issue[]" id="{{ 'issue'.$count }}" value="{{ $row->issue }}" class="form-control" onkeyup="trapping()" required><small id="{{ 'E_issue'.$count }}">required!</small></td>
                                         <td id="border-bottom" class="{{ 'description'.$count }} align-top" width="40%">
@@ -169,6 +176,17 @@
                                     </tfoot>
                                 </table>
                             </div>
+                            <div class="row" style="padding: 2%">
+                                <div class="btn-group btn-group-md pull-right">
+                                    <button class="btn btn-info" type="button" style="margin-left: 5%" onclick="update_history()">
+                                        <i class="fa fa-history"></i> Update History</button>
+                                </div>
+                                <div class="btn-group btn-group-md pull-right">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-edit"></i> Update </button>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-xs-8">
                                     <h3>Certification</h3>
@@ -178,12 +196,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Requested By:</label>
                                         <div class="col-sm-10">
-                                            <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
-                                                <option value="">Select Name</option>
-                                                @foreach($section_head as $row)
-                                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
                                         </div>
                                     </div>
                                     <hr>
@@ -195,7 +208,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Designation:</label>
                                         <div class="col-sm-10">
-                                            <input id="section_head" class="form-control" readonly>
+                                            <input id="section_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description }}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +219,7 @@
                                     <div class="form-group">
                                         <label for="purpose" class="col-sm-2 control-label">Purpose:</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" id="purpose" name="purpose" required></textarea>
+                                            <textarea class="form-control" id="purpose" name="purpose" readonly>{{ $tracking->purpose }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +230,7 @@
                                     <div class="form-group">
                                         <label for="chargeable" class="col-sm-2 control-label">Chargeable to:</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" name="charge_to" required></textarea>
+                                            <textarea class="form-control" name="charge_to" readonly>{{ $tracking->source_fund }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -244,12 +257,7 @@
                                 <div class="col-xs-6">
                                     <label class="col-sm-4 control-label">Printed Name:</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
-                                            <option value="">Select Name</option>
-                                            @foreach($division_head as $row)
-                                                <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->description)->fname.' '.App\Users::find($tracking->description)->mname.' '.App\Users::find($tracking->description)->lname }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
@@ -263,36 +271,27 @@
                                 <div class="col-xs-6">
                                     <label class="col-sm-4 control-label">Designation:</label>
                                     <div class="col-sm-10">
-                                        <input id="division_head" class="form-control" readonly>
+                                        <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->description)->designation)->description }}" readonly>
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <!-- this row will not appear when printing -->
-                            <div class="col-lg-12">
-                                <div class="btn-group btn-group-lg;">
-                                    <button class="btn btn-primary" type="submit" >
-                                        <i class="fa fa-download"></i> Generate-PDF</button>
-                                </div>
-                                <div class="btn-group btn-group-lg;">
-                                    <button class="btn btn-warning" type="button" >
-                                        <i class="fa fa-plus"></i> Update </button>
-                                </div>
-                                <div class="btn-group btn-group-lg;">
-                                    <button class="btn btn-danger" type="button" >
-                                        <i class="fa fa-trash"></i> Delete </button>
-                                </div>
-                            </div>
-
                         </section>
                     </div>
+                </div>
+            </form>
+            <form action="{{ asset('pdf_pr') }}" method="get" target="_blank">
+                <div class="btn-group btn-group-lg;">
+                    <button class="btn btn-primary" type="submit" >
+                        <i class="fa fa-download"></i> Generate-PDF</button>
                 </div>
             </form>
             <!-- /.content -->
             <div class="clearfix"></div>
         </div>
     </div>
-   {{-- @include('sidebar')--}}
+    {{--SIDE BAR--}}
 @endsection
 
 @section('js')
@@ -302,6 +301,7 @@
         });
         console.log(numeral(1000).format('0,0'));
         var count = $("#count").val();
+        var limit = 10;
         trapping(event,false);
 
         var ok = "";
@@ -312,7 +312,7 @@
 
             trapping();
 
-            if(count < 10 && ok == "true") {
+            if(count < limit && ok == "true") {
                 count++;
                 var url = $("#url").data('link');
                 url += "?count=" + count;
@@ -378,7 +378,7 @@
             console.log(count);
         }
         function erase(result){
-            count--;
+            limit++;
             $("#"+result.val()).remove();
             trapping();
         }
@@ -386,10 +386,6 @@
         function stack(){
             count = $("#count").val();
         }
-
-        $("form").submit(function (e) {
-            setTimeout(function () { window.location.reload(); }, 10);
-        });
 
         document.onkeydown = function(evt) {
             evt = evt || window.event;
@@ -403,5 +399,28 @@
                 count = $("#count").val();
             }
         };
+
+        function update_history(){
+            $('#document_form').modal('show');
+            $('.modal_content').html(loadingState);
+            $('.modal-title').html('Update History Logs');
+            var url = $("#update_history").data('link');
+            setTimeout(function() {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        $('.modal_content').html(data);
+                        $('#reservation').daterangepicker();
+                        var datePicker = $('body').find('.datepicker');
+                        //Date picker
+                        $('.datepickercalendar').datepicker({
+                            autoclose: true
+                        });
+                        $('input').attr('autocomplete', 'off');
+                    }
+                });
+            },1000);
+        }
     </script>
 @endsection

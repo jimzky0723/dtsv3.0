@@ -55,7 +55,11 @@
                 </td>
                 <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                 <td>
-                    {!! nl2br($doc->description) !!}
+                    @if($doc->doc_type == 'PRR')
+                        {!! nl2br($doc->purpose) !!}
+                    @else
+                        {!! nl2br($doc->description) !!}
+                    @endif
                 </td>
             </tr>
             @endforeach
