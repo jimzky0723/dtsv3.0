@@ -16,7 +16,8 @@ use App\Section;
 use App\Division;
 use App\Designation;
 use App\Calendar;
-use App\prr_update_history;
+use App\prr_item_logs;
+use App\prr_logs;
 
 class PurchaseRequestController extends Controller
 {
@@ -45,7 +46,7 @@ class PurchaseRequestController extends Controller
             $user = Users::where('id','=',$row->head)->first();
             $division_head[] = $user;
         }
-        return view('form.prRegularPurchase',['section_head' => $section_head, 'division_head' => $division_head]);
+        return view('prr.prr_form',['section_head' => $section_head, 'division_head' => $division_head]);
     }
 
     public function getDesignation($id){
@@ -60,22 +61,32 @@ class PurchaseRequestController extends Controller
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         Session::put('route_no', $route_no);
 
-        //ADD PRR HISTORY LOGS
-        $count = 0;
+        //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
+        $prr_logs_key = "logs".date('Y-') . $request->user()->id . date('mdHis');
+
+        $prr_logs = new prr_logs();
+        $prr_logs->prr_logs_key = $prr_logs_key;
+        $prr_logs->route_no = $route_no;
+        $prr_logs->updated_date = $updated_date;
+        $prr_logs->updated_by = Auth::user()->id;
+        $prr_logs->save();
+
+
+        //ADD PRR ITEM LOGS
+        $count = 0;
         foreach($request->get('qty') as $pr){
             if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $prr_history = new prr_update_history();
-                $prr_history->route_no = $route_no;
-                $prr_history->updated_date = $updated_date;
-                $prr_history->updated_by =  Auth::user()->id;
-                $prr_history->qty = $request->get('qty')[$count];
-                $prr_history->issue = $request->get("issue")[$count];
-                $prr_history->description = $request->get("description")[$count];
-                $prr_history->specification = $request->get("specification")[$count];
-                $prr_history->unit_cost = $request->get("unit_cost")[$count];
-                $prr_history->estimated_cost = $request->get("estimated_cost")[$count];
-                $prr_history->save();
+                $prr_item_logs = new prr_item_logs();
+                $prr_item_logs->route_no = $route_no;
+                $prr_item_logs->prr_logs_key = $prr_logs_key;
+                $prr_item_logs->qty = $request->get('qty')[$count];
+                $prr_item_logs->issue = $request->get("issue")[$count];
+                $prr_item_logs->description = $request->get("description")[$count];
+                $prr_item_logs->specification = $request->get("specification")[$count];
+                $prr_item_logs->unit_cost = $request->get("unit_cost")[$count];
+                $prr_item_logs->estimated_cost = $request->get("estimated_cost")[$count];
+                $prr_item_logs->save();
             }
             $count++;
         }
@@ -194,22 +205,32 @@ class PurchaseRequestController extends Controller
 
         $route_no = Session::get('route_no');
 
-        //ADD PRR HISTORY LOGS
-        $count = 0;
+        //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
+        $prr_logs_key = "logs".date('Y-') . $request->user()->id . date('mdHis');
+
+        $prr_logs = new prr_logs();
+        $prr_logs->prr_logs_key = $prr_logs_key;
+        $prr_logs->route_no = $route_no;
+        $prr_logs->updated_date = $updated_date;
+        $prr_logs->updated_by = Auth::user()->id;
+        $prr_logs->save();
+
+
+        //ADD PRR ITEM LOGS
+        $count = 0;
         foreach($request->get('qty') as $pr){
             if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $prr_history = new prr_update_history();
-                $prr_history->route_no = $route_no;
-                $prr_history->updated_date = $updated_date;
-                $prr_history->updated_by =  Auth::user()->id;
-                $prr_history->qty = $request->get('qty')[$count];
-                $prr_history->issue = $request->get("issue")[$count];
-                $prr_history->description = $request->get("description")[$count];
-                $prr_history->specification = $request->get("specification")[$count];
-                $prr_history->unit_cost = $request->get("unit_cost")[$count];
-                $prr_history->estimated_cost = $request->get("estimated_cost")[$count];
-                $prr_history->save();
+                $prr_item_logs = new prr_item_logs();
+                $prr_item_logs->route_no = $route_no;
+                $prr_item_logs->prr_logs_key = $prr_logs_key;
+                $prr_item_logs->qty = $request->get('qty')[$count];
+                $prr_item_logs->issue = $request->get("issue")[$count];
+                $prr_item_logs->description = $request->get("description")[$count];
+                $prr_item_logs->specification = $request->get("specification")[$count];
+                $prr_item_logs->unit_cost = $request->get("unit_cost")[$count];
+                $prr_item_logs->estimated_cost = $request->get("estimated_cost")[$count];
+                $prr_item_logs->save();
             }
             $count++;
         }
@@ -239,12 +260,16 @@ class PurchaseRequestController extends Controller
     }
 
     public function update_history(){
+        $route_no = Session::get('route_no');
         $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
+
         $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
         $user = Users::where('id','=',$tracking->prepared_by)->first();
         $section = Section::where('id','=',$user->section)->first();
         $division = Division::where('id','=',$user->division)->first();
 
-        return view("prr.update_history",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
+        $prr_logs = prr_logs::where("route_no","=",$route_no)->get();
+
+        return view("prr.update_history",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,"prr_logs" => $prr_logs]);
     }
 }

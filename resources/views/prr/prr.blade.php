@@ -131,7 +131,7 @@
                                         <td id="border-bottom" class="{{ 'description'.$count }} align-top" width="40%">
                                             <input type="text" name="description[]" id="{{ 'description'.$count }}" value="{{ $row->description }}"  class="form-control" onkeyup="trapping()" required><small id="{{ 'E_description'.$count }}">required!</small>
                                             <br><strong><i>Specification(s)</i></strong>
-                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="form-control" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
+                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="ckeditor" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
                                         </td>
                                         <td id="border-bottom"></td>
                                         <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
@@ -299,7 +299,6 @@
         $('.datepickercalendar').datepicker({
             autoclose: true
         });
-        console.log(numeral(1000).format('0,0'));
         var count = $("#count").val();
         var limit = 10;
         trapping(event,false);
@@ -318,18 +317,22 @@
                 url += "?count=" + count;
                 $.get(url, function (result) {
                     $(wrapper).append(result);
-                    console.log(count);
                 });
             }
+
+            CKEDITOR.on('instanceReady', function() {
+                console.log($('.cke_contents iframe').contents()[0].body.innerText);
+            });
+
         }
 
         function trapping(event,flag){
             if(flag)
                 key_code(event);
-
             var estimated_cost = 0;
             var total = 0;
-            for(var i=1; i<=count; i++){
+            for(var i=1; i<=count; i++)
+            {
                 if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#specification"+i).val() == ''){
                     ok = "false";
                 }
@@ -422,5 +425,13 @@
                 });
             },1000);
         }
+
+        /*CKEDITOR.on('instanceReady', function(e) {
+            console.log($('.cke_contents iframe').contents()[0].body.innerText);
+            $('.cke_contents iframe').contents().keyup(function(){
+                console.log($(this.body).html());
+            });
+        });*/
+
     </script>
 @endsection

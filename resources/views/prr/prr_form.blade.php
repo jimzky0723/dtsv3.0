@@ -113,7 +113,7 @@ Use App\Designation;
                             <td id="border-bottom" class="description1 align-top" width="40%">
                                 <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
                                 <br><strong><i>Specification(s)</i></strong>
-                                <textarea type="text" name="specification[]" id="specification1" class="form-control" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
+                                <textarea type="text" name="specification[]" id="specification1" class="form-control ckeditor" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
@@ -155,7 +155,7 @@ Use App\Designation;
                     </table>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-md-8">
                         <h3>Certification</h3>
                         <address>This is to certify that dilligent efforts have been exerted to ensure that the price/s indicated above(in relation to the specifications) is/are within the prevailing market price/s.
                         </address>
@@ -176,7 +176,7 @@ Use App\Designation;
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Designation:</label>
                             <div class="col-sm-10">
@@ -187,7 +187,7 @@ Use App\Designation;
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label for="purpose" class="col-sm-2 control-label">Purpose:</label>
                             <div class="col-sm-10">
@@ -198,7 +198,7 @@ Use App\Designation;
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label for="chargeable" class="col-sm-2 control-label">Chargeable to:</label>
                             <div class="col-sm-10">
@@ -211,14 +211,14 @@ Use App\Designation;
                 <hr>
 
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <center>
-                            <h4><strong>Recommending Approval:</strong></h4>
+                        <h4><strong class="lean">Recommending Approval:</strong></h4>
                         </center>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <center>
-                            <h4><strong>Approved:</strong></h4>
+                        <h4><strong class="lean text-center">Approved:</strong></h4>
                         </center>
                     </div>
                 </div>
@@ -226,7 +226,7 @@ Use App\Designation;
                 <br>
 
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <label class="col-sm-4 control-label">Printed Name:</label>
                         <div class="col-sm-10">
                             <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
@@ -237,7 +237,7 @@ Use App\Designation;
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <center>
                             <strong>JAIME S. BERNADAS, MD, MGM, CESO III</strong><br>
                             Director IV
@@ -245,7 +245,7 @@ Use App\Designation;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <label class="col-sm-4 control-label">Designation:</label>
                         <div class="col-sm-10">
                             <input id="division_head" class="form-control" readonly>
@@ -368,7 +368,13 @@ Use App\Designation;
     };
 
     $("form").submit(function () {
-        /*url = "http://www.mydomain.com/new-page.html";
-        $( location ).attr("href", url);*/
+    });
+
+    CKEDITOR.disableAutoInline = true;
+    $(document).ready(function() {
+        $('#document_form').on('shown.bs.modal', function () {
+            CKEDITOR.inline('myModalLabel');
+            CKEDITOR.inline('bodyModal');
+        })
     });
 </script>

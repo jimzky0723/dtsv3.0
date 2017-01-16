@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class prr_update_history extends Model
+class prr_item_logs extends Model
 {
-    protected $table = 'prr_update_history';
+    protected $table = 'prr_item_logs';
     protected $primaryKey = 'id';
 }

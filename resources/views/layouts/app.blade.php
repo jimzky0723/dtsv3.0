@@ -199,7 +199,6 @@ use App\Section;
 <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
-<script src="{{ asset('resources/plugin/ckeditor/ckeditor.js') }}"></script>
 @yield('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
@@ -208,6 +207,9 @@ use App\Section;
 <script src="{{ asset('resources/assets/js/Numeral-js/src/numeral.js') }}"></script>
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+<!-- CKEDITOR -->
+<script src="{{ asset('resources/plugin/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('resources/plugin/ckeditor/adapters/jquery.js') }}"></script>
 <script>
     $('#reservation').daterangepicker();
     $('.chosen-select').chosen();

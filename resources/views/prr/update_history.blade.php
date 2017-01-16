@@ -1,8 +1,10 @@
 <?php
 $total = 0;
 $item_no = 1;
+$prr_logs_count = 0;
 use App\Users;
 use App\Designation;
+use App\prr_item_logs;
 ?>
 <html>
 <head>
@@ -54,11 +56,18 @@ use App\Designation;
         }
     </style>
 </head>
-@for($i=1;$i<=2;$i++)
+<br>
+<?php
+if(count($prr_logs) > 1){
+    foreach($prr_logs as $prr_logs):
+        $prr_logs_count++;
+        $prr_item_logs = prr_item_logs::where("route_no","=",$prr_logs->route_no)
+                                      ->where("prr_logs_key","=",$prr_logs->prr_logs_key)->get();
+?>
     <body>
         <div style="padding: 5%;margin-top: -5%">
-            <span style="color:green">History # {{ $i.' '.date('M d, Y h:i:s A',strtotime(date('Y-m-d H:i:s'))) }}</span>
-            <table class="letter-head" cellpadding="0" cellspacing="0">
+            <span style="color:green">{{ date('M d, Y h:i:s A',strtotime(date('Y-m-d H:i:s'))) }}</span>
+            {{--<table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
                     <td width="90%" id="border">
@@ -72,14 +81,14 @@ use App\Designation;
                     </td>
                     <td id="border" class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
                 </tr>
-            </table>
+            </table>--}}
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="7" class="align">
                         <strong>PURCHASE REQUEST</strong>
                     </td>
                 </tr>
-                <tr>
+                {{--<tr>
                     <td colspan="2">Department:</td>
                     <td rowspan="3" colspan="2">{{ $division->description }}<br> {{ $section->description }}</td>
                     <td colspan="2">PR No:</td>
@@ -94,7 +103,7 @@ use App\Designation;
                     <td colspan="2">Unit:</td>
                     <td colspan="2">ALOBS No.:</td>
                     <td>Date: </td>
-                </tr>
+                </tr>--}}
                 <tr>
                     <td id="border-left"><b>Item No</b></td>
                     <td id="border-right"><b>Qty</b></td>
@@ -105,7 +114,7 @@ use App\Designation;
                     <td id="border-right"><b>Estimated Cost</b></td>
                 </tr>
                 <tbody>
-                @foreach($item as $row)
+                @foreach($prr_item_logs as $row)
                     <tr>
                         <td id="border-bottom" class="align-top">{{ $item_no }}</td>
                         <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
@@ -150,6 +159,7 @@ use App\Designation;
                     <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($total,2) }}</strong></td>
                 </tr>
             </table>
+            <!--
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="7" class="align"><b style="margin-right:5%">CERTIFICATION</b></td>
@@ -196,8 +206,17 @@ use App\Designation;
                 <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
                 <font class="route_no">{{ Session::get('route_no') }}</font>
             </div>
+            -->
         </div>
     </body>
     <hr>
-@endfor
+<?php
+        endforeach;
+    } else {
+        echo
+        '<div>
+            <h4 class="alert alert-success text-center"><strong>No update history</strong></h4>
+        </div>';
+    }
+?>
 </html>
