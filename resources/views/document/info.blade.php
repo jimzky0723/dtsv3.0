@@ -202,6 +202,7 @@ $filter = Doc::isIncluded($document->doc_type);
         <a href="{{ asset('prr') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
     @else
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+<<<<<<< HEAD
         @if(!$status)
         <button type="submit" class="btn btn-info"><i class="fa fa-upload"></i> Update</button>
         @endif
@@ -215,3 +216,9 @@ $filter = Doc::isIncluded($document->doc_type);
 <script>
     $('.daterange').daterangepicker();
 </script>
+=======
+        <a target="_blank" href="{{ asset('pdf') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode</a>
+        <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Generate Barcode v2</a>
+    @endif
+</div>
+>>>>>>> 887256cc02df9c73b015949033c51e424259ba57

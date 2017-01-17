@@ -54,3 +54,6 @@
         <button type="submit" class="btn btn-success" id="sectionSubmit"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
+<script>
+    $('.chosen-select').chosen();
+</script>

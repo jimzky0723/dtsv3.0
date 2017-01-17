@@ -25,7 +25,7 @@ Route::post('document', 'DocumentController@search');
 Route::get('document/accept', 'DocumentController@accept')->middleware('access');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
-Route::get('document/info/{route}', 'DocumentController@show');
+Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('document/list','AdminController@allDocuments');
@@ -91,6 +91,7 @@ Route::get('online','OnlineController@online');
 Route::get('document/prCreated','PurchaseRequestController@prCreated');
 Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
 Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+Route::get('prr_pdf','PurchaseRequestController@prr_pdf');
 //PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
@@ -113,7 +114,7 @@ Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
-Route::post('updateSectionSave','SectionController@updateSectionSave');
+Route::post('updateSection','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
 Route::get('searchSection','SectionController@searchSectionSave');
 //CHECK SECTION
@@ -129,7 +130,7 @@ Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
 Route::get('appointment','AppointmentController@appointment');
 Route::post('appointment','AppointmentController@appointmentSave');
 //PR PDF
-Route::get('pdf_pr','PurchaseRequestController@pdf_pr');
+Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
 //APPEND
 Route::get('append',function(){
     return view('prCreated');
@@ -161,8 +162,10 @@ Route::get('sendemail', function () {
     });
 
     return "Your email has been sent successfully";
-
 });
+Route::get('prr','PurchaseRequestController@prr');
+Route::post('update_prr','PurchaseRequestController@update_prr');
+Route::get('update_history','PurchaseRequestController@update_history');
 
 //traya
 //routing slip

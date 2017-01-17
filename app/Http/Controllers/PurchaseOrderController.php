@@ -17,10 +17,6 @@ class PurchaseOrderController extends Controller
         $this->middleware('auth');
     }
 
-    public function connect(){
-        return new PurchaseRequestController();
-    }
-
     public function PurchaseOrder(){
         return view('form.PurchaseOrder');
     }
@@ -29,14 +25,35 @@ class PurchaseOrderController extends Controller
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         $description = 'PO '.$request->get('po_no').' dtd '.$request->get('po_date').'
                         PR '.$request->get('pr_no').' dtd '.$request->get('pr_date').'
-                        <b>'.$request->get('aditionalinfo').'</b>';
-        return $this->connect()->saveDatabase($route_no, $request->get('doctype'), $request->get('prepareddate'), $request->get('preparedby'), $description, "", "", "", "", "", "", "", $request->get("supplier"), "", "", "", "", "", "", "", "", "", "");
+                        <b>'.$request->get('additional_info').'</b>';
+
+        $tracking = new Tracking();
+        $tracking->route_no = $route_no;
+        $tracking->doc_type = $request->get('doc_type');
+        $tracking->prepared_date = $request->get('prepared_date');
+        $tracking->prepared_by = $request->get('prepared_by');
+        $tracking->description = $description;
+        $tracking->pr_no = $request->get('pr_no');
+        $tracking->po_no = $request->get('po_no');
+        $tracking->supplier = $request->get('supplier');
+
+        $tracking->save();
+
+        $q = new Tracking_Details();
+        $q->route_no = $route_no;
+        $q->date_in = $request->get('prepared_date');
+        $q->received_by = $request->get('prepared_by');
+        $q->delivered_by = $request->get('prepared_by');
+        $q->action = $description;
+        $q->save();
+
+        return redirect("/document");
     }
 
-    public static function quickRandom($length = 16)
+    /*public static function quickRandom($length = 16)
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
-    }
+    }*/
 }

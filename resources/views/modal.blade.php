@@ -179,7 +179,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="online" style="margin-top: 30px;z-index: 99999;">
-    <div class="modal-dialog modal-sm role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <table class="table table-hover">
@@ -201,7 +201,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="allPending" style="margin-top: 30px;z-index: 99999;">
-    <div class="modal-dialog modal-sm role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <table class="table table-hover">
@@ -219,7 +219,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="infoPending" style="margin-top: 30px;z-index: 99999;">
-    <div class="modal-dialog modal-md role="document">
+    <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
         <div class="modal-body">
             <table class="table table-hover">
