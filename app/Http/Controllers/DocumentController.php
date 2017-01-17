@@ -11,6 +11,8 @@ use App\Tracking_Filter;
 use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SystemController as System;
+
 Session_start();
 
 class DocumentController extends Controller
@@ -46,6 +48,25 @@ class DocumentController extends Controller
         return view('document.accept');
     }
 
+    public function update(Request $req)
+    {
+        $id = $req->currentID;
+        $update = array();
+        foreach($_POST as $key => $value):
+            if($key=='currentID' || $key=='_token'){
+                continue;
+            }else{
+                $update[$key] = $value;
+
+            }
+        endforeach;
+        Tracking::where('id',$id)
+            ->update($update);
+        $user_id = Auth::user()->id;
+        System::logDocument($user_id,$id);
+        Session::put('updated',true);
+        return redirect('document');
+    }
     public function saveDocument(Request $request){
         $user = Auth::user();
         $id = $user->id;
@@ -75,10 +96,48 @@ class DocumentController extends Controller
             $q->delivered_by = $received_by;
             $q->action = $request->remarks;
             $q->save();
+
+            System::logDefault('Accepted',$route_no);
             return json_encode(array('message' => 'SUCCESS'));
         }else{
             return json_encode(array('message' => 'ERROR'));
         }
+    }
+
+    public function createDocument(Request $req)
+    {
+        $data = $_POST;
+        $route_no = date('Y-').Auth::user()->id.date('mdHis');
+        $q = new Tracking();
+        $q->route_no = $route_no;
+        $q->prepared_date = date('Y-m-d H:i:s');
+        $q->prepared_by = Auth::user()->id;
+
+
+        foreach($data as $key => $value)
+        {
+            if($key=='_token'){
+                continue;
+            }
+            $q->$key = $value;
+        }
+        $q->save();
+        Session::put('added',true);
+
+        $r = new Tracking_Details();
+        $r->route_no = $route_no;
+        $r->date_in = $q->prepared_date;
+        $r->received_by = Auth::user()->id;
+        $r->delivered_by = Auth::user()->id;
+        $r->action = $q->description;
+        $r->save();
+
+        return redirect()->back();
+    }
+
+    public function formDocument($type)
+    {
+        return view('form.general',['doc_type'=> $type]);
     }
 
     public function cancelRequest($route_no){
@@ -230,9 +289,35 @@ class DocumentController extends Controller
         $documents = Tracking_Details::where('received_by',$id)
             ->where('status',0)
             ->orderBy('id','asc')
-            ->limit(7)
+            ->limit(5)
             ->get();
         return $documents;
+    }
+    public static function countPendingDocuments()
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        $documents = Tracking_Details::select('tracking_details.date_in', 'tracking_details.id','tracking_details.status','tracking_details.route_no','tracking_master.doc_type','tracking_details.received_by')
+            ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+            ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
+            ->where('received_by',$id)
+            ->where('tracking_details.status',0)
+            ->orderBy('tracking_details.id','asc')
+            ->get();
+
+        $data = array();
+        foreach($documents as $doc){
+            $user = Auth::user();
+            $data[] = array(
+                'id' => $doc->id,
+                'status' => $doc->status,
+                'route_no' => $doc->route_no,
+                'doc_type' => self::docTypeName($doc->doc_type),
+                'from' => $user->fname.' '.$user->lname,
+                'duration' => self::timeDiff($doc->date_in)
+            );
+        }
+        return $data;
     }
 
     public function get_date_in($count){
@@ -401,7 +486,7 @@ class DocumentController extends Controller
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc');
+                ->orderBy('date_in','desc');
             $logs = $data->get();
             $documents = $data->paginate(15);
 
@@ -411,7 +496,7 @@ class DocumentController extends Controller
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc');
+                ->orderBy('date_in','desc');
             $logs = $data->get();
             $documents = $data->paginate(15);
 
@@ -443,24 +528,28 @@ class DocumentController extends Controller
         Session::put('doc_type_code',$doc_type);
         if($doc_type!='ALL'){
             $data = DB::table('tracking_details')
+                ->select('tracking_master.route_no','tracking_master.description','tracking_details.date_in','tracking_details.received_by','tracking_master.doc_type','tracking_details.delivered_by')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
-                ->leftJoin('users', 'tracking_master.prepared_by', '=', 'users.id')
+                ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
+                ->leftJoin('section', 'users.section', '=', 'section.id')
                 ->where('doc_type',$doc_type)
-                ->where('users.section',$section)
+                ->where('section.id',$section)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc');
+                ->orderBy('date_in','desc');
             $logs = $data->get();
             $documents = $data->paginate(15);
 
         }else{
             $data = DB::table('tracking_details')
+                ->select('tracking_master.route_no','tracking_master.description','tracking_details.date_in','tracking_details.received_by','tracking_master.doc_type','tracking_details.delivered_by')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
-                ->leftJoin('users', 'tracking_master.prepared_by', '=', 'users.id')
-                ->where('users.section',$section)
+                ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
+                ->leftJoin('section', 'users.section', '=', 'section.id')
+                ->where('section.id',$section)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
-                ->orderBy('date_in','asc');
+                ->orderBy('date_in','desc');
             $logs = $data->get();
             $documents = $data->paginate(15);
 

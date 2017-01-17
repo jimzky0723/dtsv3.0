@@ -7,6 +7,9 @@ class CreateCalendar extends Migration
 {
     public function up()
     {
+        if(Schema::hasTable('calendar')){
+            return true;
+        }
         Schema::create('calendar', function (Blueprint $table) {
             $table->increments('id');
             $table->text('title');
@@ -20,6 +23,6 @@ class CreateCalendar extends Migration
 
     public function down()
     {
-        Schema::drop('create_calendar');
+        Schema::drop('calendar');
     }
 }

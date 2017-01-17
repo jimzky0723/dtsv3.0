@@ -19,7 +19,7 @@ $code = Session::get('doc_type_code');
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Print Document Logs</h2>
+        <h2 class="page-header">Print Section Logs</h2>
         <form class="form-inline" method="POST" action="{{ asset('document/section/logs') }}" onsubmit="return searchDocument()">
             {{ csrf_field() }}
             <div class="form-group">

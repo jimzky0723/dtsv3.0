@@ -52,7 +52,6 @@
         $('.modal_content').html(loadingState);
         $('.modal-title').html('Route #: '+route_no);
         var url = $(this).data('link');
-        console.log(url);
         setTimeout(function(){
             $.ajax({
                 url: url,
@@ -283,7 +282,6 @@ function del_user(el) {
     $('#confirm').click(function(){
         $.post(url,data, function (response) {
             if(JSON.parse(response).status == "ok") {
-                console.log("record deleted");
                 window.location.reload();
             }
         });

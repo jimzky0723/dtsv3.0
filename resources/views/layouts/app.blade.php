@@ -1,5 +1,10 @@
 <?php
 use App\Section;
+use Illuminate\Support\Facades\Session;
+if(!Session::get('is_login')){
+    \App\Http\Controllers\SystemController::logDefault('Logged In');
+    Session::put('is_login',true);
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +52,7 @@ use App\Section;
             height:100%;
             top:0px;
             left:0px;
-            z-index:1000;
+            z-index:999999999;
             display: none;
         }
 
@@ -107,7 +112,7 @@ use App\Section;
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('document/accept')  }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Accept Document</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Create Document</a></li>
+                        <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Created Document</a></li>
                         @if(Auth::user()->user_priv==1)
                         <li><a href="{{ asset('document/list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; All Documents</a></li>
                         @endif
@@ -135,10 +140,18 @@ use App\Section;
                             <li><a href="{{ asset('/division') }}"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ asset('document/filter') }}"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
-                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp; User Feedbacks</a></li>
+                            <li><a href="{{ asset('users/feedback') }}"><i class="fa fa-bullhorn"></i>&nbsp;&nbsp; User Feedbacks <span class="badge">{{ \App\Feedback::where('is_read','0')->count() }}</span></a></li>
                         </ul>
                     </li>
                 @endif
+
+                <li>
+                    <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
+                        <i class="fa fa-sign-out"></i> Feedback
+                    </a>
+                </li>
+
+                <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -147,14 +160,6 @@ use App\Section;
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
-                @if(Auth::user()->user_priv == "0")
-                    <li>
-                        <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
-                            <i class="fa fa-sign-out"></i> Feedback
-                        </a>
-                    </li>
-                @endif
-                <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
@@ -175,13 +180,15 @@ use App\Section;
                 use App\Http\Controllers\DocumentController as Doc;
                 $online = Doc::countOnlineUsers();
             ?>
+            <a href="#online" data-toggle="modal" class="online" style="color:#fff;" data-url="{{ asset('online') }}">
             @if($online<=1)
                 {{ $online }} Online User | <i class="fa fa-user"></i>
             @else
                 {{ $online }} Online Users | <i class="fa fa-users"></i>
             @endif
+            </a>
         </p>
-        <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
+        <p>All Rights Reserved 2017 | Version 3.2</p>
 
     </div>
 </footer>
@@ -211,6 +218,7 @@ use App\Section;
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
 <script>
     $('#reservation').daterangepicker();
+    $('.daterange').daterangepicker();
     $('.chosen-select').chosen();
 
     function checkDocTye(){
@@ -225,7 +233,7 @@ use App\Section;
         $('.loading').show();
         setTimeout(function(){
             return true;
-        },2000);
+        },1000);
     }
 
     $("a[href='#feedback']").on('click',function(){
@@ -256,6 +264,107 @@ use App\Section;
             });
         });
     })();
+
+    $('.online').on('click',function(){
+        var url = $(this).data('url');
+        $('.onlineContent').html(loadingState);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                setTimeout(function(){
+                    var content='';
+
+                    jQuery.each(data, function(i,val){
+                        content += '<tr>' +
+                                '<td class="text-success">' +
+                                '<i class="fa fa-user text-bold"></i> ' +
+                                val.lname+', '+val.fname+
+                                '<br>' +
+                                '<small class="text-muted">' +
+                                '<em>(' +
+                                val.description +
+                                ')</em></small>' +
+                                ''
+                                '</td>'+
+                                '</tr>';
+                    });
+                    $('.onlineContent').html(content);
+                },1000);
+
+            }
+        });
+    });
+    $('.viewAllPending').on('click',function(){
+        <?php echo 'var url="'.asset('document/viewPending').'";'; ?>
+        <?php echo 'var doc_url="'.asset('document/doctype/').'";'; ?>
+        $('.pendingContent').html(loadingState);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                setTimeout(function(){
+                    var content='';
+                    jQuery.each(data, function(i,val){
+                        content += '<div style="border:1px solid #ccc;margin-bottom:10px;"><table class="table '+val.route_no+'">' +
+                                '<tr>' +
+                                '<td><strong>'+val.doc_type+'</strong></td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td>Route # : '+val.route_no+'</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td>From : '+val.from+'</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td>Duration : '+val.duration+'</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td>' +
+                                '<a href="#infoPending" onclick=infoPending($(this)) data-route="'+val.route_no+'" data-link="<?php echo asset('document/info/');?>/'+val.route_no+'" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>'+
+                                '&nbsp;<a href="#" onclick=removePending($(this),"'+val.route_no+'") data-link="<?php echo asset('document/removepending/'); ?>/'+val.id+'" data-id="'+val.id+'" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Done</a>' +
+                                '</tr>' +
+                                '</table></div>';
+                    });
+                    $('.pendingContent').html(content);
+                },1000);
+
+            }
+        });
+    });
+
+    function removePending(e,route_no)
+    {
+        console.log(route_no);
+        $('.loading').show();
+        var link = e.data('link');
+        $.ajax({
+            url: link,
+            type: 'GET',
+            success: function(){
+                setTimeout(function(){
+                    $('.'+route_no).hide();
+                    $('.loading').hide();
+                },1000);
+            }
+        });
+    }
+
+    function infoPending(e)
+    {
+        $('.loading').show();
+        var link = e.data('link');
+        $.ajax({
+            url: link,
+            type: 'GET',
+            success: function(data){
+                setTimeout(function(){
+                    $('.pendingInfo').html(data);
+                    $('.loading').hide();
+                },1000);
+            }
+        });
+    }
 </script>
 
 @section('js')

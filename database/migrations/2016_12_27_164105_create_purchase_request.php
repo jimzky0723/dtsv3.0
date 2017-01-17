@@ -8,6 +8,9 @@ class CreatePurchaseRequest extends Migration
 
     public function up()
     {
+        if(Schema::hasTable('purchase_request')){
+            return true;
+        }
         Schema::create('purchase_request', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route_no');

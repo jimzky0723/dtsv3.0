@@ -12,6 +12,9 @@ class CreateTrackingMaster extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('tracking_master')){
+            return true;
+        }
         Schema::create('tracking_master', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route_no');
@@ -19,9 +22,11 @@ class CreateTrackingMaster extends Migration
             $table->dateTime('prepared_date');
             $table->integer('prepared_by');
             $table->text('description');
-            $table->float('amount',8,2);
+            $table->float('amount',20,2);
             $table->string('pr_no');
+            $table->string('pr_date');
             $table->string('po_no');
+            $table->string('po_date');
             $table->string('purpose');
             $table->string('source_fund');
             $table->string('requested_by');

@@ -67,6 +67,22 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" tabindex="-1" role="dialog" id="general_form">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <fieldset style="padding: 0px;margin:0px;">
+                    <legend id="general_form_title">Create Document</legend>
+                </fieldset>
+                <div id="general_form_content">
+                    <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="modal fade" tabindex="-1" role="dialog" id="document_info">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -74,17 +90,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Document</h4>
             </div>
-            <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#paperSize">Print Barcode v1</button>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Print Barcode v2</a>
+            <div class="modal-body">
+                <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="paperSize">
+<div class="modal fade" tabindex="-1" role="dialog" id="paperSize" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,7 +131,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_info_pending">
+<div class="modal fade" tabindex="-1" role="dialog" id="document_info_pending" style="z-index: 999999">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -163,4 +176,62 @@
             <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="online" style="margin-top: 30px;z-index: 99999;">
+    <div class="modal-dialog modal-sm role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <caption style="font-weight: bold" class="text-success">Who's Online</caption>
+                    <tbody class="onlineContent">
+                        <tr>
+                            <td>
+                                <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="allPending" style="margin-top: 30px;z-index: 99999;">
+    <div class="modal-dialog modal-sm role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <caption style="font-weight: bold" class="text-success">All Pending Documents</caption>
+                </table>
+                <div class="pendingContent">
+                    <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="infoPending" style="margin-top: 30px;z-index: 99999;">
+    <div class="modal-dialog modal-md role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <table class="table table-hover">
+                <caption style="font-weight: bold" class="text-success"><i class="fa fa-bookmark"></i> Details</caption>
+            </table>
+            <div class="pendingInfo">
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

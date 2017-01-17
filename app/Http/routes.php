@@ -8,7 +8,7 @@ Route::get('/','HomeController@index');
 Route::get('logout',function(){
     $user = Auth::user();
     echo $id = $user->id;
-
+    \App\Http\Controllers\SystemController::logDefault('Logged Out');
     Auth::logout();
     User::where('id',$id)
         ->update(['status' => 0]);
@@ -30,6 +30,14 @@ Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('document/list','AdminController@allDocuments');
 Route::post('document/list','AdminController@searchDocuments');
+Route::post('document/update','DocumentController@update');
+Route::get('document/create/{type}','DocumentController@formDocument');
+Route::post('document/create','DocumentController@createDocument');
+Route::get('document/viewPending','DocumentController@countPendingDocuments');
+
+Route::get('document/doctype/{doctype}',function($doctype){
+    return \App\Http\Controllers\DocumentController::docTypeName($doctype);
+});
 
 // FOR ACCOUNTING SECTION
 Route::get('accounting/accept','AccountingController@accept');
@@ -73,6 +81,9 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 //PRINT REPORT
 Route::get('report','AdminController@report');
+
+//ONLINE
+Route::get('online','OnlineController@online');
 //endjimzky
 
 //rusel
@@ -203,6 +214,7 @@ Route::match(['get','post'],'view-feedback','FeedbackController@message');
 Route::get('feedback_ok',function(){
     return view('feedback.feedback_ok');
 });
+Route::post('feedback/action', 'FeedbackController@action');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');

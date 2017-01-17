@@ -12,10 +12,12 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th width="10%">Option</th>
+                        <th>Option</th>
+                        <th>*</th>
                         <th>Name </th>
                         <th>Designation</th>
                         <th>Section / Division</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,11 +29,28 @@
 
                         <tr>
                             <td><a href="#view" class="btn btn-success" data-id="{{ $feedback->id }}" data-link="{{ asset('view-feedback') }}" class="title-info"><i class="fa fa-eye"></i> View</a></td>
+                            <th>
+                                @if($feedback->is_read == "0")
+                                    <strong><i class="fa fa-envelope" aria-hidden="true" style="color: #ff0000;"></i></strong>
+                                @else
+                                    <strong><i class="fa fa-check-square" aria-hidden="true" style="color:green;"></i></strong>
+                                @endif
+                            </th>
                             <td><strong class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</strong></td>
                             <td>{{ $designation }}</td>
                             <td>
                                 {{ $section }}<br>
                                 <em>({{ $division }})</em>
+                            </td>
+                            <td>
+                                <?php
+                                    $action = \App\FeedbackStatus::where('id',$feedback->stat_id)->pluck('action')->first();
+                                    if(isset($action) and count($action) > 0) {
+                                       echo $action;
+                                    } else {
+                                        echo "No action";
+                                    }
+                                ?>
                             </td>
                         </tr>
                     @endforeach
