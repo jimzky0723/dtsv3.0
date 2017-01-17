@@ -6,6 +6,9 @@ class PrrItemsLogs extends Migration
 {
     public function up()
     {
+        if(Schema::hasTable('prr_item_logs')){
+            return true;
+        }
         Schema::create('prr_item_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route_no');

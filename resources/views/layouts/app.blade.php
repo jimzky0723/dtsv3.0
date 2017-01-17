@@ -144,13 +144,13 @@ if(!Session::get('is_login')){
                         </ul>
                     </li>
                 @endif
-
+                @if(Auth::user()->user_priv==0)
                 <li>
                     <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
                         <i class="fa fa-sign-out"></i> Feedback
                     </a>
                 </li>
-
+                @endif
                 <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>

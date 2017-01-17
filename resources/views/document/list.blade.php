@@ -82,7 +82,7 @@
                     </li>
                     <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PO">Purchase Order</a></li>
                     <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PRC">Purchase Request - Cash Advance Purchase</a></li>
-                    <li class="hide"><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prRegularPurchase') }}">Purchase Request - Regular Purchase</a></li>
+                    <li class=""><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prRegularPurchase') }}">Purchase Request - Regular Purchase</a></li>
                     <li class="hide"><a href="#">Reports</a></li>
                 </ul>
             </div>
