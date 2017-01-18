@@ -256,8 +256,8 @@ Use App\Designation;
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary pull-left" onclick="haha();" style="margin-right: 5px;">
-                            <i class="fa fa-download"></i> Generate PDF
+                        <button type="submit" class="btn btn-success pull-left" onclick="haha();" style="margin-right: 5px;">
+                            <i class="fa fa-send"></i> Submit
                         </button>
                     </div>
                 </div>
@@ -285,7 +285,6 @@ Use App\Designation;
             url += "?count=" + count;
             $.get(url, function (result) {
                 $(wrapper).append(result);
-                console.log(count);
             });
         }
     }
@@ -370,11 +369,5 @@ Use App\Designation;
     $("form").submit(function () {
     });
 
-    CKEDITOR.disableAutoInline = true;
-    $(document).ready(function() {
-        $('#document_form').on('shown.bs.modal', function () {
-            CKEDITOR.inline('myModalLabel');
-            CKEDITOR.inline('bodyModal');
-        })
-    });
+
 </script>

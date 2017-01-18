@@ -204,12 +204,12 @@
         </tr>
         <tr>
             <td id="border-top border-bottom">&nbsp;Printed Name:</td>
-            <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->description)->fname.' '.Users::find($tracking->description)->mname.' '.Users::find($tracking->description)->lname }}</b></u></td>
+            <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->division_head)->fname.' '.Users::find($tracking->division_head)->mname.' '.Users::find($tracking->division_head)->lname }}</b></u></td>
             <td id="border-top border-bottom" class="align"><u><b>Jaime S. Bernadas, MD, MGM, CESO III</b></u></td>
         </tr>
         <tr>
             <td id="border-top" >&nbsp;Designation:</td>
-            <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->description)->designation)->description }}</td>
+            <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->division_head)->designation)->description }}</td>
             <td id="border-top" class="align">&nbsp;Director IV</td>
         </tr>
     </table>

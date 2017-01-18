@@ -118,9 +118,7 @@ Route::post('appointment','AppointmentController@appointmentSave');
 //PR PDF
 Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
 //APPEND
-Route::get('append',function(){
-    return view('prCreated');
-});
+Route::get('append','PurchaseRequestController@append');
 //
 Route::get('calendar',function(){
     return view('calendar.calendar');

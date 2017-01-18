@@ -8,11 +8,12 @@ class CreatePurchaseRequest extends Migration
 
     public function up()
     {
-        Schema::create('purchase_request', function (Blueprint $table) {
+        Schema::create('prr_item', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route_no');
+            $table->text('prr_logs_key');
             $table->integer('qty');
-            $table->string('issue');
+            $table->text('issue');
             $table->text('description');
             $table->text('specification');
             $table->text('unit_cost');
@@ -25,6 +26,6 @@ class CreatePurchaseRequest extends Migration
 
     public function down()
     {
-        Schema::drop('purchase_request');
+        Schema::drop('prr_item');
     }
 }

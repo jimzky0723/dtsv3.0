@@ -18,6 +18,7 @@ class CreateTrackingMaster extends Migration
             $table->string('doc_type');
             $table->dateTime('prepared_date');
             $table->integer('prepared_by');
+            $table->text('division_head');
             $table->text('description');
             $table->float('amount',8,2);
             $table->string('pr_no');

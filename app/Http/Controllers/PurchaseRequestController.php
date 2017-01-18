@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Tracking_Details;
 use App;
-use App\Purchase_Request_RP;
+use App\prr_item;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use App\Users;
@@ -16,7 +16,6 @@ use App\Section;
 use App\Division;
 use App\Designation;
 use App\Calendar;
-use App\prr_item_logs;
 use App\prr_logs;
 
 class PurchaseRequestController extends Controller
@@ -29,10 +28,36 @@ class PurchaseRequestController extends Controller
         return view('form.prCashAdvance');
     }
 
+    public function append(){
+        return view('prr.append_input');
+    }
+
     public function savePrCashAdvance(Request $request){
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         $prepared_date = date('Y-m-d H:i:s');
-        return $this->saveDatabase($route_no, $request->get('doctype'), $prepared_date, $request->get('preparedby'), $request->get('itemdescription'), $request->get('amount'), "", "", $request->get('chargeto'), $request->get('requestedby'), "", "", "", "", "", "", "", "", "", "", "", "", "");
+
+        //ADD TRACKING MASTER
+        $tracking = new Tracking();
+        $tracking->route_no = $route_no;
+        $tracking->doc_type = $request->get('doc_type');
+        $tracking->prepared_date = $prepared_date;
+        $tracking->prepared_by = $request->get('prepared_by');
+        $tracking->amount = $request->get('amount');
+        $tracking->description = $request->get('description');
+        $tracking->source_fund = $request->get('charge_to');
+        $tracking->requested_by = $request->get('requested_by');
+        $tracking->save();
+
+        //ADD TRACKING DETAILS
+        $q = new Tracking_Details();
+        $q->route_no = $route_no;
+        $q->date_in = $prepared_date;
+        $q->received_by = $request->get('prepared_by');
+        $q->delivered_by = $request->get('prepared_by');
+        $q->action = $request->get('description');
+        $q->save();
+
+        return redirect("/document");
     }
 
     public function prRegularPurchase(){
@@ -64,93 +89,68 @@ class PurchaseRequestController extends Controller
         //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
         $prr_logs_key = "logs".date('Y-') . $request->user()->id . date('mdHis');
-
         $prr_logs = new prr_logs();
         $prr_logs->prr_logs_key = $prr_logs_key;
         $prr_logs->route_no = $route_no;
         $prr_logs->updated_date = $updated_date;
         $prr_logs->updated_by = Auth::user()->id;
+        $prr_logs->status = 1;
         $prr_logs->save();
-
-
-        //ADD PRR ITEM LOGS
-        $count = 0;
-        foreach($request->get('qty') as $pr){
-            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $prr_item_logs = new prr_item_logs();
-                $prr_item_logs->route_no = $route_no;
-                $prr_item_logs->prr_logs_key = $prr_logs_key;
-                $prr_item_logs->qty = $request->get('qty')[$count];
-                $prr_item_logs->issue = $request->get("issue")[$count];
-                $prr_item_logs->description = $request->get("description")[$count];
-                $prr_item_logs->specification = $request->get("specification")[$count];
-                $prr_item_logs->unit_cost = $request->get("unit_cost")[$count];
-                $prr_item_logs->estimated_cost = $request->get("estimated_cost")[$count];
-                $prr_item_logs->save();
-            }
-            $count++;
-        }
 
         //ADD PRR TABLE
         $count = 0;
         foreach($request->get('qty') as $pr){
             if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $pr = new Purchase_Request_RP();
+                $pr = new prr_item();
                 $pr->route_no = $route_no;
+                $pr->prr_logs_key = $prr_logs_key;
                 $pr->qty = $request->get('qty')[$count];
                 $pr->issue = $request->get("issue")[$count];
                 $pr->description = $request->get("description")[$count];
                 $pr->specification = $request->get("specification")[$count];
                 $pr->unit_cost = $request->get("unit_cost")[$count];
                 $pr->estimated_cost = $request->get("estimated_cost")[$count];
+                $pr->status = 1;
                 $pr->save();
             }
             $count++;
         }
-        return self::saveDatabase($route_no, $request->get('doc_type'), $prepared_date, $request->get('prepared_by'), $request->get('division_head'), $request->get('amount'), "", $request->get('purpose'), $request->get('charge_to'), $request->get('requested_by'), "", "", "", "", "", "", "", "", "", "", "", "", "");
-    }
 
-    public static function saveDatabase($route_no, $doc_type, $prepared_date, $prepare_by, $description, $amount, $pr_no, $purpose, $source_fund, $requested_by, $route_to, $route_from, $supplier, $event_date, $event_location, $event_particpant, $cdo_applicant, $cdo_day, $event_daterange, $payee, $item, $dv_no, $remember_token)
-    {
+        //ADD TRACKING MASTER
         $tracking = new Tracking();
         $tracking->route_no = $route_no;
-        $tracking->doc_type = $doc_type;
+        $tracking->doc_type = $request->get('doc_type');
         $tracking->prepared_date = $prepared_date;
-        $tracking->prepared_by = $prepare_by;
-        $tracking->description = $description;
-        $tracking->amount = $amount;
-        $tracking->pr_no = $pr_no;
-        $tracking->purpose = $purpose;
-        $tracking->source_fund = $source_fund;
-        $tracking->requested_by = $requested_by;
-        $tracking->route_to = $route_to;
-        $tracking->route_from = $route_from;
-        $tracking->supplier = $supplier;
-        $tracking->event_date = $event_date;
-        $tracking->event_location = $event_location;
-        $tracking->event_participant = $event_particpant;
-        $tracking->cdo_applicant = $cdo_applicant;
-        $tracking->cdo_day = $cdo_day;
-        $tracking->event_daterange = $event_daterange;
-        $tracking->payee = $payee;
-        $tracking->item = $item;
-        $tracking->dv_no = $dv_no;
-        $tracking->remember_token = $remember_token;
+        $tracking->prepared_by = $request->get('prepared_by');
+        $tracking->division_head = $request->get('division_head');
+        $tracking->amount = $request->get('amount');
+        $tracking->purpose = $request->get('purpose');
+        $tracking->source_fund = $request->get('charge_to');
+        $tracking->requested_by = $request->get('requested_by');
         $tracking->save();
 
+        //ADD TRACKING DETAILS
         $q = new Tracking_Details();
         $q->route_no = $route_no;
         $q->date_in = $prepared_date;
-        $q->received_by = $prepare_by;
-        $q->delivered_by = $prepare_by;
-        $q->action = $description;
+        $q->received_by = $request->get('prepared_by');
+        $q->delivered_by = $request->get('prepared_by');
+        $q->action = $request->get('purpose');
         $q->save();
 
         return redirect("/document");
     }
 
     public function prr_pdf(){
-        $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
+        $prr_logs = prr_logs::where('route_no',Session::get('route_no'))
+                            ->where('status',1)
+                            ->first()
+                            ->prr_logs_key;
+        $item = prr_item::where('route_no','=',Session::get('route_no'))
+                            ->where('status',1)
+                            ->where('prr_logs_key',$prr_logs)
+                            ->get();
+
         $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
         $user = Users::where('id','=',$tracking->prepared_by)->first();
         $section = Section::where('id','=',$user->section)->first();
@@ -183,11 +183,17 @@ class PurchaseRequestController extends Controller
     }
 
     public function prr(){
-        $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
-        $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
-        /*$tracking_details = Tracking_Details::where("route_no","=",Session::get("route_no"))
-                                            ->where("received_by","=",Auth::user()->id)
-                                            ->first();*/
+        $prr_logs = prr_logs::where('route_no',Session::get('route_no'))
+                    ->where('status',1)
+                    ->first()
+                    ->prr_logs_key;
+        $item = prr_item::where('route_no','=',Session::get('route_no'))
+                                    ->where('status',1)
+                                    ->where('prr_logs_key',$prr_logs)
+                                    ->get();
+
+        $tracking = Tracking::where('route_no',Session::get('route_no'))->first();
+
         $section = Section::all();
         foreach($section as $row){
             $user = Users::where('id','=',$row->head)->first();
@@ -205,6 +211,13 @@ class PurchaseRequestController extends Controller
 
         $route_no = Session::get('route_no');
 
+        //UPDATE PRR TABLE
+        prr_item::where("route_no",$route_no)
+                            ->update(['status' => 0]);
+        //UPDATE STATUS IN PRR LOGS
+        prr_logs::where("route_no",$route_no)
+                ->update(['status' => 0]);
+
         //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
         $prr_logs_key = "logs".date('Y-') . $request->user()->id . date('mdHis');
@@ -214,43 +227,23 @@ class PurchaseRequestController extends Controller
         $prr_logs->route_no = $route_no;
         $prr_logs->updated_date = $updated_date;
         $prr_logs->updated_by = Auth::user()->id;
+        $prr_logs->status = 1;
         $prr_logs->save();
 
-
-        //ADD PRR ITEM LOGS
+        //ADD ANOTHER IN PRR TABLE
         $count = 0;
         foreach($request->get('qty') as $pr){
             if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $prr_item_logs = new prr_item_logs();
-                $prr_item_logs->route_no = $route_no;
-                $prr_item_logs->prr_logs_key = $prr_logs_key;
-                $prr_item_logs->qty = $request->get('qty')[$count];
-                $prr_item_logs->issue = $request->get("issue")[$count];
-                $prr_item_logs->description = $request->get("description")[$count];
-                $prr_item_logs->specification = $request->get("specification")[$count];
-                $prr_item_logs->unit_cost = $request->get("unit_cost")[$count];
-                $prr_item_logs->estimated_cost = $request->get("estimated_cost")[$count];
-                $prr_item_logs->save();
-            }
-            $count++;
-        }
-
-        //DELETE IN PRR TABLE
-        $prr = Purchase_Request_RP::where("route_no","=",$route_no);
-        $prr->delete();
-
-        //ADD IN PRR TABLE
-        $count = 0;
-        foreach($request->get('qty') as $pr){
-            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
-                $pr = new Purchase_Request_RP();
+                $pr = new prr_item();
                 $pr->route_no = $route_no;
+                $pr->prr_logs_key = $prr_logs_key;
                 $pr->qty = $request->get('qty')[$count];
                 $pr->issue = $request->get("issue")[$count];
                 $pr->description = $request->get("description")[$count];
                 $pr->specification = $request->get("specification")[$count];
                 $pr->unit_cost = $request->get("unit_cost")[$count];
                 $pr->estimated_cost = $request->get("estimated_cost")[$count];
+                $pr->status = 1;
                 $pr->save();
             }
             $count++;
@@ -261,15 +254,16 @@ class PurchaseRequestController extends Controller
 
     public function update_history(){
         $route_no = Session::get('route_no');
-        $item = Purchase_Request_RP::where('route_no','=',Session::get('route_no'))->get();
 
         $tracking = Tracking::where('route_no','=',Session::get('route_no'))->first();
         $user = Users::where('id','=',$tracking->prepared_by)->first();
         $section = Section::where('id','=',$user->section)->first();
         $division = Division::where('id','=',$user->division)->first();
+        $prr_logs = prr_logs::where("route_no",$route_no)
+                            ->where('status',0)
+                            ->get();
 
-        $prr_logs = prr_logs::where("route_no","=",$route_no)->get();
 
-        return view("prr.update_history",['item' => $item,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,"prr_logs" => $prr_logs]);
+        return view("prr.update_history",['tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,"prr_logs" => $prr_logs]);
     }
 }
