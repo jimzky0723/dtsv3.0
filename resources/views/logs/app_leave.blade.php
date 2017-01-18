@@ -16,7 +16,7 @@ $section = Auth::user()->section;
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
     <style>
         html {
-            font-size:0.9em;
+            font-size:0.8em;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
     </style>

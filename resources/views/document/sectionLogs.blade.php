@@ -19,8 +19,8 @@ $code = Session::get('doc_type_code');
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Print Document Logs</h2>
-        <form class="form-inline" method="POST" action="{{ asset('document/logs') }}" onsubmit="return searchDocument()">
+        <h2 class="page-header">Print Section Logs</h2>
+        <form class="form-inline" method="POST" action="{{ asset('document/section/logs') }}" onsubmit="return searchDocument()">
             {{ csrf_field() }}
             <div class="form-group">
                 <div class="input-group">
@@ -69,7 +69,7 @@ $code = Session::get('doc_type_code');
                             <option>Certificate of Overtime Credit</option>
                             <option>Compensatory Time Off</option>
                         </optgroup>
-                        <option <?php if($code=='PO') echo 'selected'; ?> value="PO">Purchase Order</option>
+                        <option value="PO">Purchase Order</option>
                         <option <?php if($code=='PRC') echo 'selected'; ?> value="PRC">Purchase Request - Cash Advance Purchase</option>
                         <option <?php if($code=='PRR') echo 'selected'; ?> value="PRR">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
@@ -120,20 +120,20 @@ $code = Session::get('doc_type_code');
                             <em>({{ Section::find($user->section)->description }})</em>
                         </td>
                         <?php
-                            $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
+                        $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
                         ?>
                         @if($out)
-                        <td>{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
-                        <td>
-                            <?php $user = Users::find($out->received_by);?>
-                            {{ $user->fname }}
-                            {{ $user->lname }}
-                            <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
-                        </td>
+                            <td>{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
+                            <td>
+                                <?php $user = Users::find($out->received_by);?>
+                                {{ $user->fname }}
+                                {{ $user->lname }}
+                                <br>
+                                <em>({{ Section::find($user->section)->description }})</em>
+                            </td>
                         @else
-                        <td></td>
-                        <td></td>
+                            <td></td>
+                            <td></td>
                         @endif
                         <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     </tr>

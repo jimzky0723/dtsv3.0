@@ -4,6 +4,7 @@ use App\User;
 $pending = Doc::pendingDocuments();
 $count = 0;
 $duration="duration"."0";
+$count_pending = count(Doc::countPendingDocuments());
 
 $online = Doc::countOnlineUsers();
 ?>
@@ -12,11 +13,35 @@ $online = Doc::countOnlineUsers();
 <div class="col-md-3 wrapper">
     <div class="panel panel-jim">
         <div class="panel-heading">
+            <h3 class="panel-title">WHO'S ONLINE</h3>
+        </div>
+        <div class="panel-body text-success">
+            <center>
+                <a href="#online" data-toggle="modal" class="online text-success" data-url="{{ asset('online') }}"><i class="fa fa-users fa-3x"></i></a><br />
+                <div style="margin-top:10px"></div>
+                <font class="text-bold">
+                    <a href="#online" data-toggle="modal" class="online text-success" data-url="{{ asset('online') }}">
+                    @if($online<=1)
+                        {{ $online }} Online User
+                    @else
+                        {{ $online }} Online Users
+                    @endif
+                    </a>
+                </font>
+            </center>
+        </div>
+    </div>
+
+    <div class="panel panel-jim">
+        <div class="panel-heading">
             <h3 class="panel-title">PENDING DOCUMENTS</h3>
+            @if($count_pending>0)
+                <small><a href="#allPending" data-toggle="modal" style="color:#fff;" class="viewAllPending">[{{ $count_pending }} Documents]</a></small>
+            @endif
         </div>
         <div class="panel-body">
             @foreach($pending as $pend)
-                <table class="table table-hover table-{{ $pend->id }}">
+                <table class="table table-hover table-{{ $pend->id }} {{ $pend->route_no }}">
                     <thead>
                     <tr><th>{{ Doc::getDocType($pend->route_no) }}</th></tr>
                     </thead>
@@ -43,7 +68,7 @@ $online = Doc::countOnlineUsers();
                     </tr>
                     <tr><td>
                             <a href="#document_info_pending" data-route="{{ $pend->route_no }}" data-link="{{ asset('document/info/'.$pend->route_no) }}" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>
-                            <a href="#remove_pending" data-link="{{ asset('document/removepending/'.$pend->id) }}" data-id="{{ $pend->id }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Done</a>
+                            <a href="#remove_pending" data-link="{{ asset('document/removepending/'.$pend->id) }}" data-id="{{ $pend->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Done</a>
                         </td>
                     </tr>
                     </tbody>
@@ -81,23 +106,6 @@ $online = Doc::countOnlineUsers();
             @endif
         </div>
     </div>
-
-    <div class="panel panel-jim">
-        <div class="panel-heading">
-            <h3 class="panel-title">ONLINE USERS</h3>
-        </div>
-        <div class="panel-body text-success">
-            <center>
-                <i class="fa fa-users fa-3x"></i><br />
-                <div style="margin-top:10px"></div>
-                <font class="text-bold">
-                    @if($online<=1)
-                        {{ $online }} Online User
-                    @else
-                        {{ $online }} Online Users
-                    @endif
-                </font>
-            </center>
-        </div>
-    </div>
 </div>
+
+

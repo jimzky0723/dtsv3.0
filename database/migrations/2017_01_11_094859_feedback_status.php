@@ -12,6 +12,9 @@ class FeedbackStatus extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('feedback_status')){
+            return true;
+        }
         Schema::create('feedback_status', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');

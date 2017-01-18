@@ -138,6 +138,7 @@ class PurchaseRequestController extends Controller
         $q->action = $request->get('purpose');
         $q->save();
 
+        Session::put('added',true);
         return redirect("/document");
     }
 

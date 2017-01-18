@@ -26,13 +26,13 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('general') }}">General Document</a> </li>
+                    <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="GENERAL">General Document</a> </li>
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Disbursement Voucher</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/salary') }}">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/tev') }}">TEV</a></li>
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/bills') }}">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="SAL">Salary, Honoraria, Stipend, Remittances, CHT Mobilization</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="TEV">TEV</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="BILLS">Bills, Cash Advance Replenishment, Grants/Fund Transfer</a></li>
                             <li class="hide"><a href="#">Supplier (Payment of Transactions with PO)</a></li>
                             <li class="hide"><a href="#">Infra - Contractor</a></li>
                         </ul>
@@ -40,13 +40,13 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Letter/Mail/Communication</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/incoming/letter') }}">Incoming Mail</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="INCOMING">Incoming Mail</a></li>
                             <li class="hide"><a href="#">Outgoing</a></li>
                             <li class="divider"></li>
                             <li class="hide"><a href="#">Service Record</a></li>
                             <li class="hide"><a href="#">SALN</a></li>
                             <li class="hide"><a href="#">Plans (includes Allocation List)</a></li>
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/routing/slip') }}">Routing Slip</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="ROUTE">Routing Slip</a></li>
                         </ul>
                     </li>
                     <li class="dropdown-submenu hide">
@@ -62,8 +62,8 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Miscellaneous</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/worksheet') }}">Activity Worksheet</a></li>
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}">Justification</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="WORKSHEET">Activity Worksheet</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="JUST_LETTER">Justification</a></li>
                             <li class="hide"><a href="#">Certifications</a></li>
                             <li class="hide"><a href="#">Certificate of Appearance</a></li>
                             <li class="hide"><a href="#">Certificate of Employment</a></li>
@@ -73,16 +73,16 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toggle="dropdown">Personnel Related Documents</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/office-order') }}">Office Order</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="OFFICE_ORDER">Office Order</a></li>
                             <li class="hide"><a href="#">DTR</a></li>
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/application/leave') }}">Application for Leave</a></li>
+                            <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="APP_LEAVE">Application for Leave</a></li>
                             <li class="hide"><a href="#">Certificate of Overtime Credit</a></li>
                             <li class="hide"><a href="#">Compensatory Time Off</a></li>
                         </ul>
                     </li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('PurchaseOrder') }}">Purchase Order</a></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prCashAdvance') }}">Purchase Request - Cash Advance Purchase</a></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prRegularPurchase') }}">Purchase Request - Regular Purchase</a></li>
+                    <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PO">Purchase Order</a></li>
+                    <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PRC">Purchase Request - Cash Advance Purchase</a></li>
+                    <li class=""><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prRegularPurchase') }}">Purchase Request - Regular Purchase</a></li>
                     <li class="hide"><a href="#">Reports</a></li>
                 </ul>
             </div>
@@ -92,6 +92,18 @@
     <div class="page-divider"></div>
     @if(count($documents))
     <div class="table-responsive">
+        @if(Session::get('updated'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully Updated!
+            </div>
+            <?php Session::forget('updated'); ?>
+        @endif
+            @if(Session::get('added'))
+                <div class="alert alert-success">
+                    <i class="fa fa-check"></i> Successfully Added!
+                </div>
+                <?php Session::forget('added'); ?>
+            @endif
         <table class="table table-list table-hover table-striped">
             <thead>
                 <tr>
@@ -133,6 +145,19 @@
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 <script>
+    $('a[href="#general_form"]').on('click',function(){
+        var title = $(this).html();
+        var type = $(this).data('type');
+        <?php echo 'var url ="'.asset('document/create/').'";';?>
+        $('#general_form_title').html(title);
+        $.ajax({
+            url:url+'/'+type,
+            type: 'GET',
+            success: function(data){
+                $('#general_form_content').html(data);
+            }
+        })
+    });
     function searchDocument(){
         $('.loading').show();
         setTimeout(function(){

@@ -12,6 +12,9 @@ class CreateDesignationTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('designation')){
+            return true;
+        }
         Schema::create('designation', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');

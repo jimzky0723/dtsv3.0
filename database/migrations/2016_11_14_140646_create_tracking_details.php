@@ -12,6 +12,9 @@ class CreateTrackingDetails extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('tracking_details')){
+            return true;
+        }
         Schema::create('tracking_details', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route_no');

@@ -12,6 +12,9 @@ class Feedback extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('feedback')){
+            return true;
+        }
         Schema::create('feedback', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userid');

@@ -28,7 +28,7 @@
                         <?php $designation = \App\Designation::where('id', $user->designation)->pluck('description')->first(); ?>
 
                         <tr>
-                            <td><a href="#view" class="btn btn-success" data-id="{{ $feedback->id }}" data-link="{{ asset('view-feedback') }}" class="title-info">View</a></td>
+                            <td><a href="#view" class="btn btn-success" data-id="{{ $feedback->id }}" data-link="{{ asset('view-feedback') }}" class="title-info"><i class="fa fa-eye"></i> View</a></td>
                             <th>
                                 @if($feedback->is_read == "0")
                                     <strong><i class="fa fa-envelope" aria-hidden="true" style="color: #ff0000;"></i></strong>

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePurchaseRequest extends Migration
+class PrrItem extends Migration
 {
 
     public function up()
@@ -23,6 +23,7 @@ class CreatePurchaseRequest extends Migration
             $table->timestamps();
         });
     }
+
 
     public function down()
     {

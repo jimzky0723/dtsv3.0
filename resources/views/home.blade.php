@@ -14,12 +14,46 @@
     </div>
 </div>
 @include('sidebar')
+
+<?php
+    use Illuminate\Support\Facades\Session;
+?>
+@if(!Session::get('features'))
+<?php Session::put('features',true); ?>
+<div class="modal fade" tabindex="-1" role="dialog" id="notificationModal" style="margin-top: 30px;z-index: 99999 ">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <fieldset>
+                    <legend style="font-weight: bold" class="text-success">WHAT'S NEW</legend>
+                </fieldset>
+                <div class="alert alert-success">
+                    <ul style="font-size: 1.2em;">
+                        <li><strong>Upgraded to Version 3.2</strong>
+                            <ul>
+                                <caption>New Features:</caption>
+                                <li>The document creator can <strong>EDIT</strong> their document.</li>
+                                <li>The user can <strong>VIEW</strong> online users by clicking the <i class="fa fa-users"></i> icon or the link below.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Purchase Request - Regular Purchase</strong> has been removed for the meantime.</li>
+                        <li>Printing <strong>Section Logs</strong> has been fixed.</li>
+                        <li>Minor bugs fixes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@endif
 @endsection
 
 @section('js')
 <script src="{{ asset('resources/plugin/Chart.js/Chart.min.js') }}"></script>
 <script>
     $('.loading').show();
+    $('#notificationModal').modal('show');
 </script>
 <script>
     <?php echo 'var url = "'.asset('home/chart').'";';?>
@@ -29,7 +63,6 @@
         type: 'GET',
         success: function(data) {
             jim = jQuery.parseJSON(data);
-            console.log(jim.data1.months);
             //chart created docs
             var ctx = document.getElementById("createdDoc");
             var myChart = new Chart(ctx, {
@@ -107,3 +140,4 @@
     });
 </script>
 @endsection
+

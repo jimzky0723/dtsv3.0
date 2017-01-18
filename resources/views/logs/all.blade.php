@@ -12,7 +12,7 @@ $documents = Session::get('logsDocument');
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
     <style>
         html {
-            font-size:0.9em;
+            font-size:0.8em;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
     </style>
@@ -38,11 +38,11 @@ $documents = Session::get('logsDocument');
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th width="17%">Route # / Remarks</th>
-        <th width="15%">Received Date</th>
-        <th width="15%">Received From</th>
-        <th width="15%">Released Date</th>
-        <th width="15%">Released To</th>
+        <th width="29%">Route # / Remarks</th>
+        <th width="12%">Received Date</th>
+        <th width="12%">Received From</th>
+        <th width="12%">Released Date</th>
+        <th width="12%">Released To</th>
         <th width="20%">Document Type</th>
     </tr>
     </thead>

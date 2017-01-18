@@ -8,6 +8,12 @@ $documents = Session::get('logsDocument');
 <title>Routing Slip logs</title>
 <head>
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
+    <style>
+        html {
+            font-size:0.8em;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
 <table class="letter-head" cellpadding="0" cellspacing="0">

@@ -12,6 +12,9 @@ class CreateSectionTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('section')){
+            return true;
+        }
         Schema::create('section', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('division');

@@ -8,10 +8,11 @@ Route::get('/','HomeController@index');
 Route::get('logout',function(){
     $user = Auth::user();
     echo $id = $user->id;
-
+    \App\Http\Controllers\SystemController::logDefault('Logged Out');
     Auth::logout();
     User::where('id',$id)
         ->update(['status' => 0]);
+    \Illuminate\Support\Facades\Session::flush();
     return redirect('login');
 });
 
@@ -24,11 +25,20 @@ Route::post('document', 'DocumentController@search');
 Route::get('document/accept', 'DocumentController@accept')->middleware('access');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
+Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('document/list','AdminController@allDocuments');
 Route::post('document/list','AdminController@searchDocuments');
+Route::post('document/update','DocumentController@update');
+Route::get('document/create/{type}','DocumentController@formDocument');
+Route::post('document/create','DocumentController@createDocument');
+Route::get('document/viewPending','DocumentController@countPendingDocuments');
+
+Route::get('document/doctype/{doctype}',function($doctype){
+    return \App\Http\Controllers\DocumentController::docTypeName($doctype);
+});
 
 // FOR ACCOUNTING SECTION
 Route::get('accounting/accept','AccountingController@accept');
@@ -46,7 +56,9 @@ Route::get('document/received', 'DocumentController@receivedDocument');
 Route::post('document/received', 'DocumentController@receivedDocument');
 
 Route::get('document/logs','DocumentController@logsDocument');
-Route::post('document/logs','DocumentController@logsDocument');
+Route::post('document/logs','DocumentController@searchLogs');
+Route::get('document/section/logs','DocumentController@sectionLogs');
+Route::post('document/section/logs','DocumentController@searchSectionLogs');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
@@ -57,12 +69,11 @@ Route::post('form/tev', 'TevController@store');
 Route::get('form/bills','BillsController@index');
 Route::post('form/bills','BillsController@store');
 
-Route::get('pdf', function(){
-    $display = view("pdf.pdf");
+Route::get('pdf/v1/{size}', function($size){
+    $display = view("pdf.pdf",['size'=>$size]);
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
-
-    return $pdf->stream();
+    return $pdf->setPaper($size, 'portrait')->stream();
 });
 
 //PRINT LOGS
@@ -71,6 +82,9 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 //PRINT REPORT
 Route::get('report','AdminController@report');
+
+//ONLINE
+Route::get('online','OnlineController@online');
 //endjimzky
 
 //rusel
@@ -96,6 +110,7 @@ Route::post('searchDivision','DivisionController@searchDivision');
 Route::get('searchDivision','DivisionController@searchDivisionSave');
 //SECTION
 Route::get('section','SectionController@section');
+Route::post('section','SectionController@searchSection');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');

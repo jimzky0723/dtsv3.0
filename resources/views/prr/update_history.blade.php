@@ -67,7 +67,7 @@ if(count($prr_logs) >= 1){
 ?>
     <body>
         <div style="padding: 5%;margin-top: -5%">
-            <span style="color:green">{{ date('M d, Y h:i:s A',strtotime(date('Y-m-d H:i:s'))) }}</span>
+            <span style="color: blue">Updated Date:</span> <span style="color:green">{{ date('M d, Y h:i:s A',strtotime($prr_logs->updated_date)) }}</span>
             {{--<table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
@@ -86,7 +86,7 @@ if(count($prr_logs) >= 1){
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="7" class="align">
-                        <strong>PURCHASE REQUEST</strong>
+                        <strong>PURCHASE REQUEST LAST CREATED</strong>
                     </td>
                 </tr>
                 {{--<tr>
