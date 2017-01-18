@@ -131,7 +131,7 @@
                                         <td id="border-bottom" class="{{ 'description'.$count }} align-top" width="40%">
                                             <input type="text" name="description[]" id="{{ 'description'.$count }}" value="{{ $row->description }}"  class="form-control" onkeyup="trapping()" required><small id="{{ 'E_description'.$count }}">required!</small>
                                             <br><strong><i>Specification(s)</i></strong>
-                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="ckeditor" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
+                                            <textarea class="textarea" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="{{ 'specification'.$count }}" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
                                         </td>
                                         <td id="border-bottom"></td>
                                         <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
@@ -315,10 +315,12 @@
             //$('.haha').append(tr_object);
             //$('.hehe').append("Rusel Tayong");
         //}
-
+        ///PLUGIN
+        $(".textarea").wysihtml5();
         $('.datepickercalendar').datepicker({
             autoclose: true
         });
+        ///END PLUGIN
         var count = $("#count").val();
         var limit = 10;
         trapping(event,false);
@@ -403,14 +405,11 @@
         function haha(){
             console.log(count);
         }
+
         function erase(result){
             limit++;
             $("#"+result.val()).remove();
             trapping();
-        }
-
-        function stack(){
-            count = $("#count").val();
         }
 
         document.onkeydown = function(evt) {
