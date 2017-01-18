@@ -38,6 +38,8 @@ if(!Session::get('is_login')){
     <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
     <!--CHOOSEN SELECT -->
     <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
 
     @yield('css')
     <style>
@@ -218,6 +220,8 @@ if(!Session::get('is_login')){
 <!-- CKEDITOR -->
 <script src="{{ asset('resources/plugin/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('resources/plugin/ckeditor/adapters/jquery.js') }}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
 <script>
     $('#reservation').daterangepicker();
     $('.daterange').daterangepicker();

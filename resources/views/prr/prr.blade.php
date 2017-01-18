@@ -131,7 +131,7 @@
                                         <td id="border-bottom" class="{{ 'description'.$count }} align-top" width="40%">
                                             <input type="text" name="description[]" id="{{ 'description'.$count }}" value="{{ $row->description }}"  class="form-control" onkeyup="trapping()" required><small id="{{ 'E_description'.$count }}">required!</small>
                                             <br><strong><i>Specification(s)</i></strong>
-                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="form-control" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
+                                            <textarea type="text" name="specification[]" id="{{ 'specification'.$count }}" class="ckeditor" onkeyup="trapping()" required>{{ $row->specification }}</textarea><small id="{{ 'E_specification'.$count }}">required!</small>
                                         </td>
                                         <td id="border-bottom"></td>
                                         <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
