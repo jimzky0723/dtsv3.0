@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class prr_item extends Model
+class prr_meal_logs extends Model
 {
-    protected $table = 'prr_item';
+    protected $table = 'prr_meal_logs';
     protected $primaryKey = 'id';
 }

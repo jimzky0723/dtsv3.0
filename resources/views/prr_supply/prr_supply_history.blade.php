@@ -4,7 +4,7 @@ $item_no = 1;
 $prr_logs_count = 0;
 use App\Users;
 use App\Designation;
-use App\prr_item;
+use App\prr_supply;
 ?>
 <html>
 <head>
@@ -61,7 +61,7 @@ use App\prr_item;
 if(count($prr_logs) >= 1){
     foreach($prr_logs as $prr_logs):
         $prr_logs_count++;
-        $prr_item = prr_item::where("route_no",$prr_logs->route_no)
+        $prr_supply = prr_supply::where("route_no",$prr_logs->route_no)
                                       ->where("prr_logs_key",$prr_logs->prr_logs_key)
                                       ->get();
 ?>
@@ -115,7 +115,7 @@ if(count($prr_logs) >= 1){
                     <td id="border-right"><b>Estimated Cost</b></td>
                 </tr>
                 <tbody>
-                @foreach($prr_item as $row)
+                @foreach($prr_supply as $row)
                     <tr>
                         <td id="border-bottom" class="align-top">{{ $item_no }}</td>
                         <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
@@ -203,11 +203,11 @@ if(count($prr_logs) >= 1){
                     <td id="border-top" class="align">&nbsp;Director IV</td>
                 </tr>
             </table>
+            -->
             <div style="position:absolute; left: 30%;margin-top:1%" class="align">
                 <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
                 <font class="route_no">{{ Session::get('route_no') }}</font>
             </div>
-            -->
         </div>
     </body>
     <hr>

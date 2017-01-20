@@ -197,9 +197,12 @@ $filter = Doc::isIncluded($document->doc_type);
 </table>
 
 <div class="modal-footer">
-    @if(Session::get('doc_type') == 'PRR')
+    @if(Session::get('doc_type') == 'PRR_S')
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-        <a href="{{ asset('prr') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
+        <a href="{{ asset('prr_supply_page') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
+    @elseif(Session::get('doc_type') == 'PRR_M')
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            <a href="{{ asset('prr_meal_page') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
     @else
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
         @if(!$status)

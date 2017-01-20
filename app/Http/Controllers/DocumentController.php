@@ -219,8 +219,10 @@ class DocumentController extends Controller
                 return "Purchase Order";
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
-            case "PRR":
-                return "Purchase Request - Regular Purchase";
+            case "PRR_S":
+                return "Purchase Request - Regular Purchase - Supply";
+            case "PRR_M":
+                return "Purchase Request - Regular Purchase - Meal";
             case "REPORT":
                 return "Reports";
             case "GENERAL" :
@@ -265,11 +267,12 @@ class DocumentController extends Controller
         return $filter;
     }
 
-    public function show($route_no,$doc_type=null){
+    public function show($route_no,$doc_type=null,$prr_type=null){
         $document = Tracking::where('route_no',$route_no)
                         ->first();
         Session::put('route_no', $route_no);
         Session::put('doc_type', $doc_type);
+        Session::put('prr_type', $prr_type);
         return view('document.info',['document' => $document]);
     }
 

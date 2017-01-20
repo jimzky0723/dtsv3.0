@@ -41,12 +41,12 @@ Use App\Designation;
         color:red;
     }
 </style>
-<form method="post" id="form" action="{{ asset('prRegularPurchase') }}">
+<form method="post" id="form" action="{{ asset('prr_supply_post') }}">
     {{ csrf_field() }}
     <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
-    <span id="url" data-link="{{ asset('append') }}"></span>
+    <span id="url" data-link="{{ asset('prr_supply_append') }}"></span>
     <span id="token" data-token="{{ csrf_token() }}"></span>
-    <input type="hidden" name="doc_type" value="PRR">
+    <input type="hidden" name="doc_type" value="PRR_S">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
     <div class="modal-body">
         <div class="content-wrapper">
@@ -108,12 +108,18 @@ Use App\Designation;
                         <tbody class="input_fields_wrap">
                         <tr>
                             <td id="border-bottom" ></td>
-                            <td id="border-bottom" class="qty1 align-top"><input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_qty1">required!</small></td>
-                            <td id="border-bottom" class="issue1 align-top"><input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required><small id="E_issue1">required!</small></td>
+                            <td id="border-bottom" class="qty1 align-top">
+                                <input type="text" name="qty[]" id="qty1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                <small id="E_qty1">required!</small>
+                            </td>
+                            <td id="border-bottom" class="issue1 align-top">
+                                <input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required>
+                                <small id="E_issue1">required!</small>
+                            </td>
                             <td id="border-bottom" class="description1 align-top" width="40%">
                                 <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
                                 <br><strong><i>Specification(s)</i></strong>
-                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" class="form-control ckeditor" onkeyup="trapping()" required></textarea><small id="E_specification1"></small>
+                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()" required></textarea><small id="E_specification1"></small>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
@@ -268,20 +274,20 @@ Use App\Designation;
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
-    var width = $("#my_modal").width() + 200;
-    $("#my_modal").css("width", width);
+    var width = $("#my_modal").width() + 100;
+    /*$("#my_modal").css("width", width);*/
     $(".textarea").wysihtml5();
 
     var count = 1;
     var limit = 10;
-    var ok = "";
+    var ok = '';
+    var wrapper= $(".input_fields_wrap"); //Fields wrapper
     function add(){
-        ok = "true";
-        var wrapper= $(".input_fields_wrap"); //Fields wrapper
 
+        ok = "true";
         trapping();
 
-        if(count < limit && ok == "true") {
+        if(count < limit) {
             count++;
             var url = $("#url").data('link');
             url += "?count=" + count;
@@ -291,13 +297,15 @@ Use App\Designation;
         }
     }
 
-    function trapping(event,flag){
+    function trapping(event,flag)
+    {
         if(flag)
             key_code(event);
 
         var estimated_cost = 0;
         var total = 0;
-        for(var i=1; i<=count; i++){
+        for(var i=1; i<=count; i++)
+        {
             if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#specification"+i).val() == ''){
                 ok = "false";
             }
@@ -349,7 +357,7 @@ Use App\Designation;
     function erase(result){
         limit++;
         $("#"+result.val()).remove();
-        trapping();
+        /*trapping();*/
     }
 
     document.onkeydown = function(evt) {
@@ -361,7 +369,7 @@ Use App\Designation;
             isEscape = (evt.keyCode == 27);
         }
         if (isEscape) {
-            $("#my_modal").css("width", width-200);
+            /*$("#my_modal").css("width", width-100);*/
         }
     };
 
