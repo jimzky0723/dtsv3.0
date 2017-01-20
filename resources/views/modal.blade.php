@@ -155,7 +155,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <strong>Are you sure you want to delete <p style="display: inline;" id="nametoDelete"></p>?</strong>
+                    <strong>Are you sure you want to remove <p style="display: inline;" id="nametoDelete"></p>?</strong>
                 </div>
             </div>
             <div class="modal-footer">
@@ -192,24 +192,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div class="modal fade" tabindex="-1" role="dialog" id="allPending" style="margin-top: 30px;z-index: 99999;">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <table class="table table-hover">
-                    <caption style="font-weight: bold" class="text-success">All Pending Documents</caption>
-                </table>
-                <div class="pendingContent">
-                    <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
-                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>

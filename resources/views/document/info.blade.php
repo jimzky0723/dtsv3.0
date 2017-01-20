@@ -203,14 +203,16 @@ $filter = Doc::isIncluded($document->doc_type);
     @else
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
         @if(!$status)
-        <button type="submit" class="btn btn-info"><i class="fa fa-upload"></i> Update</button>
+        <button type="submit" class="btn btn-info" name="submit" value="update"><i class="fa fa-upload"></i> Update</button>
+        @if($routed < 2)
+        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
         @endif
-        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#paperSize">Print Barcode v1</button>
-        <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Print Barcode v2</a>
+        @endif
+        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
+        <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Barcode v2</a>
     @endif
 </div>
 </form>
-
 
 <script>
     $('.daterange').daterangepicker();

@@ -93,17 +93,23 @@
     @if(count($documents))
     <div class="table-responsive">
         @if(Session::get('updated'))
-            <div class="alert alert-success">
+            <div class="alert alert-info">
                 <i class="fa fa-check"></i> Successfully Updated!
             </div>
             <?php Session::forget('updated'); ?>
         @endif
-            @if(Session::get('added'))
-                <div class="alert alert-success">
-                    <i class="fa fa-check"></i> Successfully Added!
-                </div>
-                <?php Session::forget('added'); ?>
-            @endif
+        @if(Session::get('added'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully Added!
+            </div>
+            <?php Session::forget('added'); ?>
+        @endif
+        @if(Session::get('deleted'))
+            <div class="alert alert-warning">
+                <i class="fa fa-check"></i> Successfully Deleted!
+            </div>
+            <?php Session::forget('deleted'); ?>
+        @endif
         <table class="table table-list table-hover table-striped">
             <thead>
                 <tr>
@@ -140,6 +146,28 @@
         </div>
     @endif
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>Are you sure you want to delete this document?</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ asset('document/update') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 @section('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>

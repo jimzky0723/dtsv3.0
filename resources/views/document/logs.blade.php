@@ -76,7 +76,7 @@ $code = Session::get('doc_type_code');
                         <option <?php if($code=='GENERAL') echo 'selected'; ?> value="GENERAL">General Documents</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>
+                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Filter</button>
                 @if(count($documents))
                     <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
                 @endif
@@ -132,8 +132,9 @@ $code = Session::get('doc_type_code');
                             <em>({{ Section::find($user->section)->description }})</em>
                         </td>
                         @else
-                        <td></td>
-                        <td></td>
+                        <td colspan="2" class="text-center" style="vertical-align: middle;">
+                            <button data-toggle="modal" data-target="#releaseTo" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Release To</button>
+                        </td>
                         @endif
                         <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     </tr>
@@ -147,6 +148,20 @@ $code = Session::get('doc_type_code');
             </div>
         @endif
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="releaseTo" style="margin-top: 30px;z-index: 99999;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="text-success"><i class="fa fa-send"></i> Select Destination</h4>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('plugin')
     <script>

@@ -36,7 +36,7 @@ $online = Doc::countOnlineUsers();
         <div class="panel-heading">
             <h3 class="panel-title">PENDING DOCUMENTS</h3>
             @if($count_pending>0)
-                <small><a href="#allPending" data-toggle="modal" style="color:#fff;" class="viewAllPending">[{{ $count_pending }} Documents]</a></small>
+                <small><a href="{{ asset('document/pending') }}" style="color:#fff">[{{ $count_pending }} Documents]</a></small>
             @endif
         </div>
         <div class="panel-body">
@@ -52,18 +52,9 @@ $online = Doc::countOnlineUsers();
                     Session::put('date_in',array($pend->date_in));
                     ?>
                     <tr><td>From: {{ $user->fname.' '.$user->lname }}</td></tr>
-                    <input type="hidden" data-div="div-{{ $pend->id }}" class="duration" value="{{ $pend->date_in }}">
                     <tr>
                         <td>
-                            <body onload=display_duration();>
-                            Duration: <font id='{{ $duration }}'></font>
-                            <?php
-                            $_SESSION['count'][$count] = $pend->date_in;
-                            /*echo $_SESSION['count'][$count]." ".$count;*/
-                            $count++;
-                            $duration = "duration".$count;
-                            ?>
-                            </body>
+                           {{ Doc::timeDiff($pend->date_in) }}
                         </td>
                     </tr>
                     <tr><td>

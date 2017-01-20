@@ -25,6 +25,7 @@ Route::post('document', 'DocumentController@search');
 Route::get('document/accept', 'DocumentController@accept')->middleware('access');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
+Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
@@ -34,6 +35,7 @@ Route::post('document/update','DocumentController@update');
 Route::get('document/create/{type}','DocumentController@formDocument');
 Route::post('document/create','DocumentController@createDocument');
 Route::get('document/viewPending','DocumentController@countPendingDocuments');
+Route::get('document/pending','DocumentController@allPendingDocuments');
 
 Route::get('document/doctype/{doctype}',function($doctype){
     return \App\Http\Controllers\DocumentController::docTypeName($doctype);
