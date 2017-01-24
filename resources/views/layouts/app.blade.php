@@ -1,10 +1,14 @@
 <?php
 use App\Section;
+use App\Release;
 use Illuminate\Support\Facades\Session;
 if(!Session::get('is_login')){
     \App\Http\Controllers\SystemController::logDefault('Logged In');
     Session::put('is_login',true);
 }
+$count_report = Release::where('status',1)
+            ->where('section_id',Auth::user()->section)
+            ->count();
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +42,8 @@ if(!Session::get('is_login')){
     <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
     <!--CHOOSEN SELECT -->
     <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
 
     @yield('css')
     <style>
@@ -145,7 +151,7 @@ if(!Session::get('is_login')){
                         </ul>
                     </li>
                 @endif
-                @if(Auth::user()->user_priv==1)
+                @if(Auth::user()->user_priv==0)
                 <li>
                     <a href="javascript:void(0)" data-link="{{ asset('feedback') }}" id="feedback" title="Write a feedback" data-trigger="focus" data-container="body"  data-placement="top" data-content="Help us improve our system by just sending feedback.">
                         <i class="fa fa-sign-out"></i> Feedback
@@ -154,10 +160,18 @@ if(!Session::get('is_login')){
                 @endif
                 <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>
+                        Account
+                        @if($count_report)
+                        <span class="badge" style="background:#eb9316;">{{ $count_report }}</span>
+                        @endif
+                        <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
                         <li class="divider"></li>
+                        @if($count_report)
+                            <li style="background:#eb9316;"><a href="{{ url('reported') }}"><i class="fa fa-warning"></i>&nbsp;&nbsp; Section Reported</a></li>
+                        @endif
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
@@ -208,7 +222,6 @@ if(!Session::get('is_login')){
 <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
-@yield('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
@@ -219,10 +232,14 @@ if(!Session::get('is_login')){
 <!-- CKEDITOR -->
 <script src="{{ asset('resources/plugin/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('resources/plugin/ckeditor/adapters/jquery.js') }}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+@yield('plugin')
 <script>
     $('#reservation').daterangepicker();
     $('.daterange').daterangepicker();
-    $('.chosen-select').chosen();
+    $('.chosen-select').chosen({width: "100%"});
+    $('.chosen-select-static').chosen();
 
     function checkDocTye(){
         var doc = $('select[name="doc_type"]').val();
@@ -238,6 +255,10 @@ if(!Session::get('is_login')){
             return true;
         },1000);
     }
+
+    $('.form-submit').on('submit',function(){
+        $('.btn-submit').attr("disabled", true);
+    });
 
     $("a[href='#feedback']").on('click',function(){
         alert("Hello");

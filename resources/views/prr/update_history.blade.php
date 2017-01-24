@@ -4,7 +4,7 @@ $item_no = 1;
 $prr_logs_count = 0;
 use App\Users;
 use App\Designation;
-use App\prr_item_logs;
+use App\prr_item;
 ?>
 <html>
 <head>
@@ -58,15 +58,16 @@ use App\prr_item_logs;
 </head>
 <br>
 <?php
-if(count($prr_logs) > 1){
+if(count($prr_logs) >= 1){
     foreach($prr_logs as $prr_logs):
         $prr_logs_count++;
-        $prr_item_logs = prr_item_logs::where("route_no","=",$prr_logs->route_no)
-                                      ->where("prr_logs_key","=",$prr_logs->prr_logs_key)->get();
+        $prr_item = prr_item::where("route_no",$prr_logs->route_no)
+                                      ->where("prr_logs_key",$prr_logs->prr_logs_key)
+                                      ->get();
 ?>
     <body>
         <div style="padding: 5%;margin-top: -5%">
-            <span style="color:green">{{ date('M d, Y h:i:s A',strtotime(date('Y-m-d H:i:s'))) }}</span>
+            <span style="color: blue">Updated Date:</span> <span style="color:green">{{ date('M d, Y h:i:s A',strtotime($prr_logs->updated_date)) }}</span>
             {{--<table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
@@ -85,7 +86,7 @@ if(count($prr_logs) > 1){
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="7" class="align">
-                        <strong>PURCHASE REQUEST</strong>
+                        <strong>PURCHASE REQUEST LAST CREATED</strong>
                     </td>
                 </tr>
                 {{--<tr>
@@ -114,7 +115,7 @@ if(count($prr_logs) > 1){
                     <td id="border-right"><b>Estimated Cost</b></td>
                 </tr>
                 <tbody>
-                @foreach($prr_item_logs as $row)
+                @foreach($prr_item as $row)
                     <tr>
                         <td id="border-bottom" class="align-top">{{ $item_no }}</td>
                         <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
@@ -193,12 +194,12 @@ if(count($prr_logs) > 1){
                 </tr>
                 <tr>
                     <td id="border-top border-bottom">&nbsp;Printed Name:</td>
-                    <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->description)->fname.' '.Users::find($tracking->description)->mname.' '.Users::find($tracking->description)->lname }}</b></u></td>
+                    <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->division_head)->fname.' '.Users::find($tracking->division_head)->mname.' '.Users::find($tracking->division_head)->lname }}</b></u></td>
                     <td id="border-top border-bottom" class="align"><u><b>Jaime S. Bernadas, MD, MGM, CESO III</b></u></td>
                 </tr>
                 <tr>
                     <td id="border-top" >&nbsp;Designation:</td>
-                    <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->description)->designation)->description }}</td>
+                    <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->division_head)->designation)->division_head }}</td>
                     <td id="border-top" class="align">&nbsp;Director IV</td>
                 </tr>
             </table>

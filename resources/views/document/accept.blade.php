@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="col-md-9 wrapper">
+<div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         @if (session('status'))
             <?php
@@ -26,7 +26,7 @@
             @endif
         @endif
         <h2 class="page-header">Accept Documents</h2>
-        <form class="form-accept" id="accept_form" method="post">
+        <form class="form-accept form-submit" id="accept_form" method="post">
             {{ csrf_field() }}
 
             {{--<div class="form-inline form-group">--}}
@@ -37,6 +37,7 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
+                        <th>Accepted By</th>
                         <th>Date In</th>
                         <th>Route No / Barcode</th>
                         <th>Remarks</th>
@@ -45,6 +46,9 @@
                 <tbody>
                 @for($i=0;$i<10;$i++)
                     <tr>
+                        <td>
+                            {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                        </td>
                         <td>
                             {{ date('M d, Y h:i:s A') }}
                         </td>
@@ -57,8 +61,8 @@
                     </tr>
                 @endfor
                 <tr>
-                    <td colspan="3" class="text-right">
-                        <button type="submit" class="btn btn-success btn-accept"><i class="fa fa-plus"></i> Accept Document</button>
+                    <td colspan="4" class="text-right">
+                        <button type="submit" class="btn btn-success btn-lg btn-accept btn-submit"><i class="fa fa-plus"></i> Accept Document</button>
                     </td>
                 </tr>
                 </tbody>
@@ -72,7 +76,7 @@
         </div>
     </div>
 </div>
-@include('sidebar')
+
 @endsection
 
 @section('js')

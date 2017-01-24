@@ -12,8 +12,8 @@ use App\Tracking_Details;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SystemController as System;
-
-Session_start();
+use App\Http\Controllers\ReleaseController as Rel;
+use App\Release;
 
 class DocumentController extends Controller
 {
@@ -51,6 +51,7 @@ class DocumentController extends Controller
     public function update(Request $req)
     {
         $id = $req->currentID;
+        $user_id = Auth::user()->id;
         if($req->submit=='update'){
             $update = array();
             foreach($_POST as $key => $value):
@@ -62,11 +63,11 @@ class DocumentController extends Controller
             endforeach;
             Tracking::where('id',$id)
                 ->update($update);
-            $user_id = Auth::user()->id;
             System::logDocument($user_id,$id);
             Session::put('updated',true);
         }else{
             $route_no = Session::get('route_no');
+            System::logDefault('Deleted',$route_no);
             Tracking::where('route_no',$route_no)->delete();
             Tracking_Details::where('route_no',$route_no)->delete();
             Session::put('deleted',true);
@@ -106,6 +107,14 @@ class DocumentController extends Controller
                 $q->delivered_by = $received_by;
                 $q->action = $request->remarks[$i];
                 $q->save();
+
+                $rel = Release::where('route_no', $route_no)->orderBy('id','desc')->first();
+                $time = Rel::hourDiff($rel->date_reported);
+                if($time < 4){
+                    Release::where('route_no',$route_no)->delete();
+                }else{
+                    Release::where('route_no',$route_no)->update(['status'=>2]);
+                }
                 $status['success'][] = 'Route No. "'. $route_no . '" <strong>ACCEPTED!</strong> ';
                 System::logDefault('Accepted',$route_no);
             }else{
@@ -113,35 +122,6 @@ class DocumentController extends Controller
             }
         endfor;
         return redirect('document/accept')->with('status',$status);
-//        $doc = Tracking::where('route_no',$route_no)
-//                ->orderBy('id','desc')
-//                ->first();
-//
-//        if($doc){
-//            $document = Tracking_Details::where('route_no',$route_no)
-//                ->orderBy('id','desc')
-//                ->first();
-//            if($document):
-//                Tracking_Details::where('route_no',$route_no)
-//                    ->where('received_by',$document->received_by)
-//                    ->update(['status'=> 1]);
-//                $received_by = $document->received_by;
-//            else:
-//                $received_by = $doc->prepared_by;
-//            endif;
-//            $q = new Tracking_Details();
-//            $q->route_no = $route_no;
-//            $q->date_in = date('Y-m-d H:i:s');
-//            $q->received_by = $id;
-//            $q->delivered_by = $received_by;
-//            $q->action = $request->remarks;
-//            $q->save();
-//
-//            System::logDefault('Accepted',$route_no);
-//            return json_encode(array('message' => 'SUCCESS'));
-//        }else{
-//            return json_encode(array('message' => 'ERROR'));
-//        }
     }
 
     public function createDocument(Request $req)
@@ -515,9 +495,11 @@ class DocumentController extends Controller
         return $documents;
     }
 
-    function logsDocument(){
+    static function printLogsDocument()
+    {
         $keyword = Session::get('searchLogs');
         $doc_type = $keyword['doc_type'];
+        $keywordLogs = $keyword['keywordLogs'];
         $id = Auth::user()->id;
 
         $str = $keyword['str'];
@@ -534,9 +516,14 @@ class DocumentController extends Controller
         Session::put('enddate',$enddate);
         Session::put('doc_type',self::docTypeName($doc_type));
         Session::put('doc_type_code',$doc_type);
+        Session::put('keywordLogs',$keywordLogs);
         if($doc_type!='ALL'){
             $data = DB::table('tracking_details')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->where(function($q) use ($keywordLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordLogs%")
+                        ->orwhere('description','like',"%$keywordLogs%");
+                })
                 ->where('doc_type',$doc_type)
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
@@ -548,24 +535,24 @@ class DocumentController extends Controller
         }else{
             $data = DB::table('tracking_details')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->where(function($q) use ($keywordLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordLogs%")
+                        ->orwhere('description','like',"%$keywordLogs%");
+                })
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
                 ->orderBy('date_in','desc');
             $logs = $data->get();
             $documents = $data->paginate(15);
-
         }
-
-        Session::put('logsDocument',$logs);
-        return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str']]);
+        return $logs;
     }
-
-    function sectionLogs(){
-
-        $keyword = Session::get('sectionLogs');
+    function logsDocument(){
+        $keyword = Session::get('searchLogs');
         $doc_type = $keyword['doc_type'];
-        $section = Auth::user()->section;
+        $keywordLogs = $keyword['keywordLogs'];
+        $id = Auth::user()->id;
 
         $str = $keyword['str'];
         $temp1 = explode('-',$str);
@@ -581,12 +568,83 @@ class DocumentController extends Controller
         Session::put('enddate',$enddate);
         Session::put('doc_type',self::docTypeName($doc_type));
         Session::put('doc_type_code',$doc_type);
+        Session::put('keywordLogs',$keywordLogs);
+        if($doc_type!='ALL'){
+            $data = DB::table('tracking_details')
+                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->where(function($q) use ($keywordLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordLogs%")
+                        ->orwhere('description','like',"%$keywordLogs%");
+                })
+                ->where('doc_type',$doc_type)
+                ->where('received_by',$id)
+                ->where('date_in','>=',$startdate)
+                ->where('date_in','<=',$enddate)
+                ->orderBy('date_in','desc');
+            $logs = $data->get();
+            $documents = $data->paginate(15);
+
+        }else{
+            $data = DB::table('tracking_details')
+                ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+                ->where(function($q) use ($keywordLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordLogs%")
+                        ->orwhere('description','like',"%$keywordLogs%");
+                })
+                ->where('received_by',$id)
+                ->where('date_in','>=',$startdate)
+                ->where('date_in','<=',$enddate)
+                ->orderBy('date_in','desc');
+            $logs['data'][] = $data->get();
+            $documents = $data->paginate(15);
+
+        }
+
+        return view('document.logs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str'],'keywordLogs' => $keywordLogs]);
+    }
+
+    function searchLogs(Request $req)
+    {
+        $keyword = array(
+            'doc_type' => $req->doc_type,
+            'str' => $req->daterange,
+            'keywordLogs' => $req->keywordLogs
+        );
+        Session::put('searchLogs',$keyword);
+        return self::logsDocument();
+    }
+
+    function sectionLogs(){
+
+        $keyword = Session::get('sectionLogs');
+        $doc_type = $keyword['doc_type'];
+        $section = Auth::user()->section;
+        $keywordSectionLogs = $keyword['keywordSectionLogs'];
+        $str = $keyword['str'];
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $startdate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $enddate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        Session::put('startdate',$startdate);
+        Session::put('enddate',$enddate);
+        Session::put('doc_type',self::docTypeName($doc_type));
+        Session::put('doc_type_code',$doc_type);
+        Session::put('keywordSectionLogs',$keywordSectionLogs);
         if($doc_type!='ALL'){
             $data = DB::table('tracking_details')
                 ->select('tracking_master.route_no','tracking_master.description','tracking_details.date_in','tracking_details.received_by','tracking_master.doc_type','tracking_details.delivered_by')
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
                 ->leftJoin('section', 'users.section', '=', 'section.id')
+                ->where(function($q) use ($keywordSectionLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordSectionLogs%")
+                        ->orwhere('tracking_master.description','like',"%$keywordSectionLogs%");
+                })
                 ->where('doc_type',$doc_type)
                 ->where('section.id',$section)
                 ->where('date_in','>=',$startdate)
@@ -601,6 +659,10 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
                 ->leftJoin('section', 'users.section', '=', 'section.id')
+                ->where(function($q) use ($keywordSectionLogs){
+                    $q->where('tracking_details.route_no','like',"%$keywordSectionLogs%")
+                        ->orwhere('tracking_master.description','like',"%$keywordSectionLogs%");
+                })
                 ->where('section.id',$section)
                 ->where('date_in','>=',$startdate)
                 ->where('date_in','<=',$enddate)
@@ -611,24 +673,15 @@ class DocumentController extends Controller
         }
         Session::put('logsDocument',$logs);
 
-        return view('document.sectionLogs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str']]);
-    }
-
-    function searchLogs(Request $req)
-    {
-        $keyword = array(
-            'doc_type' => $req->doc_type,
-            'str' => $req->daterange
-        );
-        Session::put('searchLogs',$keyword);
-        return self::logsDocument();
+        return view('document.sectionLogs',['documents' => $documents, 'doc_type' => $doc_type, 'daterange' => $keyword['str'],'keywordSectionLogs' => $keywordSectionLogs]);
     }
 
     function searchSectionLogs(Request $req)
     {
         $keyword = array(
             'doc_type' => $req->doc_type,
-            'str' => $req->daterange
+            'str' => $req->daterange,
+            'keywordSectionLogs' => $req->keywordSectionLogs
         );
         Session::put('sectionLogs',$keyword);
         return self::sectionLogs();

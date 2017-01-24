@@ -18,30 +18,36 @@
 <?php
     use Illuminate\Support\Facades\Session;
 ?>
-@if(!Session::get('features'))
+@if(!Session::get('featuress'))
 <?php Session::put('features',true); ?>
 <div class="modal fade" tabindex="-1" role="dialog" id="notificationModal" style="margin-top: 30px;z-index: 99999 ">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <fieldset>
-                    <legend style="font-weight: bold" class="text-success">WHAT'S NEW</legend>
-                </fieldset>
-                <div class="alert alert-success">
-                    <ul style="font-size: 1.2em;">
-                        <li><strong>Upgraded to Version 3.2</strong>
-                            <ul>
-                                <caption>New Features:</caption>
-                                <li>The document creator can <strong>EDIT</strong> their document.</li>
-                                <li>The user can <strong>VIEW</strong> online users by clicking the <i class="fa fa-users"></i> icon or the link below.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Purchase Request - Regular Purchase</strong> has been removed for the meantime.</li>
-                        <li>Printing <strong>Section Logs</strong> has been fixed.</li>
-                        <li>Minor bugs fixes.</li>
-                    </ul>
-                </div>
+
+                <h3 style="font-weight: bold" class="text-success">WHAT'S NEW</h3>
+
+                <table class="table table-hover">
+                    <tr><td><strong>Upgraded to Version 3.2</strong></td></tr>
+                    <tr><td>Users can <strong>EDIT</strong> document.</td></tr>
+                    <tr><td>Users can <strong>DELETE</strong> unrouted document.</td></tr>
+                    <tr><td>Users can <strong>VIEW</strong> online users by clicking the <i class="fa fa-users"></i> icon or the link below.</td></tr>
+                    <tr><td><strong>All Pending Documents</strong> is added under <em>Document Section.</em></td></tr>
+                    <tr><td>Users can <strong>ACCEPT</strong> multiple document at once.</td></tr>
+                    <tr><td>
+                            In <strong>Print Logs Section</strong>, users can choose which <strong>SECTION</strong> they delivered their document.
+                            <br />
+                            <br />
+                            <div class="alert alert-danger">
+                                Unaccepted document within 2-4 hours will be added to <strong>INCIDENT REPORT</strong>.
+                            </div>
+                        </td></tr>
+                    <tr><td><strong>Purchase Request - Regular Purchase</strong> has been fixed.</td></tr>
+                    <tr><td>Printing <strong>Section Logs</strong> has been fixed.</td></tr>
+                    <tr><td><strong>Keyword field</strong> is added to Print Logs</td></tr>
+                    <tr><td>Minor bugs fixes.</td></tr>
+                </table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

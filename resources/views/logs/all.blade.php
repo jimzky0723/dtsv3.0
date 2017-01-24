@@ -2,8 +2,10 @@
 use Illuminate\Support\Facades\Session;
 use App\Users;
 use App\Section;
+use App\Release;
 use App\Http\Controllers\DocumentController as Doc;
-$documents = Session::get('logsDocument');
+
+$documents = Doc::printLogsDocument();
 
 ?>
 <html>
@@ -75,8 +77,19 @@ $documents = Session::get('logsDocument');
                     <em>({{ Section::find($user->section)->description }})</em>
                 </td>
             @else
-                <td></td>
-                <td></td>
+                <?php $rel = Release::where('route_no', $doc->route_no)->first(); ?>
+                @if($rel)
+                    <td class="text-info">
+                        {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
+                        {{ date('h:i:s A',strtotime($rel->date_reported)) }}<br>
+                    </td>
+                    <td class="text-info">
+                        {{ Section::find($rel->section_id)->description }}
+                    </td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
             @endif
             <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
         </tr>

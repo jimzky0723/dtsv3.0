@@ -117,13 +117,13 @@
             <td>Date: </td>
         </tr>
         <tr>
-            <th id="border-left">Item No</th>
-            <th id="border-right">Qty</th>
-            <th id="border-right">Unit of Issue</th>
-            <th width="35%" id="border-right">Item Description</th>
-            <th id="border-right">Stock No.</th>
-            <th>Estimated Unit Cost</th>
-            <th id="border-right">Estimated Cost</th>
+            <th width="5%" id="border-left">Item No</th>
+            <th width="5%" id="border-right">Qty</th>
+            <th width="5%" id="border-right">Unit of Issue</th>
+            <th width="50%" id="border-right">Item Description</th>
+            <th  id="border-right">Stock No.</th>
+            <th >Estimated Unit Cost</th>
+            <th  id="border-right">Estimated Cost</th>
         </tr>
         <tbody>
         @foreach($item as $row)
@@ -138,16 +138,17 @@
                             $count = 0;
                             $item_no++;
                             echo "<strong>".$row->description."</strong>"."<br>";
-                            if(strlen($row->specification) <= 35){
+                            /*if(strlen($row->specification) <= 35){
                                 echo "<br>".$row->specification."<br>";
                             } else {
                                 for($i=0;$i<=strlen($row->specification);$i++){
                                     if($i % 35 == 0){
-                                        echo "<br>".substr($row->specification,$count,35)."<br>";
+                                        echo "<br>".substr($row->specification,$count,35);
                                         $count = $count + 35;
                                     }
                                 }
-                            }
+                            }*/
+                                echo "<br>".$row->specification;
                             ?>
                         </span>
                 </td>
@@ -204,12 +205,12 @@
         </tr>
         <tr>
             <td id="border-top border-bottom">&nbsp;Printed Name:</td>
-            <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->description)->fname.' '.Users::find($tracking->description)->mname.' '.Users::find($tracking->description)->lname }}</b></u></td>
+            <td id="border-top border-bottom" class="align"><u><b>{{ Users::find($tracking->division_head)->fname.' '.Users::find($tracking->division_head)->mname.' '.Users::find($tracking->division_head)->lname }}</b></u></td>
             <td id="border-top border-bottom" class="align"><u><b>Jaime S. Bernadas, MD, MGM, CESO III</b></u></td>
         </tr>
         <tr>
             <td id="border-top" >&nbsp;Designation:</td>
-            <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->description)->designation)->description }}</td>
+            <td id="border-top" class="align">&nbsp;{{ \App\Designation::find(Users::find($tracking->division_head)->designation)->description }}</td>
             <td id="border-top" class="align">&nbsp;Director IV</td>
         </tr>
     </table>

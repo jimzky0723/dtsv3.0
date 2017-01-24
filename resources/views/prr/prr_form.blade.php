@@ -113,7 +113,7 @@ Use App\Designation;
                             <td id="border-bottom" class="description1 align-top" width="40%">
                                 <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
                                 <br><strong><i>Specification(s)</i></strong>
-                                <textarea type="text" name="specification[]" id="specification1" class="form-control ckeditor" onkeyup="trapping()" required></textarea><small id="E_specification1">required!</small>
+                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" class="form-control ckeditor" onkeyup="trapping()" required></textarea><small id="E_specification1"></small>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
@@ -256,8 +256,8 @@ Use App\Designation;
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary pull-left" onclick="haha();" style="margin-right: 5px;">
-                            <i class="fa fa-download"></i> Generate PDF
+                        <button type="submit" class="btn btn-success pull-left" onclick="haha();" style="margin-right: 5px;">
+                            <i class="fa fa-send"></i> Submit
                         </button>
                     </div>
                 </div>
@@ -268,8 +268,10 @@ Use App\Designation;
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
-    console.log(numeral(1000).format('0,0'));
-    /*$('.chosen-select').chosen();*/
+    var width = $("#my_modal").width() + 200;
+    $("#my_modal").css("width", width);
+    $(".textarea").wysihtml5();
+
     var count = 1;
     var limit = 10;
     var ok = "";
@@ -285,7 +287,6 @@ Use App\Designation;
             url += "?count=" + count;
             $.get(url, function (result) {
                 $(wrapper).append(result);
-                console.log(count);
             });
         }
     }
@@ -344,14 +345,11 @@ Use App\Designation;
     function haha(){
         console.log(count);
     }
+
     function erase(result){
         limit++;
         $("#"+result.val()).remove();
         trapping();
-    }
-
-    function stack(){
-        count = 1;
     }
 
     document.onkeydown = function(evt) {
@@ -363,18 +361,12 @@ Use App\Designation;
             isEscape = (evt.keyCode == 27);
         }
         if (isEscape) {
-            count = 1;
+            $("#my_modal").css("width", width-200);
         }
     };
 
     $("form").submit(function () {
     });
 
-    CKEDITOR.disableAutoInline = true;
-    $(document).ready(function() {
-        $('#document_form').on('shown.bs.modal', function () {
-            CKEDITOR.inline('myModalLabel');
-            CKEDITOR.inline('bodyModal');
-        })
-    });
+
 </script>

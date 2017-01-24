@@ -36,7 +36,6 @@
                 <table class="table table-hover table-striped">
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th width="30%">Route No / Barcode</th>
                         <th width="30%">Document Type</th>
                         <th>From</th>
@@ -45,10 +44,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i = 1 ;?>
                     @foreach($pending as $doc)
                         <tr>
-                            <td><strong>{{ $i++ }}</strong></td>
                             <td>
                                 <a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">
                                 {{ $doc->route_no }}

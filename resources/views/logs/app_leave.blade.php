@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Users;
 use App\Section;
+use App\Release;
 use App\Http\Controllers\AccessController as Access;
 use App\Http\Controllers\DocumentController as Doc;
 
@@ -86,8 +87,19 @@ $section = Auth::user()->section;
                     <em>({{ Section::find($user->section)->description }})</em>
                 </td>
             @else
-                <td></td>
-                <td></td>
+                <?php $rel = Release::where('route_no', $doc->route_no)->first(); ?>
+                @if($rel)
+                    <td class="text-info">
+                        {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
+                        {{ date('h:i:s A',strtotime($rel->date_reported)) }}<br>
+                    </td>
+                    <td class="text-info">
+                        {{ Section::find($rel->section_id)->description }}
+                    </td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
             @endif
             @if($access=='accounting')
                 <td>{{ $doc->dv_no }}</td>

@@ -22,7 +22,7 @@ $filter = Doc::isIncluded($document->doc_type);
         color: #2b542c;
     }
 </style>
-<form action="{{ asset('document/update') }}" method="post">
+<form action="{{ asset('document/update') }}" method="post" class="form-submit">
 {{ csrf_field() }}
 <input type="hidden" name="currentID" value="{{ $document->id }}" />
 <table class="table table-hover table-striped table-info">
