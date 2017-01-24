@@ -134,7 +134,7 @@
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td>
-                        @if($doc->doc_type == 'PRR')
+                        @if($doc->doc_type == 'PRR_S')
                             {!! nl2br($doc->purpose) !!}
                         @else
                             {!! nl2br($doc->description) !!}

@@ -36,16 +36,16 @@
                     <tr><td><strong>All Pending Documents</strong> is added under <em>Document Section.</em></td></tr>
                     <tr><td>Users can <strong>ACCEPT</strong> multiple document at once.</td></tr>
                     <tr><td>
-                            In <strong>Print Logs Section</strong>, users can choose which <strong>SECTION</strong> they delivered their document.
+                            In <strong>Print Logs Section</strong>, users may choose to which <strong>SECTION</strong> they will released their document.
                             <br />
                             <br />
                             <div class="alert alert-danger">
-                                Unaccepted document within 2-4 hours will be added to <strong>INCIDENT REPORT</strong>.
+                                Please be reminded that <strong>UNACCEPTED DOCUMENT</strong> will be directed to <strong>INCIDENT REPORT</strong>  within 2-4 hours for monitoring purposes.
                             </div>
                         </td></tr>
-                    <tr><td><strong>Purchase Request - Regular Purchase</strong> has been fixed.</td></tr>
+                    <tr><td><strong>Purchase Request - Regular Purchase <em>(Supply)</em></strong> has been fixed.</td></tr>
                     <tr><td>Printing <strong>Section Logs</strong> has been fixed.</td></tr>
-                    <tr><td><strong>Keyword field</strong> is added to Print Logs</td></tr>
+                    <tr><td><strong>Keyword field</strong> is added to Print Logs.</td></tr>
                     <tr><td>Minor bugs fixes.</td></tr>
                 </table>
             </div>

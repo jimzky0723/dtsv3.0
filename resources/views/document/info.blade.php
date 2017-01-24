@@ -100,7 +100,8 @@ $filter = Doc::isIncluded($document->doc_type);
     <tr class="{{ $filter[6] }}">
         <td class="text-right">Requested By :</td>
         <td>
-            <input type="text" name="requested_by" class="form-control" value="{{ $document->requested_by }}" {{ $status }} />
+            <?php $user = \App\Users::find($document->requested_by);?>
+            <input type="text" name="requested_by" class="form-control" value="{{ $user->lname }}, {{ $user->fname }}" disabled />
         </td>
     </tr>
     <tr class="{{ $filter[7] }}">
