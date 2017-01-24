@@ -96,10 +96,10 @@ Use App\Designation;
                             <td> </td>
                         </tr>
                         <tr>
-                            <td><b>Option</b></td>
-                            <td><b>Qty</b></td>
-                            <td><b>Unit of Issue</b></td>
-                            <td><b>Item Description</b></td>
+                            <td ><b>Option</b></td>
+                            <td ><b>Qty</b></td>
+                            <td ><b>Unit of Issue</b></td>
+                            <td width="40%"><b>Item Description</b></td>
                             <td><b>Stock No.</b></td>
                             <td><b>Unit Cost</b></td>
                             <td><b>Estimated Cost</b></td>
@@ -116,7 +116,7 @@ Use App\Designation;
                                 <input type="text" name="issue[]" id="issue1" class="form-control" onkeyup="trapping()" required>
                                 <small id="E_issue1">required!</small>
                             </td>
-                            <td id="border-bottom" class="description1 align-top" width="40%">
+                            <td id="border-bottom" class="description1 align-top">
                                 <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
                                 <br><strong><i>Specification(s)</i></strong>
                                 <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()" required></textarea><small id="E_specification1"></small>
