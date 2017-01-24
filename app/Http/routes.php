@@ -95,11 +95,22 @@ Route::get('logout',function(){
 //endjimzky
 
 //rusel
-//PURCHASE REQUEST/REGULAR
-Route::get('document/prCreated','PurchaseRequestController@prCreated');
-Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
-Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
-Route::get('prr_pdf','PurchaseRequestController@prr_pdf');
+//PURCHASE REQUEST/REGULAR SUPPLY
+Route::get('prr_supply_form','PurchaseRequestController@prr_supply_form');
+Route::post('prr_supply_post','PurchaseRequestController@prr_supply_post');
+Route::get('prr_supply_pdf','PurchaseRequestController@prr_supply_pdf');
+Route::get('prr_supply_page','PurchaseRequestController@prr_supply_page');
+Route::post('prr_supply_update','PurchaseRequestController@prr_supply_update');
+Route::get('prr_supply_history','PurchaseRequestController@prr_supply_history');
+Route::get('prr_supply_append','PurchaseRequestController@prr_supply_append');
+//PURCHASE REQUEST/REGULAR MEAL
+Route::get('prr_meal_form','PurchaseRequestController@prr_meal_form');
+Route::post('prr_meal_post','PurchaseRequestController@prr_meal_post');
+Route::get('prr_meal_append','PurchaseRequestController@prr_meal_append');
+Route::get('prr_meal_page','PurchaseRequestController@prr_meal_page');
+Route::get('prr_meal_history','PurchaseRequestController@prr_meal_history');
+Route::post('prr_meal_update','PurchaseRequestController@prr_meal_update');
+Route::get('prr_meal_pdf','PurchaseRequestController@prr_meal_pdf');
 //PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
@@ -139,9 +150,7 @@ Route::get('appointment','AppointmentController@appointment');
 Route::post('appointment','AppointmentController@appointmentSave');
 //PR PDF
 Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
-//APPEND
-Route::get('append','PurchaseRequestController@append');
-//
+//CALENDAR
 Route::get('calendar',function(){
     return view('calendar.calendar');
 });
@@ -169,9 +178,6 @@ Route::get('sendemail', function () {
 
     return "Your email has been sent successfully";
 });
-Route::get('prr','PurchaseRequestController@prr');
-Route::post('update_prr','PurchaseRequestController@update_prr');
-Route::get('update_history','PurchaseRequestController@update_history');
 
 //traya
 //routing slip

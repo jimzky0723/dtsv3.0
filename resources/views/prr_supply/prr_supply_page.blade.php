@@ -52,19 +52,25 @@
                     box-shadow: 0 10px 10px -10px #8c8c8c inset;
                 }
             </style>
-            <form method="post" id="form" action="{{ asset('update_prr') }}">
+            <form method="post" id="form" action="{{ asset('prr_supply_update') }}">
                 {{ csrf_field() }}
                 <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
-                <span id="url" data-link="{{ asset('append') }}"></span>
-                <span id="update_history" data-link="{{ asset('update_history') }}"></span>
+                <span id="url" data-link="{{ asset('prr_supply_append') }}"></span>
+                <span id="update_history" data-link="{{ asset('prr_supply_history') }}"></span>
                 <span id="token" data-token="{{ csrf_token() }}"></span>
-                <input type="hidden" name="doc_type" value="PRR">
+                <input type="hidden" name="doc_type" value="PRR_S">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
                 <div class="modal-body">
                     <div class="content-wrapper">
                         <!-- Main content -->
                         <section class="invoice">
                             <div class="table-responsive">
+                                @if(Session::get('updated'))
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-check"></i> Successfully Updated!
+                                    </div>
+                                    <?php Session::forget('updated'); ?>
+                                @endif
                                 <table class="letter-head" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
@@ -281,7 +287,7 @@
                     </div>
                 </div>
             </form>
-            <form action="{{ asset('pdf_pr') }}" method="get" target="_blank">
+            <form action="{{ asset('prr_supply_pdf') }}" method="get" target="_blank">
                 <div class="btn-group btn-group-lg;">
                     <button class="btn btn-primary" type="submit" >
                         <i class="fa fa-download"></i> Generate-PDF</button>

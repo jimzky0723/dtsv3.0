@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class prr_logs extends Model
+class prr_supply extends Model
 {
-    protected $table = 'prr_logs';
+    protected $table = 'prr_supply';
     protected $primaryKey = 'id';
 }
