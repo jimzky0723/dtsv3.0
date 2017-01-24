@@ -85,7 +85,7 @@
                     <li class="dropdown-submenu">
                         <a href="#" data-toogle="dropdown">Purchase Request - Regular Purchase</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Supply</a></li>
+                            <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Supplies</a></li>
                             <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_meal_form') }}"> Meal</a></li>
                         </ul>
                     </li>

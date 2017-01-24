@@ -130,7 +130,7 @@ use App\Designation;
                 <td></td>
                 <td></td>
                 <td class="global_title align">
-                    <strong><i>{{ $prr_meal_logs->global_title }}</i></strong>
+                    <i>{{ $prr_meal_logs->global_title }}</i>
                 </td>
                 <td></td>
                 <td></td>
@@ -148,8 +148,7 @@ use App\Designation;
                             $total += $row->estimated_cost;
                                 $count = 0;
                                 $meal_no++;
-                                echo "<strong>".$row->description."</strong>"."<br>";
-                                echo "<br>".$row->specification;
+                                echo nl2br($row->description);
                             ?>
                         </span>
                     </td>

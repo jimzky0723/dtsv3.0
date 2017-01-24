@@ -359,6 +359,11 @@ class PurchaseRequestController extends Controller
         Session::put('added',true);
 
         return redirect("/document");
+        /*$count = 0;
+        foreach($request->get('category') as $meal)
+        {
+            echo json_encode($meal);
+        }*/
     }
 
     public function prr_meal_page()
@@ -403,7 +408,6 @@ class PurchaseRequestController extends Controller
 
     public function prr_meal_update(Request $request)
     {
-
         $route_no = Session::get('route_no');
 
         //UPDATE PRR MEAL TABLE
@@ -469,6 +473,11 @@ class PurchaseRequestController extends Controller
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
         return $pdf->stream();
+    }
+
+    public function prr_meal_category()
+    {
+        return view('prr_meal.prr_meal_category');
     }
 
 }

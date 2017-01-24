@@ -31,8 +31,8 @@ Use App\Designation;
     .align-top{
         vertical-align: top;
     }
-    .table1 {
-        width: 100%;
+    .align-bottom{
+        vertical-align: bottom;
     }
     .table1 td {
         border:1px solid #000;
@@ -45,12 +45,13 @@ Use App\Designation;
     {{ csrf_field() }}
     <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
     <span id="url" data-link="{{ asset('prr_meal_append') }}"></span>
+    <span id="category_url" data-link="{{ asset('prr_meal_category') }}"></span>
     <span id="token" data-token="{{ csrf_token() }}"></span>
     <input type="hidden" name="doc_type" value="PRR_M">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
+    <!--
     <div class="modal-body">
         <div class="content-wrapper">
-            <!-- Main content -->
             <section class="invoice">
                 <div class="table-responsive">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
@@ -99,7 +100,7 @@ Use App\Designation;
                             <td><b>Option</b></td>
                             <td><b>Qty</b></td>
                             <td><b>Unit of Issue</b></td>
-                            <td class="align"><b>Item</b></td>
+                            <td class="align" width="50%"><b>Item</b></td>
                             <td><b>Stock No.</b></td>
                             <td><b>Unit Cost</b></td>
                             <td><b>Estimated Cost</b></td>
@@ -132,25 +133,49 @@ Use App\Designation;
                             <td id="border-bottom" class="align-top" width="40%">
                                 <div class="description1">
                                     <strong><i>Description</i></strong>
-                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="description[]" id="description1" onkeyup="trapping()" required></textarea>
+                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="description[]" id="description1"  onkeyup="trapping()" required></textarea>
                                     <small id="E_description1"></small>
                                 </div>
                                 <div class="expected1">
                                     <strong><i>Expected:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="text" name="expected[]" id="expected1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <small id="E_expected1">required!</small>
                                 </div>
                                 <div class="date_time1" style="margin-top: 2%">
                                     <strong><i>Date and Time:</i></strong> &nbsp;&nbsp;&nbsp;
                                     <input type="text" name="date_time[]" id="date_time1" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <small id="E_date_time1">required!</small>
                                 </div>
+                                <div id="category_append">
+                                    <div style="margin-top: 2%">
+                                        <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <select name="category[category][0]" id="category1" class="form-control" style="width: 50%;display: inline;">
+                                            <option value="">Select Category</option>
+                                            <option value="AM Snacks">AM Snacks</option>
+                                            <option value="PM Snacks">PM Snacks</option>
+                                            <option value="Buffet Lunch">Buffet Lunch</option>
+                                        </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <a onclick="add_category();" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
                             </td>
                             <td id="border-bottom"></td>
-                            <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
-                            <td id="border-bottom" class="estimated_cost1 align-top">
-                                <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
-                                <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
+                            <td id="border-bottom" class="unit_cost1 align-bottom">
+                                <div id="unit_cost_append" style="margin-bottom: 30%">
+                                    <div style="margin-bottom: 10%;">
+                                        <input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                    </div>
+                                </div>
+                            </td>
+                            <td id="border-bottom" class="estimated_cost1 align-bottom">
+                                <div id="estimated_cost_append" style="margin-bottom: 30%">
+                                    <div style="margin-bottom: 25%;">
+                                        <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
+                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -162,7 +187,7 @@ Use App\Designation;
                             <td id="border-top"></td>
                             <td id="border-top"></td>
                             <td id="border-top"></td>
-                            <td id="border-top"><a onclick="add();" href="#">Add new</a></td>
+                            <td id="border-top"><a onclick="add();" href="#"><i class="fa fa-plus"></i> Add Item</a></td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -284,7 +309,6 @@ Use App\Designation;
                     </div>
                 </div>
                 <hr>
-                <!-- this row will not appear when printing -->
                 <div class="row no-print">
                     <div class="col-xs-12">
                         <button type="submit" class="btn btn-success pull-left" onclick="haha();" style="margin-right: 5px;">
@@ -293,6 +317,34 @@ Use App\Designation;
                     </div>
                 </div>
             </section>
+        </div>
+    </div> -->
+    <div id="category_append">
+        <div style="margin-top: 2%">
+            <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select name="category[][]" id="category1" class="form-control" style="width: 50%;display: inline;">
+                <option value="">Select Category</option>
+                <option value="AM Snacks">AM Snacks</option>
+                <option value="PM Snacks">PM Snacks</option>
+                <option value="Buffet Lunch">Buffet Lunch</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div style="margin-top: 2%">
+            <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select name="category[][]" id="category1" class="form-control" style="width: 50%;display: inline;">
+                <option value="">Select Category</option>
+                <option value="AM Snacks">AM Snacks</option>
+                <option value="PM Snacks">PM Snacks</option>
+                <option value="Buffet Lunch">Buffet Lunch</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+    <a onclick="add_category();" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
+    <div class="row no-print">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-success pull-left" onclick="haha();" style="margin-right: 5px;">
+                <i class="fa fa-send"></i> Submit
+            </button>
         </div>
     </div>
 </form>
@@ -396,5 +448,31 @@ Use App\Designation;
             $("#my_modal").css("width", width-100);
         }
     };
+
+    ///CATEGORY
+    var category_count = 1;
+    function add_category()
+    {
+        category_count++;
+        var category_url = $("#category_url").data('link')+"?type=category&category_count=" + category_count;
+        $.get(category_url,function(result){
+            $("#category_append").append(result);
+        });
+        category_url = $("#category_url").data('link')+"?type=unit_cost&category_count=" + category_count;
+        $.get(category_url,function(result){
+            $("#unit_cost_append").append(result);
+        });
+        category_url = $("#category_url").data('link')+"?type=estimated_cost&category_count=" + category_count;
+        $.get(category_url,function(result){
+            $("#estimated_cost_append").append(result);
+        });
+    }
+
+    function remove_category($value)
+    {
+        for(var i=0;i<=category_count;i++){
+            $("#"+$value.data("value")).remove();
+        }
+    }
 
 </script>

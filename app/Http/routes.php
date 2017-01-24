@@ -104,6 +104,7 @@ Route::get('prr_meal_page','PurchaseRequestController@prr_meal_page');
 Route::get('prr_meal_history','PurchaseRequestController@prr_meal_history');
 Route::post('prr_meal_update','PurchaseRequestController@prr_meal_update');
 Route::get('prr_meal_pdf','PurchaseRequestController@prr_meal_pdf');
+Route::get('prr_meal_category', 'PurchaseRequestController@prr_meal_category');
 //PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
