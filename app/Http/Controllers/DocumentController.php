@@ -70,16 +70,17 @@ class DocumentController extends Controller
             System::logDefault('Deleted',$route_no);
             Tracking::where('route_no',$route_no)->delete();
             Tracking_Details::where('route_no',$route_no)->delete();
+            Release::where('route_no',$route_no)->delete();
             Session::put('deleted',true);
         }
-        return redirect('document');
+        return redirect()->back();
     }
     public function saveDocument(Request $request){
         $user = Auth::user();
         $id = $user->id;
         $status = array();
         echo '<pre>';
-        for($i=0;$i<9;$i++):
+        for($i=0;$i<10;$i++):
             if(!$request->route_no[$i])
             {
                 continue;
@@ -111,7 +112,12 @@ class DocumentController extends Controller
                 $rel = Release::where('route_no', $route_no)->orderBy('id','desc')->first();
                 $time = Rel::hourDiff($rel->date_reported);
                 if($time < 4){
-                    Release::where('route_no',$route_no)->delete();
+                    $sec = $user->section;
+                    Release::where('route_no',$route_no)
+                        ->where('section_id',$sec)
+                        ->delete();
+
+                    Release::where('route_no',$route_no)->update(['status'=>2]);
                 }else{
                     Release::where('route_no',$route_no)->update(['status'=>2]);
                 }
@@ -314,7 +320,7 @@ class DocumentController extends Controller
             ->leftJoin('users', 'tracking_details.received_by', '=', 'users.id')
             ->where('received_by',$id)
             ->where('tracking_details.status',0)
-            ->orderBy('tracking_details.id','asc')
+            ->orderBy('tracking_details.id','desc')
             ->paginate(10);
         return view('document.pending',['pending'=> $documents]);
     }

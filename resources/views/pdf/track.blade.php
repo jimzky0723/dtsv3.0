@@ -56,7 +56,8 @@
 </div>
 <table class="upper" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="20%"><center><img src="{{ asset('resources/img/ro7.png') }}" width="100"></center></td>
+        <?php $image_path = '/img/doh.png'; ?>
+        <td width="20%"><center><img src="{{ public_path() . $image_path }}" width="100"></center></td>
         <td width="60%">
             <center>
                 <strong>Republic of the Philippines</strong><br>
@@ -64,8 +65,11 @@
                 <h3 style="margin:0;">DOCUMENT TRACKING SYSTEM<br>(DTS)</h3>
             </center>
         </td>
-        <td width="20%"><?php echo DNS2D::getBarcodeHTML(Session::get('route_no'), "QRCODE",5,5); ?></td>
-        {{--<td width="20%"><center><img src="{{ asset('resources/img/ro7.png') }}" width="100"></center></td>--}}
+        <!--
+            {{--<td width="20%"><?php echo DNS2D::getBarcodeHTML(Session::get('route_no'), "QRCODE",5,5); ?></td>--}}
+        -->
+        <?php $image_path = '/img/ro7.png'; ?>
+        <td width="20%"><center><img src="{{ public_path() . $image_path }}" width="100"></center></td>
     </tr>
 
 </table>

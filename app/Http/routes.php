@@ -28,6 +28,7 @@ Route::get('document/viewPending','DocumentController@countPendingDocuments');
 Route::get('document/pending','DocumentController@allPendingDocuments');
 Route::post('document/release','ReleaseController@addRelease');
 Route::get('document/report/{id}','ReleaseController@addReport');
+Route::get('document/report/{id}/{cancel}','ReleaseController@addReport');
 Route::get('reported','ReleaseController@viewReported');
 
 Route::get('getsections/{id}','ReleaseController@getSections');

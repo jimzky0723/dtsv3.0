@@ -48,6 +48,10 @@
                     <tr><td><strong>Keyword field</strong> is added to Print Logs.</td></tr>
                     <tr><td>Minor bugs fixes.</td></tr>
                 </table>
+                <div class="alert alert-success text-center">
+                    For further assistance, please contact <i class="fa fa-phone-square"></i> 418-4822 or visit ICT Unit.<br />
+                    Thank you!
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

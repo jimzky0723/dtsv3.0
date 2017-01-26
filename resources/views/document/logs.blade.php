@@ -112,6 +112,12 @@ $code = Session::get('doc_type_code');
                 <i class="fa fa-warning"></i> Successfully reported!
             </div>
         @endif
+
+        @if($status=='reportCancelled')
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully cancelled!
+            </div>
+        @endif
         <div class="alert alert-danger error hide">
             <i class="fa fa-warning"></i> Please select Document Type!
         </div>
@@ -163,7 +169,8 @@ $code = Session::get('doc_type_code');
                             <?php $rel = Release::where('route_no', $doc->route_no)->where('status','!=',2)->orderBy('id','desc')->first(); ?>
                             @if($rel)
                                 <?php
-                                    $time = Rel::hourDiff($rel->date_reported);
+                                    $now = date('Y-m-d H:i:s');
+                                    $time = Rel::hourDiff($rel->date_reported,$now);
                                 ?>
                                 <td class="text-info">
                                     {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
@@ -173,12 +180,13 @@ $code = Session::get('doc_type_code');
                                     {{ Section::find($rel->section_id)->description }}
                                     <br />
                                     @if($rel->status==0)
-                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
+                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="changeRoute($(this), '<?php echo $rel->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
                                     @endif
                                     @if($rel->status==0 && $time >= 2)
                                         <a href="{{ asset('document/report/'.$rel->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-warning"></i> Report</a>
                                     @elseif($rel->status==1)
                                         <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-info"></i> Reported</button>
+                                        <a href="{{ asset('document/report/'.$rel->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
                                     @endif
                                 </td>
                             @else
@@ -209,6 +217,7 @@ $code = Session::get('doc_type_code');
                     <form method="POST" action="{{ asset('document/release') }}" name="destinationForm">
                         {{ csrf_field() }}
                         <input type="hidden" name="route_no" id="route_no">
+                        <input type="hidden" name="op" id="op" value="0">
                         <div class="form-group">
                             <label>Division</label>
                             <select name="division" class="chosen-select filter-division" required>
@@ -269,6 +278,14 @@ $code = Session::get('doc_type_code');
         {
             var route_no = form.data('route_no');
             $('#route_no').val(route_no);
+            $('#op').val(0);
+        }
+
+        function changeRoute(form,id)
+        {
+            var route_no = form.data('route_no');
+            $('#route_no').val(route_no);
+            $('#op').val(id);
         }
         function checkDestinationForm(){
             var division = $('.filter-division').val();

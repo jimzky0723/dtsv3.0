@@ -152,28 +152,6 @@
         </div>
     @endif
 </div>
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <strong>Are you sure you want to delete this document?</strong>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <form action="{{ asset('document/update') }}" method="post">
-                    {{ csrf_field() }}
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 @endsection
 @section('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>

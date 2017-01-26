@@ -4,8 +4,14 @@ use App\Users;
 use App\Section;
 use App\Release;
 use App\Http\Controllers\DocumentController as Doc;
+use Illuminate\Support\Facades\Input;
 
-$documents = Doc::printLogsDocument();
+$type = Input::get('type');
+if($type=='section'){
+    $documents = Session::get('logsDocument');
+}else{
+    $documents = Doc::printLogsDocument();
+}
 
 ?>
 <html>
@@ -22,7 +28,7 @@ $documents = Doc::printLogsDocument();
 <body>
 <table class="letter-head" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="20%"><center><img src="{{ asset('resources/img/doh.png') }}" width="100"></center></td>
+        <td width="20%"><center><img src="{{ asset('public/img/doh.png') }}" width="100"></center></td>
         <td width="60%">
             <center>
                 <h4 style="margin:0;">DOCUMENT TRACKING SYSTEM LOGS</h4>
@@ -31,7 +37,7 @@ $documents = Doc::printLogsDocument();
                 {{ date('M d, Y',strtotime(Session::get('startdate'))) }} - {{ date('M d, Y',strtotime(Session::get('enddate'))) }}
             </center>
         </td>
-        <td width="20%"><center><img src="{{ asset('resources/img/ro7.png') }}" width="100"></center></td>
+        <td width="20%"><center><img src="{{ asset('public/img/ro7.png') }}" width="100"></center></td>
     </tr>
 
 </table>

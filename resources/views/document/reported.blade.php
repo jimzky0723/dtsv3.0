@@ -17,6 +17,7 @@ use App\User;
                             <th>Route No / Barcode</th>
                             <th>Delivered Date</th>
                             <th>Delivered By</th>
+                            <th>Duration</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -38,6 +39,7 @@ use App\User;
                                     $user = User::find($doc->reported_by);
                                 ?>
                                 <td>{{ $user->fname.' '.$user->lname }}</td>
+                                <td>{{ Rel::duration($doc->date_reported) }}</td>
                             </tr>
                         @endforeach
                         </tbody>

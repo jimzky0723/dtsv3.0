@@ -2,6 +2,7 @@
     use App\Http\Controllers\DocumentController as Doc;
     use App\User as User;
     use App\Section;
+    use App\Http\Controllers\ReleaseController as Rel;
 ?>
 
 @if(count($document))
@@ -53,7 +54,7 @@
             @if($next && $data['status'][$i]==1)
                 Cycle End
             @else
-                {{ Doc::timeDiff($data['date'][$i],$date) }}
+                {{ Rel::duration($data['date'][$i],$date) }}
             @endif
         </td>
         <td>{!! nl2br($data['remarks'][$i]) !!}</td>
