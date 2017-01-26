@@ -14,6 +14,7 @@ class CreateCalendar extends Migration
             $table->increments('id');
             $table->text('title');
             $table->text('start');
+            $table->text('end');
             $table->text('backgroundColor');
             $table->text('borderColor');
             $table->rememberToken();

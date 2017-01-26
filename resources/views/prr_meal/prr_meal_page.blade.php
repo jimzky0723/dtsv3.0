@@ -6,6 +6,7 @@
             Use App\Division;
             Use App\Section;
             Use App\Designation;
+            use App\prr_meal_category;
             $count = 0;
             $total = 0;
             ?>

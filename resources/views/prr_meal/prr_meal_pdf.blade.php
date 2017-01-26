@@ -1,8 +1,7 @@
 <?php
-$total = 0;
-$meal_no = 1;
-use App\Users;
-use App\Designation;
+    use App\Users;
+    use App\Designation;
+    use App\prr_meal_category;
 ?>
         <!DOCTYPE html>
 <html>
@@ -48,6 +47,9 @@ use App\Designation;
         }
         .align-top{
             vertical-align : top;
+        }
+        .align-bottom{
+            vertical-align : bottom;
         }
         .table1 {
             width: 100%;
@@ -97,7 +99,7 @@ use App\Designation;
         <table class="letter-head" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="7" class="align">
-                    <strong>PURCHASE REQUEST</strong>
+                    <strong>Purchase Request - Regular Purchase - Meal</strong>
                 </td>
             </tr>
             <tr>
@@ -126,37 +128,73 @@ use App\Designation;
                 <th  id="border-right">Estimated Cost</th>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="global_title align">
+                <td id="border-bottom"></td>
+                <td id="border-bottom"></td>
+                <td id="border-bottom"></td>
+                <td id="border-bottom" class="global_title align">
                     <i>{{ $prr_meal_logs->global_title }}</i>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td id="border-bottom"></td>
+                <td id="border-bottom"></td>
+                <td id="border-bottom"></td>
             </tr>
             <tbody>
-            @foreach($meal as $row)
-                <tr>
-                    <td id="border-bottom" class="align-top">{{ $meal_no }}</td>
-                    <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
-                    <td id="border-bottom" class="align-top">{{ $row->issue }}</td>
-                    <td id="border-bottom" class="align-top">
-                        <span class="small-text">
-                            <?php
-                            $total += $row->estimated_cost;
-                                $count = 0;
-                                $meal_no++;
-                                echo nl2br($row->description);
-                            ?>
-                        </span>
-                    </td>
-                    <td id="border-bottom"></td>
-                    <td id="border-bottom" class="align-top"><span style="font-family: DejaVu Sans;">&#x20b1; {{ number_format($row->unit_cost,2) }}</span></td>
-                    <td id="border-bottom" class="align-top"><strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($row->estimated_cost,2) }}</strong></td>
-                </tr>
-            @endforeach
+            <?php
+                $total = 0;
+                $meal_no = 1;
+                $tr_count = 1;
+                foreach($meal as $row):
+                $tr_count == 1 ? $border = 'border-bottom border-top' : $border = 'border-bottom';
+            ?>
+                    <tr>
+                        <td id="{{ $border }}" class="align-top"><p>{{ $meal_no }}</p></td>
+                        <td id="{{ $border }}" class="align-top">{{ $row->qty }}</td>
+                        <td id="{{ $border }}" class="align-top">{{ $row->issue }}</td>
+                        <td id="{{ $border }}" class="align-top">
+                            <span class="small-text">
+                                <?php
+                                    $count = 0;
+                                    $meal_no++;
+                                    echo $row->specification;
+                                ?>
+                                <p>Expected&nbsp;&nbsp;&nbsp;: {{ $row->expected }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Guaranteed: &nbsp;&nbsp;{{ $row->guaranteed }}</p>
+                                <p>Date & Time&nbsp;&nbsp;&nbsp;: {{ $row->date_time }}</p>
+                                <?php
+                                        $category = prr_meal_category::where('category_row',$row->category_row)
+                                                                    ->where('prr_logs_key',$row->prr_logs_key)
+                                                                    ->where('status',1)
+                                                                    ->get();
+                                        foreach($category as $category_desc):
+                                            echo '<p>Category&nbsp;&nbsp;&nbsp;: '.$category_desc->category_desc.'</p>';
+                                        endforeach;
+                                ?>
+                            </span>
+                        </td>
+                        <td id="{{ $border }}"></td>
+                        <td id="{{ $border }}" class="align-bottom">
+                            <div style="margin-bottom: 5px">
+                                @foreach($category as $unit_cost)
+                                <div style="margin-bottom: 6px">
+                                    <span style="font-family: DejaVu Sans;">&#x20b1; {{ number_format($unit_cost->unit_cost,2) }}</span>
+                                </div>
+                                @endforeach
+                            </div>
+                        </td>
+                        <td id="{{ $border }}" class="align-bottom">
+                            <div style="margin-bottom: 5px">
+                                @foreach($category as $estimated_cost)
+                                <div style="margin-bottom: 6px%">
+                                    <strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($estimated_cost->estimated_cost,2) }}</strong>
+                                    <?php $total += $estimated_cost->estimated_cost ?>
+                                </div>
+                                @endforeach
+                            </div>
+                        </td>
+                    </tr>
+            <?php
+                $tr_count++;
+                endforeach;
+            ?>
             </tbody>
             <tr>
                 <td id="border-top"></td>

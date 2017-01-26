@@ -82,7 +82,6 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 //PRINT REPORT
 Route::get('report','AdminController@report');
-
 //ONLINE
 Route::get('online','OnlineController@online');
 //endjimzky
@@ -144,16 +143,18 @@ Route::get('appointment','AppointmentController@appointment');
 Route::post('appointment','AppointmentController@appointmentSave');
 //PR PDF
 Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
-//CALENDAR
+
+////CALENDAR
 Route::get('calendar',function(){
     return view('calendar.calendar');
 });
 Route::get('calendar_form',function(){
     return view('calendar.calendar_form');
 });
-Route::post('calendar_save','PurchaseRequestController@calendar');
+Route::post('calendar_save','CalendarController@calendar');
+Route::post('calendar_update','CalendarController@calendar_update');
 Route::get('calendar_event',function(){
-    return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
+    return \App\Calendar::all(['id','title','start','end','backgroundColor','borderColor']);
 });
 
 Route::get('sendemail', function () {

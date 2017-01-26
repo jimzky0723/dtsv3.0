@@ -1,5 +1,6 @@
 <span id="calendar_event" data-link=" {{ asset('calendar_event') }} "></span>
 <span id="save" data-link=" {{ asset('calendar_save') }} "></span>
+<span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
 <span id="token" data-token="{{ csrf_token() }}"></span>
 <!-- fullCalendar 2.2.5-->
 <link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
@@ -36,17 +37,17 @@
             <div class="box-body">
                 <!-- the events -->
                 <div id="external-events">
-                    {{--<div class="external-event bg-green">Lunch</div>
+                    <div class="external-event bg-green">Lunch</div>
                     <div class="external-event bg-yellow">Go home</div>
                     <div class="external-event bg-aqua">Do homework</div>
                     <div class="external-event bg-light-blue">Work on UI design</div>
                     <div class="external-event bg-red">Sleep tight</div>
                     <div class="checkbox">
-                        <label for="drop-remove">
+                        {{--<label for="drop-remove">
                             <input type="checkbox" id="drop-remove">
                             remove after drop
-                        </label>
-                    </div>--}}
+                        </label>--}}
+                    </div>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -145,6 +146,18 @@
                     events: result,
 
                     editable: true,
+                    eventResize: function(event,delta,revertFunc)
+                    {
+                        var url = $('#calendar_update').data('link');
+                        var json = {
+                            'id' : event.id,
+                            'end' : event.end.format(),
+                            "_token" : $('#token').data('token')
+                        };
+                        $.post(url,json,function(){
+                            console.log("Successfully updated");
+                        });
+                    },
                     droppable: true, // this allows things to be dropped onto the calendar !!!
                     drop: function (date, allDay) { // this function is called when something is dropped
 
@@ -163,11 +176,12 @@
                         // render the event on the calendar
                         // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
                         $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
+                        console.log(date);
                         var url = $('#save').data('link');
                         var json = {
                             'title' : $(this).data('eventObject')['title'],
                             'start' : date.format(),
+                            'end' : date.format(),
                             'background_color' : $(this).css('background-color'),
                             'border_color' : $(this).css('border-color'),
                             "_token" : $('#token').data('token')
@@ -175,6 +189,8 @@
                         $.post(url,json,function(){
                             console.log("Successfully added event");
                         });
+                        $('.loading').show();
+                        location.reload();
                         $(this).remove();
                     }
                 });
