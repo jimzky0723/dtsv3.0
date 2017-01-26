@@ -99,17 +99,23 @@
     @if(count($documents))
     <div class="table-responsive">
         @if(Session::get('updated'))
-            <div class="alert alert-success">
+            <div class="alert alert-info">
                 <i class="fa fa-check"></i> Successfully Updated!
             </div>
             <?php Session::forget('updated'); ?>
         @endif
-            @if(Session::get('added'))
-                <div class="alert alert-success">
-                    <i class="fa fa-check"></i> Successfully Added!
-                </div>
-                <?php Session::forget('added'); ?>
-            @endif
+        @if(Session::get('added'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully Added!
+            </div>
+            <?php Session::forget('added'); ?>
+        @endif
+        @if(Session::get('deleted'))
+            <div class="alert alert-warning">
+                <i class="fa fa-check"></i> Successfully Deleted!
+            </div>
+            <?php Session::forget('deleted'); ?>
+        @endif
         <table class="table table-list table-hover table-striped">
             <thead>
                 <tr>
@@ -128,7 +134,7 @@
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td>
-                        @if($doc->doc_type || $doc->doc_type == 'PRR_S')
+                        @if($doc->doc_type == 'PRR_S' || $doc->doc_type == 'PRR_M')
                             {!! nl2br($doc->purpose) !!}
                         @else
                             {!! nl2br($doc->description) !!}

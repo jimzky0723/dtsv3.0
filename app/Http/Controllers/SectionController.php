@@ -100,7 +100,8 @@ class SectionController extends Controller
     }
 
     static function getSections($id){
-        $sections = Section::where('division',$id)->get();
+        $sections = Section::where('division',$id)->orderBy('description','asc')->get();
         return $sections;
     }
+
 }

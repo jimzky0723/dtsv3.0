@@ -28,6 +28,8 @@ class SystemController extends Controller
         $q->activity = $activity;
         $q->description = $description;
         $q->save();
+
+        return true;
     }
 
     static function logDefault($act,$desc="")
@@ -39,6 +41,8 @@ class SystemController extends Controller
         $q->activity = $act;
         $q->description = $desc;
         $q->save();
+
+        return true;
     }
 
 }

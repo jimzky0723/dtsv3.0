@@ -2,13 +2,23 @@
 use App\Users;
 use App\Section;
 use App\Http\Controllers\DocumentController as Doc;
+use App\Division;
+use App\Release;
+use App\Http\Controllers\ReleaseController as Rel;
 
 $code = Session::get('doc_type_code');
 ?>
 @extends('layouts.app')
 
 @section('content')
-
+    <style>
+        .input-group {
+            margin:5px 0;
+        }
+        label {
+            padding:2px 0px;
+        }
+    </style>
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -25,12 +35,18 @@ $code = Session::get('doc_type_code');
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <input type="text" class="form-control" name="keywordLogs" value="{{ isset($keywordLogs) ? $keywordLogs: null }}" placeholder="Input keyword...">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control" id="reservation" name="daterange" value="{{ isset($daterange) ? $daterange: null }}" placeholder="Input date range here..." required>
                 </div>
                 <div class="input-group">
-                    <select data-placeholder="Select Document Type" name="doc_type" class="chosen-select" tabindex="5" required>
+                    <select data-placeholder="Select Document Type" name="doc_type" class="chosen-select-static" tabindex="5" required>
                         <option value=""></option>
                         <option value="ALL" <?php if($code=='ALL') echo 'selected';?>>All Documents</option>
                         <optgroup label="Disbursement Voucher">
@@ -76,7 +92,7 @@ $code = Session::get('doc_type_code');
                         <option <?php if($code=='GENERAL') echo 'selected'; ?> value="GENERAL">General Documents</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>
+                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Filter</button>
                 @if(count($documents))
                     <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
                 @endif
@@ -84,6 +100,24 @@ $code = Session::get('doc_type_code');
         </form>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
+        <?php $status = session('status'); ?>
+        @if($status=='releaseAdded')
+        <div class="alert alert-success">
+            <i class="fa fa-check"></i> Successfully released!
+        </div>
+        @endif
+
+        @if($status=='reportAdded')
+            <div class="alert alert-info">
+                <i class="fa fa-warning"></i> Successfully reported!
+            </div>
+        @endif
+
+        @if($status=='reportCancelled')
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully cancelled!
+            </div>
+        @endif
         <div class="alert alert-danger error hide">
             <i class="fa fa-warning"></i> Please select Document Type!
         </div>
@@ -132,8 +166,34 @@ $code = Session::get('doc_type_code');
                             <em>({{ Section::find($user->section)->description }})</em>
                         </td>
                         @else
-                        <td></td>
-                        <td></td>
+                            <?php $rel = Release::where('route_no', $doc->route_no)->where('status','!=',2)->orderBy('id','desc')->first(); ?>
+                            @if($rel)
+                                <?php
+                                    $now = date('Y-m-d H:i:s');
+                                    $time = Rel::hourDiff($rel->date_reported,$now);
+                                ?>
+                                <td class="text-info">
+                                    {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
+                                    {{ date('h:i:s A',strtotime($rel->date_reported)) }}<br>
+                                </td>
+                                <td class="text-info">
+                                    {{ Section::find($rel->section_id)->description }}
+                                    <br />
+                                    @if($rel->status==0)
+                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="changeRoute($(this), '<?php echo $rel->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
+                                    @endif
+                                    @if($rel->status==0 && $time >= 2)
+                                        <a href="{{ asset('document/report/'.$rel->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-warning"></i> Report</a>
+                                    @elseif($rel->status==1)
+                                        <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-info"></i> Reported</button>
+                                        <a href="{{ asset('document/report/'.$rel->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                                    @endif
+                                </td>
+                            @else
+                                <td colspan="2" class="text-center" style="vertical-align: middle;">
+                                    <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Release To</button>
+                                </td>
+                            @endif
                         @endif
                         <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     </tr>
@@ -147,12 +207,101 @@ $code = Session::get('doc_type_code');
             </div>
         @endif
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="releaseTo" style="margin-top: 30px;z-index: 99999;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="text-success"><i class="fa fa-send"></i> Select Destination</h4>
+                    <hr />
+                    <form method="POST" action="{{ asset('document/release') }}" name="destinationForm">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="route_no" id="route_no">
+                        <input type="hidden" name="op" id="op" value="0">
+                        <div class="form-group">
+                            <label>Division</label>
+                            <select name="division" class="chosen-select filter-division" required>
+                                <option value="">Select division...</option>
+                                <?php $division = Division::where('description','!=','Default')->orderBy('description','asc')->get(); ?>
+                                @foreach($division as $div)
+                                    <option value="{{ $div->id }}">{{ $div->description }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Section</label>
+                            <select name="section" class="chosen-select filter_section" required>
+                                <option value="">Select section...</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    <button type="submit" class="btn btn-success" onclick="checkDestinationForm()"><i class="fa fa-send"></i> Submit</button>
+                </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('plugin')
     <script>
+        $('.filter-division').show();
         $('#reservation').daterangepicker();
-        $('.chosen-select').chosen();
+        $('.filter-division').on('change',function(){
+            checkDestinationForm();
+            var id = $(this).val();
+            var url = "<?php echo asset('getsections/');?>";
+            $('.loading').show();
+            $('.filter_section').html('<option value="">Select section...</option>')
+            $.ajax({
+                url: url+'/'+id,
+                type: "GET",
+                success: function(sections){
+                    jQuery.each(sections,function(i,val){
+                        $('.filter_section').append($('<option>', {
+                            value: val.id,
+                            text: val.description
+                        }));
+                        $('.filter_section').chosen().trigger('chosen:updated');
+                        $('.filter_section').siblings('.chosen-container').css({border:'2px solid red'});
+                    });
+                    $('.loading').hide();
+                }
+            })
+        });
+        $('.filter_section').on('change',function(){
+            checkDestinationForm();
+        });
 
+        function putRoute(form)
+        {
+            var route_no = form.data('route_no');
+            $('#route_no').val(route_no);
+            $('#op').val(0);
+        }
+
+        function changeRoute(form,id)
+        {
+            var route_no = form.data('route_no');
+            $('#route_no').val(route_no);
+            $('#op').val(id);
+        }
+        function checkDestinationForm(){
+            var division = $('.filter-division').val();
+            var section = $('.filter_section').val();
+            if(division.length == 0){
+                $('.filter-division').siblings('.chosen-container').css({border:'2px solid red'});
+            }else{
+                $('.filter-division').siblings('.chosen-container').css({border:'none'});
+            }
+
+            if(section.length == 0){
+                $('.filter_section').siblings('.chosen-container').css({border:'2px solid red'});
+            }else{
+                $('.filter_section').siblings('.chosen-container').css({border:'none'});
+            }
+        }
         function checkDocTye(){
             var doc = $('select[name="doc_type"]').val();
             if(doc.length == 0){

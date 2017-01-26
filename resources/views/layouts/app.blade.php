@@ -1,10 +1,14 @@
 <?php
 use App\Section;
+use App\Release;
 use Illuminate\Support\Facades\Session;
 if(!Session::get('is_login')){
     \App\Http\Controllers\SystemController::logDefault('Logged In');
     Session::put('is_login',true);
 }
+$count_report = Release::where('status',1)
+            ->where('section_id',Auth::user()->section)
+            ->count();
 ?>
 
 <!DOCTYPE html>
@@ -118,6 +122,7 @@ if(!Session::get('is_login')){
                         @if(Auth::user()->user_priv==1)
                         <li><a href="{{ asset('document/list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; All Documents</a></li>
                         @endif
+                        <li><a href="{{ asset('document/pending') }}"><i class="fa fa-hourglass-1"></i>&nbsp;&nbsp; Pending Documents</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -155,10 +160,18 @@ if(!Session::get('is_login')){
                 @endif
                 <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>
+                        Account
+                        @if($count_report)
+                        <span class="badge" style="background:#eb9316;">{{ $count_report }}</span>
+                        @endif
+                        <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
                         <li class="divider"></li>
+                        @if($count_report)
+                            <li style="background:#eb9316;"><a href="{{ url('reported') }}"><i class="fa fa-warning"></i>&nbsp;&nbsp; Section Reported</a></li>
+                        @endif
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
@@ -209,7 +222,6 @@ if(!Session::get('is_login')){
 <script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
-@yield('plugin')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
@@ -222,10 +234,12 @@ if(!Session::get('is_login')){
 <script src="{{ asset('resources/plugin/ckeditor/adapters/jquery.js') }}"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+@yield('plugin')
 <script>
     $('#reservation').daterangepicker();
     $('.daterange').daterangepicker();
-    $('.chosen-select').chosen();
+    $('.chosen-select').chosen({width: "100%"});
+    $('.chosen-select-static').chosen();
 
     function checkDocTye(){
         var doc = $('select[name="doc_type"]').val();
@@ -241,6 +255,10 @@ if(!Session::get('is_login')){
             return true;
         },1000);
     }
+
+    $('.form-submit').on('submit',function(){
+        $('.btn-submit').attr("disabled", true);
+    });
 
     $("a[href='#feedback']").on('click',function(){
         alert("Hello");
@@ -296,43 +314,6 @@ if(!Session::get('is_login')){
                                 '</tr>';
                     });
                     $('.onlineContent').html(content);
-                },1000);
-
-            }
-        });
-    });
-    $('.viewAllPending').on('click',function(){
-        <?php echo 'var url="'.asset('document/viewPending').'";'; ?>
-        <?php echo 'var doc_url="'.asset('document/doctype/').'";'; ?>
-        $('.pendingContent').html(loadingState);
-        $.ajax({
-            url: url,
-            type: 'GET',
-            success: function(data) {
-                setTimeout(function(){
-                    var content='';
-                    jQuery.each(data, function(i,val){
-                        content += '<div style="border:1px solid #ccc;margin-bottom:10px;"><table class="table '+val.route_no+'">' +
-                                '<tr>' +
-                                '<td><strong>'+val.doc_type+'</strong></td>' +
-                                '</tr>' +
-                                '<tr>' +
-                                '<td>Route # : '+val.route_no+'</td>' +
-                                '</tr>' +
-                                '<tr>' +
-                                '<td>From : '+val.from+'</td>' +
-                                '</tr>' +
-                                '<tr>' +
-                                '<td>Duration : '+val.duration+'</td>' +
-                                '</tr>' +
-                                '<tr>' +
-                                '<td>' +
-                                '<a href="#infoPending" onclick=infoPending($(this)) data-route="'+val.route_no+'" data-link="<?php echo asset('document/info/');?>/'+val.route_no+'" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>'+
-                                '&nbsp;<a href="#" onclick=removePending($(this),"'+val.route_no+'") data-link="<?php echo asset('document/removepending/'); ?>/'+val.id+'" data-id="'+val.id+'" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Done</a>' +
-                                '</tr>' +
-                                '</table></div>';
-                    });
-                    $('.pendingContent').html(content);
                 },1000);
 
             }

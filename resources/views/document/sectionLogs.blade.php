@@ -8,7 +8,11 @@ $code = Session::get('doc_type_code');
 @extends('layouts.app')
 
 @section('content')
-
+    <style>
+        .input-group {
+            margin:5px 0;
+        }
+    </style>
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -23,6 +27,12 @@ $code = Session::get('doc_type_code');
         <form class="form-inline" method="POST" action="{{ asset('document/section/logs') }}" onsubmit="return searchDocument()">
             {{ csrf_field() }}
             <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <input type="text" class="form-control" name="keywordSectionLogs" value="{{ isset($keywordSectionLogs) ? $keywordSectionLogs: null }}" placeholder="Input keyword...">
+                </div>
                 <div class="input-group">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
@@ -76,9 +86,9 @@ $code = Session::get('doc_type_code');
                         <option <?php if($code=='GENERAL') echo 'selected'; ?> value="GENERAL">General Documents</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Submit</button>
+                <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Filter</button>
                 @if(count($documents))
-                    <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
+                    <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type.'?type=section') }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
                 @endif
             </div>
         </form>

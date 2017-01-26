@@ -18,7 +18,7 @@ $filter = Doc::isIncluded($doc_type);
     }
 </style>
 
-<form action="{{ asset('document/create') }}" method="POST">
+<form action="{{ asset('document/create') }}" method="POST" class="form-submit">
     {{ csrf_field() }}
     <input type="hidden" name="doc_type" value="{{ $doc_type }}" />
     <div class="modal-body">
@@ -212,12 +212,16 @@ $filter = Doc::isIncluded($doc_type);
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+        <button type="submit" class="btn btn-success btn-submit"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
 
 <script>
     $('.daterange').daterangepicker({
         orientation: "auto"
+    });
+
+    $('.form-submit').on('submit',function(){
+        $('.btn-submit').attr("disabled", true);
     });
 </script>

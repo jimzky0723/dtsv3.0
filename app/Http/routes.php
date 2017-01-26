@@ -5,16 +5,6 @@ Route::auth();
 
 //jimzky
 Route::get('/','HomeController@index');
-Route::get('logout',function(){
-    $user = Auth::user();
-    echo $id = $user->id;
-    \App\Http\Controllers\SystemController::logDefault('Logged Out');
-    Auth::logout();
-    User::where('id',$id)
-        ->update(['status' => 0]);
-    \Illuminate\Support\Facades\Session::flush();
-    return redirect('login');
-});
 
 Route::get('home', 'HomeController@index');
 Route::get('home/chart', 'HomeController@chart');
@@ -35,7 +25,13 @@ Route::post('document/update','DocumentController@update');
 Route::get('document/create/{type}','DocumentController@formDocument');
 Route::post('document/create','DocumentController@createDocument');
 Route::get('document/viewPending','DocumentController@countPendingDocuments');
+Route::get('document/pending','DocumentController@allPendingDocuments');
+Route::post('document/release','ReleaseController@addRelease');
+Route::get('document/report/{id}','ReleaseController@addReport');
+Route::get('document/report/{id}/{cancel}','ReleaseController@addReport');
+Route::get('reported','ReleaseController@viewReported');
 
+Route::get('getsections/{id}','ReleaseController@getSections');
 Route::get('document/doctype/{doctype}',function($doctype){
     return \App\Http\Controllers\DocumentController::docTypeName($doctype);
 });
@@ -84,6 +80,18 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 Route::get('report','AdminController@report');
 //ONLINE
 Route::get('online','OnlineController@online');
+
+//LOGOUT
+Route::get('logout',function(){
+    $user = Auth::user();
+    echo $id = $user->id;
+    \App\Http\Controllers\SystemController::logDefault('Logged Out');
+    Auth::logout();
+    User::where('id',$id)
+        ->update(['status' => 0]);
+    \Illuminate\Support\Facades\Session::flush();
+    return redirect('login');
+});
 //endjimzky
 
 //rusel
