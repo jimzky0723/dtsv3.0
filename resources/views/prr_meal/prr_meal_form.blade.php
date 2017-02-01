@@ -147,8 +147,8 @@ Use App\Designation;
                                 </div>
                                 <div id="category_append1">
                                     <div style="margin-top: 2%">
-                                        <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <select name="category[1][1]" id="category11" class="form-control" style="width: 70%;display: inline;">
+                                        <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <select name="category[1][1]" id="category11" class="form-control" style="width: 50%;display: inline;">
                                             <option value="">Select Category</option>
                                             <option value="AM Snacks">AM Snacks</option>
                                             <option value="PM Snacks">PM Snacks</option>
@@ -428,6 +428,7 @@ Use App\Designation;
         if(row)
             category_row = row.data('value');
 
+        console.log(category_row);
         category_count++;
         var category_url = $("#category_url").data('link')+"?type=category&row="+category_row+"&category_count=" + category_count;
         $.get(category_url,function(result){

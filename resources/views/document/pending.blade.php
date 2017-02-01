@@ -47,7 +47,7 @@
                     @foreach($pending as $doc)
                         <tr>
                             <td>
-                                <a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">
+                                <a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.Auth::user()->id.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">
                                 {{ $doc->route_no }}
                                 </a>
                             </td>

@@ -365,7 +365,7 @@ function checkDescriptionUpdate(description){
     var url = $(description).data('link');
     var data = {
         "description" : $(description).val()
-    }
+    };
     $.get(url,data,function(response){
         var res = JSON.parse(response);
         if(res.status == "ok" && $("#uniqueDescription").val() != $(description).val() ) {

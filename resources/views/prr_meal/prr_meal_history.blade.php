@@ -1,10 +1,8 @@
 <?php
-$total = 0;
-$item_no = 1;
-$prr_logs_count = 0;
-use App\Users;
-use App\Designation;
-use App\prr_meal;
+    use App\Users;
+    use App\Designation;
+    use App\prr_meal_specs;
+    use App\prr_meal_category;
 ?>
 <html>
 <head>
@@ -60,8 +58,7 @@ use App\prr_meal;
 <?php
 if(count($prr_meal_logs) >= 1){
     foreach($prr_meal_logs as $prr_meal_logs):
-    $prr_logs_count++;
-    $prr_meal = prr_meal::where("route_no",$prr_meal_logs->route_no)
+    $prr_meal_specs = prr_meal_specs::where("route_no",$prr_meal_logs->route_no)
             ->where("prr_logs_key",$prr_meal_logs->prr_logs_key)
             ->get();
 ?>
@@ -95,26 +92,62 @@ if(count($prr_meal_logs) >= 1){
                 <td></td>
             </tr>
             <tbody>
-            @foreach($prr_meal as $row)
-                <tr>
-                    <td id="border-bottom" class="align-top">{{ $item_no }}</td>
-                    <td id="border-bottom" class="align-top">{{ $row->qty }}</td>
-                    <td id="border-bottom" class="align-top">{{ $row->issue }}</td>
-                    <td id="border-bottom" class="align-top">
-                        <span class="small-text">
-                            <?php
-                                $total += $row->estimated_cost;
+            <?php
+            $total = 0;
+            $meal_no = 1;
+            $tr_count = 1;
+            foreach($prr_meal_specs as $row):
+            $tr_count == 1 ? $border = 'border-bottom border-top' : $border = 'border-bottom';
+            ?>
+            <tr>
+                <td id="{{ $border }}" class="align-top"><p>{{ $meal_no }}</p></td>
+                <td id="{{ $border }}" class="align-top">{{ $row->qty }}</td>
+                <td id="{{ $border }}" class="align-top">{{ $row->issue }}</td>
+                <td id="{{ $border }}" class="align-top">
+                            <span class="small-text">
+                                <?php
                                 $count = 0;
-                                $item_no++;
-                                echo nl2br($row->description);
-                            ?>
-                        </span>
-                    </td>
-                    <td id="border-bottom"></td>
-                    <td id="border-bottom" class="align-top"><span style="font-family: DejaVu Sans;">&#x20b1; {{ number_format($row->unit_cost,2) }}</span></td>
-                    <td id="border-bottom" class="align-top"><strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($row->estimated_cost,2) }}</strong></td>
-                </tr>
-            @endforeach
+                                $meal_no++;
+                                echo $row->specification;
+                                ?>
+                                <p>Expected&nbsp;&nbsp;&nbsp;: {{ $row->expected }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Guaranteed: &nbsp;&nbsp;{{ $row->guaranteed }}</p>
+                                <p>Date & Time&nbsp;&nbsp;&nbsp;: {{ $row->date_time }}</p>
+                                <?php
+                                $category = prr_meal_category::where('category_row',$row->category_row)
+                                        ->where('prr_logs_key',$row->prr_logs_key)
+                                        ->where('status',1)
+                                        ->get();
+                                foreach($category as $category_desc):
+                                    echo '<p>Category&nbsp;&nbsp;&nbsp;: '.$category_desc->category_desc.'</p>';
+                                endforeach;
+                                ?>
+                            </span>
+                </td>
+                <td id="{{ $border }}"></td>
+                <td id="{{ $border }}" class="align-bottom">
+                    <div style="margin-bottom: 5px">
+                        @foreach($category as $unit_cost)
+                            <div style="margin-bottom: 6px">
+                                <span style="font-family: DejaVu Sans;">&#x20b1; {{ number_format($unit_cost->unit_cost,2) }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </td>
+                <td id="{{ $border }}" class="align-bottom">
+                    <div style="margin-bottom: 5px">
+                        @foreach($category as $estimated_cost)
+                            <div style="margin-bottom: 6px%">
+                                <strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($estimated_cost->estimated_cost,2) }}</strong>
+                                <?php $total += $estimated_cost->estimated_cost ?>
+                            </div>
+                        @endforeach
+                    </div>
+                </td>
+            </tr>
+            <?php
+            $tr_count++;
+            endforeach;
+            ?>
             </tbody>
             <tr>
                 <td id="border-top"></td>
@@ -142,8 +175,8 @@ if(count($prr_meal_logs) >= 1){
     } else {
         echo
         '<div>
-                <h4 class="alert alert-success text-center"><strong>No update history</strong></h4>
-            </div>';
+            <h4 class="alert alert-success text-center"><strong>No update history</strong></h4>
+        </div>';
     }
 ?>
 </html>

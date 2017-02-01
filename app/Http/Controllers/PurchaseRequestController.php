@@ -336,11 +336,11 @@ class PurchaseRequestController extends Controller
 
         //ADD PRR MEAL CATEGORY
         $array_keys = array_keys($request->get('category'));
+        $count = 0;
         foreach($array_keys as $row)
         {
             $unit_cost_column = array_keys($request->get('unit_cost')[$row]);
             $estimated_cost_column = array_keys($request->get('estimated_cost')[$row]);
-            $count = 0;
             foreach($request->get('category')[$row] as $category)
             {
                 $category_tbl = new prr_meal_category();
@@ -352,8 +352,8 @@ class PurchaseRequestController extends Controller
                 $category_tbl->prr_logs_key = $prr_logs_key;
                 $category_tbl->status = 1;
                 $category_tbl->save();
-                $count++;
             }
+            $count++;
         }
 
         //ADD TRACKING MASTER
@@ -428,10 +428,12 @@ class PurchaseRequestController extends Controller
         $route_no = Session::get('route_no');
 
         //UPDATE PRR MEAL TABLE
-        prr_meal::where("route_no",$route_no)
+        prr_meal_specs::where("route_no",$route_no)
             ->update(['status' => 0]);
         //UPDATE STATUS IN PRR MEAL LOGS
         prr_meal_logs::where("route_no",$route_no)
+            ->update(['status' => 0]);
+        prr_meal_category::where("route_no",$route_no)
             ->update(['status' => 0]);
 
         //ADD PRR MEAL LOGS
@@ -447,27 +449,47 @@ class PurchaseRequestController extends Controller
         $prr_logs->status = 1;
         $prr_logs->save();
 
-        //ADD ANOTHER PRR TABLE MEAL
+        //ADD PRR TABLE MEAL SPECS
         $count = 0;
         foreach($request->get('expected') as $pr)
         {
-            if($request->get('description')[$count] && $request->get('expected')[$count] && $request->get('date_time')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] != '') {
-                $pr = new prr_meal();
-                $pr->route_no = $route_no;
-                $pr->prr_logs_key = $prr_logs_key;
-                $pr->description = $request->get("description")[$count];
-                $pr->expected = $request->get("expected")[$count];
-                $pr->date_time = $request->get("date_time")[$count];
-                $pr->unit_cost = $request->get("unit_cost")[$count];
-                $pr->estimated_cost = $request->get("estimated_cost")[$count];
-                $pr->status = 1;
-                $pr->save();
+            $pr = new prr_meal_specs();
+            $pr->route_no = $route_no;
+            $pr->specification = $request->get("specification")[$count];
+            $pr->expected = $request->get("expected")[$count];
+            $pr->guaranteed = $request->get("guaranteed")[$count];
+            $pr->date_time = $request->get("date_time")[$count];
+            $pr->category_row = $count;
+            $pr->prr_logs_key = $prr_logs_key;
+            $pr->status = 1;
+            $pr->save();
+            $count++;
+        }
+
+        //ADD PRR MEAL CATEGORY
+        $array_keys = array_keys($request->get('category'));
+        $count = 0;
+        foreach($array_keys as $row)
+        {
+            $unit_cost_column = array_keys($request->get('unit_cost')[$row]);
+            $estimated_cost_column = array_keys($request->get('estimated_cost')[$row]);
+            foreach($request->get('category')[$row] as $category)
+            {
+                $category_tbl = new prr_meal_category();
+                $category_tbl->route_no = $route_no;
+                $category_tbl->category_desc = $category;
+                $category_tbl->unit_cost = $request->get('unit_cost')[$row][$unit_cost_column[$count]];
+                $category_tbl->estimated_cost = $request->get('estimated_cost')[$row][$estimated_cost_column[$count]];
+                $category_tbl->category_row = $count;
+                $category_tbl->prr_logs_key = $prr_logs_key;
+                $category_tbl->status = 1;
+                $category_tbl->save();
             }
             $count++;
         }
 
         Session::put('updated',true);
-        return redirect("/prr_meal_page");
+        return redirect()->back();
     }
 
     public function prr_meal_pdf()

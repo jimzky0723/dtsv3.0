@@ -26,9 +26,15 @@ class SectionController extends Controller
     }
 
     public function searchSection(Request $request){
-        Session::put("searchSection",$request->keyword);
-        return self::section();
+        Session::put("search",$request->search);
+        return $this->searchSectionSave();
     }
+
+    public function searchSectionSave(){
+        $section = Section::where('description','like',"%".Session::get('search')."%")->orderBy('description','asc')->paginate(10);
+        return view('section.section',['section' => $section ]);
+    }
+
     public function addSection()
     {
         $division = Division::all();
@@ -76,10 +82,6 @@ class SectionController extends Controller
         return redirect('section');
     }
 
-    public function searchSectionSave(){
-        $section = Section::where('description','like',"%$keyword%")->orderBy('description','asc')->paginate(10);
-        return view('section.section',['section' => $section ]);
-    }
     public static function getHead($id){
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];

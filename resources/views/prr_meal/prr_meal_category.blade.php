@@ -1,7 +1,7 @@
 @if($_GET['type'] == 'category')
     <div id="{{ $_GET['category_count'] }}" style="margin-top:2%;">
-        <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <select name="category[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="category1" class="form-control" style="width: 70%;display: inline;">
+        <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select name="category[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="category1" class="form-control" style="width: 50%;display: inline;">
             <option value="">Select Category</option>
             <option value="AM Snacks">AM Snacks</option>
             <option value="PM Snacks">PM Snacks</option>

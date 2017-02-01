@@ -293,13 +293,26 @@ class DocumentController extends Controller
         return $filter;
     }
 
-    public function show($route_no,$doc_type=null,$prr_type=null){
-        $document = Tracking::where('route_no',$route_no)
-                        ->first();
+    public function show($route_no,$prepared_by=null,$doc_type=null){
+        //CHECKING THE USER IF SHE/HE WAS CREATED THE DOCUMENT
+        $created_me = Tracking::where('route_no',$route_no)
+                            ->where('prepared_by',$prepared_by)
+                            ->first();
+
+        if($created_me){
+            $document = Tracking::where('route_no',$route_no)
+                ->where('prepared_by',$prepared_by)
+                ->first();
+            $asset = asset('prr_meal_page');
+        } else {
+            $document = Tracking::where('route_no',$route_no)
+                ->first();
+            $asset = asset('prr_meal_pdf');
+        }
+
         Session::put('route_no', $route_no);
         Session::put('doc_type', $doc_type);
-        Session::put('prr_type', $prr_type);
-        return view('document.info',['document' => $document]);
+        return view('document.info',['document' => $document,'asset' => $asset]);
     }
 
     public function track($route_no)

@@ -16,7 +16,7 @@ Route::get('document/accept', 'DocumentController@accept')->middleware('access')
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/info/{route}', 'DocumentController@show');
-Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
+Route::get('document/info/{route}/{prepared_by}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
 Route::get('document/list','AdminController@allDocuments');
@@ -134,7 +134,7 @@ Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
-Route::post('updateSection','SectionController@updateSectionSave');
+Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
 Route::get('searchSection','SectionController@searchSectionSave');
 //CHECK SECTION
@@ -161,10 +161,11 @@ Route::get('calendar_form',function(){
 });
 Route::post('calendar_save','CalendarController@calendar');
 Route::post('calendar_update','CalendarController@calendar_update');
-Route::get('calendar_event',function(){
-    return \App\Calendar::all(['id','title','start','end','backgroundColor','borderColor']);
-});
-
+Route::get('calendar_event','CalendarController@calendar_event');
+Route::get('calendar_id/{event_id}','CalendarController@calendar_id');
+Route::get('calendar_last_id','CalendarController@calendar_last_id');
+Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
+///EMAIL
 Route::get('sendemail', function () {
 
     $data = array(
@@ -174,7 +175,6 @@ Route::get('sendemail', function () {
     Mail::send('emails.welcome', $data, function ($message) {
 
         $message->from('nevermoretayong@gmail.com', 'Learning Laravel');
-
         $message->to('ruseltayong@gmail.com')->subject('Learning Laravel test email');
 
     });

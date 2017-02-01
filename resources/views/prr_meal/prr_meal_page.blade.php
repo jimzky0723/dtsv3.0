@@ -7,8 +7,6 @@
             Use App\Section;
             Use App\Designation;
             use App\prr_meal_category;
-            $count = 0;
-            $total = 0;
             ?>
             <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
             <style>
@@ -38,8 +36,8 @@
                 .align-top{
                     vertical-align: top;
                 }
-                .table1 {
-                    width: 100%;
+                .align-bottom{
+                    vertical-align: bottom;
                 }
                 .table1 td {
                     border:1px solid #000;
@@ -57,9 +55,10 @@
                 {{ csrf_field() }}
                 <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
                 <span id="url" data-link="{{ asset('prr_meal_append') }}"></span>
+                <span id="category_url" data-link="{{ asset('prr_meal_category') }}"></span>
                 <span id="update_history" data-link="{{ asset('prr_meal_history') }}"></span>
                 <span id="token" data-token="{{ csrf_token() }}"></span>
-                <input type="hidden" name="doc_type" value="PRR_S">
+                <input type="hidden" name="doc_type" value="PRR_M">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
                 <div class="modal-body">
                     <div class="content-wrapper">
@@ -139,9 +138,12 @@
                                     </thead>
                                     <tbody class="input_fields_wrap">
                                     <?php
+                                    $count = 0;
+                                    $column = 0;
+                                    $total = 0;
                                     foreach($meal as $row):
-                                    $total += $row->estimated_cost;
-                                    $count++;
+                                        $total += $row->estimated_cost;
+                                        $count++;
                                     ?>
                                     <tr id="{{ $count }}">
                                         <input type="hidden" value="{{ $row->id }}" name="pr_id">
@@ -157,8 +159,8 @@
                                         <td id="border-bottom" class="align-top" width="40%">
                                             <div class="{{ 'description'.$count }}">
                                                 <strong><i>Description</i></strong>
-                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="description[]" id="{{ 'description'.$count }}" onkeyup="trapping()" required>
-                                                    {{ $row->description }}
+                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="{{ 'specification'.$count }}" onkeyup="trapping()" required>
+                                                    {{ $row->specification }}
                                                 </textarea>
                                                 <small id="{{ 'E_description'.$count }}"></small>
                                             </div>
@@ -172,12 +174,54 @@
                                                 <input type="text" name="date_time[]" value="{{ $row->date_time }}" id="{{ 'date_time'.$count }}" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
                                                 <small id="{{ 'E_date_time'.$count }}">required!</small>
                                             </div>
+                                            <div id="{{ 'category_append'.$count }}">
+                                                <div style="margin-top: 2%">
+                                                    <?php
+                                                    $category = prr_meal_category::where('category_row',$row->category_row)
+                                                                ->where('prr_logs_key',$row->prr_logs_key)
+                                                                ->where('status',1)
+                                                                ->get();
+                                                    $category_array = array('AM Snacks','PM Snacks','Buffet Lunch');
+                                                    foreach($category as $category_desc):
+                                                    ?>
+                                                        <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <select name="category[{{ $count }}][{{ $column }}]" id="{{ 'category'.$count.$column }}" class="form-control" style="width: 50%;margin-bottom:2%;display: inline;">
+                                                            <option value="{{ $category_desc->category_desc }}">{{ $category_desc->category_desc }}</option>
+                                                            <?php
+                                                                $column++;
+                                                                for($i=0;$i<count($category_array);$i++){
+                                                                    if($category_desc->category_desc != $category_array[$i])
+                                                                        echo "<option value='".$category_array[$i]."'>".$category_array[$i]."</option>";
+                                                                }
+                                                            ?>
+                                                        </select><br>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                            <a onclick="add_category($(this));" data-value="{{ $count }}" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
                                         </td>
                                         <td id="border-bottom"></td>
-                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
-                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-top">
-                                            <input type="hidden" name="estimated_cost[]" id="{{ 'estimated_cost'.$count }}" value="{{ $row->estimated_cost }}"  class="form-control">
-                                            <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count }}">{{ $row->estimated_cost }} </strong>
+                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-bottom">
+                                            <div id="{{ 'unit_cost_append'.$count }}" style="margin-bottom: 20%">
+                                                <?php $column=0; ?>
+                                                @foreach($category as $unit_cost)
+                                                        <?php $column++; ?>
+                                                    <div style="margin-bottom: 5%;">
+                                                        <input type="text" name="unit_cost[{{ $count }}][{{ $column }}]" id="{{ 'unit_cost'.$count.$column }}" value="{{ $unit_cost->unit_cost }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-bottom">
+                                            <div id="{{ 'estimated_cost_append'.$count }}" style="margin-bottom: 20%">
+                                                <?php $column=0; ?>
+                                                @foreach($category as $estimated_cost)
+                                                    <?php $column++; ?>
+                                                    <div style="margin-bottom: 15%;">
+                                                        <input type="hidden" name="estimated_cost[{{ $count }}][{{ $column }}]" id="{{ 'estimated_cost'.$count.$column }}" value="{{ $estimated_cost->estimated_cost }}"  class="form-control">
+                                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count.$column }}">{{ number_format($estimated_cost->estimated_cost,2) }} </strong>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php
@@ -192,7 +236,7 @@
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
-                                        <td id="border-top"><a onclick="add();" href="#">Add new</a></td>
+                                        <td id="border-top"><a onclick="add();" href="#"><i class="fa fa-plus"></i> Add Item</a></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
@@ -209,6 +253,7 @@
                                         <td class="align" colspan="6"><b>TOTAL</b></td>
                                         <td class="align-top">
                                             <input type="hidden" id="count" value="{{ $count }}">
+                                            <input type="hidden" id="column" value="{{ $column }}">
                                             <input type="hidden" name="amount" id="amount">
                                             <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total">{{ $total }}</strong>
                                         </td>
@@ -343,6 +388,11 @@
         });
         ///END PLUGIN
         var count = $("#count").val();
+        if($("#column").val() != 0)
+            var category_count = $("#column").val();
+        else
+            var category_count = 1;
+
         var limit = 10;
         trapping(event,false);
 
@@ -356,8 +406,7 @@
 
             if(count < limit) {
                 count++;
-                var url = $("#url").data('link');
-                url += "?count=" + count;
+                var url = $("#url").data('link')+"?count="+count+"&category_count=" + category_count;
                 $.get(url, function (result) {
                     $(wrapper).append(result);
                 });
@@ -369,21 +418,17 @@
                 key_code(event);
             var estimated_cost = 0;
             var total = 0;
-            $("#global_title").val() == '' ? ($(".global_title").addClass("has-error"),$("#E_global_title").show()) : ($(".global_title").removeClass("has-error"),$("#E_global_title").hide());
-            for(var i=1; i<=count; i++){
-                if($("#expected"+i).val() == '' || $("#date_time"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#description"+i).val() == '') {
-                    ok = "false";
+            for(var i=1; i<=count; i++)
+            {
+                for (var j = 1; j <= category_count; j++) {
+                    var noComma = parseFloat(numeral($("#unit_cost" + i + j).val()).format('0,0.00').replace(/,/g, ''));
+                    $("#expected" + i).val() && $("#unit_cost" + i + j).val() !== '' ? (parseFloat($("#estimated_cost" + i + j).val($("#expected" + i).val() * noComma))) : $("#estimated_cost" + i + j).val('');
+                    $("#expected" + i).val() && $("#unit_cost" + i + j).val() !== '' ? ($("#e_cost" + i + j).text(numeral($("#expected" + i).val() * noComma).format('0,0.00')), estimated_cost = $("#estimated_cost" + i + j).val()) : ($("#e_cost" + i + j).text(''), estimated_cost = 0);
+
+                    if (estimated_cost){
+                        total += parseFloat(estimated_cost);
+                    }
                 }
-
-                $("#expected"+i).val() == '' ? ($(".expected"+i).addClass("has-error"),$("#E_expected"+i).show()) :($(".expected"+i).removeClass("has-error"),$("#E_expected"+i).hide()) ;
-                $("#date_time"+i).val() == '' ? ($(".date_time"+i).addClass("has-error"),$("#E_date_time"+i).show()) : ($(".date_time"+i).removeClass("has-error"),$("#E_date_time"+i).hide());
-                $("#unit_cost"+i).val() == '' ? ($(".unit_cost"+i).addClass("has-error"),$("#E_unit_cost"+i).show()) : ($(".unit_cost"+i).removeClass("has-error"),$("#E_unit_cost"+i).hide());
-
-                var noComma = parseFloat(numeral($("#unit_cost"+i).val()).format('0,0.00').replace(/,/g, ''));
-                $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? (parseFloat($("#estimated_cost"+i).val($("#expected"+i).val()*noComma))) : $("#estimated_cost"+i).val('');
-                $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#expected"+i).val()*noComma).format('0,0.00')),estimated_cost = $("#estimated_cost"+i).val()) : ($("#e_cost"+i).text(''),estimated_cost = 0);
-
-                total += parseFloat(estimated_cost);
             }
             $("#total").text(numeral(total).format('0,0.00'));
             $("#amount").val(numeral(total).format('0,0.00'));
@@ -458,6 +503,30 @@
                     }
                 });
             },1000);
+        }
+
+
+        ///CATEGORY
+        function add_category(row)
+        {
+            event.preventDefault();
+            var category_row = 1;
+            if(row)
+                category_row = row.data('value');
+
+            category_count++;
+            var category_url = $("#category_url").data('link')+"?type=category&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#category_append"+category_row).append(result);
+            });
+            category_url = $("#category_url").data('link')+"?type=unit_cost&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#unit_cost_append"+category_row).append(result);
+            });
+            category_url = $("#category_url").data('link')+"?type=estimated_cost&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#estimated_cost_append"+category_row).append(result);
+            });
         }
     </script>
 @endsection
