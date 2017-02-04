@@ -37,16 +37,37 @@
     </div>
     <!--CREATE EVENT SIDEBAR -->
     <div class="col-md-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h4 class="box-title">Draggable Events</h4>
+            </div>
+            <div class="box-body">
+                <!-- the events -->
+                <div id="external-events">
+                    {{--<div class="external-event bg-green">Lunch</div>
+                    <div class="external-event bg-yellow">Go home</div>
+                    <div class="external-event bg-aqua">Do homework</div>
+                    <div class="external-event bg-light-blue">Work on UI design</div>
+                    <div class="external-event bg-red">Sleep tight</div>
+                    <div class="checkbox">
+                        <label for="drop-remove">
+                            <input type="checkbox" id="drop-remove">
+                            remove after drop
+                        </label>
+                    </div>--}}
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
         <!-- /. box -->
         <div class="box box-solid">
             <div class="box-header with-border">
-
-                <h3 class="box-title">Events</h3>
+                <h3 class="box-title">Create Event</h3>
             </div>
             <div class="box-body">
                 <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
                     <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                    {{--<ul class="fc-color-picker" id="color-chooser">
+                    <ul class="fc-color-picker" id="color-chooser">
                         <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
@@ -59,53 +80,19 @@
                         <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
-                    </ul>--}}
+                        <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-maroon" href="#"><i class="fa fa-square"></i></a></li>
+                    </ul>
                 </div>
                 <!-- /btn-group -->
                 <div class="form-group">
-                    <textarea id="event_title" type="text" class="form-control" placeholder="Event Title"></textarea>
-                    {{--<button id="add-new-event" type="button" class="pull-left" style="background-color:deepskyblue;color: white;margin-top: 2%;">
+                    <textarea id="new-event" type="text" class="form-control" placeholder="Event Title"></textarea>
+                    <button id="add-new-event" type="button" class="pull-left" style="background-color:deepskyblue;color: white;margin-top: 2%;">
                         <i class="fa fa-plus"></i> ADD EVENT
-                    </button>--}}
+                    </button>
                 </div>
-
                 <!-- /input-group -->
             </div>
-        </div>
-
-        <div class="box box-solid">
-            <div class="box-header with-border">
-                <h4 class="box-title">Legends Color</h4>
-            </div>
-            <div class="box-body">
-                <!-- the events -->
-                <div id="external-events">
-                    <div class="external-event" style="background-color: darkgreen"><p style="color: white">Doctor/ MHOs / CH0s</p></div>
-                    <div class="external-event" style="background-color: darkblue"><p style="color: white">Nurses</p></div>
-                    <div class="external-event" style="background-color: darkcyan"><p style="color: white">Midwives</p></div>
-                    <div class="external-event" style="background-color: darkgoldenrod"><p style="color: white">Medical Technologist</p></div>
-                    <div class="external-event" style="background-color: black"><p style="color: white">Sanitary Inspector</p></div>
-                    <div class="external-event" style="background-color: darksalmon"><p style="color: white">Dentists</p></div>
-                    <div class="external-event" style="background-color: darkmagenta"><p style="color: white">PHO staff</p></div>
-                    <div class="external-event" style="background-color: darkred"><p style="color: white">Hospital staff</p></div>
-
-                    <div class="external-event bg-orange">Engineers (LGU)</div>
-                    <div class="external-event bg-lime">DOH staff</div>
-                    <div class="external-event bg-red">Inter-agency</div>
-                    <div class="external-event bg-purple">Mixed-category</div>
-                    <div class="external-event bg-maroon">NDP</div>
-                    <div class="external-event" style="background-color: indigo"><p style="color: white">RHMPP</p></div>
-                    <div class="external-event bg-olive">UHCI</div>
-                    <div class="external-event bg-aqua"><p style="color: white">Others</p></div>
-                    {{--<div class="checkbox">
-                        <label for="drop-remove">
-                            <input type="checkbox" id="drop-remove">
-                            remove after drop
-                        </label>
-                    </div>--}}
-                </div>
-            </div>
-            <!-- /.box-body -->
         </div>
     </div>
     <p id="tayong"></p>
@@ -236,57 +223,20 @@
                         json = {
                             'id' : id,
                             'event_id' : new Date(),
-                            'title' : $("#event_title").val(),/*$(this).data('eventObject')['title']*/
+                            'title' : $(this).data('eventObject')['title'],
                             'start' : date.format(),
                             'end' : date.format(),
                             'backgroundColor' : $(this).css('background-color'),
                             'borderColor' : $(this).css('border-color'),
                             "_token" : $('#token').data('token')
                         };
-                        if($("#event_title").val()){
-                            var url = $('#save').data('link');
-                            $('#calendar').fullCalendar('renderEvent', json, true);
-                            $.post(url,json,function(){
-                                console.log("Successfully added event");
-                            });
-                            $('#event_title').val('');
-                            /*$(this).remove();*/
-                        } else {
-                            alert("Write event title..");
-                            $('#event_title').focus();
-                        }
 
-                        /*var last_id_url = $("#calendar_last_id").data('link');
-                         $.ajax({
-                         context: this,
-                         url: last_id_url,
-                         type: 'GET',
-                         success: function(res) {
-                         var id = parseInt(res)+1;
-                         json = {
-                         'id' : id,
-                         'event_id' : new Date(),
-                         'title' : $("#event_title").val(),/!*$(this).data('eventObject')['title']*!/
-                         'start' : date.format(),
-                         'end' : date.format(),
-                         'backgroundColor' : $(this).css('background-color'),
-                         'borderColor' : $(this).css('border-color'),
-                         "_token" : $('#token').data('token')
-                         };
-                         if($("#event_title").val()){
-                         var url = $('#save').data('link');
-                         $('#calendar').fullCalendar('renderEvent', json, true);
-                         $.post(url,json,function(){
-                         console.log("Successfully added event");
-                         });
-                         $('#event_title').val('');
-                         /!*$(this).remove();*!/
-                         } else {
-                         alert("Write event title..");
-                         $('#event_title').focus();
-                         }
-                         }
-                         });*/
+                        var url = $('#save').data('link');
+                        $('#calendar').fullCalendar('renderEvent', json, true);
+                        $.post(url,json,function(){
+                            console.log("Successfully added event");
+                        });
+                        $(this).remove();
 
                     }
                 });
@@ -316,26 +266,13 @@
                 event.css({"background-color": currColor, "border-color": currColor, "color": "#fff"}).addClass("external-event");
                 event.html(val);
                 $('#external-events').prepend(event);
-                //Add draggable funtionality
 
+                //Add draggable funtionality
                 ini_events(event);
 
                 //Remove event from text input
                 $("#new-event").val("");
             });
-
         });
-
-        function addEvent(result){
-            $('#calendar_modal').modal('show');
-            $('.modal_content').html(loadingState);
-            $('.modal-title').html('Add New Event');
-            var url = result.data('link');
-            setTimeout(function() {
-                $.get(url,function(data){
-                    $('.modal_content').html(data);
-                });
-            },1000);
-        }
     </script>
 @endsection

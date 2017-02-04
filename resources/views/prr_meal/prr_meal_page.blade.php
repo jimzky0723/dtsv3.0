@@ -166,8 +166,9 @@
                                             </div>
                                             <div class="{{ 'expected'.$count }}">
                                                 <strong><i>Expected:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="expected[]" id="{{ 'expected'.$count }}" value="{{ $row->expected }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
-                                                <small id="{{ 'E_expected'.$count }}">required!</small>
+                                                <input type="text" name="expected[]" id="{{ 'expected'.$count }}" value="{{ $row->expected }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
+                                                <strong><i>Guaranteed:</i></strong> &nbsp;&nbsp;&nbsp;
+                                                <input type="text" name="guaranteed[]" id="guaranteed1" value="{{ $row->guaranteed }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
                                             </div>
                                             <div class="{{ 'date_time'.$count }}" style="margin-top: 2%">
                                                 <strong><i>Date and Time:</i></strong> &nbsp;&nbsp;&nbsp;
@@ -289,10 +290,26 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
+                                    <h3>Certification</h3>
+                                    <address>This is to certify that dilligent efforts have been exerted to ensure that the price/s indicated above(in relation to the specifications) is/are within the prevailing market price/s.
+                                    </address>
+
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Designation:</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-md-2 control-label">Requested By:</label>
+                                        <div class="col-md-10">
+                                            <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Designation:</label>
+                                        <div class="col-md-10">
                                             <input id="section_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description }}" readonly>
                                         </div>
                                     </div>
@@ -300,10 +317,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="purpose" class="col-sm-2 control-label">Purpose:</label>
-                                        <div class="col-sm-10">
+                                        <label for="purpose" class="col-md-2 control-label">Purpose:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" id="purpose" name="purpose" readonly>{{ $tracking->purpose }}</textarea>
                                         </div>
                                     </div>
@@ -311,10 +328,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="chargeable" class="col-sm-2 control-label">Chargeable to:</label>
-                                        <div class="col-sm-10">
+                                        <label for="chargeable" class="col-md-2 control-label">Chargeable to:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" name="charge_to" readonly>{{ $tracking->source_fund }}</textarea>
                                         </div>
                                     </div>
@@ -339,13 +356,13 @@
                             <br>
 
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Printed Name:</label>
-                                    <div class="col-sm-10">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Printed Name:</label>
+                                    <div class="col-md-10">
                                         <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->division_head)->fname.' '.App\Users::find($tracking->division_head)->mname.' '.App\Users::find($tracking->division_head)->lname }}" readonly>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-md-6">
                                     <center>
                                         <strong>JAIME S. BERNADAS, MD, MGM, CESO III</strong><br>
                                         Director IV
@@ -353,9 +370,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Designation:</label>
-                                    <div class="col-sm-10">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Designation:</label>
+                                    <div class="col-md-10">
                                         <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->division_head)->designation)->description }}" readonly>
                                     </div>
                                 </div>

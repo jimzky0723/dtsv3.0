@@ -20,6 +20,7 @@ use App\prr_supply_logs;
 use App\prr_meal_specs;
 use App\prr_meal_logs;
 use App\prr_meal_category;
+use App\Http\Controllers\SystemController;
 
 class PurchaseRequestController extends Controller
 {
@@ -147,8 +148,10 @@ class PurchaseRequestController extends Controller
         $q->action = $request->get('purpose');
         $q->save();
 
-        Session::put('added',true);
+        //SYSTEM LOGS
+        SystemController::logDefault("created",$route_no);
 
+        Session::put('added',true);
         return redirect()->back();
     }
 
@@ -245,6 +248,9 @@ class PurchaseRequestController extends Controller
             $count++;
         }
 
+        //SYSTEM LOGS
+        SystemController::logDefault("updated",$route_no);
+
         Session::put('updated',true);
         return redirect()->back();
     }
@@ -309,18 +315,6 @@ class PurchaseRequestController extends Controller
         $count = 0;
         foreach($request->get('expected') as $pr)
         {
-            /*if($request->get('description')[$count] && $request->get('expected')[$count] && $request->get('guaranteed')[$count] && $request->get('date_time')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] != '') {
-                $pr = new prr_meal_specs();
-                $pr->route_no = $route_no;
-                $pr->specification = $request->get("specification")[$count];
-                $pr->expected = $request->get("expected")[$count];
-                $pr->guaranteed = $request->get("guaranteed")[$count];
-                $pr->date_time = $request->get("date_time")[$count];
-                $pr->category_row = $count;
-                $pr->prr_logs_key = $prr_logs_key;
-                $pr->status = 1;
-                $pr->save();
-            }*/
             $pr = new prr_meal_specs();
             $pr->route_no = $route_no;
             $pr->specification = $request->get("specification")[$count];
@@ -336,11 +330,12 @@ class PurchaseRequestController extends Controller
 
         //ADD PRR MEAL CATEGORY
         $array_keys = array_keys($request->get('category'));
-        $count = 0;
+        $category_row = 0;
         foreach($array_keys as $row)
         {
             $unit_cost_column = array_keys($request->get('unit_cost')[$row]);
             $estimated_cost_column = array_keys($request->get('estimated_cost')[$row]);
+            $count = 0;
             foreach($request->get('category')[$row] as $category)
             {
                 $category_tbl = new prr_meal_category();
@@ -348,12 +343,14 @@ class PurchaseRequestController extends Controller
                 $category_tbl->category_desc = $category;
                 $category_tbl->unit_cost = $request->get('unit_cost')[$row][$unit_cost_column[$count]];
                 $category_tbl->estimated_cost = $request->get('estimated_cost')[$row][$estimated_cost_column[$count]];
-                $category_tbl->category_row = $count;
+                $category_tbl->category_row = $category_row;
                 $category_tbl->prr_logs_key = $prr_logs_key;
                 $category_tbl->status = 1;
                 $category_tbl->save();
+
+                $count++;
             }
-            $count++;
+            $category_row++;
         }
 
         //ADD TRACKING MASTER
@@ -378,8 +375,10 @@ class PurchaseRequestController extends Controller
         $q->action = $request->get('purpose');
         $q->save();
 
-        Session::put('added',true);
+        //SYSTEM LOGS
+        SystemController::logDefault("created",$route_no);
 
+        Session::put('added',true);
         return redirect()->back();
     }
 
@@ -468,11 +467,12 @@ class PurchaseRequestController extends Controller
 
         //ADD PRR MEAL CATEGORY
         $array_keys = array_keys($request->get('category'));
-        $count = 0;
+        $category_row = 0;
         foreach($array_keys as $row)
         {
             $unit_cost_column = array_keys($request->get('unit_cost')[$row]);
             $estimated_cost_column = array_keys($request->get('estimated_cost')[$row]);
+            $count = 0;
             foreach($request->get('category')[$row] as $category)
             {
                 $category_tbl = new prr_meal_category();
@@ -480,13 +480,18 @@ class PurchaseRequestController extends Controller
                 $category_tbl->category_desc = $category;
                 $category_tbl->unit_cost = $request->get('unit_cost')[$row][$unit_cost_column[$count]];
                 $category_tbl->estimated_cost = $request->get('estimated_cost')[$row][$estimated_cost_column[$count]];
-                $category_tbl->category_row = $count;
+                $category_tbl->category_row = $category_row;
                 $category_tbl->prr_logs_key = $prr_logs_key;
                 $category_tbl->status = 1;
                 $category_tbl->save();
+
+                $count++;
             }
-            $count++;
+            $category_row++;
         }
+
+        //SYSTEM LOGS
+        SystemController::logDefault("updated",$route_no);
 
         Session::put('updated',true);
         return redirect()->back();

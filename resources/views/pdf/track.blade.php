@@ -61,7 +61,7 @@
         <td width="60%">
             <center>
                 <strong>Republic of the Philippines</strong><br>
-                Depart of Health - Regional Office 7<br>
+                Department of Health - Regional Office 7<br>
                 <h3 style="margin:0;">DOCUMENT TRACKING SYSTEM<br>(DTS)</h3>
             </center>
         </td>

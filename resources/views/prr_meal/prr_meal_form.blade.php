@@ -131,8 +131,8 @@ Use App\Designation;
                             </td>
                             <td id="border-bottom" class="align-top" width="40%">
                                 <div class="specification1">
-                                    <strong><i>Description</i></strong>
-                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="description1" onkeyup="trapping()" required></textarea>
+                                    <strong><i>Specification/Activities</i></strong>
+                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()" required></textarea>
                                     <small id="E_specification1"></small>
                                 </div>
                                 <div class="expected1">
@@ -321,7 +321,7 @@ Use App\Designation;
 <div class="clearfix"></div>
 <script>
     var width = $("#my_modal").width() + 100;
-    $("#my_modal").css("width", width);
+    //$("#my_modal").css("width", width);
     $(".textarea").wysihtml5();
 
     var count = 1;
@@ -416,7 +416,7 @@ Use App\Designation;
             isEscape = (evt.keyCode == 27);
         }
         if (isEscape) {
-            $("#my_modal").css("width", width-100);
+            //$("#my_modal").css("width", width-100);
         }
     };
 
@@ -428,7 +428,6 @@ Use App\Designation;
         if(row)
             category_row = row.data('value');
 
-        console.log(category_row);
         category_count++;
         var category_url = $("#category_url").data('link')+"?type=category&row="+category_row+"&category_count=" + category_count;
         $.get(category_url,function(result){
@@ -446,7 +445,12 @@ Use App\Designation;
 
     function remove_category($value)
     {
+        //$value.parent('div').css({"background-color": "blue", "border": "2px solid blue"});
         $value.parent('div').remove();
+        $("#parent_unit_cost"+$value.data('value')).remove();
+        $("#parent_estimated_cost"+$value.data('value')).remove();
+        console.log($value.data('value'));
+        trapping();
     }
 
 </script>

@@ -81,9 +81,9 @@
                         </ul>
                     </li>
                     <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PO">Purchase Order</a></li>
-                    <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PRC">Purchase Request - Cash Advance Purchase</a></li>
+                    <!-- <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PRC">Purchase Request - Cash Advance Purchase</a></li> -->
                     <li class="dropdown-submenu">
-                        <a href="#" data-toogle="dropdown">Purchase Request - Regular Purchase</a>
+                        <a href="#" data-toogle="dropdown">Purchase Request</a>
                         <ul class="dropdown-menu">
                             <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Supplies</a></li>
                             <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_meal_form') }}"> Meal</a></li>

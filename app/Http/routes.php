@@ -156,6 +156,9 @@ Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
 Route::get('calendar',function(){
     return view('calendar.calendar');
 });
+Route::get('calendar_hyazel',function(){
+    return view('calendar.calendar_hyazel');
+});
 Route::get('calendar_form',function(){
     return view('calendar.calendar_form');
 });

@@ -246,9 +246,9 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
             case "PRR_S":
-                return "Purchase Request - Regular Purchase - Supply";
+                return "Purchase Request - Supplies";
             case "PRR_M":
-                return "Purchase Request - Regular Purchase - Meal";
+                return "Purchase Request - Meal";
             case "REPORT":
                 return "Reports";
             case "GENERAL" :

@@ -1,6 +1,6 @@
 <tr id="{{ $_GET['count'] }}">
     <td id="border-bottom" class="align-top">
-        <!-- <button type="button" value="{{ $_GET['count'] }}" onclick="erase($(this))" class="btn-sm"><small><i class="glyphicon glyphicon-remove"></i></small></button> -->
+        <button type="button" value="{{ $_GET['count'] }}" onclick="erase($(this))" class="btn-sm"><small><i class="glyphicon glyphicon-remove"></i></small></button>
     </td>
     <td id="border-bottom">
 
@@ -27,7 +27,7 @@
         <div id="{{ 'category_append'.$_GET['count'] }}">
             <div style="margin-top: 2%">
                 <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <select name="category[{{ $_GET['count'] }}][{{ $_GET['category_count'] }}]" id="{{ 'category'.$_GET['count'].$_GET['category_count'] }}" class="form-control" style="width: 50%;display: inline;">
+                <select name="category[{{ $_GET['count'] }}][{{ $_GET['category_count'] }}]" id="{{ 'category'.$_GET['count'].$_GET['category_count'] }}" class="form-control" style="width: 50%;display: inline;" required>
                     <option value="">Select Category</option>
                     <option value="AM Snacks">AM Snacks</option>
                     <option value="PM Snacks">PM Snacks</option>

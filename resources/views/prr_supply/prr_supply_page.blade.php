@@ -194,14 +194,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <h3>Certification</h3>
                                     <address>This is to certify that dilligent efforts have been exerted to ensure that the price/s indicated above(in relation to the specifications) is/are within the prevailing market price/s.
                                     </address>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Requested By:</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-md-2 control-label">Requested By:</label>
+                                        <div class="col-md-10">
                                             <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
                                         </div>
                                     </div>
@@ -210,10 +210,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Designation:</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-md-2 control-label">Designation:</label>
+                                        <div class="col-md-10">
                                             <input id="section_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description }}" readonly>
                                         </div>
                                     </div>
@@ -221,10 +221,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="purpose" class="col-sm-2 control-label">Purpose:</label>
-                                        <div class="col-sm-10">
+                                        <label for="purpose" class="col-md-2 control-label">Purpose:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" id="purpose" name="purpose" readonly>{{ $tracking->purpose }}</textarea>
                                         </div>
                                     </div>
@@ -232,10 +232,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="chargeable" class="col-sm-2 control-label">Chargeable to:</label>
-                                        <div class="col-sm-10">
+                                        <label for="chargeable" class="col-md-2 control-label">Chargeable to:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" name="charge_to" readonly>{{ $tracking->source_fund }}</textarea>
                                         </div>
                                     </div>
@@ -260,13 +260,13 @@
                             <br>
 
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Printed Name:</label>
-                                    <div class="col-sm-10">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Printed Name:</label>
+                                    <div class="col-md-10">
                                         <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->division_head)->fname.' '.App\Users::find($tracking->division_head)->mname.' '.App\Users::find($tracking->division_head)->lname }}" readonly>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-md-6">
                                     <center>
                                         <strong>JAIME S. BERNADAS, MD, MGM, CESO III</strong><br>
                                         Director IV
@@ -274,9 +274,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Designation:</label>
-                                    <div class="col-sm-10">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Designation:</label>
+                                    <div class="col-md-10">
                                         <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->division_head)->designation)->description }}" readonly>
                                     </div>
                                 </div>
@@ -310,17 +310,6 @@
 
 @section('js')
     <script>
-        //function addMore(){
-            //event.preventDefault();
-            //var tr_object = $('#tayong').children().clone();
-            /*var tr_object = $('tbody').find('tr:first').clone();
-             // getting and renaming existing textarea by name.
-             $(tr_object).find('textarea[name="question_option_1"]').attr("name", "question_option_"+'1'+"");
-             $(tr_object).find('input').val('');
-             $(tr_object).find('td:last').html('<a href="javascript:void(0)" class="btn btn-danger remove_more">Remove</a>');*/
-            //$('.haha').append(tr_object);
-            //$('.hehe').append("Rusel Tayong");
-        //}
         ///PLUGIN
         $(".textarea").wysihtml5();
         $('.datepickercalendar').datepicker({
@@ -345,9 +334,6 @@
                 url += "?count=" + count;
                 $.get(url, function (result) {
                     $(wrapper).append(result);
-                    /*var ckeditor = $('#tayong').children().clone();
-                    $(ckeditor).find('textarea[name="specification1"]').attr("name", "specification"+count+"");
-                    $('.ckeditor'+count).append(ckeditor);*/
                 });
             }
 
@@ -453,13 +439,6 @@
                 });
             },1000);
         }
-
-        /*CKEDITOR.on('instanceReady', function(e) {
-            console.log($('.cke_contents iframe').contents()[0].body.innerText);
-            $('.cke_contents iframe').contents().keyup(function(){
-                console.log($(this.body).html());
-            });
-        });*/
 
     </script>
 @endsection
