@@ -8,9 +8,9 @@ use App\Http\Controllers\ReleaseController as Rel;
 
 $code = Session::get('doc_type_code');
 ?>
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <style>
         .input-group {
             margin:5px 0;
@@ -19,31 +19,32 @@ $code = Session::get('doc_type_code');
             padding:2px 0px;
         }
     </style>
-    @if (count($errors) > 0)
+    <?php if(count($errors) > 0): ?>
         <div class="alert alert-danger">
             <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <?php foreach($errors->all() as $error): ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
-    @endif
+    <?php endif; ?>
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Print Document Logs</h2>
-        <form class="form-inline" method="POST" action="{{ asset('document/logs') }}" onsubmit="return searchDocument()">
-            {{ csrf_field() }}
+        <form class="form-inline" method="POST" action="<?php echo e(asset('document/logs')); ?>" onsubmit="return searchDocument()">
+            <?php echo e(csrf_field()); ?>
+
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
                         <i class="fa fa-search"></i>
                     </div>
-                    <input type="text" class="form-control" name="keywordLogs" value="{{ isset($keywordLogs) ? $keywordLogs: null }}" placeholder="Input keyword...">
+                    <input type="text" class="form-control" name="keywordLogs" value="<?php echo e(isset($keywordLogs) ? $keywordLogs: null); ?>" placeholder="Input keyword...">
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control" id="reservation" name="daterange" value="{{ isset($daterange) ? $daterange: null }}" placeholder="Input date range here..." required>
+                    <input type="text" class="form-control" id="reservation" name="daterange" value="<?php echo e(isset($daterange) ? $daterange: null); ?>" placeholder="Input date range here..." required>
                 </div>
                 <div class="input-group">
                     <select data-placeholder="Select Document Type" name="doc_type" class="chosen-select-static" tabindex="5" required>
@@ -93,35 +94,35 @@ $code = Session::get('doc_type_code');
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Filter</button>
-                @if(count($documents))
-                    <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
-                @endif
+                <?php if(count($documents)): ?>
+                    <a target="_blank" href="<?php echo e(asset('pdf/logs/'.$doc_type)); ?>" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
+                <?php endif; ?>
             </div>
         </form>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
         <?php $status = session('status'); ?>
-        @if($status=='releaseAdded')
+        <?php if($status=='releaseAdded'): ?>
         <div class="alert alert-success">
             <i class="fa fa-check"></i> Successfully released!
         </div>
-        @endif
+        <?php endif; ?>
 
-        @if($status=='reportAdded')
+        <?php if($status=='reportAdded'): ?>
             <div class="alert alert-info">
                 <i class="fa fa-warning"></i> Successfully reported!
             </div>
-        @endif
+        <?php endif; ?>
 
-        @if($status=='reportCancelled')
+        <?php if($status=='reportCancelled'): ?>
             <div class="alert alert-success">
                 <i class="fa fa-check"></i> Successfully cancelled!
             </div>
-        @endif
+        <?php endif; ?>
         <div class="alert alert-danger error hide">
             <i class="fa fa-warning"></i> Please select Document Type!
         </div>
-        @if(count($documents))
+        <?php if(count($documents)): ?>
             <table class="table table-list table-hover table-striped">
                 <thead>
                 <tr>
@@ -135,87 +136,95 @@ $code = Session::get('doc_type_code');
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($documents as $doc)
+                <?php foreach($documents as $doc): ?>
                     <tr>
                         <td>
-                            <a href="#track" data-link="{{ asset('document/track/'.$doc->route_no) }}" data-route="{{ $doc->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a>
+                            <a href="#track" data-link="<?php echo e(asset('document/track/'.$doc->route_no)); ?>" data-route="<?php echo e($doc->route_no); ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a>
                         </td>
                         <td>
-                            <a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a>
+                            <a class="title-info" data-route="<?php echo e($doc->route_no); ?>" data-link="<?php echo e(asset('/document/info/'.$doc->route_no)); ?>" href="#document_info" data-toggle="modal"><?php echo e($doc->route_no); ?></a>
                             <br>
-                            {!! nl2br($doc->description) !!}
+                            <?php echo nl2br($doc->description); ?>
+
                         </td>
-                        <td>{{ date('M d, Y',strtotime($doc->date_in)) }}<br>{{ date('h:i:s A',strtotime($doc->date_in)) }}</td>
+                        <td><?php echo e(date('M d, Y',strtotime($doc->date_in))); ?><br><?php echo e(date('h:i:s A',strtotime($doc->date_in))); ?></td>
                         <td>
                             <?php $user = Users::find($doc->delivered_by);?>
-                            {{ $user->fname }}
-                            {{ $user->lname }}
+                            <?php echo e($user->fname); ?>
+
+                            <?php echo e($user->lname); ?>
+
                             <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
+                            <em>(<?php echo e(Section::find($user->section)->description); ?>)</em>
                         </td>
                         <?php
                             $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
                         ?>
-                        @if($out)
-                        <td>{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
+                        <?php if($out): ?>
+                        <td><?php echo e(date('M d, Y',strtotime($out->date_in))); ?><br><?php echo e(date('h:i:s A',strtotime($out->date_in))); ?></td>
                         <td>
                             <?php $user = Users::find($out->received_by);?>
-                            {{ $user->fname }}
-                            {{ $user->lname }}
+                            <?php echo e($user->fname); ?>
+
+                            <?php echo e($user->lname); ?>
+
                             <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
+                            <em>(<?php echo e(Section::find($user->section)->description); ?>)</em>
                         </td>
-                        @else
+                        <?php else: ?>
                             <?php $rel = Release::where('route_no', $doc->route_no)->where('status','!=',2)->orderBy('id','desc')->first(); ?>
-                            @if($rel)
+                            <?php if($rel): ?>
                                 <?php
                                     $now = date('Y-m-d H:i:s');
                                     $time = Rel::hourDiff($rel->date_reported,$now);
                                 ?>
                                 <td class="text-info">
-                                    {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
-                                    {{ date('h:i:s A',strtotime($rel->date_reported)) }}<br>
+                                    <?php echo e(date('M d, Y',strtotime($rel->date_reported))); ?><br>
+                                    <?php echo e(date('h:i:s A',strtotime($rel->date_reported))); ?><br>
                                 </td>
                                 <td class="text-info">
-                                    {{ Section::find($rel->section_id)->description }}
+                                    <?php echo e(Section::find($rel->section_id)->description); ?>
+
                                     <br />
-                                    @if($rel->status==0)
-                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="changeRoute($(this), '<?php echo $rel->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
-                                    @endif
-                                    @if($rel->status==0 && $time >= 2)
-                                        <a href="{{ asset('document/report/'.$rel->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-warning"></i> Report</a>
-                                    @elseif($rel->status==1)
+                                    <?php if($rel->status==0): ?>
+                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="<?php echo e($doc->route_no); ?>" onclick="changeRoute($(this), '<?php echo $rel->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
+                                    <?php endif; ?>
+                                    <?php if($rel->status==0 && $time >= 2): ?>
+                                        <a href="<?php echo e(asset('document/report/'.$rel->id)); ?>" class="btn btn-danger btn-xs"><i class="fa fa-warning"></i> Report</a>
+                                    <?php elseif($rel->status==1): ?>
                                         <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-info"></i> Reported</button>
-                                        <a href="{{ asset('document/report/'.$rel->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
-                                    @endif
+                                        <a href="<?php echo e(asset('document/report/'.$rel->id .'/cancel')); ?>" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                                    <?php endif; ?>
                                 </td>
-                            @else
+                            <?php else: ?>
                                 <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                    <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Release To</button>
+                                    <button data-toggle="modal" data-target="#releaseTo" data-route_no="<?php echo e($doc->route_no); ?>" onclick="putRoute($(this))" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Release To</button>
                                 </td>
-                            @endif
-                        @endif
-                        <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <td><?php echo e(\App\Http\Controllers\DocumentController::docTypeName($doc->doc_type)); ?></td>
                     </tr>
-                @endforeach
+                <?php endforeach; ?>
                 </tbody>
             </table>
-            {{ $documents->links() }}
-        @else
+            <?php echo e($documents->links()); ?>
+
+        <?php else: ?>
             <div class="alert alert-warning">
                 <strong><i class="fa fa-warning fa-lg"></i> No documents found! </strong>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="releaseTo" style="margin-top: 30px;z-index: 99999;">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form method="POST" action="{{ asset('document/release') }}" name="destinationForm">
+                <form method="POST" action="<?php echo e(asset('document/release')); ?>" name="destinationForm">
                 <div class="modal-body">
                     <h4 class="text-success"><i class="fa fa-send"></i> Select Destination</h4>
                     <hr />
-                        {{ csrf_field() }}
+                        <?php echo e(csrf_field()); ?>
+
                         <input type="hidden" name="route_no" id="route_no">
                         <input type="hidden" name="op" id="op" value="0">
                         <div class="form-group">
@@ -223,9 +232,9 @@ $code = Session::get('doc_type_code');
                             <select name="division" class="chosen-select filter-division" required>
                                 <option value="">Select division...</option>
                                 <?php $division = Division::where('description','!=','Default')->orderBy('description','asc')->get(); ?>
-                                @foreach($division as $div)
-                                    <option value="{{ $div->id }}">{{ $div->description }}</option>
-                                @endforeach
+                                <?php foreach($division as $div): ?>
+                                    <option value="<?php echo e($div->id); ?>"><?php echo e($div->description); ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
@@ -243,8 +252,8 @@ $code = Session::get('doc_type_code');
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-@endsection
-@section('plugin')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('plugin'); ?>
     <script>
         $('.filter-division').show();
         $('#reservation').daterangepicker();
@@ -317,9 +326,11 @@ $code = Session::get('doc_type_code');
             },2000);
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('css')
+<?php $__env->startSection('css'); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

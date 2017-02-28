@@ -168,6 +168,8 @@ Route::get('calendar_event','CalendarController@calendar_event');
 Route::get('calendar_id/{event_id}','CalendarController@calendar_id');
 Route::get('calendar_last_id','CalendarController@calendar_last_id');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
+Route::get('calendar_pdf','CalendarController@calendar_pdf');
+Route::get('calendar_img','CalendarController@calendar_img');
 ///EMAIL
 Route::get('sendemail', function () {
 

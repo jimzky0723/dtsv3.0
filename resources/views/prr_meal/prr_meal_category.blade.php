@@ -10,16 +10,12 @@
         <a href="#" data-value="{{ $_GET['row'].$_GET['category_count'] }}" type="button" onclick="remove_category($(this))" style="display:inline;color: red;"><i class="fa fa-remove"> Remove</i></a>
     </div>
 @elseif($_GET['type'] == 'unit_cost')
-    <div id="{{ 'parent_unit_cost'.$_GET['row'].$_GET['category_count'] }}">
-        <div style="margin-bottom: 9%;">
-            <input type="text" name="unit_cost[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="{{ 'unit_cost'.$_GET['row'].$_GET['category_count'] }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
-        </div>
+    <div id="{{ 'parent_unit_cost'.$_GET['row'].$_GET['category_count'] }}" style="margin-bottom: 9%;">
+        <input type="text" name="unit_cost[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="{{ 'unit_cost'.$_GET['row'].$_GET['category_count'] }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
     </div>
 @elseif($_GET['type'] == 'estimated_cost')
-    <div id="{{ 'parent_estimated_cost'.$_GET['row'].$_GET['category_count'] }}">
-        <div style="margin-bottom: 25%;">
-            <input type="hidden" name="estimated_cost[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="{{ 'estimated_cost'.$_GET['row'].$_GET['category_count'] }}" class="form-control">
-            <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$_GET['row'].$_GET['category_count'] }}"></strong>
-        </div>
+    <div id="{{ 'parent_estimated_cost'.$_GET['row'].$_GET['category_count'] }}" style="margin-bottom: 25%;">
+        <input type="hidden" name="estimated_cost[{{ $_GET['row'] }}][{{ $_GET['category_count'] }}]" id="{{ 'estimated_cost'.$_GET['row'].$_GET['category_count'] }}" class="form-control">
+        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$_GET['row'].$_GET['category_count'] }}"></strong>
     </div>
 @endif

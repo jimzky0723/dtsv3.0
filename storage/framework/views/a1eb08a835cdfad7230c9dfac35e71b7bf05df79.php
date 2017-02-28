@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="col-md-9 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Created
@@ -13,12 +11,12 @@
         <canvas id="acceptedDoc" width="400" height="200"></canvas>
     </div>
 </div>
-@include('sidebar')
+<?php echo $__env->make('sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <?php
     use Illuminate\Support\Facades\Session;
 ?>
-@if(!Session::get('featuress'))
+<?php if(!Session::get('featuress')): ?>
 <?php Session::put('features',true); ?>
 <div class="modal fade" tabindex="-1" role="dialog" id="notificationModal" style="margin-top: 30px;z-index: 99999 ">
     <div class="modal-dialog modal-md" role="document">
@@ -56,11 +54,11 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@endif
-@endsection
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
 
-@section('js')
-<script src="{{ asset('resources/plugin/Chart.js/Chart.min.js') }}"></script>
+<?php $__env->startSection('js'); ?>
+<script src="<?php echo e(asset('resources/plugin/Chart.js/Chart.min.js')); ?>"></script>
 <script>
         $('.loading').show();
     $('#notificationModal').modal('show');
@@ -149,5 +147,7 @@
         }
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

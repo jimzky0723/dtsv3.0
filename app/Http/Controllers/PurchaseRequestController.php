@@ -492,9 +492,11 @@ class PurchaseRequestController extends Controller
 
         //SYSTEM LOGS
         SystemController::logDefault("updated",$route_no);
-
         Session::put('updated',true);
+
         return redirect()->back();
+
+        //echo '<pre>'; print_r($request->get('category')); echo '</pre>'.'<br>';
     }
 
     public function prr_meal_pdf()

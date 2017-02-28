@@ -9,7 +9,7 @@
 <title>Purchase Request</title>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('resources/assets/css/print.css')); ?>" rel="stylesheet">
     <style>
         html {
             margin: 30px;
@@ -164,14 +164,14 @@
     <hr>
     <div style="position:absolute; left: 30%;" class="align">
         <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-        <font class="route_no">{{ Session::get('route_no') }}</font>
+        <font class="route_no"><?php echo e(Session::get('route_no')); ?></font>
     </div>
 </div>
     <body>
         <div class="new-times-roman">
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
+                    <td id="border" class="align"><img src="<?php echo e(asset('resources/img/doh.png')); ?>" width="100"></td>
                     <td width="90%" id="border">
                         <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
                             Republic of the Philippines<br>
@@ -181,7 +181,7 @@
                             Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                         </div>
                     </td>
-                    <td id="border" class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
+                    <td id="border" class="align"><img src="<?php echo e(asset('resources/img/ro7.png')); ?>" width="100"></td>
                 </tr>
             </table>
             <table class="table1" cellpadding="0" cellspacing="0">
@@ -192,9 +192,9 @@
                 </tr>
                 <tr>
                     <td colspan="2">Department:</td>
-                    <td rowspan="3" colspan="2">{{ $division->description }}<br> {{ $section->description }}</td>
+                    <td rowspan="3" colspan="2"><?php echo e($division->description); ?><br> <?php echo e($section->description); ?></td>
                     <td colspan="2">PR No:</td>
-                    <td><small>Date: {{ substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,2,2) }}</small></td>
+                    <td><small>Date: <?php echo e(substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,2,2)); ?></small></td>
                 </tr>
                 <tr>
                     <td colspan="2">Section:</td>
@@ -220,7 +220,7 @@
                     <td id="border-bottom"></td>
                     <td id="border-bottom"></td>
                     <td id="border-bottom" class="global_title align">
-                        <i>{{ $prr_meal_logs->global_title }}</i>
+                        <i><?php echo e($prr_meal_logs->global_title); ?></i>
                     </td>
                     <td id="border-bottom"></td>
                     <td id="border-bottom"></td>
@@ -246,49 +246,51 @@
                             foreach($e_cost as $estimated_cost):
                             ?>
                                 <div style="margin-bottom: 6px">
-                                    <strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($estimated_cost->estimated_cost,2) }}</strong>
+                                    <strong style="color: mediumvioletred;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> <?php echo e(number_format($estimated_cost->estimated_cost,2)); ?></strong>
                                     <?php $total += $estimated_cost->estimated_cost ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                         <div class="div_unit align-bottom">
-                            @foreach($e_cost as $unit_cost)
+                            <?php foreach($e_cost as $unit_cost): ?>
                                 <div style="margin-bottom: 6px">
-                                    <strong><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($unit_cost->unit_cost,2) }}</strong>
+                                    <strong><span style="font-family: DejaVu Sans;">&#x20b1; </span> <?php echo e(number_format($unit_cost->unit_cost,2)); ?></strong>
                                 </div>
-                            @endforeach
+                            <?php endforeach; ?>
                         </div>
                         <div class="div_stock">
                             .
                         </div>
                         <div class="div_itemno" data-boxme>
-                            {{ $meal_no }}
-                            {{--<p style="color: white">
-                                @for($i=0;$i<30;$i++)
+                            <?php echo e($meal_no); ?>
+
+                            <?php /*<p style="color: white">
+                                <?php for($i=0;$i<30;$i++): ?>
                                     rusel
-                                @endfor
-                            </p>--}}
+                                <?php endfor; ?>
+                            </p>*/ ?>
                         </div>
                         <div class="div_qty" data-boxme>
                             .
-                            {{--<p style="color: white">
-                                @for($i=0;$i<30;$i++)
+                            <?php /*<p style="color: white">
+                                <?php for($i=0;$i<30;$i++): ?>
                                     rusel
-                                @endfor
-                            </p>--}}
+                                <?php endfor; ?>
+                            </p>*/ ?>
                         </div>
                         <div class="div_issue" data-boxme>
                             .
-                            {{--<p style="color: white">
-                                @for($i=0;$i<30;$i++)
+                            <?php /*<p style="color: white">
+                                <?php for($i=0;$i<30;$i++): ?>
                                     rusel
-                                @endfor
-                            </p>--}}
+                                <?php endfor; ?>
+                            </p>*/ ?>
                         </div>
                         <div class="div_desc">
-                            {!! nl2br($row->specification) !!}
-                            <p>Expected&nbsp;&nbsp;&nbsp;: {{ $row->expected }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Guaranteed: &nbsp;&nbsp;{{ $row->guaranteed }}</p>
-                            <p>Date & Time&nbsp;&nbsp;&nbsp;: {{ $row->date_time }}</p>
+                            <?php echo nl2br($row->specification); ?>
+
+                            <p>Expected&nbsp;&nbsp;&nbsp;: <?php echo e($row->expected); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Guaranteed: &nbsp;&nbsp;<?php echo e($row->guaranteed); ?></p>
+                            <p>Date & Time&nbsp;&nbsp;&nbsp;: <?php echo e($row->date_time); ?></p>
                             <?php
                                 $category = prr_meal_category::where('category_row',$row->category_row)
                                         ->where('prr_logs_key',$row->prr_logs_key)
@@ -311,14 +313,14 @@
                     <td id="border-top" width="5.5%"></td>
                     <td id="border-top" width="5.5%"></td>
                     <td id="border-top" width="6.4%"></td>
-                    <td id="border-top" width="50%"><br><br> Prepared By:<br><br><u>{{ $user->fname.' '.$user->mname.' '.$user->lname }}</u><br>{{ \App\Designation::find(Auth::user()->designation)->description }}</th>
+                    <td id="border-top" width="50%"><br><br> Prepared By:<br><br><u><?php echo e($user->fname.' '.$user->mname.' '.$user->lname); ?></u><br><?php echo e(\App\Designation::find(Auth::user()->designation)->description); ?></th>
                     <td id="border-top" width="8%"></td>
                     <td id="border-top" width="11%"></td>
                     <td id="border-top"></td>
                 </tr>
                 <tr>
                     <td class="align" colspan="6"><b>TOTAL</b></td>
-                    <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> {{ number_format($total,2) }}</strong></td>
+                    <td class="align-top"><strong style="color: red;"><span style="font-family: DejaVu Sans;">&#x20b1; </span> <?php echo e(number_format($total,2)); ?></strong></td>
                 </tr>
             </table>
             <table class="letter-head" cellpadding="0" cellspacing="0">
@@ -332,13 +334,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td id="border-top" colspan="7" class="align"><u><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ Users::find($tracking->requested_by)->fname.' '.Users::find($tracking->requested_by)->mname.' '.Users::find($tracking->requested_by)->lname }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><br>{{ \App\Designation::find(Users::find($tracking->requested_by)->designation)->description }}</u></td>
+                    <td id="border-top" colspan="7" class="align"><u><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo e(Users::find($tracking->requested_by)->fname.' '.Users::find($tracking->requested_by)->mname.' '.Users::find($tracking->requested_by)->lname); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><br><?php echo e(\App\Designation::find(Users::find($tracking->requested_by)->designation)->description); ?></u></td>
                 </tr>
                 <tr>
-                    <td colspan="7" id="border-bottom">Purpose: <b>{{ $tracking->purpose }}</b></td>
+                    <td colspan="7" id="border-bottom">Purpose: <b><?php echo e($tracking->purpose); ?></b></td>
                 </tr>
                 <tr>
-                    <td colspan="7" id="border-top">Chargeable to: <b>{{ $tracking->source_fund }}</b></td>
+                    <td colspan="7" id="border-top">Chargeable to: <b><?php echo e($tracking->source_fund); ?></b></td>
                 </tr>
             </table>
             <table class="table1" cellpadding="0" cellspacing="0">

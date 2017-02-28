@@ -1,42 +1,43 @@
 <!-- fullCalendar 2.2.5-->
-<link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
-<link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
+<link href="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.min.css')); ?>" rel="stylesheet">
+<link href="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.print.css')); ?>" media="print">
 <!-- Theme style -->
-<link href="{{ asset('resources/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
+<link href="<?php echo e(asset('resources/plugin/dist/css/AdminLTE.min.css')); ?>" rel="stylesheet">
 <style>
     .tooltipevent{padding:0;margin:0;font-size:75%;text-align:center;position:absolute;bottom:0;opacity:.8;width:300px;height:30px;background:#ccc;position:absolute;z-index:10001;}
 </style>
-@extends('layouts.app')
-@section('content')
-    <span id="calendar_event" data-link=" {{ asset('calendar_event') }} "></span>
-    <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
-    <span id="calendar_last_id" data-link="{{ asset('calendar_last_id') }}"></span>
-    <span id="save" data-link=" {{ asset('calendar_save') }} "></span>
-    <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
-    <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
-    <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
-    <span id="token" data-token="{{ csrf_token() }}"></span>
-    {{ csrf_field() }}
+
+<?php $__env->startSection('content'); ?>
+    <span id="calendar_event" data-link=" <?php echo e(asset('calendar_event')); ?> "></span>
+    <span id="calendar_id" data-link="<?php echo e(asset('calendar_id')); ?>"></span>
+    <span id="calendar_last_id" data-link="<?php echo e(asset('calendar_last_id')); ?>"></span>
+    <span id="save" data-link=" <?php echo e(asset('calendar_save')); ?> "></span>
+    <span id="calendar_delete" data-link="<?php echo e(asset('calendar_delete')); ?>"></span>
+    <span id="calendar_update" data-link=" <?php echo e(asset('calendar_update')); ?> "></span>
+    <span id="calendar_banner" data-link="<?php echo e(asset('resources/img/banner.png')); ?>"></span>
+    <span id="token" data-token="<?php echo e(csrf_token()); ?>"></span>
+    <?php echo e(csrf_field()); ?>
+
     <div class="col-md-9 wrapper">
         <div class="alert alert-jim">
-            {{--<div class="row no-print">
+            <?php /*<div class="row no-print">
                 <div class="col-xs-12">
-                    <button type="button" class="btn btn-primary pull-plus" onclick="addEvent($(this));" data-link="{{ asset('calendar_form') }}" style="margin-right: 5px;">
+                    <button type="button" class="btn btn-primary pull-plus" onclick="addEvent($(this));" data-link="<?php echo e(asset('calendar_form')); ?>" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Add New Event
                     </button>
                 </div>
-            </div><br>--}}
+            </div><br>*/ ?>
             <div class="box box-primary">
                 <div class="row">
                     <div class="col-md-3">
-                        <form action="{{ asset('calendar_pdf') }}" method="get" target="_blank">
+                        <form action="<?php echo e(asset('calendar_pdf')); ?>" method="get" target="_blank">
                             <div style="padding: 1%">
                                 <button class="btn btn-info"><i class="fa fa-download"></i> Generate PDF text</button>
                             </div>
                         </form>
                     </div>
                     <div class="col-md-3">
-                        <form action="{{ asset('calendar_img') }}" method="get" target="_blank">
+                        <form action="<?php echo e(asset('calendar_img')); ?>" method="get" target="_blank">
                             <div style="padding: 1%">
                                 <button class="btn btn-danger"><i class="fa fa-photo"></i> Generate PDF image</button>
                             </div>
@@ -62,7 +63,7 @@
             <div class="box-body">
                 <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
                     <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                    {{--<ul class="fc-color-picker" id="color-chooser">
+                    <?php /*<ul class="fc-color-picker" id="color-chooser">
                         <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
@@ -75,14 +76,14 @@
                         <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
                         <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
-                    </ul>--}}
+                    </ul>*/ ?>
                 </div>
                 <!-- /btn-group -->
                 <div class="form-group">
                     <textarea id="event_title" type="text" class="form-control" placeholder="Event Title"></textarea>
-                    {{--<button id="add-new-event" type="button" class="pull-left" style="background-color:deepskyblue;color: white;margin-top: 2%;">
+                    <?php /*<button id="add-new-event" type="button" class="pull-left" style="background-color:deepskyblue;color: white;margin-top: 2%;">
                         <i class="fa fa-plus"></i> ADD EVENT
-                    </button>--}}
+                    </button>*/ ?>
                 </div>
 
                 <!-- /input-group -->
@@ -129,23 +130,23 @@
                     <div class="external-event bg-olive" style="width: 88%">UHCI</div>
                     <small class="label pull-right bg-aqua other"></small>
                     <div class="external-event bg-aqua" style="width: 88%"><p style="color: white;">Others</p></div>
-                    {{--<div class="checkbox">
+                    <?php /*<div class="checkbox">
                         <label for="drop-remove">
                             <input type="checkbox" id="drop-remove">
                             remove after drop
                         </label>
-                    </div>--}}
+                    </div>*/ ?>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
     </div>
     <p id="tayong"></p>
-@endsection
-@section('js')
-    <script src="{{ asset('resources/assets/js/jquery4.js') }}"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/moment.js') }}"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script src="<?php echo e(asset('resources/assets/js/jquery4.js')); ?>"></script>
+    <script src="<?php echo e(asset('resources/plugin/fullcalendar/moment.js')); ?>"></script>
+    <script src="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.min.js')); ?>"></script>
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
@@ -411,4 +412,5 @@
         }
         $('.loading').hide();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

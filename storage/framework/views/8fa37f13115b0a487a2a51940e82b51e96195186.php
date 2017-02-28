@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-lg wrapper">
         <div class="alert alert-jim">
             <?php
@@ -8,7 +7,7 @@
             Use App\Designation;
             use App\prr_meal_category;
             ?>
-            <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
+            <link href="<?php echo e(asset('resources/assets/css/print.css')); ?>" rel="stylesheet">
             <style>
                 #border{
                     border-collapse: collapse;
@@ -51,29 +50,30 @@
                     box-shadow: 0 10px 10px -10px #8c8c8c inset;
                 }
             </style>
-            <form method="post" id="form" action="{{ asset('prr_meal_update') }}">
-                {{ csrf_field() }}
-                <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
-                <span id="url" data-link="{{ asset('prr_meal_append') }}"></span>
-                <span id="category_url" data-link="{{ asset('prr_meal_category') }}"></span>
-                <span id="update_history" data-link="{{ asset('prr_meal_history') }}"></span>
-                <span id="token" data-token="{{ csrf_token() }}"></span>
+            <form method="post" id="form" action="<?php echo e(asset('prr_meal_update')); ?>">
+                <?php echo e(csrf_field()); ?>
+
+                <span id="getDesignation" data-link="<?php echo e(asset('getDesignation')); ?>"></span>
+                <span id="url" data-link="<?php echo e(asset('prr_meal_append')); ?>"></span>
+                <span id="category_url" data-link="<?php echo e(asset('prr_meal_category')); ?>"></span>
+                <span id="update_history" data-link="<?php echo e(asset('prr_meal_history')); ?>"></span>
+                <span id="token" data-token="<?php echo e(csrf_token()); ?>"></span>
                 <input type="hidden" name="doc_type" value="PRR_M">
-                <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
+                <input type="hidden" value="<?php echo e(Auth::user()->id); ?>" name="prepared_by">
                 <div class="modal-body">
                     <div class="content-wrapper">
                         <!-- Main content -->
                         <section class="invoice">
                             <div class="table-responsive">
-                                @if(Session::get('updated'))
+                                <?php if(Session::get('updated')): ?>
                                     <div class="alert alert-info">
                                         <i class="fa fa-check"></i> Successfully Updated!
                                     </div>
                                     <?php Session::forget('updated'); ?>
-                                @endif
+                                <?php endif; ?>
                                 <table class="letter-head" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
+                                        <td id="border" class="align"><img src="<?php echo e(asset('resources/img/doh.png')); ?>" width="100"></td>
                                         <td width="90%" id="border">
                                             <div class="align" style="margin-top:-10px;">
                                                 <center>
@@ -85,7 +85,7 @@
                                                 </center>
                                             </div>
                                         </td>
-                                        <td id="border" class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
+                                        <td id="border" class="align"><img src="<?php echo e(asset('resources/img/ro7.png')); ?>" width="100"></td>
                                     </tr>
                                 </table>
                                 <table class="letter-head" cellpadding="0" cellspacing="0">
@@ -97,13 +97,13 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">Department:</td>
-                                        <td colspan="2">{{ Division::find(Auth::user()->division)->description }}</td>
+                                        <td colspan="2"><?php echo e(Division::find(Auth::user()->division)->description); ?></td>
                                         <td colspan="2">PR No:</td>
-                                        <td>Date:<input class="form-control" name="prepared_date" value="{{ substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,0,4) }}" readonly></td>
+                                        <td>Date:<input class="form-control" name="prepared_date" value="<?php echo e(substr($tracking->prepared_date,5,2).'/'.substr($tracking->prepared_date,8,2).'/'.substr($tracking->prepared_date,0,4)); ?>" readonly></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">Section:</td>
-                                        <td colspan="2">{{ Section::find(Auth::user()->section)->description }}</td>
+                                        <td colspan="2"><?php echo e(Section::find(Auth::user()->section)->description); ?></td>
                                         <td colspan="2">SAI No.:</td>
                                         <td> </td>
                                     </tr>
@@ -128,7 +128,7 @@
                                         <td></td>
                                         <td class="global_title align">
                                             <strong><i>Global Title</i></strong>
-                                            <input type="text" name="global_title" id="global_title" class="form-control" value="{{ $prr_meal_logs->global_title }}" onkeyup="trapping()" required>
+                                            <input type="text" name="global_title" id="global_title" class="form-control" value="<?php echo e($prr_meal_logs->global_title); ?>" onkeyup="trapping()" required>
                                             <small id="E_global_title">required!</small>
                                         </td>
                                         <td></td>
@@ -144,10 +144,10 @@
                                         $total += $row->estimated_cost;
                                         $count++;
                                     ?>
-                                    <tr id="{{ $count }}">
-                                        <input type="hidden" value="{{ $row->id }}" name="pr_id">
+                                    <tr id="<?php echo e($count); ?>">
+                                        <input type="hidden" value="<?php echo e($row->id); ?>" name="pr_id">
                                         <td id="border-bottom" class="align-top">
-                                            <button type="button" value="{{ $count }}" onclick="erase($(this))" class="btn-sm"><small><i class="glyphicon glyphicon-remove"></i></small></button>
+                                            <button type="button" value="<?php echo e($count); ?>" onclick="erase($(this))" class="btn-sm"><small><i class="glyphicon glyphicon-remove"></i></small></button>
                                         </td>
                                         <td id="border-bottom">
 
@@ -156,25 +156,26 @@
 
                                         </td>
                                         <td id="border-bottom" class="align-top" width="40%">
-                                            <div class="{{ 'description'.$count }}">
+                                            <div class="<?php echo e('description'.$count); ?>">
                                                 <strong><i>Description</i></strong>
-                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="{{ 'specification'.$count }}" onkeyup="trapping()" required>
-                                                    {{ $row->specification }}
+                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="<?php echo e('specification'.$count); ?>" onkeyup="trapping()" required>
+                                                    <?php echo e($row->specification); ?>
+
                                                 </textarea>
-                                                <small id="{{ 'E_description'.$count }}"></small>
+                                                <small id="<?php echo e('E_description'.$count); ?>"></small>
                                             </div>
-                                            <div class="{{ 'expected'.$count }}">
+                                            <div class="<?php echo e('expected'.$count); ?>">
                                                 <strong><i>Expected:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="expected[]" id="{{ 'expected'.$count }}" value="{{ $row->expected }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
+                                                <input type="text" name="expected[]" id="<?php echo e('expected'.$count); ?>" value="<?php echo e($row->expected); ?>" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
                                                 <strong><i>Guaranteed:</i></strong> &nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="guaranteed[]" id="guaranteed1" value="{{ $row->guaranteed }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
+                                                <input type="text" name="guaranteed[]" id="guaranteed1" value="<?php echo e($row->guaranteed); ?>" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
                                             </div>
-                                            <div class="{{ 'date_time'.$count }}" style="margin-top: 2%">
+                                            <div class="<?php echo e('date_time'.$count); ?>" style="margin-top: 2%">
                                                 <strong><i>Date and Time:</i></strong> &nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="date_time[]" value="{{ $row->date_time }}" id="{{ 'date_time'.$count }}" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
-                                                <small id="{{ 'E_date_time'.$count }}">required!</small>
+                                                <input type="text" name="date_time[]" value="<?php echo e($row->date_time); ?>" id="<?php echo e('date_time'.$count); ?>" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
+                                                <small id="<?php echo e('E_date_time'.$count); ?>">required!</small>
                                             </div>
-                                            <div id="{{ 'category_append'.$count }}">
+                                            <div id="<?php echo e('category_append'.$count); ?>">
                                                 <div style="margin-top: 2%">
                                                     <?php
                                                     $category = prr_meal_category::where('category_row',$row->category_row)
@@ -188,8 +189,8 @@
                                                     ?>
                                                         <div style="margin-top:2%;">
                                                             <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <select name="category[{{ $count }}][{{ $column }}]" id="{{ 'category'.$count.$column }}" value="{{ $category_desc->category_desc }}" class="form-control" style="width: 50%;display: inline;">
-                                                                <option value="{{ $category_desc->category_desc }}">{{ $category_desc->category_desc }}</option>
+                                                            <select name="category[<?php echo e($count); ?>][<?php echo e($column); ?>]" id="<?php echo e('category'.$count.$column); ?>" value="<?php echo e($category_desc->category_desc); ?>" class="form-control" style="width: 50%;display: inline;">
+                                                                <option value="<?php echo e($category_desc->category_desc); ?>"><?php echo e($category_desc->category_desc); ?></option>
                                                                 <?php
                                                                     for($i=0;$i<count($category_array);$i++){
                                                                         if($category_desc->category_desc != $category_array[$i])
@@ -197,35 +198,35 @@
                                                                     }
                                                                 ?>
                                                             </select>
-                                                            <a href="#" data-value="{{ $count.$column }}" type="button" onclick="remove_category($(this))" style="display:inline;color: red;"><i class="fa fa-remove"> Remove</i></a>
+                                                            <a href="#" data-value="<?php echo e($count.$column); ?>" type="button" onclick="remove_category($(this))" style="display:inline;color: red;"><i class="fa fa-remove"> Remove</i></a>
                                                         </div>
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>
-                                            <a onclick="add_category($(this));" data-value="{{ $count }}" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
+                                            <a onclick="add_category($(this));" data-value="<?php echo e($count); ?>" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
                                         </td>
                                         <td id="border-bottom"></td>
-                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-bottom">
-                                            <div id="{{ 'unit_cost_append'.$count }}" style="margin-bottom: 20%">
+                                        <td id="border-bottom" class="<?php echo e('unit_cost'.$count); ?> align-bottom">
+                                            <div id="<?php echo e('unit_cost_append'.$count); ?>" style="margin-bottom: 20%">
                                                 <?php $column=0; ?>
-                                                @foreach($category as $unit_cost)
+                                                <?php foreach($category as $unit_cost): ?>
                                                     <?php $column++; ?>
-                                                    <div id="{{ 'parent_unit_cost'.$count.$column }}" style="margin-bottom: 5%;">
-                                                        <input type="text" name="unit_cost[{{ $count }}][{{ $column }}]" id="{{ 'unit_cost'.$count.$column }}" value="{{ $unit_cost->unit_cost }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                                    <div id="<?php echo e('parent_unit_cost'.$count.$column); ?>" style="margin-bottom: 5%;">
+                                                        <input type="text" name="unit_cost[<?php echo e($count); ?>][<?php echo e($column); ?>]" id="<?php echo e('unit_cost'.$count.$column); ?>" value="<?php echo e($unit_cost->unit_cost); ?>" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
                                                     </div>
-                                                @endforeach
+                                                <?php endforeach; ?>
                                             </div>
                                         </td>
-                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-bottom">
-                                            <div id="{{ 'estimated_cost_append'.$count }}" style="margin-bottom: 20%">
+                                        <td id="border-bottom" class="<?php echo e('estimated_cost'.$count); ?> align-bottom">
+                                            <div id="<?php echo e('estimated_cost_append'.$count); ?>" style="margin-bottom: 20%">
                                                 <?php
                                                 $column=0;
                                                 foreach($category as $estimated_cost):
                                                     $column++;
                                                 ?>
-                                                    <div id="{{ 'parent_estimated_cost'.$count.$column }}" style="margin-bottom: 14%;">
-                                                        <input type="hidden" name="estimated_cost[{{ $count }}][{{ $column }}]" id="{{ 'estimated_cost'.$count.$column }}" value="{{ $estimated_cost->estimated_cost }}"  class="form-control">
-                                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count.$column }}">{{ number_format($estimated_cost->estimated_cost,2) }} </strong>
+                                                    <div id="<?php echo e('parent_estimated_cost'.$count.$column); ?>" style="margin-bottom: 14%;">
+                                                        <input type="hidden" name="estimated_cost[<?php echo e($count); ?>][<?php echo e($column); ?>]" id="<?php echo e('estimated_cost'.$count.$column); ?>" value="<?php echo e($estimated_cost->estimated_cost); ?>"  class="form-control">
+                                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="<?php echo e('e_cost'.$count.$column); ?>"><?php echo e(number_format($estimated_cost->estimated_cost,2)); ?> </strong>
                                                     </div>
                                                 <?php endforeach; ?>
                                             </div>
@@ -251,7 +252,7 @@
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
-                                        <td id="border-top"><br><br> Prepared By:<br><br><u>{{ Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname }}</u><br>{{ Designation::find(Auth::user()->designation)->description }}</td>
+                                        <td id="border-top"><br><br> Prepared By:<br><br><u><?php echo e(Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname); ?></u><br><?php echo e(Designation::find(Auth::user()->designation)->description); ?></td>
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
@@ -259,10 +260,10 @@
                                     <tr>
                                         <td class="align" colspan="6"><b>TOTAL</b></td>
                                         <td class="align-top">
-                                            <input type="hidden" id="count" value="{{ $count }}">
-                                            <input type="hidden" id="column" value="{{ $column }}">
+                                            <input type="hidden" id="count" value="<?php echo e($count); ?>">
+                                            <input type="hidden" id="column" value="<?php echo e($column); ?>">
                                             <input type="hidden" name="amount" id="amount">
-                                            <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total">{{ $total }}</strong>
+                                            <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total"><?php echo e($total); ?></strong>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -288,7 +289,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Requested By:</label>
                                         <div class="col-sm-10">
-                                            <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
+                                            <input id="section_head" class="form-control" value="<?php echo e(\App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname); ?>" readonly>
                                         </div>
                                     </div>
                                     <hr>
@@ -304,7 +305,7 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Requested By:</label>
                                         <div class="col-md-10">
-                                            <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
+                                            <input id="section_head" class="form-control" value="<?php echo e(\App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname); ?>" readonly>
                                         </div>
                                     </div>
                                     <hr>
@@ -316,7 +317,7 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Designation:</label>
                                         <div class="col-md-10">
-                                            <input id="section_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description }}" readonly>
+                                            <input id="section_head" class="form-control" value="<?php echo e(App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description); ?>" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +328,7 @@
                                     <div class="form-group">
                                         <label for="purpose" class="col-md-2 control-label">Purpose:</label>
                                         <div class="col-md-10">
-                                            <textarea class="form-control" id="purpose" name="purpose" readonly>{{ $tracking->purpose }}</textarea>
+                                            <textarea class="form-control" id="purpose" name="purpose" readonly><?php echo e($tracking->purpose); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +339,7 @@
                                     <div class="form-group">
                                         <label for="chargeable" class="col-md-2 control-label">Chargeable to:</label>
                                         <div class="col-md-10">
-                                            <textarea class="form-control" name="charge_to" readonly>{{ $tracking->source_fund }}</textarea>
+                                            <textarea class="form-control" name="charge_to" readonly><?php echo e($tracking->source_fund); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -365,11 +366,11 @@
                                 <div class="col-md-6">
                                     <label class="col-md-4 control-label">Printed Name:</label>
                                     <div class="col-md-10">
-                                        <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->division_head)->fname.' '.App\Users::find($tracking->division_head)->mname.' '.App\Users::find($tracking->division_head)->lname }}" readonly>
+                                        <input id="section_head" class="form-control" value="<?php echo e(\App\Users::find($tracking->division_head)->fname.' '.App\Users::find($tracking->division_head)->mname.' '.App\Users::find($tracking->division_head)->lname); ?>" readonly>
                                     </div>
                                     <label class="col-md-4 control-label">Designation:</label>
                                     <div class="col-md-10">
-                                        <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->division_head)->designation)->description }}" readonly>
+                                        <input id="division_head" class="form-control" value="<?php echo e(App\Designation::find(\App\User::find($tracking->division_head)->designation)->description); ?>" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -385,7 +386,7 @@
                     </div>
                 </div>
             </form>
-            <form action="{{ asset('prr_meal_pdf') }}" method="get" target="_blank">
+            <form action="<?php echo e(asset('prr_meal_pdf')); ?>" method="get" target="_blank">
                 <div class="btn-group btn-group-lg;">
                     <button class="btn btn-primary" type="submit" >
                         <i class="fa fa-download"></i> Generate-PDF</button>
@@ -395,10 +396,10 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    {{--SIDE BAR--}}
-@endsection
+    <?php /*SIDE BAR*/ ?>
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     <script>
         ///PLUGIN
         $(".textarea").wysihtml5();
@@ -561,4 +562,5 @@
             trapping();
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
