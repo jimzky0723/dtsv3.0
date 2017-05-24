@@ -12,6 +12,9 @@ class CreateTrackingFilter extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('tracking_filter')){
+            return true;
+        }
         Schema::create('tracking_filter', function (Blueprint $table) {
             $table->increments('id');
             $table->string('doc_type');

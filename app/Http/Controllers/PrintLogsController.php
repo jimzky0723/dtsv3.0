@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 class PrintLogsController extends Controller
 {
     public function __construct()
@@ -35,16 +36,16 @@ class PrintLogsController extends Controller
         }else if($doc_type=="PRC"){
             $display = view('logs.PurchaseRequestCA');
         }else if($doc_type=="PRR"){
-            $display = view('logs.PurchaseRequestCA');
+            $display = view('logs.PurchaseRequestR');
         }else if($doc_type=='ALL'){
             $display = view("logs.all");
         } else if($doc_type == 'ROUTE') {
             $display = view('logs.routing_slip');
         } else if($doc_type == 'APP_LEAVE'){
-            $display = view('logs.general');
+            $display = view('logs.app_leave');
         } else if($doc_type == 'INCOMING'){
-            $display = view('logs.general');
-        } else if($doc_type == 'SO'){
+            $display = view('logs.incoming');
+        } else if($doc_type == 'OFFICE_ORDER'){
             $display = view('logs.office_order');
         } else if($doc_type == 'WORKSHEET') {
             $display = view('logs.general');

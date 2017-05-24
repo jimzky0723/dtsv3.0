@@ -107,10 +107,12 @@
                         autoclose: true
                     });
                     $('input').attr('autocomplete', 'off');
+                    $('.chosen-select').chosen();
                 }
             });
         },1000);
     });
+
 });
 
 function acceptNumber($this){
@@ -177,7 +179,7 @@ $('a[href="#new"]').on('click',function(e){
 $('a[href="#remove_designation"]').on('click', function (event) {
     var data = {
         "id" : $(this).data('id')
-    }
+    };
     var url = $(this).data('link');
     if(confirm("Delete designation ?") == true){
         $.get(url,data,function(response){
@@ -281,35 +283,30 @@ function del_user(el) {
     $('#confirm').click(function(){
         $.post(url,data, function (response) {
             if(JSON.parse(response).status == "ok") {
-                console.log("record deleted");
                 window.location.reload();
             }
         });
     });
 }
 function searchSection(result){
-    if($("#search").val() != '') {
-        var url = result.data('link');
-        var save = {
-            "search" : $("#search").val(),
-            "_token" : $("#token").data("token")
-        };
-        $.post(url,save,function(){
-            window.location.href = url;
-        });
-    }
+    var url = result.data('link');
+    var save = {
+        "search" : $("#search").val(),
+        "_token" : $("#token").data("token")
+    };
+    $.post(url,save,function(){
+        window.location.href = url;
+    });
 }
 function searchDivision(result){
-    if($("#search").val() != '') {
-        var url = result.data('link');
-        var save = {
-            "search" : $("#search").val(),
-            "_token" : $("#token").data("token")
-        };
-        $.post(url,save,function(){
-            window.location.href = url;
-        });
-    }
+    var url = result.data('link');
+    var save = {
+        "search" : $("#search").val(),
+        "_token" : $("#token").data("token")
+    };
+    $.post(url,save,function(){
+        window.location.href = url;
+    });
 }
 
 
@@ -368,7 +365,7 @@ function checkDescriptionUpdate(description){
     var url = $(description).data('link');
     var data = {
         "description" : $(description).val()
-    }
+    };
     $.get(url,data,function(response){
         var res = JSON.parse(response);
         if(res.status == "ok" && $("#uniqueDescription").val() != $(description).val() ) {

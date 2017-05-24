@@ -3,11 +3,19 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Users;
 use App\Section;
+use App\Release;
 use App\Http\Controllers\AccessController as Access;
 use App\Http\Controllers\DocumentController as Doc;
 
 $access = Access::access();
-$documents = Session::get('logsDocument');
+use Illuminate\Support\Facades\Input;
+
+$type = Input::get('type');
+if($type=='section'){
+    $documents = Session::get('logsDocument');
+}else{
+    $documents = Doc::printLogsDocument();
+}
 $section = Auth::user()->section;
 ?>
 <html>
@@ -16,7 +24,7 @@ $section = Auth::user()->section;
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
     <style>
         html {
-            font-size:0.9em;
+            font-size:0.8em;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
     </style>
@@ -24,7 +32,7 @@ $section = Auth::user()->section;
 <body>
 <table class="letter-head" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="20%"><center><img src="{{ asset('resources/img/doh.png') }}" width="100"></center></td>
+        <td width="20%"><center><img src="{{ asset('public/img/doh.png') }}" width="100"></center></td>
         <td width="60%">
             <center>
                 <h4 style="margin:0;">DOCUMENT TRACKING SYSTEM LOGS</h4>
@@ -33,7 +41,7 @@ $section = Auth::user()->section;
                 {{ date('M d, Y',strtotime(Session::get('startdate'))) }} - {{ date('M d, Y',strtotime(Session::get('enddate'))) }}
             </center>
         </td>
-        <td width="20%"><center><img src="{{ asset('resources/img/ro7.png') }}" width="100"></center></td>
+        <td width="20%"><center><img src="{{ asset('public/img/ro7.png') }}" width="100"></center></td>
     </tr>
 
 </table>
@@ -47,6 +55,7 @@ $section = Auth::user()->section;
         <th>Received From</th>
         <th>Released Date</th>
         <th>Released To</th>
+        <th>Applicant / Days leave</th>
         @if($access=='accounting')
             <th>DV #</th>
         @endif
@@ -85,8 +94,19 @@ $section = Auth::user()->section;
                     <em>({{ Section::find($user->section)->description }})</em>
                 </td>
             @else
-                <td></td>
-                <td></td>
+                <?php $rel = Release::where('route_no', $doc->route_no)->first(); ?>
+                @if($rel)
+                    <td class="text-info">
+                        {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
+                        {{ date('h:i:s A',strtotime($rel->date_reported)) }}<br>
+                    </td>
+                    <td class="text-info">
+                        {{ Section::find($rel->section_id)->description }}
+                    </td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
             @endif
             @if($access=='accounting')
                 <td>{{ $doc->dv_no }}</td>
@@ -95,6 +115,11 @@ $section = Auth::user()->section;
                 <td>{{ $doc->ors_no }}</td>
                 <td>{{ $doc->fund_source_budget }}</td>
             @endif
+            <td>
+                {{ $doc->cdo_applicant }}
+                <br>
+                <em>({{ $doc->cdo_day }}) - days</em>
+            </td>
         </tr>
     @endforeach
     </tbody>

@@ -12,6 +12,9 @@ class JustLetterDoc extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('just_letter_doc')){
+            return true;
+        }
         Schema::create('just_letter_doc', function (Blueprint $table){
             $table->increments('justid');
             $table->string('route_no');

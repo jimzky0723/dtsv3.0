@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisionSeeder::class);
         $this->call(SectionSeeder::class);
         $this->call(TrackingFilterSeeder::class);
+        $this->call(FeedbackStatusSeeder::class);
     }
 }

@@ -12,6 +12,9 @@ class CreateDivisionTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('division')){
+            return true;
+        }
         Schema::create('division', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');

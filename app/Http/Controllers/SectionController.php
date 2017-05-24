@@ -19,8 +19,20 @@ class SectionController extends Controller
 
     public function section()
     {
-        $section = Section::orderBy('description', 'asc')->paginate(10);
+        $keyword = Session::get('searchSection');
+        $section = Section::where('description','like',"%$keyword%")
+                    ->orderBy('description', 'asc')->paginate(10);
         return view('section.section', ['section' => $section]);
+    }
+
+    public function searchSection(Request $request){
+        Session::put("search",$request->search);
+        return $this->searchSectionSave();
+    }
+
+    public function searchSectionSave(){
+        $section = Section::where('description','like',"%".Session::get('search')."%")->orderBy('description','asc')->paginate(10);
+        return view('section.section',['section' => $section ]);
     }
 
     public function addSection()
@@ -69,13 +81,7 @@ class SectionController extends Controller
         $section->save();
         return redirect('section');
     }
-    public function searchSection(Request $request){
-        Session::put("search",$request->get("search"));
-    }
-    public function searchSectionSave(){
-        $section = Section::where('description','like','%'.Session::get('search').'%')->orderBy('description','asc')->paginate(10);
-        return view('section.section',['section' => $section ]);
-    }
+
     public static function getHead($id){
         $user = Users::find($id);
         return $user['fname'].' '.$user['mname'].' '.$user['lname'];
@@ -96,7 +102,8 @@ class SectionController extends Controller
     }
 
     static function getSections($id){
-        $sections = Section::where('division',$id)->get();
+        $sections = Section::where('division',$id)->orderBy('description','asc')->get();
         return $sections;
     }
+
 }

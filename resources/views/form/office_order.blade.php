@@ -1,6 +1,6 @@
 <form action="{{ asset('/form/office-order') }}" method="POST" id="form_route">
     {{ csrf_field() }}
-    <input type="hidden" name="doctype" value="SO" />
+    <input type="hidden" name="doctype" value="OFFICE_ORDER" />
     <div class="modal-body">
         <table>
             <tr>

@@ -1,13 +1,13 @@
-<form action="{{ asset('PurchaseOrder') }}" method="POST" target="_blank">
-    <input type="hidden" name="doctype" value="PO">
-    <input type="hidden" value="{{ Auth::user()->id }}" name="preparedby">
+<form action="{{ asset('PurchaseOrder') }}" method="POST">
+    <input type="hidden" name="doc_type" value="PO">
+    <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
     {{ csrf_field() }}
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>
                 <td class=""><label>Prepared Date</label></td>
                 <td>:</td>
-                <td><input name="prepareddate" value="{{ date('Y-m-d H:i:s') }}" class="form-control" readonly></td>
+                <td><input name="prepared_date" value="{{ date('Y-m-d H:i:s') }}" class="form-control" readonly></td>
             </tr>
             <tr>
                 <td class=""><label>Prepared By</label></td>
@@ -56,7 +56,7 @@
             <tr>
                 <td class=""><label>Addtional Info</label></td>
                 <td>:</td>
-                <td><textarea class="form-control" id="addtionalinfo" name="aditionalinfo" rows="10" style="resize:none;"></textarea></td>
+                <td><textarea class="form-control" id="additional_info" name="additional_info" rows="10" style="resize:none;"></textarea></td>
             </tr>
         </table>
     </div>

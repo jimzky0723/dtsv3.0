@@ -1,7 +1,13 @@
 <html>
 <style type="text/css">
     .barcode {
-        top: 930px;
+        @if($size=='letter')
+        top: 960px;
+        @elseif($size=='a4')
+        top: 1030px;
+        @elseif($size=='legal')
+        top: 1255px;
+        @endif
         position: relative;
         left: -50%;
     }
@@ -14,8 +20,8 @@
 <body>
 <div style="position: absolute; left: 50%;">
     <div class="barcode">
-        <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
         <font class="route_no">{{ Session::get('route_no') }}</font>
+        <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,15) ?>
     </div>
 </div>
 </body>

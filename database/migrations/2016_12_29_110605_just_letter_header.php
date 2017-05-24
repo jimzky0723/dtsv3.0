@@ -12,6 +12,9 @@ class JustLetterHeader extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('just_letter_head')){
+            return true;
+        }
         Schema::create('just_letter_head', function(Blueprint $table){
             $table->increments('id');
             $table->integer('justid');

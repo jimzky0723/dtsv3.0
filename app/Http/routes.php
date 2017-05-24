@@ -1,5 +1,6 @@
 <?php
 Use App\Tracking;
+use App\User;
 Route::auth();
 
 //jimzky
@@ -15,8 +16,25 @@ Route::get('document/accept', 'DocumentController@accept')->middleware('access')
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
 Route::post('document/accept', 'DocumentController@saveDocument');
 Route::get('document/info/{route}', 'DocumentController@show');
+Route::get('document/info/{route}/{prepared_by}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
 Route::get('document/track/{route_no}','DocumentController@track');
+Route::get('document/list','AdminController@allDocuments');
+Route::post('document/list','AdminController@searchDocuments');
+Route::post('document/update','DocumentController@update');
+Route::get('document/create/{type}','DocumentController@formDocument');
+Route::post('document/create','DocumentController@createDocument');
+Route::get('document/viewPending','DocumentController@countPendingDocuments');
+Route::get('document/pending','DocumentController@allPendingDocuments');
+Route::post('document/release','ReleaseController@addRelease');
+Route::get('document/report/{id}','ReleaseController@addReport');
+Route::get('document/report/{id}/{cancel}','ReleaseController@addReport');
+Route::get('reported','ReleaseController@viewReported');
+
+Route::get('getsections/{id}','ReleaseController@getSections');
+Route::get('document/doctype/{doctype}',function($doctype){
+    return \App\Http\Controllers\DocumentController::docTypeName($doctype);
+});
 
 // FOR ACCOUNTING SECTION
 Route::get('accounting/accept','AccountingController@accept');
@@ -34,7 +52,9 @@ Route::get('document/received', 'DocumentController@receivedDocument');
 Route::post('document/received', 'DocumentController@receivedDocument');
 
 Route::get('document/logs','DocumentController@logsDocument');
-Route::post('document/logs','DocumentController@logsDocument');
+Route::post('document/logs','DocumentController@searchLogs');
+Route::get('document/section/logs','DocumentController@sectionLogs');
+Route::post('document/section/logs','DocumentController@searchSectionLogs');
 
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
@@ -45,12 +65,11 @@ Route::post('form/tev', 'TevController@store');
 Route::get('form/bills','BillsController@index');
 Route::post('form/bills','BillsController@store');
 
-Route::get('pdf', function(){
-    $display = view("pdf.pdf");
+Route::get('pdf/v1/{size}', function($size){
+    $display = view("pdf.pdf",['size'=>$size]);
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
-
-    return $pdf->stream();
+    return $pdf->setPaper($size, 'portrait')->stream();
 });
 
 //PRINT LOGS
@@ -59,13 +78,40 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 //PRINT REPORT
 Route::get('report','AdminController@report');
+//ONLINE
+Route::get('online','OnlineController@online');
+
+//LOGOUT
+Route::get('logout',function(){
+    $user = Auth::user();
+    echo $id = $user->id;
+    \App\Http\Controllers\SystemController::logDefault('Logged Out');
+    Auth::logout();
+    User::where('id',$id)
+        ->update(['status' => 0]);
+    \Illuminate\Support\Facades\Session::flush();
+    return redirect('login');
+});
 //endjimzky
 
 //rusel
-//PURCHASE REQUEST/REGULAR
-Route::get('document/prCreated','PurchaseRequestController@prCreated');
-Route::get('prRegularPurchase','PurchaseRequestController@prRegularPurchase');
-Route::post('prRegularPurchase','PurchaseRequestController@savePrRegularPurchase');
+//PURCHASE REQUEST/REGULAR SUPPLY
+Route::get('prr_supply_form','PurchaseRequestController@prr_supply_form');
+Route::post('prr_supply_post','PurchaseRequestController@prr_supply_post');
+Route::get('prr_supply_pdf','PurchaseRequestController@prr_supply_pdf');
+Route::get('prr_supply_page','PurchaseRequestController@prr_supply_page');
+Route::post('prr_supply_update','PurchaseRequestController@prr_supply_update');
+Route::get('prr_supply_history','PurchaseRequestController@prr_supply_history');
+Route::get('prr_supply_append','PurchaseRequestController@prr_supply_append');
+//PURCHASE REQUEST/REGULAR MEAL
+Route::get('prr_meal_form','PurchaseRequestController@prr_meal_form');
+Route::post('prr_meal_post','PurchaseRequestController@prr_meal_post');
+Route::get('prr_meal_append','PurchaseRequestController@prr_meal_append');
+Route::get('prr_meal_page','PurchaseRequestController@prr_meal_page');
+Route::get('prr_meal_history','PurchaseRequestController@prr_meal_history');
+Route::post('prr_meal_update','PurchaseRequestController@prr_meal_update');
+Route::get('prr_meal_pdf','PurchaseRequestController@prr_meal_pdf');
+Route::get('prr_meal_category', 'PurchaseRequestController@prr_meal_category');
 //PURCHASE REQUEST/ADVANCE
 Route::get('prCashAdvance','PurchaseRequestController@prCashAdvance');
 Route::post('prCashAdvance','PurchaseRequestController@savePrCashAdvance');
@@ -83,6 +129,7 @@ Route::post('searchDivision','DivisionController@searchDivision');
 Route::get('searchDivision','DivisionController@searchDivisionSave');
 //SECTION
 Route::get('section','SectionController@section');
+Route::post('section','SectionController@searchSection');
 Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
@@ -97,8 +144,47 @@ Route::get('checkSectionUpdate','SectionController@checkSectionUpdate');
 Route::get('checkDivision','DivisionController@checkDivision');
 Route::get('checkDivisionUpdate','DivisionController@checkDivisionUpdate');
 Route::get('date_in/{count}','DocumentController@get_date_in');
-Route::get('haha',function(){
-    return Session::get("date_in");
+//GET DESIGNATION
+Route::get('getDesignation/{id}','PurchaseRequestController@getDesignation');
+//APPOINTMENT
+Route::get('appointment','AppointmentController@appointment');
+Route::post('appointment','AppointmentController@appointmentSave');
+//PR PDF
+Route::get('pdf_pr','PurchaseRequestController@prr_pdf');
+
+////CALENDAR
+Route::get('calendar',function(){
+    return view('calendar.calendar');
+});
+Route::get('calendar_hyazel',function(){
+    return view('calendar.calendar_hyazel');
+});
+Route::get('calendar_form',function(){
+    return view('calendar.calendar_form');
+});
+Route::post('calendar_save','CalendarController@calendar');
+Route::post('calendar_update','CalendarController@calendar_update');
+Route::get('calendar_event','CalendarController@calendar_event');
+Route::get('calendar_id/{event_id}','CalendarController@calendar_id');
+Route::get('calendar_last_id','CalendarController@calendar_last_id');
+Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
+Route::get('calendar_pdf','CalendarController@calendar_pdf');
+Route::get('calendar_img','CalendarController@calendar_img');
+///EMAIL
+Route::get('sendemail', function () {
+
+    $data = array(
+        'name' => "Learning Laravel",
+    );
+
+    Mail::send('emails.welcome', $data, function ($message) {
+
+        $message->from('nevermoretayong@gmail.com', 'Learning Laravel');
+        $message->to('ruseltayong@gmail.com')->subject('Learning Laravel test email');
+
+    });
+
+    return "Your email has been sent successfully";
 });
 
 //traya
@@ -113,8 +199,11 @@ Route::post('/form/application/leave', 'AppLeaveController@create');
 //JUSTIFICTION LETTER
 Route::match(['get','post'], '/form/justification/letter','JustificationController@index');
 //OFFICE ORDER
+Route::match(['get','post'] ,'/form/office-order', 'OfficeOrderController@create');
+/*
 Route::get('/form/office-order','OfficeOrderController@index');
 Route::post('/form/office-order','OfficeOrderController@create');
+*/
 //ACTIVITY WORKSHEET
 Route::get('/form/worksheet','ActivityWorksheetController@index');
 Route::post('/form/worksheet', 'ActivityWorksheetController@create');
@@ -141,7 +230,14 @@ Route::match(['get','post'],'/designation/create','DesignationController@create'
 Route::match(['get','post'],'/edit/designation', 'DesignationController@edit');
 Route::get('/search/designation', 'DesignationController@search');
 Route::post('/remove/designation', 'DesignationController@remove');
-
+//feedback
+Route::match(['get','post'] ,'feedback', 'FeedbackController@index');
+Route::match(['get','post'], 'users/feedback', 'FeedbackController@view_feedback');
+Route::match(['get','post'],'view-feedback','FeedbackController@message');
+Route::get('feedback_ok',function(){
+    return view('feedback.feedback_ok');
+});
+Route::post('feedback/action', 'FeedbackController@action');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');
