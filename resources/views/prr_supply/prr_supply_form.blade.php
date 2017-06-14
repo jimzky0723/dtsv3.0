@@ -169,7 +169,7 @@ Use App\Designation;
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Requested By:</label>
                             <div class="col-sm-10">
-                                <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
+                                <select  class="chosen-select-static form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
                                     <option value="">Select Name</option>
                                     @foreach($section_head as $row)
                                         <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
@@ -235,7 +235,7 @@ Use App\Designation;
                     <div class="col-md-6">
                         <label class="col-sm-4 control-label">Printed Name:</label>
                         <div class="col-sm-10">
-                            <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
+                            <select class="chosen-select-static form-control" onchange="get_designation($(this),'division');" name="division_head" required>
                                 <option value="">Select Name</option>
                                 @foreach($division_head as $row)
                                     <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
@@ -274,6 +274,7 @@ Use App\Designation;
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
+    $('.chosen-select-static').chosen();
     var width = $("#my_modal").width() + 100;
     /*$("#my_modal").css("width", width);*/
     $(".textarea").wysihtml5();

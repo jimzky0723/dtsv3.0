@@ -158,6 +158,6 @@
             $('.route_no').prop("disabled", false); // Element(s) are now enabled.
             $('.remarks').prop("disabled", false); // Element(s) are now enabled.
         });
-        
+
     </script>
 @endsection
