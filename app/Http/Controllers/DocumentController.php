@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tracking;
 use App\User;
+use App\Users;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Tracking_Filter;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\SystemController as System;
 use App\Http\Controllers\ReleaseController as Rel;
 use App\Release;
+use PDO;
+use DateTime;
 
 class DocumentController extends Controller
 {
@@ -30,7 +33,8 @@ class DocumentController extends Controller
         $data['documents'] = Tracking::where('prepared_by',$id)
             ->where(function($q) use ($keyword){
                 $q->where('route_no','like',"%$keyword%")
-                  ->orwhere('description','like',"%$keyword%");
+                    ->orwhere('description','like',"%$keyword%")
+                    ->orWhere('purpose','like',"%$keyword%");
             })
             ->orderBy('id','desc')
             ->paginate(15);
@@ -75,6 +79,53 @@ class DocumentController extends Controller
         }
         return redirect()->back();
     }
+    //RUSEL
+    public function connect()
+    {
+        return new PDO("mysql:host=localhost;dbname=dohdtr",'root','');
+    }
+    public function getSO($route_no)
+    {
+        $db = $this->connect();
+        $sql = "select * from office_order where route_no = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+    public function inclusive_name($route_no)
+    {
+        $db = $this->connect();
+        $sql = "select * from inclusive_name where route_no = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no));
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function calendar($route_no)
+    {
+        $db = $this->connect();
+        $sql = "select * from calendar where route_no = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no));
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function insert_dtr_file($userid,$datein,$time,$event,$remark,$edited,$holiday)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO dtr_file(userid,datein,time,event,remark,edited,holiday,created_at,updated_at) values(?,?,?,?,?,?,?,now(),now())";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($userid,$datein,$time,$event,$remark,$edited,$holiday));
+        $db=null;
+    }
+    //END RUSEL
     public function saveDocument(Request $request){
         $user = Auth::user();
         $id = $user->id;
@@ -101,16 +152,18 @@ class DocumentController extends Controller
                 else:
                     $received_by = $doc->prepared_by;
                 endif;
-                $q = new Tracking_Details();
+                /*$q = new Tracking_Details();
                 $q->route_no = $route_no;
                 $q->date_in = date('Y-m-d H:i:s');
                 $q->received_by = $id;
                 $q->delivered_by = $received_by;
                 $q->action = $request->remarks[$i];
-                $q->save();
-
+                $q->save();*/
+                $time = 0;
                 $rel = Release::where('route_no', $route_no)->orderBy('id','desc')->first();
-                $time = Rel::hourDiff($rel->date_reported);
+                if($rel){
+                    $time = Rel::hourDiff($rel->date_reported);
+                }
                 if($time < 4){
                     $sec = $user->section;
                     Release::where('route_no',$route_no)
@@ -122,6 +175,38 @@ class DocumentController extends Controller
                     Release::where('route_no',$route_no)->update(['status'=>2]);
                 }
                 $status['success'][] = 'Route No. "'. $route_no . '" <strong>ACCEPTED!</strong> ';
+                //RUSEL
+                if(Auth::user()->section == 36 and $doc->doc_type == 'OFFICE_ORDER' and $this->getSO($route_no))
+                {
+                    foreach($this->calendar($route_no) as $calendar):
+                        $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar['end']))));
+                        $f = new DateTime($calendar['start'].' '. '00:00:00');
+                        $t = new DateTime($dtr_enddate.' '. '00:00:00');
+
+                        $interval = $f->diff($t);
+
+                        $datein = '';
+                        $f_from = explode('-',$calendar['start']);
+                        $startday = $f_from[2];
+                        foreach($this->inclusive_name($route_no) as $inclusive_name):
+                            $j = 0;
+                            while($j <= $interval->days) {
+                                $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+                                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                                for($i = 0; $i < count($time); $i++):
+                                    $name = Users::where('id',$inclusive_name['user_id'])->first()->username;
+                                    $remarks = sprintf('%04u',$this->getSO($route_no)['id']);
+                                    $this->insert_dtr_file($name,$datein,$time[$i],'IN',$remarks,'1','003');
+                                endfor;
+
+                                $startday = $startday + 1;
+                                $j++;
+                            }
+                        endforeach;
+                    endforeach;
+                }
+                //END RUSEL
                 System::logDefault('Accepted',$route_no);
             }else{
                 $status['errors'][] = 'Route No. "'. $route_no . '" not found in the database. ';
@@ -147,6 +232,17 @@ class DocumentController extends Controller
             }
             $q->$key = $value;
         }
+
+        if($req->doc_type == 'PO')
+        {
+            $tmp = $req->description;
+            $tmp .= '<br><br>';
+            $tmp .= 'PR # : '.$req->pr_no.' dtd '. date('M d, Y',strtotime($req->pr_date));
+            $tmp .= '<br><br>';
+            $tmp .= 'PO # : '.$req->po_no.' dtd '. date('M d, Y',strtotime($req->po_date));
+            $q->description = $tmp;
+        }
+
         $q->save();
         Session::put('added',true);
 
@@ -171,10 +267,10 @@ class DocumentController extends Controller
         $id = $user->id;
 
         Tracking_Details::where('route_no',$route_no)
-                        ->where('received_by',$id)
-                        ->orderBy('id','desc')
-                        ->first()
-                        ->delete();
+            ->where('received_by',$id)
+            ->orderBy('id','desc')
+            ->first()
+            ->delete();
     }
     public function session(Request $request){
         Session::put('name','Lourence Rex');
@@ -246,9 +342,9 @@ class DocumentController extends Controller
             case "PRC":
                 return "Purchase Request - Cash Advance Purchase";
             case "PRR_S":
-                return "Purchase Request - Supplies";
+                return "Purchase Request - Regular Purchase - Supply";
             case "PRR_M":
-                return "Purchase Request - Meal";
+                return "Purchase Request - Regular Purchase - Meal";
             case "REPORT":
                 return "Reports";
             case "GENERAL" :
@@ -285,34 +381,21 @@ class DocumentController extends Controller
             'fund_source_budget');
         for($i=0;$i<count($filter);$i++){
             if(!Tracking_Filter::where($filter[$i],1)
-                            ->where('doc_type',$doc_type)
-                            ->first()){
+                ->where('doc_type',$doc_type)
+                ->first()){
                 $filter[$i] = 'hide';
             }
         }
         return $filter;
     }
 
-    public function show($route_no,$prepared_by=null,$doc_type=null){
-        //CHECKING THE USER IF SHE/HE WAS CREATED THE DOCUMENT
-        $created_me = Tracking::where('route_no',$route_no)
-                            ->where('prepared_by',$prepared_by)
-                            ->first();
-
-        if($created_me){
-            $document = Tracking::where('route_no',$route_no)
-                ->where('prepared_by',$prepared_by)
-                ->first();
-            $asset = asset('prr_meal_page');
-        } else {
-            $document = Tracking::where('route_no',$route_no)
-                ->first();
-            $asset = asset('prr_meal_pdf');
-        }
-
+    public function show($route_no,$doc_type=null,$prr_type=null){
+        $document = Tracking::where('route_no',$route_no)
+            ->first();
         Session::put('route_no', $route_no);
         Session::put('doc_type', $doc_type);
-        return view('document.info',['document' => $document,'asset' => $asset]);
+        Session::put('prr_type', $prr_type);
+        return view('document.info',['document' => $document]);
     }
 
     public function track($route_no)
@@ -491,28 +574,38 @@ class DocumentController extends Controller
     public static function checkLastRecord($route_no)
     {
         $document = Tracking_Details::where('route_no',$route_no)
-                        ->orderBy('id','desc')
-                        ->first();
+            ->orderBy('id','desc')
+            ->first();
         return $document->id;
     }
 
     public static function getNextRecord($route_no,$id)
     {
         $document = DB::table('tracking_details')
-                ->where('id', ( DB::raw("(SELECT min(id) FROM tracking_details WHERE id > $id)")) )
-                ->get();
+            ->where('id', ( DB::raw("(SELECT min(id) FROM tracking_details WHERE id > $id)")) )
+            ->get();
         $new_array[] = json_decode(json_encode($document), true);
         return $new_array[0];
     }
 
     static function deliveredDocument($route_no,$id,$doc_type='ALL'){
-        $documents = DB::table('tracking_details')
+        $last = Tracking_Details::where('route_no',$route_no)->orderBy('id','desc')->first();
+
+        if($last->received_by == $id){
+            return false;
+        }
+        $documents = Tracking_Details::where('delivered_by',$id)
             ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
             ->where('tracking_details.route_no',$route_no)
-            ->where('doc_type',$doc_type)
-            ->where('delivered_by',$id)
-            ->where('received_by','!=',$id)
+            ->orderBy('tracking_details.id','desc')
             ->first();
+//        $documents = DB::table('tracking_details')
+//            ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
+//            ->where('tracking_details.route_no',$route_no)
+//            ->where('doc_type',$doc_type)
+//            ->where('delivered_by',$id)
+//            ->where('received_by','!=',$id)
+//            ->first();
         Session::put('deliveredDocuments',$documents);
         return $documents;
     }
@@ -544,7 +637,8 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where(function($q) use ($keywordLogs){
                     $q->where('tracking_details.route_no','like',"%$keywordLogs%")
-                        ->orwhere('description','like',"%$keywordLogs%");
+                        ->orwhere('description','like',"%$keywordLogs%")
+                        ->orWhere('purpose','like',"%$keywordLogs%");
                 })
                 ->where('doc_type',$doc_type)
                 ->where('received_by',$id)
@@ -559,7 +653,8 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where(function($q) use ($keywordLogs){
                     $q->where('tracking_details.route_no','like',"%$keywordLogs%")
-                        ->orwhere('description','like',"%$keywordLogs%");
+                        ->orwhere('description','like',"%$keywordLogs%")
+                        ->orWhere('purpose','like',"%$keywordLogs%");
                 })
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
@@ -596,7 +691,8 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where(function($q) use ($keywordLogs){
                     $q->where('tracking_details.route_no','like',"%$keywordLogs%")
-                        ->orwhere('description','like',"%$keywordLogs%");
+                        ->orwhere('description','like',"%$keywordLogs%")
+                        ->orWhere('purpose','like',"%$keywordLogs%");
                 })
                 ->where('doc_type',$doc_type)
                 ->where('received_by',$id)
@@ -611,7 +707,8 @@ class DocumentController extends Controller
                 ->leftJoin('tracking_master', 'tracking_details.route_no', '=', 'tracking_master.route_no')
                 ->where(function($q) use ($keywordLogs){
                     $q->where('tracking_details.route_no','like',"%$keywordLogs%")
-                        ->orwhere('description','like',"%$keywordLogs%");
+                        ->orwhere('description','like',"%$keywordLogs%")
+                        ->orWhere('purpose','like',"%$keywordLogs%");
                 })
                 ->where('received_by',$id)
                 ->where('date_in','>=',$startdate)
@@ -714,9 +811,9 @@ class DocumentController extends Controller
         $startTime = date('Y-m-d ').'00:00:00';
         $endTime = date('Y-m-d ').'23:59:59';
         $count = User::where('updated_at','>=',$startTime)
-                ->where('updated_at','<=',$endTime)
-                ->where('status',1)
-                ->count();
+            ->where('updated_at','<=',$endTime)
+            ->where('status',1)
+            ->count();
 
         return $count;
     }

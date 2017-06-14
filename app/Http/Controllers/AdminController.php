@@ -27,7 +27,7 @@ class AdminController extends Controller
     public function users(Request $request) {
         $users = User::where('id','!=', $request->user()->id)->paginate(10);
         return view('users.users')
-                ->with('users',$users);
+            ->with('users',$users);
     }
     public function user_create(Request $request){
 
@@ -104,10 +104,10 @@ class AdminController extends Controller
 
     public function search(Request $request) {
         $user = User::where('fname','LIKE', "%". $request->input('search') ."%")
-                    ->orWhere('mname', 'LIKE', "%". $request->input('search')."%")
-                    ->orWhere('lname', 'LIKE', "%". $request->input('search'). "%")
-                    ->orWhere('username' ,'LIKE', "%". $request->input('search'). "%")
-                    ->paginate(10);
+            ->orWhere('mname', 'LIKE', "%". $request->input('search')."%")
+            ->orWhere('lname', 'LIKE', "%". $request->input('search'). "%")
+            ->orWhere('username' ,'LIKE', "%". $request->input('search'). "%")
+            ->paginate(10);
         if(isset($user) and count($user) > 0) {
             return view('users.users')->with('users',$user);
         }
@@ -174,7 +174,8 @@ class AdminController extends Controller
         $keyword = Session::get('keywordAll');
         $data['documents'] = Tracking::where(function($q) use ($keyword){
             $q->where('route_no','like',"%$keyword%")
-                ->orwhere('description','like',"%$keyword%");
+                ->orwhere('description','like',"%$keyword%")
+                ->orWhere('purpose','like',"%$keyword%");
         })
             ->orderBy('id','desc')
             ->paginate(10);

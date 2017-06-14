@@ -160,7 +160,7 @@
             $('.route_no').prop("disabled", false); // Element(s) are now enabled.
             $('.remarks').prop("disabled", false); // Element(s) are now enabled.
         });
-        
+
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

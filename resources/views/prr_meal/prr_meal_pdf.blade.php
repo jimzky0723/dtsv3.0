@@ -235,6 +235,7 @@
                 //$tr_count == 1 ? $border = 'border-bottom border-top' : $border = 'border-bottom';
                 $border = 'border-bottom border-top';
             ?>
+                @for($i=0;$i<10000;$i++)
                 <div class="box">
                     <div class="box_content">
                         <div class="div_estimated">
@@ -301,6 +302,7 @@
                         </div>
                     </div>
                 </div>
+                @endfor
                 <div style="clear: both;"></div>
             <?php
                 $tr_count++;
