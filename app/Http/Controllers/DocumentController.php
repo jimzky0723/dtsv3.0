@@ -23,6 +23,8 @@ class DocumentController extends Controller
     }
     public function index()
     {
+
+
         $user = Auth::user();
         $id = $user->id;
         $keyword = Session::get('keyword');
