@@ -152,13 +152,13 @@ class DocumentController extends Controller
                 else:
                     $received_by = $doc->prepared_by;
                 endif;
-                /*$q = new Tracking_Details();
+                $q = new Tracking_Details();
                 $q->route_no = $route_no;
                 $q->date_in = date('Y-m-d H:i:s');
                 $q->received_by = $id;
                 $q->delivered_by = $received_by;
                 $q->action = $request->remarks[$i];
-                $q->save();*/
+                $q->save();
                 $time = 0;
                 $rel = Release::where('route_no', $route_no)->orderBy('id','desc')->first();
                 if($rel){
@@ -196,7 +196,7 @@ class DocumentController extends Controller
 
                                 for($i = 0; $i < count($time); $i++):
                                     $name = Users::where('id',$inclusive_name['user_id'])->first()->username;
-                                    $remarks = sprintf('%04u',$this->getSO($route_no)['id']);
+                                    $remarks = sprintf('%04u',$this->getSO($route_no)['id']).'-HRMIS';
                                     $this->insert_dtr_file($name,$datein,$time[$i],'IN',$remarks,'1','003');
                                 endfor;
 
