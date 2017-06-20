@@ -187,9 +187,10 @@ class DocumentController extends Controller
 
                         $datein = '';
                         $f_from = explode('-',$calendar['start']);
-                        $startday = $f_from[2];
+
                         foreach($this->inclusive_name($route_no) as $inclusive_name):
                             $j = 0;
+                            $startday = $f_from[2];
                             while($j <= $interval->days) {
                                 $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
                                 $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
