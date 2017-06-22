@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -55,10 +56,15 @@ class PrintLogsController extends Controller
         }else{
             return redirect('document/delivered');
         }
+        try{
 
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($display)->setPaper('a4', 'landscape');
-        return $pdf->stream();
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML($display)->setPaper('a4', 'landscape');
+            return $pdf->stream();
+
+        }catch(Exception $ex){
+            return view('error.print')->with('error', $ex->getMessage());
+        }
     }
 
 }
