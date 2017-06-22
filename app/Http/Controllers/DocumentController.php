@@ -176,7 +176,7 @@ class DocumentController extends Controller
                 }
                 $status['success'][] = 'Route No. "'. $route_no . '" <strong>ACCEPTED!</strong> ';
                 //RUSEL
-                if(Auth::user()->section == 36 and $doc->doc_type == 'OFFICE_ORDER' and $this->getSO($route_no))
+                if(Auth::user()->section == 11 and $doc->doc_type == 'OFFICE_ORDER' and $this->getSO($route_no))
                 {
                     foreach($this->calendar($route_no) as $calendar):
                         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar['end']))));
