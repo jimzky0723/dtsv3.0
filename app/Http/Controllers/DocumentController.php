@@ -27,7 +27,6 @@ class DocumentController extends Controller
     public function index()
     {
 
-
         $user = Auth::user();
         $id = $user->id;
         $keyword = Session::get('keyword');
@@ -108,6 +107,14 @@ class DocumentController extends Controller
 
         return $row;
     }
+    public function so_update_status($route_no)
+    {
+        $db = $this->connect();
+        $sql = "update office_order set approved_status = 1 where route_no = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no));
+        $db = null;
+    }
     public function calendar($route_no)
     {
         $db = $this->connect();
@@ -180,6 +187,7 @@ class DocumentController extends Controller
                 //RUSEL
                 if(Auth::user()->section == 11 and $doc->doc_type == 'OFFICE_ORDER' and $this->getSO($route_no))
                 {
+                    $this->so_update_status($route_no);
                     foreach($this->calendar($route_no) as $calendar):
                         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar['end']))));
                         $f = new DateTime($calendar['start'].' '. '00:00:00');
