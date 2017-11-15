@@ -19,8 +19,8 @@ class CreateTrackingDetails extends Migration
             $table->increments('id');
             $table->string('route_no');
             $table->dateTime('date_in');
-            $table->integer('received_by');
-            $table->integer('delivered_by');
+            $table->string('received_by');
+            $table->string('delivered_by');
             $table->string('action');
             $table->boolean('status');
             $table->rememberToken();

@@ -6,8 +6,7 @@
             Use App\Division;
             Use App\Section;
             Use App\Designation;
-            $count = 0;
-            $total = 0;
+            use App\prr_meal_category;
             ?>
             <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
             <style>
@@ -37,8 +36,8 @@
                 .align-top{
                     vertical-align: top;
                 }
-                .table1 {
-                    width: 100%;
+                .align-bottom{
+                    vertical-align: bottom;
                 }
                 .table1 td {
                     border:1px solid #000;
@@ -56,9 +55,10 @@
                 {{ csrf_field() }}
                 <span id="getDesignation" data-link="{{ asset('getDesignation') }}"></span>
                 <span id="url" data-link="{{ asset('prr_meal_append') }}"></span>
+                <span id="category_url" data-link="{{ asset('prr_meal_category') }}"></span>
                 <span id="update_history" data-link="{{ asset('prr_meal_history') }}"></span>
                 <span id="token" data-token="{{ csrf_token() }}"></span>
-                <input type="hidden" name="doc_type" value="PRR_S">
+                <input type="hidden" name="doc_type" value="PRR_M">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
                 <div class="modal-body">
                     <div class="content-wrapper">
@@ -138,9 +138,11 @@
                                     </thead>
                                     <tbody class="input_fields_wrap">
                                     <?php
+                                    $count = 0;
+                                    $total = 0;
                                     foreach($meal as $row):
-                                    $total += $row->estimated_cost;
-                                    $count++;
+                                        $total += $row->estimated_cost;
+                                        $count++;
                                     ?>
                                     <tr id="{{ $count }}">
                                         <input type="hidden" value="{{ $row->id }}" name="pr_id">
@@ -156,27 +158,77 @@
                                         <td id="border-bottom" class="align-top" width="40%">
                                             <div class="{{ 'description'.$count }}">
                                                 <strong><i>Description</i></strong>
-                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="description[]" id="{{ 'description'.$count }}" onkeyup="trapping()" required>
-                                                    {{ $row->description }}
+                                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="{{ 'specification'.$count }}" onkeyup="trapping()" required>
+                                                    {{ $row->specification }}
                                                 </textarea>
                                                 <small id="{{ 'E_description'.$count }}"></small>
                                             </div>
                                             <div class="{{ 'expected'.$count }}">
                                                 <strong><i>Expected:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="expected[]" id="{{ 'expected'.$count }}" value="{{ $row->expected }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
-                                                <small id="{{ 'E_expected'.$count }}">required!</small>
+                                                <input type="text" name="expected[]" id="{{ 'expected'.$count }}" value="{{ $row->expected }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
+                                                <strong><i>Guaranteed:</i></strong> &nbsp;&nbsp;&nbsp;
+                                                <input type="text" name="guaranteed[]" id="guaranteed1" value="{{ $row->guaranteed }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
                                             </div>
                                             <div class="{{ 'date_time'.$count }}" style="margin-top: 2%">
                                                 <strong><i>Date and Time:</i></strong> &nbsp;&nbsp;&nbsp;
                                                 <input type="text" name="date_time[]" value="{{ $row->date_time }}" id="{{ 'date_time'.$count }}" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
                                                 <small id="{{ 'E_date_time'.$count }}">required!</small>
                                             </div>
+                                            <div id="{{ 'category_append'.$count }}">
+                                                <div style="margin-top: 2%">
+                                                    <?php
+                                                    $category = prr_meal_category::where('category_row',$row->category_row)
+                                                                ->where('prr_logs_key',$row->prr_logs_key)
+                                                                ->where('status',1)
+                                                                ->get();
+                                                    $category_array = array('AM Snacks','PM Snacks','Buffet Lunch');
+                                                    $column = 0;
+                                                    foreach($category as $category_desc):
+                                                        $column++;
+                                                    ?>
+                                                        <div style="margin-top:2%;">
+                                                            <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <select name="category[{{ $count }}][{{ $column }}]" id="{{ 'category'.$count.$column }}" value="{{ $category_desc->category_desc }}" class="form-control" style="width: 50%;display: inline;">
+                                                                <option value="{{ $category_desc->category_desc }}">{{ $category_desc->category_desc }}</option>
+                                                                <?php
+                                                                    for($i=0;$i<count($category_array);$i++){
+                                                                        if($category_desc->category_desc != $category_array[$i])
+                                                                            echo "<option value='".$category_array[$i]."'>".$category_array[$i]."</option>";
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                            <a href="#" data-value="{{ $count.$column }}" type="button" onclick="remove_category($(this))" style="display:inline;color: red;"><i class="fa fa-remove"> Remove</i></a>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                            <a onclick="add_category($(this));" data-value="{{ $count }}" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
                                         </td>
                                         <td id="border-bottom"></td>
-                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-top"><input type="text" name="unit_cost[]" id="{{ 'unit_cost'.$count }}" value="{{ $row->unit_cost }}"  class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="{{ 'E_unit_cost'.$count }}">required!</small></td>
-                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-top">
-                                            <input type="hidden" name="estimated_cost[]" id="{{ 'estimated_cost'.$count }}" value="{{ $row->estimated_cost }}"  class="form-control">
-                                            <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count }}">{{ $row->estimated_cost }} </strong>
+                                        <td id="border-bottom" class="{{ 'unit_cost'.$count }} align-bottom">
+                                            <div id="{{ 'unit_cost_append'.$count }}" style="margin-bottom: 20%">
+                                                <?php $column=0; ?>
+                                                @foreach($category as $unit_cost)
+                                                    <?php $column++; ?>
+                                                    <div id="{{ 'parent_unit_cost'.$count.$column }}" style="margin-bottom: 5%;">
+                                                        <input type="text" name="unit_cost[{{ $count }}][{{ $column }}]" id="{{ 'unit_cost'.$count.$column }}" value="{{ $unit_cost->unit_cost }}" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td id="border-bottom" class="{{ 'estimated_cost'.$count }} align-bottom">
+                                            <div id="{{ 'estimated_cost_append'.$count }}" style="margin-bottom: 20%">
+                                                <?php
+                                                $column=0;
+                                                foreach($category as $estimated_cost):
+                                                    $column++;
+                                                ?>
+                                                    <div id="{{ 'parent_estimated_cost'.$count.$column }}" style="margin-bottom: 14%;">
+                                                        <input type="hidden" name="estimated_cost[{{ $count }}][{{ $column }}]" id="{{ 'estimated_cost'.$count.$column }}" value="{{ $estimated_cost->estimated_cost }}"  class="form-control">
+                                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="{{ 'e_cost'.$count.$column }}">{{ number_format($estimated_cost->estimated_cost,2) }} </strong>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php
@@ -191,7 +243,7 @@
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
                                         <td id="border-top"></td>
-                                        <td id="border-top"><a onclick="add();" href="#">Add new</a></td>
+                                        <td id="border-top"><a onclick="add();" href="#"><i class="fa fa-plus"></i> Add Item</a></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
@@ -208,6 +260,7 @@
                                         <td class="align" colspan="6"><b>TOTAL</b></td>
                                         <td class="align-top">
                                             <input type="hidden" id="count" value="{{ $count }}">
+                                            <input type="hidden" id="column" value="{{ $column }}">
                                             <input type="hidden" name="amount" id="amount">
                                             <strong style="color: red;">&#x20b1;</strong><strong style="color:red" id="total">{{ $total }}</strong>
                                         </td>
@@ -227,7 +280,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <h3>Certification</h3>
                                     <address>This is to certify that dilligent efforts have been exerted to ensure that the price/s indicated above(in relation to the specifications) is/are within the prevailing market price/s.
                                     </address>
@@ -243,10 +296,26 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
+                                    <h3>Certification</h3>
+                                    <address>This is to certify that dilligent efforts have been exerted to ensure that the price/s indicated above(in relation to the specifications) is/are within the prevailing market price/s.
+                                    </address>
+
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Designation:</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-md-2 control-label">Requested By:</label>
+                                        <div class="col-md-10">
+                                            <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname }}" readonly>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Designation:</label>
+                                        <div class="col-md-10">
                                             <input id="section_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->requested_by)->designation)->description }}" readonly>
                                         </div>
                                     </div>
@@ -254,10 +323,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="purpose" class="col-sm-2 control-label">Purpose:</label>
-                                        <div class="col-sm-10">
+                                        <label for="purpose" class="col-md-2 control-label">Purpose:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" id="purpose" name="purpose" readonly>{{ $tracking->purpose }}</textarea>
                                         </div>
                                     </div>
@@ -265,10 +334,10 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="chargeable" class="col-sm-2 control-label">Chargeable to:</label>
-                                        <div class="col-sm-10">
+                                        <label for="chargeable" class="col-md-2 control-label">Chargeable to:</label>
+                                        <div class="col-md-10">
                                             <textarea class="form-control" name="charge_to" readonly>{{ $tracking->source_fund }}</textarea>
                                         </div>
                                     </div>
@@ -293,25 +362,21 @@
                             <br>
 
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Printed Name:</label>
-                                    <div class="col-sm-10">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Printed Name:</label>
+                                    <div class="col-md-10">
                                         <input id="section_head" class="form-control" value="{{ \App\Users::find($tracking->division_head)->fname.' '.App\Users::find($tracking->division_head)->mname.' '.App\Users::find($tracking->division_head)->lname }}" readonly>
                                     </div>
+                                    <label class="col-md-4 control-label">Designation:</label>
+                                    <div class="col-md-10">
+                                        <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->division_head)->designation)->description }}" readonly>
+                                    </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-md-6">
                                     <center>
                                         <strong>JAIME S. BERNADAS, MD, MGM, CESO III</strong><br>
                                         Director IV
                                     </center>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <label class="col-sm-4 control-label">Designation:</label>
-                                    <div class="col-sm-10">
-                                        <input id="division_head" class="form-control" value="{{ App\Designation::find(\App\User::find($tracking->division_head)->designation)->description }}" readonly>
-                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -342,6 +407,11 @@
         });
         ///END PLUGIN
         var count = $("#count").val();
+        if($("#column").val() != 0)
+            var category_count = $("#column").val();
+        else
+            var category_count = 1;
+
         var limit = 10;
         trapping(event,false);
 
@@ -355,8 +425,7 @@
 
             if(count < limit) {
                 count++;
-                var url = $("#url").data('link');
-                url += "?count=" + count;
+                var url = $("#url").data('link')+"?count="+count+"&category_count=" + category_count;
                 $.get(url, function (result) {
                     $(wrapper).append(result);
                 });
@@ -368,21 +437,17 @@
                 key_code(event);
             var estimated_cost = 0;
             var total = 0;
-            $("#global_title").val() == '' ? ($(".global_title").addClass("has-error"),$("#E_global_title").show()) : ($(".global_title").removeClass("has-error"),$("#E_global_title").hide());
-            for(var i=1; i<=count; i++){
-                if($("#expected"+i).val() == '' || $("#date_time"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#description"+i).val() == '') {
-                    ok = "false";
+            for(var i=1; i<=count; i++)
+            {
+                for (var j = 1; j <= category_count; j++) {
+                    var noComma = parseFloat(numeral($("#unit_cost" + i + j).val()).format('0,0.00').replace(/,/g, ''));
+                    $("#expected" + i).val() && $("#unit_cost" + i + j).val() !== '' ? (parseFloat($("#estimated_cost" + i + j).val($("#expected" + i).val() * noComma))) : $("#estimated_cost" + i + j).val('');
+                    $("#expected" + i).val() && $("#unit_cost" + i + j).val() !== '' ? ($("#e_cost" + i + j).text(numeral($("#expected" + i).val() * noComma).format('0,0.00')), estimated_cost = $("#estimated_cost" + i + j).val()) : ($("#e_cost" + i + j).text(''), estimated_cost = 0);
+
+                    if (estimated_cost){
+                        total += parseFloat(estimated_cost);
+                    }
                 }
-
-                $("#expected"+i).val() == '' ? ($(".expected"+i).addClass("has-error"),$("#E_expected"+i).show()) :($(".expected"+i).removeClass("has-error"),$("#E_expected"+i).hide()) ;
-                $("#date_time"+i).val() == '' ? ($(".date_time"+i).addClass("has-error"),$("#E_date_time"+i).show()) : ($(".date_time"+i).removeClass("has-error"),$("#E_date_time"+i).hide());
-                $("#unit_cost"+i).val() == '' ? ($(".unit_cost"+i).addClass("has-error"),$("#E_unit_cost"+i).show()) : ($(".unit_cost"+i).removeClass("has-error"),$("#E_unit_cost"+i).hide());
-
-                var noComma = parseFloat(numeral($("#unit_cost"+i).val()).format('0,0.00').replace(/,/g, ''));
-                $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? (parseFloat($("#estimated_cost"+i).val($("#expected"+i).val()*noComma))) : $("#estimated_cost"+i).val('');
-                $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#expected"+i).val()*noComma).format('0,0.00')),estimated_cost = $("#estimated_cost"+i).val()) : ($("#e_cost"+i).text(''),estimated_cost = 0);
-
-                total += parseFloat(estimated_cost);
             }
             $("#total").text(numeral(total).format('0,0.00'));
             $("#amount").val(numeral(total).format('0,0.00'));
@@ -457,6 +522,43 @@
                     }
                 });
             },1000);
+        }
+
+        ///CATEGORY
+        var unit_cost_margin_bottom = '4%';
+        var estimated_cost_margin_bottom = '12%';
+        function add_category(row)
+        {
+            event.preventDefault();
+            var category_row = 1;
+            if(row)
+                category_row = row.data('value');
+
+            category_count++;
+            var category_url = $("#category_url").data('link')+"?type=category&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#category_append"+category_row).append(result);
+            });
+            category_url = $("#category_url").data('link')+"?type=unit_cost&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#unit_cost_append"+category_row).append(result);
+                $("#parent_unit_cost"+category_row+category_count).css("margin-bottom", unit_cost_margin_bottom);
+            });
+            category_url = $("#category_url").data('link')+"?type=estimated_cost&row="+category_row+"&category_count=" + category_count;
+            $.get(category_url,function(result){
+                $("#estimated_cost_append"+category_row).append(result);
+                $("#parent_estimated_cost"+category_row+category_count).css("margin-bottom", estimated_cost_margin_bottom);
+            });
+        }
+
+        function remove_category($value)
+        {
+            event.preventDefault();
+            $value.parent('div').remove();
+            $("#parent_unit_cost"+$value.data('value')).remove();
+            $("#parent_estimated_cost"+$value.data('value')).remove();
+            console.log($value.data('value'));
+            trapping();
         }
     </script>
 @endsection

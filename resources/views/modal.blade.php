@@ -5,21 +5,21 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
             </div>
-        <div class="modal-body">             
-            <table class="table table-hover table-form table-striped">
-                <tr>
-                    <td class="col-sm-3"><label>Route Number</label></td>
-                    <td class="col-sm-1">:</td>
-                    <td class="col-sm-8"><input type="text" readonly id="track_route_no" value="" class="form-control"></td>
-                </tr>
-            </table>
-            <hr />                
-            <div class="track_history"></div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <button type="button" class="btn btn-success" onclick="window.open('{{ asset('pdf/track') }}')"><i class="fa fa-print"></i> Print</button>
-        </div>
+            <div class="modal-body">
+                <table class="table table-hover table-form table-striped">
+                    <tr>
+                        <td class="col-sm-3"><label>Route Number</label></td>
+                        <td class="col-sm-1">:</td>
+                        <td class="col-sm-8"><input type="text" readonly id="track_route_no" value="" class="form-control"></td>
+                    </tr>
+                </table>
+                <hr />
+                <div class="track_history"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                <button type="button" class="btn btn-success" onclick="window.open('{{ asset('pdf/track') }}')"><i class="fa fa-print"></i> Print</button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -61,7 +61,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Create Document</h4>
             </div>
-        <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+            <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -185,11 +185,11 @@
                 <table class="table table-hover">
                     <caption style="font-weight: bold" class="text-success">Who's Online</caption>
                     <tbody class="onlineContent">
-                        <tr>
-                            <td>
-                                <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -202,20 +202,20 @@
 
 <div class="modal fade" tabindex="-1" role="dialog" id="infoPending" style="margin-top: 30px;z-index: 99999;">
     <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-        <div class="modal-body">
-            <table class="table table-hover">
-                <caption style="font-weight: bold" class="text-success"><i class="fa fa-bookmark"></i> Details</caption>
-            </table>
-            <div class="pendingInfo">
-                
+        <div class="modal-content">
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <caption style="font-weight: bold" class="text-success"><i class="fa fa-bookmark"></i> Details</caption>
+                </table>
+                <div class="pendingInfo">
+
+                </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-        </div>
-    </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
@@ -275,7 +275,7 @@ $incoming = Tracking_Details::select(
         'delivered_by',
         'action',
         'alert'
-        )
+)
         ->where('code',$code)
         ->where('status',0)
         ->where('alert','>=',1)
@@ -294,22 +294,22 @@ $incoming = Tracking_Details::select(
             <div class="modal-body">
                 <table class="table table-hover table-form table-striped">
                     @foreach($incoming as $row)
-                    <?php $class='';?>
-                    @if($row->alert==2)
-                        <?php $class="warning"; ?>
-                    @endif
-                    <tr class="{{ $class }}">
-                        <td>
-                            <small style="font-size: 0.8em;font-weight: bold; color:blue;">Route No:</small><br />
-                            {{ $row->route_no }}<br />
-                            <small style="font-size: 0.8em;font-weight: bold; color:blue;">Delivered By:</small><br />
-                            <?php
+                        <?php $class='';?>
+                        @if($row->alert==2)
+                            <?php $class="warning"; ?>
+                        @endif
+                        <tr class="{{ $class }}">
+                            <td>
+                                <small style="font-size: 0.8em;font-weight: bold; color:blue;">Route No:</small><br />
+                                {{ $row->route_no }}<br />
+                                <small style="font-size: 0.8em;font-weight: bold; color:blue;">Delivered By:</small><br />
+                                <?php
                                 $user = App\User::find($row->delivered_by);
                                 $section = \App\Section::find($user->section)->description;
-                            ?>
-                            {{ $user->fname }} {{ $user->lname }}<br /><small style="font-size: 0.7;font-style: italic;">({{ $section }})</small>
-                        </td>
-                    </tr>
+                                ?>
+                                {{ $user->fname }} {{ $user->lname }}<br /><small style="font-size: 0.7;font-style: italic;">({{ $section }})</small>
+                            </td>
+                        </tr>
                     @endforeach
                 </table>
             </div>

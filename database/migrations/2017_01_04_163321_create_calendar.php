@@ -12,8 +12,11 @@ class CreateCalendar extends Migration
         }
         Schema::create('calendar', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('event_id');
+            $table->text('prepared_by');
             $table->text('title');
             $table->text('start');
+            $table->text('end');
             $table->text('backgroundColor');
             $table->text('borderColor');
             $table->rememberToken();

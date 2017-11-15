@@ -49,7 +49,6 @@ Use App\Designation;
     <span id="token" data-token="{{ csrf_token() }}"></span>
     <input type="hidden" name="doc_type" value="PRR_M">
     <input type="hidden" value="{{ Auth::user()->id }}" name="prepared_by">
-    <!--
     <div class="modal-body">
         <div class="content-wrapper">
             <section class="invoice">
@@ -131,49 +130,47 @@ Use App\Designation;
 
                             </td>
                             <td id="border-bottom" class="align-top" width="40%">
-                                <div class="description1">
-                                    <strong><i>Description</i></strong>
-                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="description[]" id="description1"  onkeyup="trapping()" required></textarea>
-                                    <small id="E_description1"></small>
+                                <div class="specification1">
+                                    <strong><i>Specification/Activities</i></strong>
+                                    <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()" required></textarea>
+                                    <small id="E_specification1"></small>
                                 </div>
                                 <div class="expected1">
                                     <strong><i>Expected:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="text" name="expected[]" id="expected1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <small id="E_expected1">required!</small>
+                                    <input type="text" name="expected[]" id="expected1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
+                                    <strong><i>Guaranteed:</i></strong> &nbsp;&nbsp;&nbsp;
+                                    <input type="text" name="guaranteed[]" id="guaranteed1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" style="width: 20%;display: inline" required>
                                 </div>
                                 <div class="date_time1" style="margin-top: 2%">
                                     <strong><i>Date and Time:</i></strong> &nbsp;&nbsp;&nbsp;
-                                    <input type="text" name="date_time[]" id="date_time1" class="form-control" onkeyup="trapping(event,true)" style="width: 50%;display: inline" required>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <small id="E_date_time1">required!</small>
+                                    <input type="text" name="date_time[]" id="date_time1" class="form-control" onkeyup="trapping(event,true)" style="width: 70%;display: inline" required>
                                 </div>
-                                <div id="category_append">
+                                <div id="category_append1">
                                     <div style="margin-top: 2%">
-                                        <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <select name="category[category][0]" id="category1" class="form-control" style="width: 50%;display: inline;">
+                                        <strong><i>Meal Type:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <select name="category[1][1]" id="category11" class="form-control" style="width: 50%;display: inline;">
                                             <option value="">Select Category</option>
                                             <option value="AM Snacks">AM Snacks</option>
                                             <option value="PM Snacks">PM Snacks</option>
                                             <option value="Buffet Lunch">Buffet Lunch</option>
-                                        </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </select>
                                     </div>
                                 </div>
                                 <a onclick="add_category();" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-bottom">
-                                <div id="unit_cost_append" style="margin-bottom: 30%">
-                                    <div style="margin-bottom: 10%;">
-                                        <input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
+                                <div id="unit_cost_append1" style="margin-bottom: 30%">
+                                    <div style="margin-bottom: 9%;">
+                                        <input type="text" name="unit_cost[1][1]" id="unit_cost11" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required>
                                     </div>
                                 </div>
                             </td>
                             <td id="border-bottom" class="estimated_cost1 align-bottom">
-                                <div id="estimated_cost_append" style="margin-bottom: 30%">
+                                <div id="estimated_cost_append1" style="margin-bottom: 25%">
                                     <div style="margin-bottom: 25%;">
-                                        <input type="hidden" name="estimated_cost[]" id="estimated_cost1" class="form-control">
-                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost1"></strong>
+                                        <input type="hidden" name="estimated_cost[1][1]" id="estimated_cost11" class="form-control">
+                                        <strong style="color:green;">&#x20b1;</strong><strong style="color:green" id="e_cost11"></strong>
                                     </div>
                                 </div>
                             </td>
@@ -318,61 +315,31 @@ Use App\Designation;
                 </div>
             </section>
         </div>
-    </div> -->
-    <div id="category_append">
-        <div style="margin-top: 2%">
-            <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <select name="category[][]" id="category1" class="form-control" style="width: 50%;display: inline;">
-                <option value="">Select Category</option>
-                <option value="AM Snacks">AM Snacks</option>
-                <option value="PM Snacks">PM Snacks</option>
-                <option value="Buffet Lunch">Buffet Lunch</option>
-            </select>&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-        <div style="margin-top: 2%">
-            <strong><i>Category:</i></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <select name="category[][]" id="category1" class="form-control" style="width: 50%;display: inline;">
-                <option value="">Select Category</option>
-                <option value="AM Snacks">AM Snacks</option>
-                <option value="PM Snacks">PM Snacks</option>
-                <option value="Buffet Lunch">Buffet Lunch</option>
-            </select>&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-    </div>
-    <a onclick="add_category();" class="pull-left" href="#" style="margin-top: 2%;"><i class="fa fa-plus"></i> Add Category</a>
-    <div class="row no-print">
-        <div class="col-xs-12">
-            <button type="submit" class="btn btn-success pull-left" onclick="haha();" style="margin-right: 5px;">
-                <i class="fa fa-send"></i> Submit
-            </button>
-        </div>
     </div>
 </form>
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
     var width = $("#my_modal").width() + 100;
-    $("#my_modal").css("width", width);
+    //$("#my_modal").css("width", width);
     $(".textarea").wysihtml5();
 
     var count = 1;
     var limit = 10;
-    var ok = "";
     function add(){
-        ok = "true";
         var wrapper= $(".input_fields_wrap"); //Fields wrapper
 
         trapping();
 
         if(count < limit) {
             count++;
-            var url = $("#url").data('link');
-            url += "?count=" + count;
+            /*var url = $("#url").data('link');
+             url += "?count=" + count;*/
+            var url = $("#url").data('link')+"?count="+count+"&category_count=" + category_count;
             $.get(url, function (result) {
                 $(wrapper).append(result);
             });
         }
-
     }
 
     function trapping(event,flag){
@@ -382,26 +349,29 @@ Use App\Designation;
         var estimated_cost = 0;
         var total = 0;
         $("#global_title").val() == '' ? ($(".global_title").addClass("has-error"),$("#E_global_title").show()) : ($(".global_title").removeClass("has-error"),$("#E_global_title").hide());
-        for(var i=1; i<=count; i++){
-            if($("#expected"+i).val() == '' || $("#date_time"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#description"+i).val() == '') {
-                ok = "false";
-            }
-
+        for(var i=1; i<=count; i++)
+        {
             $("#expected"+i).val() == '' ? ($(".expected"+i).addClass("has-error"),$("#E_expected"+i).show()) :($(".expected"+i).removeClass("has-error"),$("#E_expected"+i).hide()) ;
             $("#date_time"+i).val() == '' ? ($(".date_time"+i).addClass("has-error"),$("#E_date_time"+i).show()) : ($(".date_time"+i).removeClass("has-error"),$("#E_date_time"+i).hide());
             $("#unit_cost"+i).val() == '' ? ($(".unit_cost"+i).addClass("has-error"),$("#E_unit_cost"+i).show()) : ($(".unit_cost"+i).removeClass("has-error"),$("#E_unit_cost"+i).hide());
 
-            var noComma = parseFloat(numeral($("#unit_cost"+i).val()).format('0,0.00').replace(/,/g, ''));
-            $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? (parseFloat($("#estimated_cost"+i).val($("#expected"+i).val()*noComma))) : $("#estimated_cost"+i).val('');
-            $("#expected"+i).val() && $("#unit_cost"+i).val() !== '' ? ($("#e_cost"+i).text(numeral($("#expected"+i).val()*noComma).format('0,0.00')),estimated_cost = $("#estimated_cost"+i).val()) : ($("#e_cost"+i).text(''),estimated_cost = 0);
+            for(var j=1; j<=category_count; j++)
+            {
+                var noComma = parseFloat(numeral($("#unit_cost"+i+j).val()).format('0,0.00').replace(/,/g, ''));
+                $("#expected"+i).val() && $("#unit_cost"+i+j).val() !== '' ? (parseFloat($("#estimated_cost"+i+j).val($("#expected"+i).val()*noComma))) : $("#estimated_cost"+i+j).val('');
+                $("#expected"+i).val() && $("#unit_cost"+i+j).val() !== '' ? ($("#e_cost"+i+j).text(numeral($("#expected"+i).val()*noComma).format('0,0.00')),estimated_cost = $("#estimated_cost"+i+j).val()) : ($("#e_cost"+i+j).text(''),estimated_cost = 0);
+                //console.log('i= '+i+' ,j='+j+' ,count= '+count+' ,category_count='+category_count);
 
-            total += parseFloat(estimated_cost);
+                if(estimated_cost)
+                    total += parseFloat(estimated_cost);
+            }
         }
         $("#total").text(numeral(total).format('0,0.00'));
         $("#amount").val(numeral(total).format('0,0.00'));
     }
 
-    function key_code(e){
+    function key_code(e)
+    {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                     // Allow: Ctrl+A, Command+A
@@ -430,7 +400,8 @@ Use App\Designation;
         console.log(count);
     }
 
-    function erase(result){
+    function erase(result)
+    {
         limit++;
         $("#"+result.val()).remove();
         trapping();
@@ -445,34 +416,41 @@ Use App\Designation;
             isEscape = (evt.keyCode == 27);
         }
         if (isEscape) {
-            $("#my_modal").css("width", width-100);
+            //$("#my_modal").css("width", width-100);
         }
     };
 
     ///CATEGORY
     var category_count = 1;
-    function add_category()
+    function add_category(row)
     {
+        var category_row = 1;
+        if(row)
+            category_row = row.data('value');
+
         category_count++;
-        var category_url = $("#category_url").data('link')+"?type=category&category_count=" + category_count;
+        var category_url = $("#category_url").data('link')+"?type=category&row="+category_row+"&category_count=" + category_count;
         $.get(category_url,function(result){
-            $("#category_append").append(result);
+            $("#category_append"+category_row).append(result);
         });
-        category_url = $("#category_url").data('link')+"?type=unit_cost&category_count=" + category_count;
+        category_url = $("#category_url").data('link')+"?type=unit_cost&row="+category_row+"&category_count=" + category_count;
         $.get(category_url,function(result){
-            $("#unit_cost_append").append(result);
+            $("#unit_cost_append"+category_row).append(result);
         });
-        category_url = $("#category_url").data('link')+"?type=estimated_cost&category_count=" + category_count;
+        category_url = $("#category_url").data('link')+"?type=estimated_cost&row="+category_row+"&category_count=" + category_count;
         $.get(category_url,function(result){
-            $("#estimated_cost_append").append(result);
+            $("#estimated_cost_append"+category_row).append(result);
         });
     }
 
     function remove_category($value)
     {
-        for(var i=0;i<=category_count;i++){
-            $("#"+$value.data("value")).remove();
-        }
+        //$value.parent('div').css({"background-color": "blue", "border": "2px solid blue"});
+        $value.parent('div').remove();
+        $("#parent_unit_cost"+$value.data('value')).remove();
+        $("#parent_estimated_cost"+$value.data('value')).remove();
+        console.log($value.data('value'));
+        trapping();
     }
 
 </script>

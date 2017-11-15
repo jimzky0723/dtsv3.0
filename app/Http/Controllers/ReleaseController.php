@@ -47,9 +47,9 @@ class ReleaseController extends Controller
                 }
             }else{
                 $info = Tracking_Details::where('route_no',$req->route_no)
-                        ->orderBy('id','desc')
-                        ->first()
-                        ->id;
+                    ->orderBy('id','desc')
+                    ->first()
+                    ->id;
                 $update = array(
                     'code' => null
                 );
@@ -67,7 +67,7 @@ class ReleaseController extends Controller
 
             $status='releaseAdded';
         }
-       return redirect()->back()->with('status',$status);
+        return redirect()->back()->with('status',$status);
     }
 
     public function addReport($id,$cancel=null,$status=null)
@@ -79,9 +79,9 @@ class ReleaseController extends Controller
             $info->delete();
 
             $id = Tracking_Details::where('route_no',$route_no)
-                    ->orderBy('id','desc')
-                    ->first()
-                    ->id;
+                ->orderBy('id','desc')
+                ->first()
+                ->id;
             Tracking_Details::where('id',$id)
                 ->update(
                     array(
@@ -414,7 +414,7 @@ class ReleaseController extends Controller
         return $obj;
     }
 
-        function viewReported(){
+    function viewReported(){
         $section = Auth::user()->section;
         $report = Release::where('status',1)
             ->where('section_id',$section)
@@ -426,9 +426,9 @@ class ReleaseController extends Controller
     {
 
         Tracking_Details::where('id',$id)
-                ->update(array(
-                    'alert' => $level
-                ));
+            ->update(array(
+                'alert' => $level
+            ));
 
         if($level==3)
         {

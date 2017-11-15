@@ -61,60 +61,60 @@ use App\Http\Controllers\ReleaseController as Rel;
                 <h3 class="panel-title">
                     Incoming Documents
                     @if(count($data['incoming']))
-                    <span class="badge badgeIncoming">{{ count($data['incoming']) }}</span>
+                        <span class="badge badgeIncoming">{{ count($data['incoming']) }}</span>
                     @endif
                 </h3>
             </div>
             @if(count($data['incoming']))
-            <div class="panel-body">
-                <input type="text" id="incomingInput" class="form-control" onkeyup="incomingFunction()" placeholder="Search for route # or keyword..">
-            </div>
+                <div class="panel-body">
+                    <input type="text" id="incomingInput" class="form-control" onkeyup="incomingFunction()" placeholder="Search for route # or keyword..">
+                </div>
 
-            <ul class="list-group" id="incomingUL">
-                @foreach($data['incoming'] as $row)
-                <li class="list-group-item" data-id="{{ $row->id }}">
-                    <table class="table-jim">
-                        <tr>
-                            <td>Route No.:</td>
-                            <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                        </tr>
-                        <tr>
-                            <?php
-                                $user = User::find($row->delivered_by);
-                                $section = \App\Section::find($user->section)->description;
-                            ?>
-                            <td>Delivered By:</td>
-                            <td>{{ $user->fname }} {{ $user->lname }}<br /><small>({{ $section }})</small></td>
-                        </tr>
-                        <tr>
-                            <td>Type:</td>
-                            <td>{{ Doc::getDocType($row->route_no) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Duration:</td>
-                            <td>{{ Rel::duration($row->date_in) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Remarks:</td>
-                            <td>{!! $row->action !!}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
-                                <a href="#" class="btn btn-sm btn-success btn-accept">Accept</a>
-                                <?php
-                                    $diff = Rel::hourDiff($row->date_in);
-                                ?>
-                                @if($diff>=0.5)
-                                    <a href="#" class="btn btn-warning btn-sm btn-return" data-id="{{ $row->id }}">Return</a>
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-                @endforeach
-            </ul>
+                <ul class="list-group" id="incomingUL">
+                    @foreach($data['incoming'] as $row)
+                        <li class="list-group-item" data-id="{{ $row->id }}">
+                            <table class="table-jim">
+                                <tr>
+                                    <td>Route No.:</td>
+                                    <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                </tr>
+                                <tr>
+                                    <?php
+                                    $user = User::find($row->delivered_by);
+                                    $section = \App\Section::find($user->section)->description;
+                                    ?>
+                                    <td>Delivered By:</td>
+                                    <td>{{ $user->fname }} {{ $user->lname }}<br /><small>({{ $section }})</small></td>
+                                </tr>
+                                <tr>
+                                    <td>Type:</td>
+                                    <td>{{ Doc::getDocType($row->route_no) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration:</td>
+                                    <td>{{ Rel::duration($row->date_in) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Remarks:</td>
+                                    <td>{!! $row->action !!}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
+                                        <a href="#" class="btn btn-sm btn-success btn-accept">Accept</a>
+                                        <?php
+                                        $diff = Rel::hourDiff($row->date_in);
+                                        ?>
+                                        @if($diff>=0.5)
+                                            <a href="#" class="btn btn-warning btn-sm btn-return" data-id="{{ $row->id }}">Return</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    @endforeach
+                </ul>
             @else
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-warning">
@@ -122,7 +122,7 @@ use App\Http\Controllers\ReleaseController as Rel;
                             <i class="fa fa-check"></i> No incoming documents...
                         </div>
                     </li>
-                <ul>
+                    <ul>
             @endif
         </div>
     </div>
@@ -136,77 +136,77 @@ use App\Http\Controllers\ReleaseController as Rel;
                 </h3>
             </div>
             @if(count($data['outgoing']))
-            <div class="panel-body">
-                <input type="text" id="outgoingInput" class="form-control" onkeyup="outgoingFunction()" placeholder="Search for route # or keyword..">
-            </div>
+                <div class="panel-body">
+                    <input type="text" id="outgoingInput" class="form-control" onkeyup="outgoingFunction()" placeholder="Search for route # or keyword..">
+                </div>
 
-            <ul class="list-group" id="outgoingUL">
-                @foreach($data['outgoing'] as $row)
-                <?php
-                    $code = $row->code;
-                    $string = explode(';',$code);
-                    $status = $string[0];
-                    $class = '';
-                    if($status==='return'){
-                        $class ='list-group-item-danger';
-                    }
-                ?>
-                <li class="list-group-item {{ $class }}" data-id="{{ $row->id }}">
-                    <table class="table-jim">
-                        <tr>
-                            <td>Route No.:</td>
-                            <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                        </tr>
-                        @if($status!='return')
-                        <tr>
-                            <?php
-                                $user = User::find($row->received_by);
-                                $name = $user->fname.' '.$user->lname;
-                            ?>
-                            <td>Received By:</td>
-                            <td>{{ $name }}</td>
-                        </tr>
-                        <tr>
-                            <?php
-                            $user = User::find($row->delivered_by);
-                            ?>
-                            <td>Delivered By:</td>
-                            <td>
-                                @if($user)
-                                    {{ $user->fname }} {{ $user->lname }}
+                <ul class="list-group" id="outgoingUL">
+                    @foreach($data['outgoing'] as $row)
+                        <?php
+                        $code = $row->code;
+                        $string = explode(';',$code);
+                        $status = $string[0];
+                        $class = '';
+                        if($status==='return'){
+                            $class ='list-group-item-danger';
+                        }
+                        ?>
+                        <li class="list-group-item {{ $class }}" data-id="{{ $row->id }}">
+                            <table class="table-jim">
+                                <tr>
+                                    <td>Route No.:</td>
+                                    <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                </tr>
+                                @if($status!='return')
+                                    <tr>
+                                        <?php
+                                        $user = User::find($row->received_by);
+                                        $name = $user->fname.' '.$user->lname;
+                                        ?>
+                                        <td>Received By:</td>
+                                        <td>{{ $name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <?php
+                                        $user = User::find($row->delivered_by);
+                                        ?>
+                                        <td>Delivered By:</td>
+                                        <td>
+                                            @if($user)
+                                                {{ $user->fname }} {{ $user->lname }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td>Returned</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remarks:</td>
+                                        <td>{!! $row->action !!}</td>
+                                    </tr>
                                 @endif
-                            </td>
-                        </tr>
-                        @else
-                            <tr>
-                                <td>Status:</td>
-                                <td>Returned</td>
-                            </tr>
-                            <tr>
-                                <td>Remarks:</td>
-                                <td>{!! $row->action !!}</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td>Type:</td>
-                            <td>{{ Doc::getDocType($row->route_no) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Duration:</td>
-                            <td>{{ Rel::duration($row->date_in) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
-                                <button data-toggle="modal" data-target="#releaseTo" data-id="{{ $row->id }}" data-route_no="{{ $row->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-success btn-sm">Release</button>
-                                <button type="button" data-link="{{ asset('document/removepending/'.$row->id) }}" data-id="{{ $row->id }}" class="btn btn-sm btn-warning btn-end">Cycle End</button>
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-                @endforeach
-            </ul>
+                                <tr>
+                                    <td>Type:</td>
+                                    <td>{{ Doc::getDocType($row->route_no) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration:</td>
+                                    <td>{{ Rel::duration($row->date_in) }}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
+                                        <button data-toggle="modal" data-target="#releaseTo" data-id="{{ $row->id }}" data-route_no="{{ $row->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-success btn-sm">Release</button>
+                                        <button type="button" data-link="{{ asset('document/removepending/'.$row->id) }}" data-id="{{ $row->id }}" class="btn btn-sm btn-warning btn-end">Cycle End</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    @endforeach
+                </ul>
             @else
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-warning">
@@ -228,68 +228,68 @@ use App\Http\Controllers\ReleaseController as Rel;
                 </h3>
             </div>
             @if(count($data['unconfirm']))
-            <div class="panel-body">
-                <input type="text" id="uncofirmInput" class="form-control" onkeyup="uncofirmFunction()" placeholder="Search for route # or keyword..">
-            </div>
+                <div class="panel-body">
+                    <input type="text" id="uncofirmInput" class="form-control" onkeyup="uncofirmFunction()" placeholder="Search for route # or keyword..">
+                </div>
 
-            <ul class="list-group" id="uncofirmUL">
-                @foreach($data['unconfirm'] as $row)
+                <ul class="list-group" id="uncofirmUL">
+                    @foreach($data['unconfirm'] as $row)
 
-                <li class="list-group-item" data-id="{{ $row->id }}">
-                    <table class="table-jim">
-                        <tr>
-                            <td>Route No.:</td>
-                            <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                        </tr>
-                        <tr>
-                            <?php
-                            $user = User::find($row->delivered_by);
-                            ?>
-                            <td>Delivered By:</td>
-                            <td>{{ $user->fname }} {{ $user->lname }}</td>
-                        </tr>
-                        <tr>
-                            <?php
-                                $temp = explode(';',$row->code);
-                                $section = \App\Section::find($temp[1])->description;
-                            ?>
-                            <td>Delivered To:</td>
-                            <td>{{ $section }}</td>
-                        </tr>
-                        <tr>
-                            <td>Type:</td>
-                            <td>{{ Doc::getDocType($row->route_no) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Duration:</td>
-                            <td>
-                                @if(Rel::duration($row->date_in)==null)
-                                    Just Now
-                                @endif
-                                {{ Rel::duration($row->date_in) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
-                                <button type="button" class="btn btn-sm btn-default btn-cancel">Cancel</button>
-                                @if(($row->alert == 0)&&(Rel::hourDiff($row->date_in)>=4))
-                                <button type="button" class="btn btn-sm btn-warning btn-alert">Alert</button>
-                                @endif
+                        <li class="list-group-item" data-id="{{ $row->id }}">
+                            <table class="table-jim">
+                                <tr>
+                                    <td>Route No.:</td>
+                                    <td><a data-route="{{ $row->route_no }}" data-link="{{ asset('/document/info/'.$row->route_no.'/'.$row->doc_type) }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                </tr>
+                                <tr>
+                                    <?php
+                                    $user = User::find($row->delivered_by);
+                                    ?>
+                                    <td>Delivered By:</td>
+                                    <td>{{ $user->fname }} {{ $user->lname }}</td>
+                                </tr>
+                                <tr>
+                                    <?php
+                                    $temp = explode(';',$row->code);
+                                    $section = \App\Section::find($temp[1])->description;
+                                    ?>
+                                    <td>Delivered To:</td>
+                                    <td>{{ $section }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type:</td>
+                                    <td>{{ Doc::getDocType($row->route_no) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration:</td>
+                                    <td>
+                                        @if(Rel::duration($row->date_in)==null)
+                                            Just Now
+                                        @endif
+                                        {{ Rel::duration($row->date_in) }}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="#track" data-link="{{ asset('document/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-info">Track</a>
+                                        <button type="button" class="btn btn-sm btn-default btn-cancel">Cancel</button>
+                                        @if(($row->alert == 0)&&(Rel::hourDiff($row->date_in)>=4))
+                                            <button type="button" class="btn btn-sm btn-warning btn-alert">Alert</button>
+                                        @endif
 
-                                @if(($row->alert == 1)&&(Rel::hourDiff($row->date_in)>=8))
-                                <button type="button" class="btn btn-sm btn-warning btn-alert2">Warning</button>
-                                @endif
+                                        @if(($row->alert == 1)&&(Rel::hourDiff($row->date_in)>=8))
+                                            <button type="button" class="btn btn-sm btn-warning btn-alert2">Warning</button>
+                                        @endif
 
-                                @if(($row->alert == 2)&&(Rel::hourDiff($row->date_in)>=12))
-                                <button type="button" class="btn btn-sm btn-danger btn-report">Report</button>
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-                @endforeach
-            </ul>
+                                        @if(($row->alert == 2)&&(Rel::hourDiff($row->date_in)>=12))
+                                            <button type="button" class="btn btn-sm btn-danger btn-report">Report</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    @endforeach
+                </ul>
             @else
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-warning">
@@ -297,7 +297,7 @@ use App\Http\Controllers\ReleaseController as Rel;
                             <i class="fa fa-check"></i> No unconfirmed documents...
                         </div>
                     </li>
-                <ul>
+                    <ul>
             @endif
         </div>
     </div>

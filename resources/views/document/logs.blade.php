@@ -105,9 +105,9 @@ $code = Session::get('doc_type_code');
         <div class="page-divider"></div>
         <?php $status = session('status'); ?>
         @if($status=='releaseAdded')
-        <div class="alert alert-success">
-            <i class="fa fa-check"></i> Successfully released!
-        </div>
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully released!
+            </div>
         @endif
 
 
@@ -152,22 +152,22 @@ $code = Session::get('doc_type_code');
                         <td>
                             <?php $user = Users::find($doc->delivered_by);?>
                             @if($user)
-                            {{ $user->fname }}
-                            {{ $user->lname }}
-                            <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
+                                {{ $user->fname }}
+                                {{ $user->lname }}
+                                <br>
+                                <em>({{ Section::find($user->section)->description }})</em>
                             @else
 
                                 <?php
-                                    $x = \App\Tracking_Details::where('received_by',0)
-                                            ->where('id','<',$doc->tracking_id)
-                                            ->where('route_no',$doc->route_no)
-                                            ->first();
-                                    $string = $x->code;
-                                    $temp1   = explode(';',$string);
-                                    $temp2   = array_slice($temp1, 1, 1);
-                                    $section_id = implode(',', $temp2);
-                                    $x_section = Section::find($section_id)->description;
+                                $x = \App\Tracking_Details::where('received_by',0)
+                                        ->where('id','<',$doc->tracking_id)
+                                        ->where('route_no',$doc->route_no)
+                                        ->first();
+                                $string = $x->code;
+                                $temp1   = explode(';',$string);
+                                $temp2   = array_slice($temp1, 1, 1);
+                                $section_id = implode(',', $temp2);
+                                $x_section = Section::find($section_id)->description;
                                 ?>
                                 <font class="text-bold text-danger">
                                     {{ $x_section }}<br />
@@ -176,43 +176,43 @@ $code = Session::get('doc_type_code');
                             @endif
                         </td>
                         <?php
-                            $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
-                            $class ='';
+                        $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
+                        $class ='';
                         ?>
                         @if($out)
-                        <?php
+                            <?php
                             if($out->received_by==0){
                                 $class = 'danger';
                             }
-                        ?>
-                        <td class="text-<?php echo $class?>">{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
-                        <td class="text-<?php echo $class?>">
+                            ?>
+                            <td class="text-<?php echo $class?>">{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
+                            <td class="text-<?php echo $class?>">
 
-                            @if($out->received_by==0)
-                                <?php
+                                @if($out->received_by==0)
+                                    <?php
                                     $string = $out->code;
                                     $temp1   = explode(';',$string);
                                     $temp2   = array_slice($temp1, 1, 1);
                                     $section_id = implode(',', $temp2);
                                     echo Section::find($section_id)->description;
-                                ?>
-                                <br />
+                                    ?>
+                                    <br />
                                     <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $out->route_no }}" onclick="changeRoute($(this), '<?php echo $out->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
-                                <a href="{{ asset('document/report/'.$out->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
-                            @else
-                                <?php $user = Users::find($out->received_by);?>
-                                {{ $user->fname }}
-                                {{ $user->lname }}
-                                <br>
-                                <em>({{ Section::find($user->section)->description }})</em>
-                            @endif
-                        </td>
+                                    <a href="{{ asset('document/report/'.$out->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                                @else
+                                    <?php $user = Users::find($out->received_by);?>
+                                    {{ $user->fname }}
+                                    {{ $user->lname }}
+                                    <br>
+                                    <em>({{ Section::find($user->section)->description }})</em>
+                                @endif
+                            </td>
                         @else
                             <?php $rel = Release::where('route_no', $doc->route_no)->where('status','!=',2)->orderBy('id','desc')->first(); ?>
                             @if($rel)
                                 <?php
-                                    $now = date('Y-m-d H:i:s');
-                                    $time = Rel::hourDiff($rel->date_reported,$now);
+                                $now = date('Y-m-d H:i:s');
+                                $time = Rel::hourDiff($rel->date_reported,$now);
                                 ?>
                                 <td class="text-info">
                                     {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>

@@ -220,12 +220,12 @@ Use App\Users;
                 <div class="row">
                     <div class="col-md-6">
                         <center>
-                        <h4><strong class="lean">Recommending Approval:</strong></h4>
+                            <h4><strong class="lean">Recommending Approval:</strong></h4>
                         </center>
                     </div>
                     <div class="col-md-6">
                         <center>
-                        <h4><strong class="lean text-center">Approved:</strong></h4>
+                            <h4><strong class="lean text-center">Approved:</strong></h4>
                         </center>
                     </div>
                 </div>
@@ -343,7 +343,7 @@ Use App\Users;
         }
     }
 
-    
+
     function get_designation(result,request){
         var url = $("#getDesignation").data('link')+'/'+result.val();
         $.get(url, function(designation){

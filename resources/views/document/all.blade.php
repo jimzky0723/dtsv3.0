@@ -44,7 +44,7 @@
             @foreach($documents as $doc)
             <tr>
                 <td><a href="#track" data-link="{{ asset('document/track/'.$doc->route_no) }}" data-route="{{ $doc->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.Auth::user()->id.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
                 <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                 <td>
                     <?php $user = Users::find($doc->prepared_by);?>
@@ -55,7 +55,7 @@
                 </td>
                 <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                 <td>
-                    @if($doc->doc_type == 'PRR_S')
+                    @if($doc->doc_type == 'PRR_S' || $doc->doc_type == 'PRR_M')
                         {!! nl2br($doc->purpose) !!}
                     @else
                         {!! nl2br($doc->description) !!}

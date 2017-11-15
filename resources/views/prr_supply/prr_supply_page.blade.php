@@ -19,8 +19,8 @@ $user = User::find($tracking->prepared_by);
             Use App\Section;
             Use App\Designation;
             use App\Users;
-                $count = 0;
-                $total = 0;
+            $count = 0;
+            $total = 0;
             ?>
             <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
             <style>
@@ -138,9 +138,9 @@ $user = User::find($tracking->prepared_by);
                                     </thead>
                                     <tbody class="input_fields_wrap">
                                     <?php
-                                            foreach($item as $row):
-                                            $total += $row->estimated_cost;
-                                            $count++;
+                                    foreach($item as $row):
+                                    $total += $row->estimated_cost;
+                                    $count++;
                                     ?>
                                     <tr id="{{ $count }}">
                                         <input type="hidden" value="{{ $row->id }}" name="pr_id">
@@ -160,7 +160,7 @@ $user = User::find($tracking->prepared_by);
                                         </td>
                                     </tr>
                                     <?php
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                     </tbody>
                                     <tbody>
@@ -205,13 +205,13 @@ $user = User::find($tracking->prepared_by);
                                         <label class="col-sm-2 control-label">Requested By:</label>
                                         <div class="col-sm-10">
                                             <?php
-                                                if($tracking->requested_by){
-                                                    $requested_by = \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname;
-                                                    $requested_designation = \App\Designation::find(Users::find($tracking->requested_by)->designation)->description;
-                                                } else {
-                                                    $requested_by = '';
-                                                    $requested_designation = '';
-                                                }
+                                            if($tracking->requested_by){
+                                                $requested_by = \App\Users::find($tracking->requested_by)->fname.' '.App\Users::find($tracking->requested_by)->mname.' '.App\Users::find($tracking->requested_by)->lname;
+                                                $requested_designation = \App\Designation::find(Users::find($tracking->requested_by)->designation)->description;
+                                            } else {
+                                                $requested_by = '';
+                                                $requested_designation = '';
+                                            }
                                             ?>
                                             <input id="section_head" class="form-control" value="{{ $requested_by }}" readonly>
                                         </div>
@@ -259,10 +259,10 @@ $user = User::find($tracking->prepared_by);
                                         <i class="fa fa-history"></i> Update History</button>
                                 </div>
                                 @if($routed < 2 || Auth::user()->user_priv)
-                                <div class="btn-group btn-group-md pull-right">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-edit"></i> Update </button>
-                                </div>
+                                    <div class="btn-group btn-group-md pull-right">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-edit"></i> Update </button>
+                                    </div>
                                 @endif
                             </div>
 
@@ -349,8 +349,8 @@ $user = User::find($tracking->prepared_by);
                 $.get(url, function (result) {
                     $(wrapper).append(result);
                     /*var ckeditor = $('#tayong').children().clone();
-                    $(ckeditor).find('textarea[name="specification1"]').attr("name", "specification"+count+"");
-                    $('.ckeditor'+count).append(ckeditor);*/
+                     $(ckeditor).find('textarea[name="specification1"]').attr("name", "specification"+count+"");
+                     $('.ckeditor'+count).append(ckeditor);*/
                 });
             }
 

@@ -3,23 +3,22 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class PrrMeal extends Migration
+class PrrMealSpecs extends Migration
 {
-
     public function up()
     {
-        if(Schema::hasTable('prr_meal')){
+        if(Schema::hasTable('prr_meal_specs')){
             return true;
         }
-        Schema::create('prr_meal', function (Blueprint $table) {
+        Schema::create('prr_meal_specs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('route_no');
-            $table->text('prr_logs_key');
-            $table->text('description');
+            $table->text('specification');
             $table->integer('expected');
+            $table->text('guaranteed');
             $table->text('date_time');
-            $table->text('unit_cost');
-            $table->text('estimated_cost');
+            $table->text('category_row');
+            $table->text('prr_logs_key');
             $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();
@@ -28,6 +27,6 @@ class PrrMeal extends Migration
 
     public function down()
     {
-        Schema::drop('prr_meal');
+        Schema::drop('prr_meal_specs');
     }
 }

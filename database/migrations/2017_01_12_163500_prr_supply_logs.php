@@ -14,9 +14,9 @@ class PrrSupplyLogs extends Migration
         Schema::create('prr_supply_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route_no');
-            $table->text('prr_logs_key');
             $table->dateTime('updated_date');
             $table->text('updated_by');
+            $table->text('prr_logs_key');
             $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();

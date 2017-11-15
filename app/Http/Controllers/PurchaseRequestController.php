@@ -154,13 +154,13 @@ class PurchaseRequestController extends Controller
     public function prr_supply_pdf($paperSize = null)
     {
         $prr_logs = prr_supply_logs::where('route_no',Session::get('route_no'))
-                            ->where('status',1)
-                            ->first()
-                            ->prr_logs_key;
+            ->where('status',1)
+            ->first()
+            ->prr_logs_key;
         $meal = prr_supply::where('route_no','=',Session::get('route_no'))
-                            ->where('status',1)
-                            ->where('prr_logs_key',$prr_logs)
-                            ->get();
+            ->where('status',1)
+            ->where('prr_logs_key',$prr_logs)
+            ->get();
 
         $tracking = Tracking::where('route_no',Session::get('route_no'))->first();
         $user = Users::where('id',$tracking->prepared_by)->first();
@@ -189,15 +189,15 @@ class PurchaseRequestController extends Controller
 
     public function prr_supply_page()
     {
-        
+
         $prr_logs = prr_supply_logs::where('route_no',Session::get('route_no'))
-                    ->where('status',1)
-                    ->first()
-                    ->prr_logs_key;
+            ->where('status',1)
+            ->first()
+            ->prr_logs_key;
         $item = prr_supply::where('route_no','=',Session::get('route_no'))
-                                    ->where('status',1)
-                                    ->where('prr_logs_key',$prr_logs)
-                                    ->get();
+            ->where('status',1)
+            ->where('prr_logs_key',$prr_logs)
+            ->get();
 
         $tracking = Tracking::where('route_no',Session::get('route_no'))->first();
 
@@ -220,10 +220,10 @@ class PurchaseRequestController extends Controller
 
         //UPDATE PRR SUPPLY TABLE
         prr_supply::where("route_no",$route_no)
-                            ->update(['status' => 0]);
+            ->update(['status' => 0]);
         //UPDATE STATUS IN PRR SUPPLY LOGS
         prr_supply_logs::where("route_no",$route_no)
-                ->update(['status' => 0]);
+            ->update(['status' => 0]);
 
         //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
@@ -279,8 +279,8 @@ class PurchaseRequestController extends Controller
         $section = Section::where('id','=',$user->section)->first();
         $division = Division::where('id','=',$user->division)->first();
         $prr_logs = prr_supply_logs::where("route_no",$route_no)
-                            ->where('status',0)
-                            ->get();
+            ->where('status',0)
+            ->get();
 
         return view("prr_supply.prr_supply_history",['tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,"prr_logs" => $prr_logs]);
     }
@@ -392,12 +392,12 @@ class PurchaseRequestController extends Controller
     public function prr_meal_page()
     {
         $prr_meal_logs = prr_meal_logs::where('route_no',Session::get('route_no'))
-                            ->where('status',1)
-                            ->first();
+            ->where('status',1)
+            ->first();
         $meal = prr_meal::where('route_no','=',Session::get('route_no'))
-                            ->where('status',1)
-                            ->where('prr_logs_key',$prr_meal_logs->prr_logs_key)
-                            ->get();
+            ->where('status',1)
+            ->where('prr_logs_key',$prr_meal_logs->prr_logs_key)
+            ->get();
 
         $tracking = Tracking::where('route_no',Session::get('route_no'))->first();
 

@@ -14,10 +14,10 @@ class PrrMealLogs extends Migration
         Schema::create('prr_meal_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route_no');
-            $table->text('prr_logs_key');
             $table->text('global_title');
             $table->dateTime('updated_date');
             $table->text('updated_by');
+            $table->text('prr_logs_key');
             $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();

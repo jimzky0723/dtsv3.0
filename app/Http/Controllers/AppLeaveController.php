@@ -19,6 +19,7 @@ class AppLeaveController extends Controller
     }
 
     public function create(Request $request) {
+
         $tracking = new Tracking();
         $tracking->route_no = date('Y')."-".$request->user()->id.date('mdHis');
         $tracking->cdo_applicant = $request->input('applicant_name');

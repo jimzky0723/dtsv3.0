@@ -26,7 +26,7 @@ class GeneralDocument extends Controller
         }
         //POST REQUEST
         if($request->isMethod('post')){
-
+            return $request->all();
             $tracking = new Tracking();
             $route_no = date('Y')."-".$request->user()->id.date('mdHis');
             $tracking->route_no = $route_no;

@@ -209,8 +209,8 @@ $filter = Doc::isIncluded($document->doc_type);
         <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deletePR"><i class="fa fa-trash"></i> Remove</button>
         @endif
     @elseif(Session::get('doc_type') == 'PRR_M')
-            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-            <a href="{{ asset('prr_meal_page') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+        <a href="{{ $asset }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
     @else
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
         @if(!$status)
