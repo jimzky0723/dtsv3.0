@@ -81,14 +81,15 @@ $code = Session::get('doc_type_code');
                         </optgroup>
                         <option value="PO">Purchase Order</option>
                         <option <?php if($code=='PRC') echo 'selected'; ?> value="PRC">Purchase Request - Cash Advance Purchase</option>
-                        <option <?php if($code=='PRR') echo 'selected'; ?> value="PRR">Purchase Request - Regular Purchase</option>
+                        <option <?php if($code=='PRR_S') echo 'selected'; ?> value="PRR_S">Purchase Request - Regular Purchase</option>
                         <option>Reports</option>
                         <option <?php if($code=='GENERAL') echo 'selected'; ?> value="GENERAL">General Documents</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success" onclick="checkDocTye()"><i class="fa fa-search"></i> Filter</button>
                 @if(count($documents))
-                    <a target="_blank" href="{{ asset('pdf/logs/'.$doc_type) }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
+                    {{--<a target="_blank" href="{{ asset('pdf/logs/'.$doc_type.'?type=section') }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>--}}
+                    <a target="_blank" href="{{ asset('report/logs/section') }}" class="btn btn-warning"><i class="fa fa-print"></i> Print Logs</a>
                 @endif
             </div>
         </form>
@@ -124,10 +125,12 @@ $code = Session::get('doc_type_code');
                         <td>{{ date('M d, Y',strtotime($doc->date_in)) }}<br>{{ date('h:i:s A',strtotime($doc->date_in)) }}</td>
                         <td>
                             <?php $user = Users::find($doc->delivered_by);?>
-                            {{ $user->fname }}
-                            {{ $user->lname }}
-                            <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
+                            @if($user)
+                                {{ $user->fname }}
+                                {{ $user->lname }}
+                                <br>
+                                <em>({{ Section::find($user->section)->description }})</em>
+                            @endif
                         </td>
                         <?php
                         $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
@@ -136,10 +139,32 @@ $code = Session::get('doc_type_code');
                             <td>{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
                             <td>
                                 <?php $user = Users::find($out->received_by);?>
-                                {{ $user->fname }}
-                                {{ $user->lname }}
-                                <br>
-                                <em>({{ Section::find($user->section)->description }})</em>
+                                @if($user)
+                                    {{ $user->fname }}
+                                    {{ $user->lname }}
+                                    <br>
+                                    <em>({{ Section::find($user->section)->description }})</em>
+                                @else
+                                    <?php
+                                        $x = App\Tracking_Details::where('received_by',0)
+                                                ->where('id',$out->id)
+                                                ->where('route_no',$out->route_no)
+                                                ->first();
+                                        $string = $x->code;
+                                        $temp1   = explode(';',$string);
+                                        $temp2   = array_slice($temp1, 1, 1);
+                                        $section_id = implode(',', $temp2);
+                                        $x_section=null;
+                                        if($section_id)
+                                        {
+                                            $x_section = Section::find($section_id)->description;
+                                        }
+                                        ?>
+                                        <font class="text-bold text-danger">
+                                            {{ $x_section }}<br />
+                                            <em>(Unconfirmed)</em>
+                                        </font>
+                                @endif
                             </td>
                         @else
                             <td></td>

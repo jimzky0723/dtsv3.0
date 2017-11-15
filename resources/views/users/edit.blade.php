@@ -27,6 +27,13 @@
                 </td>
             </tr>
             <tr>
+                 <td class="col-sm-3"><label>Reset Password</label></td>
+                <td class="col-sm-1">:</td>
+                <td class="col-sm-8">
+                    <input type="text" name="reset_pass" class="form-control" placeholoder="Password Unchanged" >
+                </td>
+            </tr>
+            <tr>
                 <td class="col-sm-3"><label>User Type</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">

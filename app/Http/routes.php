@@ -12,9 +12,14 @@ Route::get('home/chart', 'HomeController@chart');
 Route::get('document', 'DocumentController@index');
 Route::post('document', 'DocumentController@search');
 
-Route::get('document/accept', 'DocumentController@accept')->middleware('access');
+//Route::get('document/accept', 'DocumentController@accept')->middleware('access');
+Route::get('document/accept', 'DocumentController@accept');
 Route::get('document/destroy/{route_no}', 'DocumentController@cancelRequest');
-Route::post('document/accept', 'DocumentController@saveDocument');
+
+Route::post('document/accept', 'DocumentController@saveDocument'); //for manual accepting
+Route::get('document/accept/{id}', 'DocumentController@updateDocument'); //for button accepting
+
+
 Route::get('document/info/{route}', 'DocumentController@show');
 Route::get('document/info/{route}/{doc_type}', 'DocumentController@show');
 Route::get('document/removepending/{id}','DocumentController@removePending');
@@ -25,10 +30,19 @@ Route::post('document/update','DocumentController@update');
 Route::get('document/create/{type}','DocumentController@formDocument');
 Route::post('document/create','DocumentController@createDocument');
 Route::get('document/viewPending','DocumentController@countPendingDocuments');
+
 Route::get('document/pending','DocumentController@allPendingDocuments');
+Route::post('document/pending/return','DocumentController@returnDocument');
+Route::post('document/pending/accept','DocumentController@acceptDocument');
+
 Route::post('document/release','ReleaseController@addRelease');
 Route::get('document/report/{id}','ReleaseController@addReport');
+Route::get('document/report/{id}/{cancel}','ReleaseController@addReport');
+Route::get('document/report/{id}/{cancel}/{status}','ReleaseController@addReport');
+
+Route::get('document/alert/{level}/{id}','ReleaseController@alert');
 Route::get('reported','ReleaseController@viewReported');
+
 
 Route::get('getsections/{id}','ReleaseController@getSections');
 Route::get('document/doctype/{doctype}',function($doctype){
@@ -55,6 +69,7 @@ Route::post('document/logs','DocumentController@searchLogs');
 Route::get('document/section/logs','DocumentController@sectionLogs');
 Route::post('document/section/logs','DocumentController@searchSectionLogs');
 
+
 Route::get('form/salary','SalaryController@index');
 Route::post('form/salary','SalaryController@store');
 
@@ -77,6 +92,7 @@ Route::get('pdf/logs/{doc_type}', 'PrintLogsController@printLogs');
 
 //PRINT REPORT
 Route::get('report','AdminController@report');
+Route::get('report/logs/section', 'PrintLogsController@sectionLogs');
 
 //ONLINE
 Route::get('online','OnlineController@online');
@@ -99,10 +115,12 @@ Route::get('logout',function(){
 Route::get('prr_supply_form','PurchaseRequestController@prr_supply_form');
 Route::post('prr_supply_post','PurchaseRequestController@prr_supply_post');
 Route::get('prr_supply_pdf','PurchaseRequestController@prr_supply_pdf');
+Route::get('prr_supply_pdf/{paperSize}','PurchaseRequestController@prr_supply_pdf');
 Route::get('prr_supply_page','PurchaseRequestController@prr_supply_page');
 Route::post('prr_supply_update','PurchaseRequestController@prr_supply_update');
 Route::get('prr_supply_history','PurchaseRequestController@prr_supply_history');
 Route::get('prr_supply_append','PurchaseRequestController@prr_supply_append');
+Route::post('prr_supply_remove','PurchaseRequestController@prr_supply_remove');
 //PURCHASE REQUEST/REGULAR MEAL
 Route::get('prr_meal_form','PurchaseRequestController@prr_meal_form');
 Route::post('prr_meal_post','PurchaseRequestController@prr_meal_post');
@@ -134,7 +152,7 @@ Route::get('addSection','SectionController@addSection');
 Route::post('addSection','SectionController@addSectionSave');
 Route::get('deleteSection/{id}','SectionController@deleteSection');
 Route::get('updateSection/{id}/{division}/{head}','SectionController@updateSection');
-Route::post('updateSection','SectionController@updateSectionSave');
+Route::post('updateSectionSave','SectionController@updateSectionSave');
 Route::post('searchSection','SectionController@searchSection');
 Route::get('searchSection','SectionController@searchSectionSave');
 //CHECK SECTION
@@ -160,7 +178,7 @@ Route::get('calendar_form',function(){
 });
 Route::post('calendar_save','PurchaseRequestController@calendar');
 Route::get('calendar_event',function(){
-    return \App\Calendar::all(['title','start','backgroundColor','borderColor']);
+    return \App\Calendar::all(['title','start','end','backgroundColor','borderColor']);
 });
 
 Route::get('sendemail', function () {
@@ -239,3 +257,7 @@ Route::get('clear', function(){
 Route::get('modal',function(){
     return view('users.modal');
 });
+
+Route::get('res', 'PasswordController@change');
+
+Route::get('/migrate','SystemController@migrate');

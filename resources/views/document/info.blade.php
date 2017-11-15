@@ -28,7 +28,7 @@ $filter = Doc::isIncluded($document->doc_type);
 <table class="table table-hover table-striped table-info">
 
     <tr>
-        <td class="text-right col-lg-4">Document Type :</td>
+        <td class="text-right col-lg-4">Document Typess : </td>
         <td class="col-lg-8">{{ Doc::docTypeName($document->doc_type) }}</td>
     </tr>
     <tr>
@@ -42,7 +42,9 @@ $filter = Doc::isIncluded($document->doc_type);
     <tr class="{{ $filter[0] }}">
         <td class="text-right">Remarks :</td>
         <td>
-            <textarea name="description" {{ $status }} class="form-control" rows="10" style="resize: vertical;">{!! ($document->description) !!}</textarea>
+            <?php $breaks = array("<br />","<br>","<br/>"); ?>
+            <?php $desc = str_ireplace($breaks, "\r\n", $document->description);?>
+            <textarea name="description" {{ $status }} class="form-control" rows="10" style="resize: vertical;">{!! ($desc) !!}</textarea>
         </td>
     </tr>
     <tr class="{{ $filter[1] }}">
@@ -101,7 +103,9 @@ $filter = Doc::isIncluded($document->doc_type);
         <td class="text-right">Requested By :</td>
         <td>
             <?php $user = \App\Users::find($document->requested_by);?>
-            <input type="text" name="requested_by" class="form-control" value="{{ $user->lname }}, {{ $user->fname }}" disabled />
+            @if($user)
+                <input type="text" name="requested_by" class="form-control" value="{{ $user->lname }}, {{ $user->fname }}" disabled />
+            @endif
         </td>
     </tr>
     <tr class="{{ $filter[7] }}">
@@ -198,9 +202,12 @@ $filter = Doc::isIncluded($document->doc_type);
 </table>
 
 <div class="modal-footer">
-    @if(Session::get('doc_type') == 'PRR_S')
+    @if(Session::get('doc_type') == 'PRR_S' || $document->doc_type == "PRR_S")
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
         <a href="{{ asset('prr_supply_page') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>
+        @if($routed < 2)
+        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deletePR"><i class="fa fa-trash"></i> Remove</button>
+        @endif
     @elseif(Session::get('doc_type') == 'PRR_M')
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             <a href="{{ asset('prr_meal_page') }}" class="btn btn-warning"><i class="fa fa-barcode"></i> View Document</a>

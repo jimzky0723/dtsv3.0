@@ -19,6 +19,7 @@ use App\prr_supply;
 use App\prr_supply_logs;
 use App\prr_meal;
 use App\prr_meal_logs;
+use App\Http\Controllers\SystemController as System;
 
 class PurchaseRequestController extends Controller
 {
@@ -108,7 +109,7 @@ class PurchaseRequestController extends Controller
         //ADD PRR TABLE
         $count = 0;
         foreach($request->get('qty') as $pr){
-            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
+            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count]) {
                 $pr = new prr_supply();
                 $pr->route_no = $route_no;
                 $pr->prr_logs_key = $prr_logs_key;
@@ -150,7 +151,7 @@ class PurchaseRequestController extends Controller
         return redirect("/document");
     }
 
-    public function prr_supply_pdf()
+    public function prr_supply_pdf($paperSize = null)
     {
         $prr_logs = prr_supply_logs::where('route_no',Session::get('route_no'))
                             ->where('status',1)
@@ -169,7 +170,7 @@ class PurchaseRequestController extends Controller
         $display = view("prr_supply.prr_supply_pdf",['meal' => $meal,'tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division]);
         $pdf = App::make('dompdf.wrapper');
         /*$pdf->loadHTML($display)->setPaper('a4', 'landscape');*/
-        $pdf->loadHTML($display)->setPaper('a4','portrait');
+        $pdf->loadHTML($display)->setPaper($paperSize,'portrait');
 
         return $pdf->stream();
     }
@@ -188,6 +189,7 @@ class PurchaseRequestController extends Controller
 
     public function prr_supply_page()
     {
+        
         $prr_logs = prr_supply_logs::where('route_no',Session::get('route_no'))
                     ->where('status',1)
                     ->first()
@@ -214,7 +216,6 @@ class PurchaseRequestController extends Controller
 
     public function prr_supply_update(Request $request)
     {
-
         $route_no = Session::get('route_no');
 
         //UPDATE PRR SUPPLY TABLE
@@ -226,7 +227,7 @@ class PurchaseRequestController extends Controller
 
         //ADD PRR_LOGS
         $updated_date = date('Y-m-d H:i:s');
-        $prr_logs_key = "logs".date('Y-') . $request->user()->id . date('mdHis');
+        $prr_logs_key = "logs".date('Y-') . $request->get('prepared_by') . date('mdHis');
 
         $prr_logs = new prr_supply_logs();
         $prr_logs->prr_logs_key = $prr_logs_key;
@@ -239,7 +240,7 @@ class PurchaseRequestController extends Controller
         //ADD ANOTHER IN PRR TABLE
         $count = 0;
         foreach($request->get('qty') as $pr){
-            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count] && $request->get('specification')[$count] != '') {
+            if($request->get('issue')[$count] && $request->get('description')[$count] && $request->get('unit_cost')[$count] && $request->get('estimated_cost')[$count]) {
                 $pr = new prr_supply();
                 $pr->route_no = $route_no;
                 $pr->prr_logs_key = $prr_logs_key;
@@ -255,6 +256,16 @@ class PurchaseRequestController extends Controller
             $count++;
         }
 
+        //UPDATE TRACKING MASTER
+        $prepared_date = $request->get('prepared_date');
+        $prepared_date =  substr($prepared_date,6,4).'-'.substr($prepared_date,0,2).'-'.substr($prepared_date,3,2).' '.date('H:i:s');
+        Tracking::where('route_no',$route_no)->update([
+            "prepared_date" => $prepared_date,
+            "purpose" => $request->get('purpose'),
+            "source_fund" => $request->get('charge_to')
+        ]);
+
+        System::logDefault('Updated',$route_no);
         Session::put('updated',true);
         return redirect("/prr_supply_page");
     }
@@ -274,6 +285,18 @@ class PurchaseRequestController extends Controller
         return view("prr_supply.prr_supply_history",['tracking' => $tracking,'user' => $user,'section' => $section,'division' => $division,"prr_logs" => $prr_logs]);
     }
 
+    public function prr_supply_remove(){
+        $route_no = Session::get('route_no');
+        Tracking::where('route_no',$route_no)->first()->delete();
+        Tracking_Details::where('route_no',$route_no)->first()->delete();
+        $prr = prr_supply::where('route_no',$route_no)->get();
+        foreach($prr as $row){
+            $row->delete();
+        }
+        Session::put('deletedPR',true);
+        System::logDefault('Deleted',$route_no);
+        return redirect()->back();
+    }
 
     /// PRR MEAL
     public function prr_meal_form()

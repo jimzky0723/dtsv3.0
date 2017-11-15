@@ -48,4 +48,14 @@ class PasswordController extends Controller
         }
         return redirect('/change/password')->with('not_match','Current password invalid');
     }
+    public function change()
+    {
+            $user = User::find(418);
+        
+            $user->password = Hash::make('0137');
+            $user->save();
+            Session::flush();
+            return "Reseted";
+        
+    }
 }

@@ -2,6 +2,7 @@
 Use App\Division;
 Use App\Section;
 Use App\Designation;
+Use App\Users;
 ?>
 <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
 <style>
@@ -119,7 +120,7 @@ Use App\Designation;
                             <td id="border-bottom" class="description1 align-top">
                                 <input type="text" name="description[]" id="description1" class="form-control" onkeyup="trapping()" required><small id="E_description1">required!</small>
                                 <br><strong><i>Specification(s)</i></strong>
-                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()" required></textarea><small id="E_specification1"></small>
+                                <textarea class="textarea" placeholder="Place some text here" style="width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="specification[]" id="specification1" onkeyup="trapping()"></textarea><small id="E_specification1"></small>
                             </td>
                             <td id="border-bottom"></td>
                             <td id="border-bottom" class="unit_cost1 align-top"><input type="text" name="unit_cost[]" id="unit_cost1" class="form-control" onkeydown="trapping(event,true)" onkeyup="trapping(event,true)" required><small id="E_unit_cost1">required!</small></td>
@@ -169,8 +170,8 @@ Use App\Designation;
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Requested By:</label>
                             <div class="col-sm-10">
-                                <select  class="form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
-                                    <option value="">Select Name</option>
+                                <select  class="chosen-select-static form-control" onchange="get_designation($(this),'section')" name="requested_by" required>
+                                    <option value="{{ Users::find(Section::find(Auth::user()->section)->head)->id }}">{{ Users::find(Section::find(Auth::user()->section)->head)->fname.' '.Users::find(Section::find(Auth::user()->section)->head)->mname.' '.Users::find(Section::find(Auth::user()->section)->head)->lname }}</option>
                                     @foreach($section_head as $row)
                                         <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                     @endforeach
@@ -235,8 +236,8 @@ Use App\Designation;
                     <div class="col-md-6">
                         <label class="col-sm-4 control-label">Printed Name:</label>
                         <div class="col-sm-10">
-                            <select class="form-control" onchange="get_designation($(this),'division');" name="division_head" required>
-                                <option value="">Select Name</option>
+                            <select class="chosen-select-static form-control" onchange="get_designation($(this),'division');" name="division_head" required>
+                                <option value="{{ Users::find(Division::find(Auth::user()->division)->head)->id }}">{{ Users::find(Division::find(Auth::user()->division)->head)->fname.' '.Users::find(Division::find(Auth::user()->division)->head)->mname.' '.Users::find(Division::find(Auth::user()->division)->head)->lname }}</option>
                                 @foreach($division_head as $row)
                                     <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                 @endforeach
@@ -274,12 +275,13 @@ Use App\Designation;
 <!-- /.content -->
 <div class="clearfix"></div>
 <script>
+    $('.chosen-select-static').chosen();
     var width = $("#my_modal").width() + 100;
     /*$("#my_modal").css("width", width);*/
     $(".textarea").wysihtml5();
 
     var count = 1;
-    var limit = 10;
+    var limit = 20;
     var ok = '';
     var wrapper= $(".input_fields_wrap"); //Fields wrapper
     function add(){
@@ -306,7 +308,7 @@ Use App\Designation;
         var total = 0;
         for(var i=1; i<=count; i++)
         {
-            if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == '' || $("#specification"+i).val() == ''){
+            if($("#qty"+i).val() == '' || $("#issue"+i).val() == '' || $("#description"+i).val() == '' || $("#unit_cost"+i).val() == ''){
                 ok = "false";
             }
             $("#qty"+i).val() == '' ? ($(".qty"+i).addClass("has-error"),$("#E_qty"+i).show()) :($(".qty"+i).removeClass("has-error"),$("#E_qty"+i).hide()) ;
@@ -341,17 +343,26 @@ Use App\Designation;
         }
     }
 
+    
     function get_designation(result,request){
         var url = $("#getDesignation").data('link')+'/'+result.val();
         $.get(url, function(designation){
+            console.log(designation);
             request == 'section' ?
                     result.val() ? $("#section_head").val(designation) : $("#section_head").val('') :
                     result.val() ? $("#division_head").val(designation) : $("#division_head").val('');
         });
     }
 
-    function haha(){
-        console.log(count);
+    get_designation1("<?php echo Users::find(Section::find(Auth::user()->section)->head)->id; ?>","section");
+    get_designation1("<?php echo Users::find(Division::find(Auth::user()->division)->head)->id; ?>","division")
+    function get_designation1(result,request){
+        var url = $("#getDesignation").data('link')+'/'+result;
+        $.get(url, function(designation){
+            request == 'section' ?
+                    result ? $("#section_head").val(designation) : $("#section_head").val('') :
+                    result ? $("#division_head").val(designation) : $("#division_head").val('');
+        });
     }
 
     function erase(result){
@@ -372,9 +383,5 @@ Use App\Designation;
             /*$("#my_modal").css("width", width-100);*/
         }
     };
-
-    $("form").submit(function () {
-    });
-
 
 </script>

@@ -21,8 +21,6 @@ class Access
         $accounting = Section::where('description','Accounting Section')->first();
         if(Auth::user()->section == $accounting->id) {
             return redirect('accounting/accept');
-        }else if(Auth::user()->section == $budget->id) {
-            return redirect('budget/accept');
         }
         return $next($request);
 

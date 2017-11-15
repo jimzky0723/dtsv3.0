@@ -51,14 +51,38 @@ $online = Doc::countOnlineUsers();
                     $user = User::find($pend->delivered_by);
                     Session::put('date_in',array($pend->date_in));
                     ?>
-                    <tr><td>From: {{ $user->fname.' '.$user->lname }}</td></tr>
+                    <tr><td>From:
+                            @if($user)
+                                {{ $user->fname }}
+                                {{ $user->lname }}
+                                <br>
+                                <em>({{ \App\Section::find($user->section)->description }})</em>
+                            @else
+
+                                <?php
+                                $x = \App\Tracking_Details::where('received_by',0)
+                                        ->where('id','<',$pend->id)
+                                        ->where('route_no',$pend->route_no)
+                                        ->first();
+                                $string = $x->code;
+                                $temp1   = explode(';',$string);
+                                $temp2   = array_slice($temp1, 1, 1);
+                                $section_id = implode(',', $temp2);
+                                $x_section = \App\Section::find($section_id)->description;
+                                ?>
+                                <font class="text-bold text-danger">
+                                    {{ $x_section }}<br />
+                                    <em>(Unconfirmed)</em>
+                                </font>
+                            @endif
+                        </td></tr>
                     <tr>
                         <td>
                            {{ Doc::timeDiff($pend->date_in) }}
                         </td>
                     </tr>
                     <tr><td>
-                            <a href="#document_info_pending" data-route="{{ $pend->route_no }}" data-link="{{ asset('document/info/'.$pend->route_no) }}" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>
+                            <a data-route="{{ $pend->route_no }}" data-link="{{ asset('/document/info/'.$pend->route_no.'/'.$pend->doc_type) }}" href="#document_info" data-toggle="modal" class="btn btn-success btn-xs"><i class="fa fa-bookmark"></i> Details</a>
                             <a href="#remove_pending" data-link="{{ asset('document/removepending/'.$pend->id) }}" data-id="{{ $pend->id }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Done</a>
                         </td>
                     </tr>

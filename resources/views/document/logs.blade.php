@@ -18,6 +18,9 @@ $code = Session::get('doc_type_code');
         label {
             padding:2px 0px;
         }
+        .btn-xs {
+            margin:2px 0px;
+        }
     </style>
     @if (count($errors) > 0)
         <div class="alert alert-danger">
@@ -29,7 +32,7 @@ $code = Session::get('doc_type_code');
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Print Document Logs</h2>
+        <h2 class="page-header">Document Logs</h2>
         <form class="form-inline" method="POST" action="{{ asset('document/logs') }}" onsubmit="return searchDocument()">
             {{ csrf_field() }}
             <div class="form-group">
@@ -107,9 +110,15 @@ $code = Session::get('doc_type_code');
         </div>
         @endif
 
-        @if($status=='reportAdded')
-            <div class="alert alert-info">
-                <i class="fa fa-warning"></i> Successfully reported!
+
+        @if($status=='reportCancelled')
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully cancelled!
+            </div>
+        @endif
+        @if($status=='releaseUpdated')
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i> Successfully updated!
             </div>
         @endif
         <div class="alert alert-danger error hide">
@@ -142,28 +151,68 @@ $code = Session::get('doc_type_code');
                         <td>{{ date('M d, Y',strtotime($doc->date_in)) }}<br>{{ date('h:i:s A',strtotime($doc->date_in)) }}</td>
                         <td>
                             <?php $user = Users::find($doc->delivered_by);?>
+                            @if($user)
                             {{ $user->fname }}
                             {{ $user->lname }}
                             <br>
                             <em>({{ Section::find($user->section)->description }})</em>
+                            @else
+
+                                <?php
+                                    $x = \App\Tracking_Details::where('received_by',0)
+                                            ->where('id','<',$doc->tracking_id)
+                                            ->where('route_no',$doc->route_no)
+                                            ->first();
+                                    $string = $x->code;
+                                    $temp1   = explode(';',$string);
+                                    $temp2   = array_slice($temp1, 1, 1);
+                                    $section_id = implode(',', $temp2);
+                                    $x_section = Section::find($section_id)->description;
+                                ?>
+                                <font class="text-bold text-danger">
+                                    {{ $x_section }}<br />
+                                    <em>(Unconfirmed)</em>
+                                </font>
+                            @endif
                         </td>
                         <?php
                             $out = Doc::deliveredDocument($doc->route_no,$doc->received_by,$doc->doc_type);
+                            $class ='';
                         ?>
                         @if($out)
-                        <td>{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
-                        <td>
-                            <?php $user = Users::find($out->received_by);?>
-                            {{ $user->fname }}
-                            {{ $user->lname }}
-                            <br>
-                            <em>({{ Section::find($user->section)->description }})</em>
+                        <?php
+                            if($out->received_by==0){
+                                $class = 'danger';
+                            }
+                        ?>
+                        <td class="text-<?php echo $class?>">{{ date('M d, Y',strtotime($out->date_in)) }}<br>{{ date('h:i:s A',strtotime($out->date_in)) }}</td>
+                        <td class="text-<?php echo $class?>">
+
+                            @if($out->received_by==0)
+                                <?php
+                                    $string = $out->code;
+                                    $temp1   = explode(';',$string);
+                                    $temp2   = array_slice($temp1, 1, 1);
+                                    $section_id = implode(',', $temp2);
+                                    echo Section::find($section_id)->description;
+                                ?>
+                                <br />
+                                    <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $out->route_no }}" onclick="changeRoute($(this), '<?php echo $out->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
+                                <a href="{{ asset('document/report/'.$out->id .'/cancel') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                            @else
+                                <?php $user = Users::find($out->received_by);?>
+                                {{ $user->fname }}
+                                {{ $user->lname }}
+                                <br>
+                                <em>({{ Section::find($user->section)->description }})</em>
+                            @endif
                         </td>
                         @else
                             <?php $rel = Release::where('route_no', $doc->route_no)->where('status','!=',2)->orderBy('id','desc')->first(); ?>
                             @if($rel)
                                 <?php
-                                    $time = Rel::hourDiff($rel->date_reported);
+                                    $now = date('Y-m-d H:i:s');
+                                    $time = Rel::hourDiff($rel->date_reported,$now);
                                 ?>
                                 <td class="text-info">
                                     {{ date('M d, Y',strtotime($rel->date_reported)) }}<br>
@@ -173,16 +222,17 @@ $code = Session::get('doc_type_code');
                                     {{ Section::find($rel->section_id)->description }}
                                     <br />
                                     @if($rel->status==0)
-                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
-                                    @endif
-                                    @if($rel->status==0 && $time >= 2)
-                                        <a href="{{ asset('document/report/'.$rel->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-warning"></i> Report</a>
-                                    @elseif($rel->status==1)
-                                        <button type="button" class="btn btn-warning btn-xs"><i class="fa fa-info"></i> Reported</button>
+                                        <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="changeRoute($(this), '<?php echo $rel->id ?>')" type="button" class="btn btn-info btn-xs"><i class="fa fa-send"></i> Change</button>
+                                        <a href="{{ asset('document/report/'.$rel->id .'/cancel/status') }}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
                                     @endif
                                 </td>
                             @else
                                 <td colspan="2" class="text-center" style="vertical-align: middle;">
+                                    @if($doc->status==1)
+                                        <div class="text-info">
+                                            [ Cycle End ]
+                                        </div>
+                                    @endif
                                     <button data-toggle="modal" data-target="#releaseTo" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-sm"><i class="fa fa-send"></i> Release To</button>
                                 </td>
                             @endif
@@ -200,42 +250,10 @@ $code = Session::get('doc_type_code');
         @endif
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="releaseTo" style="margin-top: 30px;z-index: 99999;">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h4 class="text-success"><i class="fa fa-send"></i> Select Destination</h4>
-                    <hr />
-                    <form method="POST" action="{{ asset('document/release') }}" name="destinationForm">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="route_no" id="route_no">
-                        <div class="form-group">
-                            <label>Division</label>
-                            <select name="division" class="chosen-select filter-division" required>
-                                <option value="">Select division...</option>
-                                <?php $division = Division::where('description','!=','Default')->orderBy('description','asc')->get(); ?>
-                                @foreach($division as $div)
-                                    <option value="{{ $div->id }}">{{ $div->description }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Section</label>
-                            <select name="section" class="chosen-select filter_section" required>
-                                <option value="">Select section...</option>
-                            </select>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                    <button type="submit" class="btn btn-success" onclick="checkDestinationForm()"><i class="fa fa-send"></i> Submit</button>
-                </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    @include('modal.release_modal')
 @endsection
 @section('plugin')
+
     <script>
         $('.filter-division').show();
         $('#reservation').daterangepicker();
@@ -269,6 +287,14 @@ $code = Session::get('doc_type_code');
         {
             var route_no = form.data('route_no');
             $('#route_no').val(route_no);
+            $('#op').val(0);
+        }
+
+        function changeRoute(form,id)
+        {
+            var route_no = form.data('route_no');
+            $('#route_no').val(route_no);
+            $('#op').val(id);
         }
         function checkDestinationForm(){
             var division = $('.filter-division').val();

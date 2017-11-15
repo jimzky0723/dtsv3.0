@@ -154,13 +154,13 @@
                 <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger">
-                    <strong>Are you sure you want to remove <p style="display: inline;" id="nametoDelete"></p>?</strong>
+                <div class="alert alert-warning">
+                    <strong>Are you sure you want to end this cycle?</strong>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                <button type="button" class="btn btn-danger" id="confirm" data-dismiss="modal"><i class="fa fa-trash"></i> Yes</button>
+                <button type="button" class="btn btn-success" id="confirm" data-dismiss="modal"><i class="fa fa-check"></i> Yes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -216,4 +216,163 @@
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>Are you sure you want to delete this document?</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ asset('document/update') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteDocumentPRR">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>Are you sure you want to delete this document?</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php
+use App\Tracking_Details;
+$incoming = Tracking_Details::select(
+        'date_in',
+        'id',
+        'route_no',
+        'received_by',
+        'code',
+        'delivered_by',
+        'action',
+        'alert'
+        )
+        ->where('code',$code)
+        ->where('status',0)
+        ->where('alert','>=',1)
+        ->where('alert','<=',2)
+        ->orderBy('tracking_details.date_in','desc')
+        ->get();
+?>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="notification">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class=""><i class="fa fa-file-o"></i> Incoming Documents</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-form table-striped">
+                    @foreach($incoming as $row)
+                    <?php $class='';?>
+                    @if($row->alert==2)
+                        <?php $class="warning"; ?>
+                    @endif
+                    <tr class="{{ $class }}">
+                        <td>
+                            <small style="font-size: 0.8em;font-weight: bold; color:blue;">Route No:</small><br />
+                            {{ $row->route_no }}<br />
+                            <small style="font-size: 0.8em;font-weight: bold; color:blue;">Delivered By:</small><br />
+                            <?php
+                                $user = App\User::find($row->delivered_by);
+                                $section = \App\Section::find($user->section)->description;
+                            ?>
+                            {{ $user->fname }} {{ $user->lname }}<br /><small style="font-size: 0.7;font-style: italic;">({{ $section }})</small>
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="pr_paperSize" style="z-index:999991;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Paper Size</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4">
+                    <a href="{{ asset('prr_supply_pdf/letter') }}" class="text-success" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Letter
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('prr_supply_pdf/a4') }}" class="text-info" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        A4
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('prr_supply_pdf/legal') }}" class="text-warning" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Legal
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deletePR">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>Are you sure you want to delete this purchase request - supply?</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ asset('prr_supply_remove') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

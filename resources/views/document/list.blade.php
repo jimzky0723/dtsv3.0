@@ -1,3 +1,6 @@
+<?php
+    use App\Tracking_Details;
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -13,6 +16,12 @@
 @endif
 
 <div class="alert alert-jim" id="inputText">
+    <style>
+        .action .btn{
+            width:100%;
+            margin-bottom: 5px;
+        }
+    </style>
     <h2 class="page-header">Documents</h2>    
     <form class="form-inline" method="POST" action="{{ asset('document') }}" onsubmit="return searchDocument();" id="searchForm">
         {{ csrf_field() }}
@@ -82,13 +91,15 @@
                     </li>
                     <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PO">Purchase Order</a></li>
                     <li><a href="#general_form" data-backdrop="static" data-toggle="modal" data-type="PRC">Purchase Request - Cash Advance Purchase</a></li>
-                    <li class="dropdown-submenu">
+                    <!-- <li class="dropdown-submenu">
+                        <a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Purchase Request - Regular Purchase</a>
                         <a href="#" data-toogle="dropdown">Purchase Request - Regular Purchase</a>
                         <ul class="dropdown-menu">
                             <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Supplies</a></li>
                             <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_meal_form') }}"> Meal</a></li>
                         </ul>
-                    </li>
+                    </li> -->
+                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('prr_supply_form') }}">Purchase Request - Regular Purchase</a></li>
                     <li class="hide"><a href="#">Reports</a></li>
                 </ul>
             </div>
@@ -116,6 +127,24 @@
             </div>
             <?php Session::forget('deleted'); ?>
         @endif
+        @if(Session::get('deletedPR'))
+            <div class="alert alert-danger">
+                <i class="fa fa-check"></i> Successfully Deleted!
+            </div>
+            <?php Session::forget('deletedPR'); ?>
+        @endif
+
+        @if (session('status'))
+            <?php
+            $status = session('status');
+            ?>
+            @if($status=='releaseAdded')
+                <div class="alert alert-success">
+                    <i class="fa fa-check"></i> Successfully released!
+                </div>
+            @endif
+            <hr />
+        @endif
         <table class="table table-list table-hover table-striped">
             <thead>
                 <tr>
@@ -123,14 +152,32 @@
                     <th width="20%">Route #</th>
                     <th width="15%">Prepared Date</th>
                     <th width="20%">Document Type</th>
-                    <th>Remarks</th>
+                    <th>Remarks / Additional Information</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($documents as $doc)
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('document/track/'.$doc->route_no) }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a></td>
+                    <td class="action">
+                        <a href="#track" data-link="{{ asset('document/track/'.$doc->route_no) }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12"><i class="fa fa-line-chart"></i> Track</a>
+                        <br />
+                        <?php
+                            $routed = \App\Tracking_Details::where('route_no',$doc->route_no)
+                                ->count();
+                        ?>
+                        @if($routed < 2)
+                            <?php
+                                $doc_id = Tracking_Details::where('route_no',$doc->route_no)
+                                        ->orderBy('id','desc')
+                                        ->first()
+                                        ->id;
+                            ?>
+                            <button data-toggle="modal" data-target="#releaseTo" data-id="{{ $doc_id }}" data-route_no="{{ $doc->route_no }}" onclick="putRoute($(this))" type="button" class="btn btn-info btn-sm">Release To</button>
+                        @endif
+                    </td>
+                    <td>
+                        <a class="title-info" data-route="{{ $doc->route_no }}" data-link="{{ asset('/document/info/'.$doc->route_no.'/'.$doc->doc_type) }}" href="#document_info" data-toggle="modal">{{ $doc->route_no }}</a>
+                    </td>
                     <td>{{ date('M d, Y',strtotime($doc->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($doc->prepared_date)) }}</td>
                     <td>{{ \App\Http\Controllers\DocumentController::docTypeName($doc->doc_type) }}</td>
                     <td>
@@ -152,30 +199,10 @@
         </div>
     @endif
 </div>
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <strong>Are you sure you want to delete this document?</strong>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <form action="{{ asset('document/update') }}" method="post">
-                    {{ csrf_field() }}
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+@include('modal.release_modal')
 @endsection
 @section('plugin')
+@include('js.release_js')
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 <script>

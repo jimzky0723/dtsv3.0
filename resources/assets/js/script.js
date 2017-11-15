@@ -19,6 +19,7 @@
                 url: url,
                 type: 'GET',
                 success: function(data) {
+                    console.log(url);
                     $('.track_history').html(data);
                 }
             });

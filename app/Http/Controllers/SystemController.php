@@ -9,6 +9,10 @@ use App\Users;
 use App\Tracking;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+
 class SystemController extends Controller
 {
     function __construct()
@@ -43,6 +47,24 @@ class SystemController extends Controller
         $q->save();
 
         return true;
+    }
+
+    public function migrate()
+    {
+        Schema::table('tracking_details', function (Blueprint $table) {
+            $table->string('code')->after('route_no');
+            $table->integer('alert')->after('code');
+        });
+        Schema::dropIfExists('tracking_report');
+        Schema::create('tracking_report', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('route_no');
+            $table->dateTime('date_reported');
+            $table->integer('reported_by');
+            $table->string('section_reported');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
 }

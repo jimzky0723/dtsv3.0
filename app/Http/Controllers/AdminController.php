@@ -86,11 +86,14 @@ class AdminController extends Controller
             $user->fname = $request->input('fname');
             $user->mname = $request->input('mname');
             $user->lname = $request->input('lname');
-            $user->username = $username;
+            $user->username = $request->username;
             $user->designation = $request->input('designation');
             $user->division = $request->input('division');
             $user->section = $request->input('section');
             $user->user_priv = $request->input('user_type');
+            if($request->reset_pass) {
+                $user->password = bcrypt($request->input('reset_pass'));
+            }
             $user->save();
             return redirect('users');
         }
@@ -174,7 +177,8 @@ class AdminController extends Controller
         $keyword = Session::get('keywordAll');
         $data['documents'] = Tracking::where(function($q) use ($keyword){
             $q->where('route_no','like',"%$keyword%")
-                ->orwhere('description','like',"%$keyword%");
+                ->orwhere('description','like',"%$keyword%")
+                ->orWhere('purpose','like',"%$keyword%");
         })
             ->orderBy('id','desc')
             ->paginate(10);

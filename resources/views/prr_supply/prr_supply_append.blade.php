@@ -5,7 +5,7 @@
     <td id="border-bottom" class="{{ 'description'.$_GET['count'] }} align-top">
         <input type="text" name="description[]" id="{{ 'description'.$_GET['count'] }}" class="form-control" onkeyup="trapping()" required><small id="{{ 'E_description'.$_GET['count'] }}">required!</small>
         <br><strong><i>Specification(s)</i></strong>
-        <textarea class="{{ 'textarea'.$_GET['count'] }}" placeholder="Place some text here" style="width: 100%;" name="specification[]" id="{{ 'specification'.$_GET['count'] }}" class="ckeditor" onkeyup="trapping()" required></textarea><small id="{{ 'E_specification'.$_GET['count'] }}"></small>
+        <textarea class="{{ 'textarea'.$_GET['count'] }}" placeholder="Place some text here" style="width: 100%;" name="specification[]" id="{{ 'specification'.$_GET['count'] }}" class="ckeditor" onkeyup="trapping()"></textarea><small id="{{ 'E_specification'.$_GET['count'] }}"></small>
     </td>
     <td id="border-bottom"></td>
     <td id="border-bottom" class="{{ 'unit_cost'.$_GET['count'] }} align-top">

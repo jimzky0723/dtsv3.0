@@ -19,14 +19,26 @@
                 <td><textarea class="form-control" id="addtionalinfo" name="title" rows="2" style="resize:none;" required></textarea></td>
             </tr>
             <tr>
-                <td class="col-sm-3"><label>Date</label></td>
+                <td class="col-sm-3"><label>Start</label></td>
                 <td class="col-sm-1">:</td>
                 <td class="col-sm-8">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input id="pr_date" name="start" class="form-control datepickercalendar" required>
+                        <input name="start" class="form-control datepickercalendar" required>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-3"><label>End</label></td>
+                <td class="col-sm-1">:</td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input name="end" class="form-control datepickercalendar" required>
                     </div>
                 </td>
             </tr>

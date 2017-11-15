@@ -26,28 +26,23 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                <h3 style="font-weight: bold" class="text-success">WHAT'S NEW</h3>
+                <h3 style="font-weight: bold" class="text-success">REMINDER</h3>
 
                 <table class="table table-hover">
-                    <tr><td><strong>Upgraded to Version 3.2</strong></td></tr>
-                    <tr><td>Users can <strong>EDIT</strong> document.</td></tr>
-                    <tr><td>Users can <strong>DELETE</strong> unrouted document.</td></tr>
-                    <tr><td>Users can <strong>VIEW</strong> online users by clicking the <i class="fa fa-users"></i> icon or the link below.</td></tr>
-                    <tr><td><strong>All Pending Documents</strong> is added under <em>Document Section.</em></td></tr>
-                    <tr><td>Users can <strong>ACCEPT</strong> multiple document at once.</td></tr>
-                    <tr><td>
-                            In <strong>Print Logs Section</strong>, users may choose to which <strong>SECTION</strong> they will released their document.
-                            <br />
-                            <br />
-                            <div class="alert alert-danger">
-                                Please be reminded that <strong>UNACCEPTED DOCUMENT</strong> will be directed to <strong>INCIDENT REPORT</strong>  within 2-4 hours for monitoring purposes.
+                    <tr>
+                        <td>
+                            <div class="alert alert-success" style="font-size: 1.3em;">
+                            <p>Please be reminded that all sub-allotments are until <font class="text-danger text-bold">December 31, 2017</font>.
+                                There will be no continuing. Thank you!</p>
+
+                            <p class="text-bold">- Budget Section</p>
                             </div>
                         </td></tr>
-                    <tr><td><strong>Purchase Request - Regular Purchase <em>(Supply)</em></strong> has been fixed.</td></tr>
-                    <tr><td>Printing <strong>Section Logs</strong> has been fixed.</td></tr>
-                    <tr><td><strong>Keyword field</strong> is added to Print Logs.</td></tr>
-                    <tr><td>Minor bugs fixes.</td></tr>
                 </table>
+                <div class="alert alert-success text-center hide">
+                    For further assistance, please contact <i class="fa fa-phone-square"></i> 418-4822 or visit ICT Unit.<br />
+                    Thank you!
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -58,7 +53,7 @@
 @section('js')
 <script src="{{ asset('resources/plugin/Chart.js/Chart.min.js') }}"></script>
 <script>
-    $('.loading').show();
+    //$('.loading').show();
     $('#notificationModal').modal('show');
 </script>
 <script>

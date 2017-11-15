@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dtsv3.0.iml" filepath="$PROJECT_DIR$/.idea/dtsv3.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dts.iml" filepath="$PROJECT_DIR$/.idea/dts.iml" />
     </modules>
   </component>
 </project>

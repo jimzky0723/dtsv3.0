@@ -14,7 +14,7 @@
     @endif
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Sections</h2>
-        <form class="form-inline form-accept" method="POST" action="{{ asset('section') }}">
+        <form class="form-inline form-accept" method="POST">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="text" class="form-control" value="{{ Session::get("search") }}" placeholder="Quick Search" id="search" autofocus>

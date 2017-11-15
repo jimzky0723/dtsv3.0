@@ -6,9 +6,20 @@ if(!Session::get('is_login')){
     \App\Http\Controllers\SystemController::logDefault('Logged In');
     Session::put('is_login',true);
 }
-$count_report = Release::where('status',1)
-            ->where('section_id',Auth::user()->section)
-            ->count();
+$user = Auth::user();
+$code = 'temp;'.$user->section;
+$pending = \App\Tracking_Details::select(
+            'date_in',
+            'id',
+            'route_no',
+            'received_by',
+            'code',
+            'delivered_by',
+            'action'
+        )
+        ->where('code',$code)
+        ->where('status',0)
+        ->count();
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +55,7 @@ $count_report = Release::where('status',1)
     <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('resources/plugin//Lobibox/lobibox.css') }}" rel="stylesheet">
     @yield('css')
     <style>
         body {
@@ -114,22 +125,32 @@ $count_report = Release::where('status',1)
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-code-o"></i>&nbsp; Document<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-code-o"></i>&nbsp;
+                        Documents
+                        @if($pending > 0)
+                            <span class="badge" style="background:#eb9316;">{{ $pending }}</span>
+                        @endif
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('document/accept')  }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Accept Document</a></li>
+                        @if($pending > 0)
+                            <li style="background:#eb9316;"><a href="{{ asset('document/pending') }}"><i class="fa fa-warning"></i>&nbsp;&nbsp; Pending Document</a></li>
+                        @else
+                            <li><a href="{{ asset('document/pending') }}"><i class="fa fa-hourglass-1"></i>&nbsp;&nbsp; Pending Documents</a></li>
+                        @endif
+                        <li class=""><a href="{{ asset('document/accept')  }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Accept Document</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Created Document</a></li>
-                        @if(Auth::user()->user_priv==1)
+                        <li><a href="{{ asset('document') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; My Documents</a></li>
+                        @if(Auth::user()->user_priv==1 || Auth::user()->username=='2002000972')
                         <li><a href="{{ asset('document/list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; All Documents</a></li>
                         @endif
-                        <li><a href="{{ asset('document/pending') }}"><i class="fa fa-hourglass-1"></i>&nbsp;&nbsp; Pending Documents</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> View Logs <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Print Logs</a></li>
-                        <li><a href="{{ URL::to('document/section/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Print Section Logs</a></li>
+                        <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Personal Logs</a></li>
+                        <li class=""><a href="{{ URL::to('document/section/logs') }}"><i class="fa fa-file-archive-o"></i>&nbsp;&nbsp; Section Logs</a></li>
                         @if(Auth::user()->user_priv==1)
                         <li class="divider"></li>
                         <li><a href="{{ URL::to('report') }}"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp; Print Report</a></li>
@@ -158,20 +179,13 @@ $count_report = Release::where('status',1)
                     </a>
                 </li>
                 @endif
-                <li><a href="http://210.4.59.4/old/" target="_blank"><i class="fa fa-send"></i> Old Version</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>
                         Account
-                        @if($count_report)
-                        <span class="badge" style="background:#eb9316;">{{ $count_report }}</span>
-                        @endif
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
                         <li class="divider"></li>
-                        @if($count_report)
-                            <li style="background:#eb9316;"><a href="{{ url('reported') }}"><i class="fa fa-warning"></i>&nbsp;&nbsp; Section Reported</a></li>
-                        @endif
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
                     </ul>
                 </li>
@@ -203,7 +217,7 @@ $count_report = Release::where('status',1)
             @endif
             </a>
         </p>
-        <p>All Rights Reserved 2017 | Version 3.2</p>
+        <p>All Rights Reserved 2017 | Version 3.3</p>
 
     </div>
 </footer>
@@ -234,7 +248,31 @@ $count_report = Release::where('status',1)
 <script src="{{ asset('resources/plugin/ckeditor/adapters/jquery.js') }}"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+<script src="{{ asset('resources/plugin/Lobibox/Lobibox.js') }}"></script>
 @yield('plugin')
+<?php
+use App\Tracking_Details;
+$incoming = Tracking_Details::select(
+        'date_in',
+        'id',
+        'route_no',
+        'received_by',
+        'code',
+        'delivered_by',
+        'action'
+)
+        ->where('code',$code)
+        ->where('status',0)
+        ->where('alert','>=',1)
+        ->where('alert','<=',2)
+        ->orderBy('tracking_details.date_in','desc')
+        ->get();
+?>
+@if(count($incoming) > 0))
+<script>
+    $('#notification').modal('show');
+</script>
+@endif
 <script>
     $('#reservation').daterangepicker();
     $('.daterange').daterangepicker();
@@ -249,6 +287,9 @@ $count_report = Release::where('status',1)
     }
 </script>
 <script>
+    $('.form-submit').on('submit',function(){
+        $('.btn-submit').attr('disabled',true);
+    });
     function searchDocument(){
         $('.loading').show();
         setTimeout(function(){
@@ -256,19 +297,15 @@ $count_report = Release::where('status',1)
         },1000);
     }
 
-    $('.form-submit').on('submit',function(){
-        $('.btn-submit').attr("disabled", true);
-    });
-
     $("a[href='#feedback']").on('click',function(){
         alert("Hello");
     });
 
     (function(){
-        $('#feedback').popover('show');
-        setTimeout(function(){
-            $('#feedback').popover('hide');
-        },2000);
+//        $('#feedback').popover('show');
+//        setTimeout(function(){
+//            $('#feedback').popover('hide');
+//        },2000);
 
         $('#feedback').click(function(){
             $('#feedback').popover('hide');

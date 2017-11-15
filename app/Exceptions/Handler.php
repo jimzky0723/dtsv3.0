@@ -50,7 +50,10 @@ class Handler extends ExceptionHandler
             //return 'create 404.blade.php';
             return redirect('/');
         }
-        //return redirect('/home');
+//        if($e instanceof Exception){
+//            return redirect('/');
+//        }
+//        //return redirect('/home');
         return parent::render($request,$e);
     }
 }
